@@ -1,0 +1,251 @@
+/**
+ * UNMASK Utilities
+ *
+ * Helper classes for spacing, visibility, and common patterns.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   DISPLAY UTILITIES
+   ========================================================================== */
+
+.u-hidden {
+    display: none !important;
+}
+
+.u-visible {
+    visibility: visible !important;
+}
+
+.u-invisible {
+    visibility: hidden !important;
+}
+
+.u-block {
+    display: block !important;
+}
+
+.u-inline-block {
+    display: inline-block !important;
+}
+
+.u-flex {
+    display: flex !important;
+}
+
+.u-inline-flex {
+    display: inline-flex !important;
+}
+
+.u-grid {
+    display: grid !important;
+}
+
+/* ==========================================================================
+   FLEXBOX UTILITIES
+   ========================================================================== */
+
+.u-flex-center {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.u-flex-between {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.u-flex-start {
+    align-items: flex-start !important;
+}
+
+.u-flex-end {
+    align-items: flex-end !important;
+}
+
+.u-flex-wrap {
+    flex-wrap: wrap !important;
+}
+
+.u-flex-col {
+    flex-direction: column !important;
+}
+
+.u-gap-sm {
+    gap: var(--unmask-space-2) !important;
+}
+
+.u-gap-md {
+    gap: var(--unmask-space-4) !important;
+}
+
+.u-gap-lg {
+    gap: var(--unmask-space-6) !important;
+}
+
+/* ==========================================================================
+   SPACING UTILITIES
+   ========================================================================== */
+
+/* Margin */
+.u-m-0 { margin: 0 !important; }
+.u-mt-0 { margin-top: 0 !important; }
+.u-mb-0 { margin-bottom: 0 !important; }
+.u-ml-0 { margin-left: 0 !important; }
+.u-mr-0 { margin-right: 0 !important; }
+
+.u-mt-sm { margin-top: var(--unmask-space-2) !important; }
+.u-mt-md { margin-top: var(--unmask-space-4) !important; }
+.u-mt-lg { margin-top: var(--unmask-space-6) !important; }
+
+.u-mb-sm { margin-bottom: var(--unmask-space-2) !important; }
+.u-mb-md { margin-bottom: var(--unmask-space-4) !important; }
+.u-mb-lg { margin-bottom: var(--unmask-space-6) !important; }
+
+/* Padding */
+.u-p-0 { padding: 0 !important; }
+.u-pt-0 { padding-top: 0 !important; }
+.u-pb-0 { padding-bottom: 0 !important; }
+.u-pl-0 { padding-left: 0 !important; }
+.u-pr-0 { padding-right: 0 !important; }
+
+.u-p-sm { padding: var(--unmask-space-2) !important; }
+.u-p-md { padding: var(--unmask-space-4) !important; }
+.u-p-lg { padding: var(--unmask-space-6) !important; }
+
+/* ==========================================================================
+   TEXT UTILITIES
+   ========================================================================== */
+
+.u-text-left { text-align: left !important; }
+.u-text-center { text-align: center !important; }
+.u-text-right { text-align: right !important; }
+
+.u-text-uppercase { text-transform: uppercase !important; }
+.u-text-lowercase { text-transform: lowercase !important; }
+.u-text-capitalize { text-transform: capitalize !important; }
+
+.u-text-mono {
+    font-family: var(--unmask-font-mono) !important;
+}
+
+.u-text-muted {
+    color: var(--unmask-muted) !important;
+}
+
+.u-text-danger {
+    color: var(--unmask-danger) !important;
+}
+
+.u-text-xs { font-size: var(--unmask-text-xs) !important; }
+.u-text-sm { font-size: var(--unmask-text-sm) !important; }
+.u-text-base { font-size: var(--unmask-text-base) !important; }
+.u-text-lg { font-size: var(--unmask-text-lg) !important; }
+
+/* ==========================================================================
+   BORDER UTILITIES
+   ========================================================================== */
+
+.u-border {
+    border: 1px solid var(--unmask-border) !important;
+}
+
+.u-border-top {
+    border-top: 1px solid var(--unmask-border) !important;
+}
+
+.u-border-bottom {
+    border-bottom: 1px solid var(--unmask-border) !important;
+}
+
+.u-border-none {
+    border: none !important;
+}
+
+/* ==========================================================================
+   BACKGROUND UTILITIES
+   ========================================================================== */
+
+.u-bg-transparent {
+    background: transparent !important;
+}
+
+.u-bg-surface {
+    background: var(--unmask-surface) !important;
+}
+
+.u-bg-panel {
+    background: var(--unmask-panel-bg) !important;
+}
+
+/* ==========================================================================
+   WIDTH UTILITIES
+   ========================================================================== */
+
+.u-w-full {
+    width: 100% !important;
+}
+
+.u-w-auto {
+    width: auto !important;
+}
+
+.u-max-w-content {
+    max-width: var(--unmask-max-content) !important;
+}
+
+/* ==========================================================================
+   SHADOW UTILITIES (UNMASK uses none)
+   ========================================================================== */
+
+.u-shadow-none {
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   CURSOR UTILITIES
+   ========================================================================== */
+
+.u-cursor-pointer {
+    cursor: pointer !important;
+}
+
+.u-cursor-not-allowed {
+    cursor: not-allowed !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE VISIBILITY
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .u-hidden-mobile {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .u-hidden-desktop {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   SCREEN READER ONLY
+   ========================================================================== */
+
+.u-sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}

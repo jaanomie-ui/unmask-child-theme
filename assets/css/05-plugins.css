@@ -1,0 +1,245 @@
+/**
+ * UNMASK Plugin Overrides
+ *
+ * Styles for BuddyForms, Flatpickr, Elementor, and other plugins.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   BUDDYFORMS
+   ========================================================================== */
+
+/* Kill border on all fieldsets */
+.the_buddyforms_form fieldset,
+.the_buddyforms_form .fieldset {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Input field styling */
+.the_buddyforms_form input[type="text"],
+.the_buddyforms_form input[type="email"],
+.the_buddyforms_form input[type="number"],
+.the_buddyforms_form input[type="url"],
+.the_buddyforms_form input[type="date"],
+.the_buddyforms_form textarea,
+.the_buddyforms_form select {
+    background: transparent !important;
+    border: 1px solid var(--unmask-border-light) !important;
+    color: var(--unmask-fg-secondary) !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   BUDDYFORMS CHECKBOXES & RADIOS
+   ========================================================================== */
+
+/* Keep input clickable */
+.the_buddyforms_form .bf-input input[type="checkbox"],
+.the_buddyforms_form .bf-input input[type="radio"] {
+    position: relative !important;
+    z-index: 10 !important;
+    opacity: 0 !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+    cursor: pointer;
+}
+
+/* Custom circle UI */
+.the_buddyforms_form .bf-input input[type="checkbox"] + span::before,
+.the_buddyforms_form .bf-input input[type="radio"] + span::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--unmask-border-light);
+    border-radius: 50%;
+    background: transparent;
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+}
+
+/* Hover state */
+.the_buddyforms_form .bf-input input[type="checkbox"]:hover + span::before,
+.the_buddyforms_form .bf-input input[type="radio"]:hover + span::before {
+    border-color: var(--unmask-focus);
+}
+
+/* Checked state */
+.the_buddyforms_form .bf-input input[type="checkbox"]:checked + span::before,
+.the_buddyforms_form .bf-input input[type="radio"]:checked + span::before {
+    background: var(--unmask-border-light);
+    box-shadow: inset 0 0 0 2px var(--unmask-bg);
+    border-color: var(--unmask-border-light);
+}
+
+/* ==========================================================================
+   SIDEBAR WIDGETS (Image Ads)
+   ========================================================================== */
+
+/* Sidebar image widgets - treat as ads */
+#secondary .widget.widget_block:has(img) {
+    padding: 0 !important;
+}
+
+/* Full-bleed images */
+#secondary .widget.widget_block:has(img) figure,
+#secondary .widget.widget_block:has(img) .wp-block-image,
+#secondary .widget.widget_block:has(img) img {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Kill padding from inner wrappers */
+#secondary .widget.widget_block:has(img) > * {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* ==========================================================================
+   TEMPLATE V2 IMAGE WIDGETS
+   ========================================================================== */
+
+/* Remove padding from image widgets in sidebar template */
+.bb-template-v2 .widget-area .widget.widget_media_image {
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+/* Remove figure margin */
+.bb-template-v2 .widget.widget_media_image .wp-block-image {
+    margin: 0 !important;
+}
+
+/* Make image fill box */
+.bb-template-v2 .widget.widget_media_image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* First Elementor block no margin */
+.bb-template-v2 .entry-content > .elementor {
+    margin-top: 0 !important;
+}
+
+/* ==========================================================================
+   FLATPICKR CALENDAR THEME
+   ========================================================================== */
+
+.flatpickr-calendar {
+    background: var(--unmask-bg) !important;
+    border: 1px solid var(--unmask-border) !important;
+    box-shadow: none !important;
+    font-family: var(--unmask-font-mono) !important;
+}
+
+.flatpickr-months {
+    background: var(--unmask-bg) !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+}
+
+.flatpickr-months .flatpickr-month {
+    background: transparent !important;
+    color: var(--unmask-fg) !important;
+}
+
+.flatpickr-current-month {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 14px !important;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    color: var(--unmask-muted) !important;
+    fill: var(--unmask-muted) !important;
+}
+
+.flatpickr-prev-month:hover,
+.flatpickr-next-month:hover {
+    color: var(--unmask-fg) !important;
+    fill: var(--unmask-fg) !important;
+}
+
+.flatpickr-weekdays {
+    background: transparent !important;
+}
+
+.flatpickr-weekday {
+    color: var(--unmask-muted) !important;
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 10px !important;
+    text-transform: uppercase !important;
+}
+
+.flatpickr-days {
+    border: none !important;
+}
+
+.flatpickr-day {
+    color: var(--unmask-fg) !important;
+    border-radius: 0 !important;
+    font-family: var(--unmask-font-mono) !important;
+}
+
+.flatpickr-day:hover {
+    background: var(--unmask-border) !important;
+    border-color: var(--unmask-border) !important;
+}
+
+.flatpickr-day.selected {
+    background: var(--unmask-button-bg) !important;
+    border-color: var(--unmask-button-bg) !important;
+    color: var(--unmask-button-fg) !important;
+}
+
+.flatpickr-day.today {
+    border-color: var(--unmask-muted) !important;
+}
+
+.flatpickr-day.disabled {
+    color: var(--unmask-disabled) !important;
+}
+
+/* ==========================================================================
+   FORM WIDGET BORDERS
+   ========================================================================== */
+
+/* Force all borders to UNMASK gray */
+.widget form,
+.widget form * {
+    border-color: var(--unmask-border) !important;
+    outline-color: var(--unmask-border) !important;
+}
+
+/* Force all borders inside widget */
+.widget input,
+.widget textarea,
+.widget select,
+.widget button,
+.widget fieldset,
+.widget [class*="border"] {
+    border-color: var(--unmask-border) !important;
+    outline-color: var(--unmask-border) !important;
+}
+
+/* Submit button - match UNMASK OS red button */
+.widget form button[type="submit"],
+.widget form input[type="submit"] {
+    background: var(--unmask-button-bg) !important;
+    color: var(--unmask-button-fg) !important;
+    border: 1px solid var(--unmask-border) !important;
+    font-family: var(--unmask-font-mono) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}

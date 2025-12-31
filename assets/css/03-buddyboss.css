@@ -1,0 +1,488 @@
+/**
+ * UNMASK BuddyBoss Overrides
+ *
+ * Customizations for BuddyBoss/BuddyPress platform elements.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   PROFILE CARD WRAPPER
+   ========================================================================== */
+
+#buddypress.buddypress-wrap {
+    background: var(--bb-content-background-color);
+    border: 1px solid var(--bb-content-border-color);
+    border-radius: var(--bb-block-radius);
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Header band: full-width, slightly different color */
+#buddypress .users-header.single-headers {
+    background: rgba(255,255,255,0.02);
+    padding: 40px 30px;
+    margin: 0;
+    border: none;
+}
+
+/* Remove inner "box" look */
+#buddypress #cover-image-container {
+    background: transparent !important;
+    border: 0 !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* Make group header 0px */
+div#cover-image-container {
+    margin-top: 0;
+}
+
+/* ==========================================================================
+   PROFILE NAVIGATION
+   ========================================================================== */
+
+#buddypress.buddypress-wrap nav.users-nav.main-navs {
+    background: transparent;
+    border-top: 1px solid var(--bb-content-border-color);
+    border-bottom: 1px solid var(--bb-content-border-color);
+    margin: 0;
+    padding: 12px 30px;
+}
+
+/* Hide profile nav tabs */
+#item-nav,
+.bp-navs.bp-subnavs,
+.main-navs.bp-navs,
+.member-nav-tabs,
+.profile-nav-tabs,
+#object-nav.component-navigation,
+.bp-navs:not(.group-create-navs):not(.directory-navs) {
+    display: none !important;
+}
+
+/* Hide specific tabs */
+.bp-navs li#activity-personal-li,
+.bp-navs li#friends-personal-li,
+.bp-navs li#connections-personal-li,
+.bp-navs li#stories-personal-li,
+.bp-navs li#events-personal-li,
+.bp-navs li#feed-personal-li,
+.bp-navs li#hard-limits-personal-li {
+    display: none !important;
+}
+
+/* ==========================================================================
+   PROFILE BODY CONTENT
+   ========================================================================== */
+
+#buddypress .bb-profile-grid .bp-profile-wrapper.need-separator {
+    background: transparent;
+    border: 0;
+    padding: 30px;
+    margin: 0;
+}
+
+/* Remove nested card framing */
+#buddypress .group-separator-block {
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0;
+    margin: 0;
+}
+
+/* Padding for bottom content area */
+#buddypress .bb-profile-grid #item-body {
+    padding: 30px;
+    padding-top: 20px;
+}
+
+/* Avoid double padding */
+#buddypress .bb-profile-grid #item-body .item-body-inner {
+    padding: 0;
+}
+
+/* Feed widgets edge fix */
+#buddypress .activity,
+#buddypress .bp-profile-content,
+#buddypress .profile {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ==========================================================================
+   AVATARS
+   ========================================================================== */
+
+/* Square avatars */
+body.bp-user #item-header-avatar img.avatar,
+body.bp-user #item-header-avatar img,
+body.bp-user .avatar,
+.users-header #item-header-avatar img,
+.users-header .avatar,
+#buddypress .avatar,
+#buddypress img.avatar,
+.bp-user img.avatar {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+}
+
+/* Avatar border */
+body.bp-user #item-header-avatar img.avatar {
+    border: 1px solid var(--unmask-border) !important;
+}
+
+/* Kill overlay circle */
+.users-header #item-header-avatar .link-change-overlay,
+#item-header-avatar .link-change-overlay {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+}
+
+/* Kill parent container rounding */
+#item-header-avatar,
+.item-header-avatar,
+#item-header-avatar a {
+    border-radius: 0 !important;
+    overflow: visible !important;
+}
+
+/* Kill BuddyBoss avatar border/halo */
+.users-header #item-header-avatar .avatar {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   GROUPS DIRECTORY
+   ========================================================================== */
+
+#groups-dir-list #groups-list .list-wrap {
+    margin: 8px 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--unmask-border);
+}
+
+/* ==========================================================================
+   GROUP SINGLE PAGES
+   ========================================================================== */
+
+/* Give header + body a card frame */
+body.groups.single-item #buddypress #item-header,
+body.groups.single-item #buddypress #item-body {
+    border: 1px solid var(--unmask-border);
+}
+
+/* Join header and body so the frame is continuous */
+body.groups.single-item #buddypress #item-header {
+    border-bottom: 0;
+    padding: 24px 32px 12px 32px;
+}
+
+body.groups.single-item #buddypress #item-body {
+    border-top: 0;
+    padding: 20px 32px 24px 32px;
+}
+
+/* Nav area lives inside the card */
+body.groups.single-item #buddypress #item-nav {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Nav bar styling */
+body.groups.single-item #buddypress #item-nav ul {
+    margin: 0;
+    padding: 10px 32px;
+    border-top: 1px solid var(--unmask-border);
+    border-bottom: 1px solid var(--unmask-border);
+    list-style: none;
+    box-sizing: border-box;
+}
+
+/* Groups directory nav bar fix */
+#buddypress .groups-type-navs .groups-nav {
+    padding: 12px 0 !important;
+    border-top: 1px solid var(--unmask-border) !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+}
+
+/* Group nav bar UL */
+nav#object-nav ul {
+    margin: 0 !important;
+    padding: 12px 32px !important;
+    border-top: 1px solid var(--unmask-border) !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+    list-style: none !important;
+    box-sizing: border-box;
+}
+
+/* Remove extra border around group header box */
+body.groups.single-item #buddypress .groups-header,
+body.groups.single-item #buddypress .groups-header * {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Make all BuddyBoss group blocks transparent */
+.bb-groups {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   DOSSIER PROFILE OVERRIDES
+   ========================================================================== */
+
+/* Remove default BuddyBoss header padding/borders */
+#buddypress .users-header.single-headers {
+    padding: 24px 0 !important;
+    border: none !important;
+}
+
+/* Avatar container */
+#buddypress #item-header-avatar {
+    margin-right: 20px !important;
+}
+
+/* Avatar image - square, bordered */
+#buddypress #item-header-avatar img.avatar {
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 0 !important;
+    border: 1px solid var(--dossier-border) !important;
+}
+
+/* Name area container */
+#buddypress #item-header-content {
+    padding: 0 !important;
+}
+
+/* Main display name */
+#buddypress #item-header-content h2.user-nicename,
+#buddypress #item-header-content .display-name,
+#buddypress .users-header .user-nicename {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+    color: var(--dossier-text) !important;
+    letter-spacing: -0.5px !important;
+    margin: 0 0 8px 0 !important;
+    text-transform: none !important;
+}
+
+/* Username line */
+#buddypress #item-header-content .user-name,
+#buddypress #item-header-content .activity,
+#buddypress .users-header .activity {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 13px !important;
+    color: var(--dossier-text-muted) !important;
+    margin: 0 !important;
+}
+
+/* ==========================================================================
+   DOSSIER NAVIGATION TABS
+   ========================================================================== */
+
+#buddypress nav#object-nav,
+#buddypress .item-list-tabs {
+    border-top: 1px solid var(--dossier-border) !important;
+    border-bottom: 1px solid var(--dossier-border) !important;
+    margin: 24px 0 !important;
+    padding: 0 !important;
+}
+
+#buddypress nav#object-nav ul,
+#buddypress .item-list-tabs ul {
+    display: flex !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    border: none !important;
+}
+
+#buddypress nav#object-nav ul li,
+#buddypress .item-list-tabs ul li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#buddypress nav#object-nav ul li a,
+#buddypress .item-list-tabs ul li a {
+    display: block !important;
+    padding: 14px 20px !important;
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 12px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-muted) !important;
+    text-decoration: none !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+#buddypress nav#object-nav ul li a:hover {
+    color: var(--dossier-text) !important;
+    background: rgba(255,255,255,0.02) !important;
+}
+
+#buddypress nav#object-nav ul li.current a,
+#buddypress nav#object-nav ul li.selected a {
+    color: var(--dossier-text) !important;
+    border-bottom: 1px solid var(--dossier-text) !important;
+    margin-bottom: -1px !important;
+}
+
+/* ==========================================================================
+   DOSSIER ACCORDION SECTIONS
+   ========================================================================== */
+
+/* Container spacing */
+.profile.public .group-separator-block {
+    margin-bottom: 1px !important;
+    border: none !important;
+}
+
+/* Header bar - clickable */
+.profile.public .group-separator-block > header.profile-header {
+    cursor: pointer;
+    padding: 14px 0 !important;
+    border: none !important;
+    border-bottom: 1px solid var(--dossier-border) !important;
+    margin-bottom: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: transparent !important;
+}
+
+.profile.public .group-separator-block > header.profile-header:hover {
+    background: rgba(255,255,255,0.01) !important;
+}
+
+/* Arrow indicator */
+.profile.public .group-separator-block > header.profile-header::before {
+    content: "\25B6" !important;
+    font-size: 10px !important;
+    margin-right: 12px !important;
+    color: var(--dossier-text-dim) !important;
+    transition: transform 0.15s ease !important;
+}
+
+.profile.public .group-separator-block.expanded > header.profile-header::before {
+    content: "\25BC" !important;
+}
+
+/* Section title */
+.profile.public .group-separator-block h1.bb-profile-title,
+.profile.public .group-separator-block .profile-header h4 {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 12px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-muted) !important;
+    margin: 0 !important;
+    font-weight: 400 !important;
+}
+
+/* Edit button */
+.profile.public .group-separator-block header a.button.outline,
+.profile.public .group-separator-block header .edit-btn,
+.profile.public .group-separator-block header a[href*="edit"] {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 10px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-dim) !important;
+    border: 1px solid var(--dossier-border) !important;
+    padding: 4px 12px !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+}
+
+.profile.public .group-separator-block header a.button.outline:hover {
+    background: var(--dossier-border) !important;
+    color: var(--dossier-bg) !important;
+}
+
+/* Content area - HIDDEN by default */
+.profile.public .group-separator-block .bp-widget {
+    display: none !important;
+    border: none !important;
+    border-bottom: 1px solid var(--dossier-border) !important;
+    padding: 20px 0 !important;
+    background: transparent !important;
+}
+
+/* Content area - VISIBLE when expanded */
+.profile.public .group-separator-block.expanded .bp-widget {
+    display: block !important;
+}
+
+/* ==========================================================================
+   DOSSIER FIELD STYLING
+   ========================================================================== */
+
+/* Table container */
+.profile.public .bp-widget table.profile-fields {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: transparent !important;
+}
+
+/* Table rows */
+.profile.public .bp-widget table.profile-fields tr {
+    border: none !important;
+}
+
+.profile.public .bp-widget table.profile-fields tr:not(:last-child) {
+    border-bottom: 1px solid rgba(40, 40, 40, 0.5) !important;
+}
+
+/* Table cells */
+.profile.public .bp-widget table.profile-fields td {
+    padding: 12px 0 !important;
+    vertical-align: top !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Field label */
+.profile.public .bp-widget table.profile-fields td.label {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 11px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-dim) !important;
+    width: 35% !important;
+    padding-right: 16px !important;
+}
+
+/* Field value */
+.profile.public .bp-widget table.profile-fields td.data,
+.profile.public .bp-widget table.profile-fields td.data p {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 13px !important;
+    color: var(--dossier-text-muted) !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* Links in field values */
+.profile.public .bp-widget table.profile-fields td.data a {
+    color: var(--dossier-text-muted) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px !important;
+}
+
+.profile.public .bp-widget table.profile-fields td.data a:hover {
+    color: var(--dossier-text) !important;
+}

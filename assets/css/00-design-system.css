@@ -1,0 +1,152 @@
+/**
+ * UNMASK Design System
+ *
+ * CSS Custom Properties (Design Tokens)
+ * This file defines all colors, spacing, typography, and other
+ * design tokens used throughout the UNMASK theme.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   COLOR TOKENS
+   ========================================================================== */
+
+:root {
+    /* Background Colors */
+    --unmask-bg: #181818;
+    --unmask-panel-bg: #181818;
+    --unmask-surface: #1e1e1e;
+    --unmask-surface-alt: #252525;
+
+    /* Border Colors */
+    --unmask-border: #5F5F5F;
+    --unmask-border-subtle: #3A3A3A;
+    --unmask-border-dark: #2e2e2e;
+    --unmask-border-light: #444;
+
+    /* Text Colors */
+    --unmask-fg: #E5E5E5;
+    --unmask-fg-secondary: #eee;
+    --unmask-muted: #8A8A8A;
+    --unmask-soft: #5F5F5F;
+    --unmask-text-dark: #2a2a2a;
+
+    /* Accent Colors */
+    --unmask-danger: #C23838;
+    --unmask-danger-hover: #a12c2c;
+    --unmask-accent-dark: #8a3233;
+
+    /* Button Colors */
+    --unmask-button-bg: #C23838;
+    --unmask-button-fg: #181818;
+    --unmask-button-hover-bg: #a12c2c;
+
+    /* State Colors */
+    --unmask-focus: #777;
+    --unmask-disabled: #444;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY TOKENS
+   ========================================================================== */
+
+:root {
+    /* Font Families */
+    --unmask-font-mono: "Berkeley Mono", "SF Mono", "Consolas", "Monaco", monospace;
+    --unmask-font-body: inherit; /* Preserve parent theme body font */
+
+    /* Font Sizes */
+    --unmask-text-xs: 10px;
+    --unmask-text-sm: 11px;
+    --unmask-text-base: 12px;
+    --unmask-text-md: 13px;
+    --unmask-text-lg: 16px;
+    --unmask-text-xl: 18px;
+    --unmask-text-2xl: 3em;
+
+    /* Line Heights */
+    --unmask-leading-tight: 1.1;
+    --unmask-leading-snug: 1.2;
+    --unmask-leading-normal: 1.4;
+    --unmask-leading-relaxed: 1.6;
+
+    /* Letter Spacing */
+    --unmask-tracking-tight: 0;
+    --unmask-tracking-normal: 0.5px;
+    --unmask-tracking-wide: 1px;
+    --unmask-tracking-wider: 1.5px;
+}
+
+/* ==========================================================================
+   SPACING TOKENS
+   ========================================================================== */
+
+:root {
+    /* Spacing Scale */
+    --unmask-space-1: 4px;
+    --unmask-space-2: 8px;
+    --unmask-space-3: 12px;
+    --unmask-space-4: 16px;
+    --unmask-space-5: 20px;
+    --unmask-space-6: 24px;
+    --unmask-space-8: 32px;
+    --unmask-space-10: 40px;
+    --unmask-space-12: 48px;
+    --unmask-space-16: 64px;
+    --unmask-space-20: 80px;
+
+    /* Component Padding */
+    --unmask-padding-card: 20px 24px;
+    --unmask-padding-panel: 24px 32px;
+    --unmask-padding-button: 12px 32px;
+    --unmask-padding-input: 12px 16px;
+
+    /* Section Margins */
+    --unmask-margin-section: 30px;
+    --unmask-margin-element: 12px;
+}
+
+/* ==========================================================================
+   LAYOUT TOKENS
+   ========================================================================== */
+
+:root {
+    /* Border Radius - UNMASK uses hard edges */
+    --unmask-radius: 0;
+    --unmask-radius-avatar: 50%; /* Exception: avatars can be circular */
+
+    /* Border Widths */
+    --unmask-border-width: 1px;
+
+    /* Shadows - UNMASK uses none */
+    --unmask-shadow: none;
+
+    /* Max Widths */
+    --unmask-max-content: 1160px;
+    --unmask-max-chat: 100%;
+}
+
+/* ==========================================================================
+   TRANSITION TOKENS
+   ========================================================================== */
+
+:root {
+    /* Transitions - minimal for UNMASK aesthetic */
+    --unmask-transition-fast: 0.15s ease;
+    --unmask-transition-normal: 0.2s ease;
+}
+
+/* ==========================================================================
+   Z-INDEX SCALE
+   ========================================================================== */
+
+:root {
+    --unmask-z-base: 1;
+    --unmask-z-dropdown: 100;
+    --unmask-z-sticky: 200;
+    --unmask-z-overlay: 300;
+    --unmask-z-modal: 400;
+    --unmask-z-tooltip: 500;
+}

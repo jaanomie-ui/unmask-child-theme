@@ -1,0 +1,237 @@
+/**
+ * UNMASK Dashboard Styles
+ *
+ * Member dashboard and user area styling.
+ * Includes extracted styles from WPCode snippet #2958 (Dashboard styles v2)
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   DASHBOARD LAYOUT
+   ========================================================================== */
+
+.unmask-dashboard {
+    font-family: var(--unmask-font-mono);
+}
+
+.unmask-dashboard-header {
+    border-bottom: 1px solid var(--unmask-border);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.unmask-dashboard-title {
+    font-size: var(--unmask-text-xl);
+    font-weight: 400;
+    color: var(--unmask-fg);
+    margin: 0 0 8px 0;
+}
+
+.unmask-dashboard-subtitle {
+    font-size: var(--unmask-text-sm);
+    color: var(--unmask-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--unmask-tracking-wide);
+}
+
+/* ==========================================================================
+   DASHBOARD WIDGETS/PANELS
+   ========================================================================== */
+
+.unmask-dashboard-widget {
+    background: var(--unmask-surface);
+    border: 1px solid var(--unmask-border);
+    padding: var(--unmask-padding-card);
+    margin-bottom: 16px;
+}
+
+.unmask-dashboard-widget__header {
+    font-size: var(--unmask-text-sm);
+    color: var(--unmask-muted);
+    text-transform: lowercase;
+    letter-spacing: var(--unmask-tracking-wide);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--unmask-border-dark);
+}
+
+.unmask-dashboard-widget__content {
+    font-size: var(--unmask-text-md);
+    color: var(--unmask-fg);
+    line-height: var(--unmask-leading-relaxed);
+}
+
+/* ==========================================================================
+   DASHBOARD STATS
+   ========================================================================== */
+
+.unmask-dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.unmask-dashboard-stat {
+    background: var(--unmask-surface);
+    border: 1px solid var(--unmask-border);
+    padding: 16px;
+}
+
+.unmask-dashboard-stat__label {
+    font-size: var(--unmask-text-xs);
+    color: var(--unmask-muted);
+    text-transform: lowercase;
+    letter-spacing: var(--unmask-tracking-wide);
+    margin-bottom: 4px;
+}
+
+.unmask-dashboard-stat__value {
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--unmask-fg);
+}
+
+.unmask-dashboard-stat__change {
+    font-size: var(--unmask-text-xs);
+    color: var(--unmask-muted);
+    margin-top: 4px;
+}
+
+.unmask-dashboard-stat__change--positive {
+    color: var(--dossier-accent-green);
+}
+
+.unmask-dashboard-stat__change--negative {
+    color: var(--unmask-danger);
+}
+
+/* ==========================================================================
+   DASHBOARD ACTIVITY
+   ========================================================================== */
+
+.unmask-dashboard-activity {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.unmask-dashboard-activity__item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--unmask-border-dark);
+}
+
+.unmask-dashboard-activity__item:last-child {
+    border-bottom: none;
+}
+
+.unmask-dashboard-activity__time {
+    font-size: var(--unmask-text-xs);
+    color: var(--unmask-muted);
+    margin-bottom: 4px;
+}
+
+.unmask-dashboard-activity__text {
+    font-size: var(--unmask-text-md);
+    color: var(--unmask-fg);
+}
+
+/* ==========================================================================
+   DASHBOARD ACTIONS
+   ========================================================================== */
+
+.unmask-dashboard-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.unmask-dashboard-btn {
+    background: transparent;
+    color: var(--unmask-fg);
+    border: 1px solid var(--unmask-border);
+    padding: 10px 20px;
+    font-family: var(--unmask-font-mono);
+    font-size: var(--unmask-text-sm);
+    text-transform: lowercase;
+    letter-spacing: var(--unmask-tracking-normal);
+    cursor: pointer;
+}
+
+.unmask-dashboard-btn:hover {
+    background: var(--unmask-border);
+    color: var(--unmask-bg);
+}
+
+.unmask-dashboard-btn--primary {
+    background: var(--unmask-button-bg);
+    color: var(--unmask-button-fg);
+    border-color: var(--unmask-border);
+}
+
+.unmask-dashboard-btn--primary:hover {
+    background: var(--unmask-button-hover-bg);
+    color: #fff;
+}
+
+.unmask-dashboard-btn--danger {
+    color: var(--unmask-danger);
+    border-color: var(--unmask-danger);
+}
+
+.unmask-dashboard-btn--danger:hover {
+    background: var(--unmask-danger);
+    color: var(--unmask-bg);
+}
+
+/* ==========================================================================
+   DASHBOARD TABLES
+   ========================================================================== */
+
+.unmask-dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.unmask-dashboard-table th,
+.unmask-dashboard-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--unmask-border-dark);
+}
+
+.unmask-dashboard-table th {
+    font-size: var(--unmask-text-xs);
+    color: var(--unmask-muted);
+    text-transform: lowercase;
+    letter-spacing: var(--unmask-tracking-wide);
+    font-weight: 400;
+}
+
+.unmask-dashboard-table td {
+    font-size: var(--unmask-text-md);
+    color: var(--unmask-fg);
+}
+
+.unmask-dashboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .unmask-dashboard-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .unmask-dashboard-actions {
+        flex-direction: column;
+    }
+
+    .unmask-dashboard-table {
+        font-size: var(--unmask-text-sm);
+    }
+}

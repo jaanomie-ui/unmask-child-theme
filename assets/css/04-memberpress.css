@@ -1,0 +1,144 @@
+/**
+ * UNMASK MemberPress Overrides
+ *
+ * Customizations for MemberPress courses and lessons.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   COURSE SIDEBAR TYPOGRAPHY
+   ========================================================================== */
+
+.mpcs-course-progress,
+.mpcs-course-progress *,
+.mpcs-section-title,
+.mpcs-lesson-title,
+.mpcs-lesson-title a {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.5px;
+}
+
+/* Tighter sidebar spacing */
+.mpcs-course-outline {
+    padding: 0.5rem !important;
+}
+
+/* ==========================================================================
+   GLOBAL COURSE TITLE OVERRIDE
+   ========================================================================== */
+
+body.mpcs-course-template-default h2,
+body.mpcs-courses-template-default h2,
+body.single-mpcs-course h2,
+body.post-type-archive-mpcs-course h2,
+body.tax-mpcs-course-category h2 {
+    font-size: 18px !important;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   MAIN CLASSROOM LAYOUT
+   ========================================================================== */
+
+.mpcs-classroom.buddyboss-theme .mpcs-inner-page-main > *,
+.mpcs-classroom.buddyboss-theme .mpcs-main > * {
+    max-width: var(--unmask-max-content);
+    margin-left: 50px;
+    margin-right: 80px;
+}
+
+/* ==========================================================================
+   SIDEBAR HOVER STATES
+   ========================================================================== */
+
+/* Remove hover styling from lesson titles */
+.mpcs-sidebar-wrapper a.text-black:hover {
+    color: inherit !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    outline: none !important;
+}
+
+/* Style course title at top of sidebar */
+#mpcs-sidebar-header h2 a.text-black {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    color: var(--unmask-soft) !important;
+}
+
+/* Lesson entry title */
+.single-mpcs-lesson .entry-title {
+    font-size: 3em !important;
+    line-height: 1.1 !important;
+    margin-bottom: 20px !important;
+    letter-spacing: 0rem !important;
+    color: var(--mpcs-primary-color) !important;
+}
+
+/* ==========================================================================
+   SIDEBAR POSITIONING (Right Side)
+   ========================================================================== */
+
+/* Force two columns into flex row */
+body.mpcs-lesson-template-default .bb-grid .bb-columns,
+body.mpcs-course-template-default .bb-grid .bb-columns {
+    display: flex !important;
+}
+
+/* Main content on the left */
+body.mpcs-lesson-template-default #mpcs-main,
+body.mpcs-course-template-default #mpcs-main {
+    order: 1 !important;
+}
+
+/* Sidebar on the right */
+body.mpcs-lesson-template-default #mpcs-sidebar,
+body.mpcs-course-template-default #mpcs-sidebar {
+    order: 2 !important;
+}
+
+/* Sidebar padding + border */
+#mpcs-sidebar {
+    padding-right: 20px !important;
+    border-left: 1px solid var(--buddyboss-border-color, #2a2a2a) !important;
+}
+
+/* ==========================================================================
+   LESSON NAVIGATION BUTTONS
+   ========================================================================== */
+
+body.single-mpcs-lesson #previous_lesson_link,
+body.single-mpcs-lesson #next_lesson_link,
+body.single-mpcs-lesson .mpcs-lesson-navigation a,
+body.single-mpcs-lesson .mpcs-lesson-navigation button,
+body.single-mpcs-course #previous_lesson_link,
+body.single-mpcs-course #next_lesson_link,
+body.single-mpcs-course .mpcs-lesson-navigation a,
+body.single-mpcs-course .mpcs-lesson-navigation button {
+    background: var(--unmask-button-bg) !important;
+    color: var(--unmask-text-dark) !important;
+    border: 1px solid var(--unmask-text-dark) !important;
+    padding: 2px 20px !important;
+    border-radius: 0 !important;
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+    letter-spacing: 1px !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+}
+
+/* Hover state */
+body.single-mpcs-lesson #previous_lesson_link:hover,
+body.single-mpcs-lesson #next_lesson_link:hover,
+body.single-mpcs-course #previous_lesson_link:hover,
+body.single-mpcs-course #next_lesson_link:hover {
+    background: var(--unmask-button-hover-bg) !important;
+    border-color: var(--unmask-text-dark) !important;
+    color: #fff !important;
+}

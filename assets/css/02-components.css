@@ -1,0 +1,473 @@
+/**
+ * UNMASK Components
+ *
+ * Reusable UI components: cards, badges, chat UI,
+ * ISO board, dossier elements, widgets.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   DOSSIER TOKENS
+   ========================================================================== */
+
+:root {
+    --dossier-bg: #0a0a0a;
+    --dossier-panel: #111111;
+    --dossier-border: #282828;
+    --dossier-border-hover: #3a3a3a;
+    --dossier-text: #e0e0e0;
+    --dossier-text-muted: #888888;
+    --dossier-text-dim: #555555;
+    --dossier-accent-green: #00ff88;
+    --dossier-accent-green-bg: #0d2818;
+    --dossier-accent-green-border: #1a4d2e;
+    --dossier-accent-blue: #8888ff;
+    --dossier-accent-blue-bg: #1a1a2e;
+    --dossier-accent-blue-border: #2d2d5a;
+    --dossier-font: var(--unmask-font-mono);
+}
+
+/* ==========================================================================
+   HIVE MISTRESS AI CHAT
+   ========================================================================== */
+
+#hm-chat {
+    max-width: 100% !important;
+    margin: 20px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 1px solid var(--unmask-border-subtle) !important;
+    font-family: var(--unmask-font-mono) !important;
+    color: var(--unmask-fg-secondary) !important;
+    border-radius: 0 !important;
+}
+
+.hm-header {
+    padding: 24px 32px 12px 32px !important;
+    border-bottom: 1px solid var(--unmask-border-subtle) !important;
+    background: transparent !important;
+}
+
+.hm-title {
+    font-size: var(--unmask-text-lg) !important;
+    font-weight: 400 !important;
+    letter-spacing: var(--unmask-tracking-normal) !important;
+    color: var(--unmask-soft) !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+}
+
+.hm-subtitle {
+    font-size: var(--unmask-text-xs) !important;
+    color: var(--unmask-border-light) !important;
+    letter-spacing: var(--unmask-tracking-wide) !important;
+    text-transform: uppercase !important;
+    margin: 4px 0 0 0 !important;
+}
+
+.hm-messages {
+    min-height: 500px !important;
+    max-height: 500px !important;
+    background: transparent !important;
+    padding: 32px !important;
+    border: none !important;
+}
+
+.hm-msg {
+    margin-bottom: 24px !important;
+    line-height: var(--unmask-leading-relaxed) !important;
+}
+
+.hm-msg-label {
+    font-size: var(--unmask-text-xs) !important;
+    color: var(--unmask-border-light) !important;
+    margin-bottom: 8px !important;
+    letter-spacing: var(--unmask-tracking-wide) !important;
+    text-transform: uppercase !important;
+}
+
+.hm-msg-user .hm-msg-label {
+    color: var(--unmask-soft) !important;
+}
+
+.hm-msg-assistant .hm-msg-label {
+    color: var(--unmask-border-light) !important;
+}
+
+.hm-msg-content {
+    font-size: var(--unmask-text-md) !important;
+    line-height: var(--unmask-leading-relaxed) !important;
+    color: var(--unmask-fg-secondary) !important;
+}
+
+.hm-msg-user .hm-msg-content {
+    color: var(--unmask-fg-secondary) !important;
+}
+
+.hm-msg-assistant .hm-msg-content {
+    color: var(--unmask-muted) !important;
+}
+
+.hm-input-area {
+    padding: 20px 32px !important;
+    border-top: 1px solid var(--unmask-border-subtle) !important;
+    border-bottom: 1px solid var(--unmask-border-subtle) !important;
+    display: flex !important;
+    gap: 16px !important;
+    background: transparent !important;
+}
+
+.hm-input-area input {
+    flex: 1 !important;
+    background: transparent !important;
+    border: 1px solid var(--unmask-border-light) !important;
+    color: var(--unmask-fg-secondary) !important;
+    padding: var(--unmask-padding-input) !important;
+    font-family: var(--unmask-font-mono) !important;
+    font-size: var(--unmask-text-md) !important;
+}
+
+.hm-input-area input:focus {
+    outline: none !important;
+    border-color: var(--unmask-focus) !important;
+}
+
+.hm-input-area input::placeholder {
+    color: var(--unmask-border-light) !important;
+}
+
+.hm-input-area button {
+    background: var(--unmask-button-bg) !important;
+    color: var(--unmask-button-fg) !important;
+    border: 1px solid var(--unmask-text-dark) !important;
+    padding: var(--unmask-padding-button) !important;
+    font-family: var(--unmask-font-mono) !important;
+    font-size: var(--unmask-text-sm) !important;
+    font-weight: 600 !important;
+    letter-spacing: var(--unmask-tracking-wide) !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    border-radius: 0 !important;
+}
+
+.hm-input-area button:hover {
+    background: var(--unmask-button-hover-bg) !important;
+    color: #fff !important;
+}
+
+.hm-input-area button:disabled {
+    background: transparent !important;
+    color: var(--unmask-disabled) !important;
+    border-color: var(--unmask-disabled) !important;
+    cursor: not-allowed !important;
+}
+
+.hm-footer {
+    padding: 12px 32px !important;
+    border-top: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: var(--unmask-text-xs) !important;
+    color: var(--unmask-border-light) !important;
+    letter-spacing: var(--unmask-tracking-wide) !important;
+    background: transparent !important;
+    text-transform: uppercase !important;
+}
+
+.hm-empty {
+    text-align: center !important;
+    color: var(--unmask-border-light) !important;
+    padding: 80px 20px !important;
+    font-size: var(--unmask-text-sm) !important;
+    letter-spacing: var(--unmask-tracking-wide) !important;
+    text-transform: uppercase !important;
+}
+
+.hm-loading {
+    border-color: var(--unmask-border-light) !important;
+    border-top-color: var(--unmask-focus) !important;
+}
+
+/* Kill BuddyPress border on Hive Mistress AI page */
+body.page-template-default.page.page-id-2496 #buddypress,
+body.page-template-default.page.page-id-2496 #buddypress .buddypress-wrap,
+body.page-template-default.page.page-id-2496 .buddypress-wrap {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   UNMASK BADGES
+   ========================================================================== */
+
+.unmask-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-family: var(--unmask-font-mono);
+    font-size: var(--unmask-text-xs);
+    text-transform: lowercase;
+    border: 1px solid var(--dossier-border);
+    background: transparent;
+}
+
+.unmask-badge--photo {
+    border-color: var(--dossier-accent-green-border);
+    color: var(--dossier-accent-green);
+}
+
+.unmask-badge--photographer {
+    border-color: var(--dossier-accent-blue-border);
+    color: var(--dossier-accent-blue);
+}
+
+.unmask-badge--bookings {
+    border-color: #5a2d2d;
+    color: #ff8888;
+}
+
+.unmask-badge--seeking {
+    border-color: var(--dossier-accent-blue-border);
+    color: var(--dossier-accent-blue);
+    background: var(--dossier-accent-blue-bg);
+}
+
+/* Dossier header badges */
+.dossier-badge {
+    padding: 4px 10px;
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    text-transform: lowercase;
+    border: 1px solid;
+}
+
+.dossier-badge--available-photo {
+    background: var(--dossier-accent-green-bg);
+    border-color: var(--dossier-accent-green-border);
+    color: var(--dossier-accent-green);
+}
+
+.dossier-badge--seeking {
+    background: var(--dossier-accent-blue-bg);
+    border-color: var(--dossier-accent-blue-border);
+    color: var(--dossier-accent-blue);
+}
+
+.dossier-badge--bookings {
+    background: #2e1a1a;
+    border-color: #5a2d2d;
+    color: #ff8888;
+}
+
+/* ==========================================================================
+   UNMASK DOSSIER HEADER
+   ========================================================================== */
+
+.unmask-dossier-header {
+    margin-bottom: 24px;
+}
+
+.unmask-dossier-header__name {
+    font-family: var(--unmask-font-mono);
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    margin: 0 0 8px 0;
+}
+
+.unmask-dossier-header__designation {
+    font-family: var(--unmask-font-mono);
+    font-size: var(--unmask-text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--unmask-tracking-wide);
+    color: var(--unmask-muted);
+    margin: 0 0 16px 0;
+}
+
+.unmask-dossier-header__meta {
+    font-family: var(--unmask-font-mono);
+    font-size: var(--unmask-text-base);
+    color: var(--unmask-soft);
+}
+
+.unmask-dossier-header__bio {
+    font-family: var(--unmask-font-mono);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--dossier-text-muted);
+    margin: 16px 0;
+    max-width: 500px;
+}
+
+.unmask-dossier-header__badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .unmask-dossier-header__name {
+        font-size: 24px;
+    }
+
+    .unmask-dossier-header__designation {
+        font-size: 9px;
+    }
+
+    .unmask-dossier-header__meta {
+        font-size: 11px;
+    }
+
+    .unmask-dossier-header__bio {
+        font-size: 13px;
+    }
+
+    .unmask-dossier-header__badges {
+        gap: 6px;
+    }
+}
+
+/* ==========================================================================
+   RECORD DATA WIDGET
+   ========================================================================== */
+
+.unmask-record-widget {
+    background: var(--unmask-surface);
+    border: none !important;
+    border-bottom: 1px solid var(--unmask-border-dark) !important;
+    height: 100%;
+}
+
+.widget_unmask_record_data {
+    padding: 0 !important;
+    margin-bottom: 16px;
+}
+
+.widget_unmask_record_data > div {
+    padding: 0;
+}
+
+/* ==========================================================================
+   ACCESS TERMINAL
+   ========================================================================== */
+
+.unmask-access-terminal,
+.unmask-access-terminal.e-con {
+    background: #111 !important;
+    border: 1px solid var(--unmask-border-dark) !important;
+    padding: 20px 24px !important;
+}
+
+.unmask-access-terminal .access-line {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+    padding: 12px 0 !important;
+    border-bottom: 1px solid var(--unmask-surface) !important;
+    margin: 0 !important;
+}
+
+.unmask-access-terminal .access-line:last-child {
+    border-bottom: none !important;
+}
+
+.unmask-access-terminal .access-line .label {
+    color: #666 !important;
+}
+
+.unmask-access-terminal .access-line .value {
+    color: var(--unmask-muted) !important;
+    text-align: right !important;
+}
+
+.unmask-access-terminal .access-line .value span {
+    color: var(--unmask-accent-dark) !important;
+}
+
+/* ==========================================================================
+   WHERE SECTION GRID
+   ========================================================================== */
+
+.unmask-where-section,
+.unmask-where-section.e-con {
+    background: var(--unmask-surface-alt) !important;
+    padding: 1px !important;
+    gap: 1px !important;
+}
+
+.unmask-where-section > .e-con,
+.unmask-where-section > .e-con-inner > .e-con,
+.unmask-where-section .where-item {
+    background: #111 !important;
+    padding: 24px 20px !important;
+    margin: 0 !important;
+}
+
+.unmask-where-section .label,
+.unmask-where-section .elementor-heading-title {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: var(--unmask-text-xs) !important;
+    color: var(--unmask-border-light) !important;
+    text-transform: uppercase !important;
+    letter-spacing: var(--unmask-tracking-wider) !important;
+    margin: 0 0 10px 0 !important;
+}
+
+.unmask-where-section .desc,
+.unmask-where-section .elementor-widget-text-editor p {
+    font-family: var(--unmask-font-mono) !important;
+    font-size: var(--unmask-text-base) !important;
+    color: var(--unmask-focus) !important;
+    line-height: var(--unmask-leading-relaxed) !important;
+    margin: 0 !important;
+}
+
+.unmask-where-section .desc span,
+.unmask-where-section p span {
+    color: var(--unmask-accent-dark) !important;
+}
+
+/* ==========================================================================
+   DOSSIER SYSTEM BOX
+   ========================================================================== */
+
+.dossier-system-box {
+    background: var(--dossier-panel);
+    border: 1px solid var(--dossier-border);
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.dossier-system-box__header {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.dossier-system-box__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.dossier-system-box__stat-label {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+    margin-bottom: 4px;
+}
+
+.dossier-system-box__stat-value {
+    font-family: var(--dossier-font);
+    font-size: 20px;
+    color: var(--dossier-text);
+    margin-bottom: 4px;
+}

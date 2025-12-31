@@ -1,0 +1,225 @@
+/**
+ * UNMASK Page-Specific Styles
+ *
+ * Styles for specific pages: Factory, Homepage, Archives, Units.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   UNMASK UNITS PAGE (page-896)
+   ========================================================================== */
+
+/* Hide "Viewing 1 - 6 of 6 groups" */
+body.page-id-896 p.pag-data {
+    display: none !important;
+}
+
+/* Kill outer frame on directory */
+body.page-id-896 #buddypress,
+body.page-id-896 #buddypress .bp-wrap {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Hide sort dropdown */
+body.page-id-896 #groups-order-by,
+body.page-id-896 label[for="groups-order-by"],
+body.page-id-896 .groups-order-by,
+body.page-id-896 .bp-order-by,
+body.page-id-896 .bp-dir-order-by {
+    display: none !important;
+}
+
+/* Hide Groups nav tabs */
+body.page-id-896 ul.component-navigation.groups-nav {
+    display: none !important;
+}
+
+/* Kill "6 Groups" count */
+body.page-id-896 .bb-item-count {
+    display: none !important;
+}
+
+/* Remove group-type label */
+body.page-id-896 .group-type {
+    display: none !important;
+}
+
+/* Apply border gray to each group card */
+body.page-id-896 #groups-dir-list #groups-list .list-wrap {
+    border: 1px solid var(--unmask-border-subtle) !important;
+    box-shadow: none !important;
+}
+
+/* Match Organizer button */
+body.page-id-896 .groups-loop-buttons .group-button,
+body.page-id-896 button.group-button {
+    border: 1px solid var(--unmask-border-subtle) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    width: 130px !important;
+    text-align: center !important;
+}
+
+/* ==========================================================================
+   FACTORY PAGE STYLES
+   Extracted from WPCode snippet #2945
+   ========================================================================== */
+
+/* Booking card compact layout */
+.factory-booking-card {
+    background: var(--unmask-surface);
+    border: 1px solid var(--unmask-border);
+    padding: var(--unmask-padding-card);
+}
+
+.factory-booking-form {
+    font-family: var(--unmask-font-mono);
+}
+
+/* Factory grid layouts */
+.factory-grid {
+    display: grid;
+    gap: 16px;
+}
+
+/* ==========================================================================
+   ISO BOARD STYLES
+   ========================================================================== */
+
+/* Board wrapper */
+.iso-board-wrapper {
+    font-family: var(--unmask-font-mono);
+}
+
+/* Filters container */
+.iso-filters {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.iso-filter-divider {
+    border-left: 1px solid var(--unmask-border);
+    height: 24px;
+}
+
+/* Cards */
+.iso-card {
+    background: var(--unmask-surface);
+    border: 1px solid var(--unmask-border);
+    padding: var(--unmask-padding-card);
+    margin-bottom: var(--unmask-margin-element);
+}
+
+.iso-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.iso-card-meta {
+    display: flex;
+    gap: 16px;
+    color: var(--unmask-muted);
+    font-size: var(--unmask-text-sm);
+}
+
+.iso-card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+/* Grid layouts */
+.iso-factory-grid,
+.iso-expiration-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .iso-card {
+        padding: 20px 16px;
+    }
+
+    .iso-card-header,
+    .iso-card-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .iso-card-actions {
+        flex-direction: column;
+    }
+
+    .iso-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .iso-filter-divider {
+        display: none;
+    }
+
+    .iso-factory-grid,
+    .iso-expiration-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================================================
+   ARCHIVE PAGES
+   ========================================================================== */
+
+/* Archive features */
+.archive-stats {
+    display: flex;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--unmask-border);
+    margin-bottom: 24px;
+}
+
+.archive-stat {
+    font-family: var(--unmask-font-mono);
+    font-size: var(--unmask-text-sm);
+    color: var(--unmask-muted);
+}
+
+.archive-stat-value {
+    font-size: var(--unmask-text-lg);
+    color: var(--unmask-fg);
+}
+
+/* ==========================================================================
+   HOMEPAGE ZONES
+   ========================================================================== */
+
+/* Homepage button/CTA styling */
+.homepage-cta {
+    background: var(--unmask-button-bg);
+    color: var(--unmask-button-fg);
+    border: 1px solid var(--unmask-border);
+    padding: var(--unmask-padding-button);
+    font-family: var(--unmask-font-mono);
+    text-transform: uppercase;
+    letter-spacing: var(--unmask-tracking-wide);
+}
+
+.homepage-cta:hover {
+    background: var(--unmask-button-hover-bg);
+    color: #fff;
+}
+
+/* Zone widgets */
+.homepage-zone {
+    margin-bottom: var(--unmask-margin-section);
+}

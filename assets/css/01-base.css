@@ -1,0 +1,211 @@
+/**
+ * UNMASK Base Styles
+ *
+ * Global resets, typography, and foundational styles.
+ * These apply site-wide and establish the UNMASK OS aesthetic.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   HARD EDGE THEME - Global Border Radius Reset
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    border-radius: var(--unmask-radius) !important;
+}
+
+/* Enforce sharp edges on common UI elements */
+button,
+input,
+select,
+textarea,
+.card,
+.container,
+img,
+a,
+.btn,
+.navbar,
+.dropdown-menu,
+.modal,
+.alert,
+.badge,
+.form-control {
+    border-radius: var(--unmask-radius) !important;
+}
+
+/* Remove shadows and transitions for cleaner geometry */
+button,
+a,
+input,
+.card {
+    box-shadow: var(--unmask-shadow) !important;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY
+   ========================================================================== */
+
+/* UI elements get Berkeley Mono */
+.bp-profile-header,
+.bb-profile-header,
+.widget-title,
+.bp-navs,
+nav,
+.menu,
+.nav-menu,
+header,
+footer,
+.site-header,
+.site-footer,
+input,
+textarea,
+select,
+label,
+.form-label,
+.iso-board-wrapper,
+.iso-card,
+.iso-filters,
+.buddypress-wrap .activity-header,
+.buddypress-wrap .activity-meta,
+.member-type-label,
+.bp-member-type,
+time,
+.timestamp,
+.meta,
+figcaption {
+    font-family: var(--unmask-font-mono) !important;
+}
+
+/* Remove BuddyBoss letter-spacing globally */
+.buddypress-wrap *,
+#buddypress *,
+.bp-profile-header *,
+.bb-profile-header * {
+    letter-spacing: var(--unmask-tracking-tight) !important;
+}
+
+/* ==========================================================================
+   BORDER CONSISTENCY
+   ========================================================================== */
+
+/* Ensure consistent border width */
+.widget,
+.card,
+.iso-card,
+.activity-content,
+.bp-feedback,
+[class*="border"] {
+    border-width: var(--unmask-border-width) !important;
+}
+
+/* Add margin to prevent border collapse */
+.widget + .widget,
+.card + .card,
+.iso-card + .iso-card,
+.activity-list > li + li {
+    margin-top: var(--unmask-margin-element) !important;
+}
+
+/* Remove double borders on adjacent elements */
+.widget:not(:last-child) {
+    border-bottom: none !important;
+    margin-bottom: var(--unmask-margin-element) !important;
+}
+
+/* Fix border collapse on nested containers */
+.buddypress-wrap .bp-list > li {
+    border-top: none !important;
+    margin-top: var(--unmask-space-2) !important;
+    padding-top: var(--unmask-space-2) !important;
+}
+
+.buddypress-wrap .bp-list > li:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Spacing between sections */
+#item-header,
+#item-body,
+.profile-content {
+    margin-bottom: var(--unmask-space-4) !important;
+}
+
+.accordion-item + .accordion-item,
+.profile-section + .profile-section {
+    margin-top: var(--unmask-margin-element) !important;
+}
+
+/* ==========================================================================
+   GLOBAL CONTENT FRAME REMOVAL
+   ========================================================================== */
+
+/* Main content wrappers - remove all frames */
+.site-content,
+#content,
+.bb-content,
+main.site-main,
+.site-main,
+.content-area,
+#primary,
+.bb-grid,
+.buddypress-wrap,
+#buddypress,
+.bp-wrap,
+.elementor,
+.elementor-section-wrap,
+article.page,
+article.post,
+.entry-content {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* BuddyBoss specific wrappers */
+.bb-template-v2 .site-content-grid,
+.bb-template-v2 #content,
+.bb-template-v2 .content-area,
+body.buddypress .site-content,
+body.bb-template-v2 .site-main {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Inner content frame cleanup */
+.bb-grid > .bb-content,
+.site-content > .bb-grid,
+.site-content-grid > * {
+    border: none !important;
+}
+
+/* Elementor containers */
+.elementor-container,
+.elementor-column-wrap,
+.elementor-widget-wrap,
+.elementor-element {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================================================
+   SIDEBAR LAYOUT
+   ========================================================================== */
+
+.bb-buddypanel .site-content {
+    padding-right: 0 !important;
+}
+
+/* ==========================================================================
+   HEADER CLEANUP
+   ========================================================================== */
+
+/* Remove site title text (logo replaces it) */
+.site-header--bb .site-title,
+.site-header--bb #site-title {
+    display: none !important;
+}
