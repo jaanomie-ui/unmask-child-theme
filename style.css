@@ -1,0 +1,4073 @@
+/*
+Theme Name: BuddyBoss Child - UNMASK
+Theme URI: https://houseofanomie.com
+Description: UNMASK custom child theme for BuddyBoss
+Author: Ja
+Author URI: https://houseofanomie.com
+Template: buddyboss-theme
+Version: 1.0.0
+Text Domain: buddyboss-theme-child
+*/
+
+/* === UNMASK OS: HARD EDGE THEME === */
+/* Removes all rounded corners from UI elements */
+
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+/* Optional: enforce sharp edges on buttons, inputs, and cards */
+button,
+input,
+select,
+textarea,
+.card,
+.container,
+img,
+a,
+.btn,
+.navbar,
+.dropdown-menu,
+.modal,
+.alert,
+.badge,
+.form-control {
+  border-radius: 0 !important;
+}
+
+/* Optional: remove any default shadows or transitions for cleaner geometry */
+button,
+a,
+input,
+.card {
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* Make BuddyBoss profile avatars perfectly circular */
+.users-header #item-header-avatar,
+.users-header #item-header-avatar img {
+    border-radius: 50% !important;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+/* Circular hover overlay */
+.users-header #item-header-avatar:hover .link-change-overlay {
+    position: absolute;
+    inset: 3px; /* replaces left/right/top/bottom */
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 50%;
+}
+/* Kill BuddyBoss avatar border/halo */
+.users-header #item-header-avatar .avatar {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+/* 0. Whole profile = one unified card */
+#buddypress.buddypress-wrap {
+    background: var(--bb-content-background-color);
+    border: 1px solid var(--bb-content-border-color);
+    border-radius: var(--bb-block-radius);
+    padding: 0;
+    overflow: hidden;
+}
+
+/* 1. Header band: full-width, slightly different color */
+#buddypress .users-header.single-headers {
+    background: rgba(255,255,255,0.02);  /* tweak this for lighter/darker */
+    padding: 40px 30px;
+    margin: 0;
+    border: none;
+}
+
+/* Kill the inner “box” look so only the band reads */
+#buddypress #cover-image-container {
+    background: transparent !important;
+    border: 0 !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. Nav bar aligned with content (same 30px inset) */
+#buddypress.buddypress-wrap nav.users-nav.main-navs {
+    background: transparent;
+    border-top: 1px solid var(--bb-content-border-color);
+    border-bottom: 1px solid var(--bb-content-border-color);
+    margin: 0;
+    padding: 12px 30px;   /* aligns with header + body */
+}
+
+/* 3. Body content padding aligned with nav/header */
+#buddypress .bb-profile-grid .bp-profile-wrapper.need-separator {
+    background: transparent;
+    border: 0;
+    padding: 30px;
+    margin: 0;
+}
+
+/* Remove nested card framing inside body */
+#buddypress .group-separator-block {
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0;
+    margin: 0;
+}
+/* Add padding to the bottom content area of the profile card */
+#buddypress .bb-profile-grid #item-body {
+    padding: 30px;                   /* the amount you want */
+    padding-top: 20px;               /* slightly tighter under the nav */
+}
+
+/* BuddyBoss sometimes wraps it in .item-body-inner — pad that too */
+#buddypress .bb-profile-grid #item-body .item-body-inner {
+    padding: 0;                      /* avoid double padding */
+}
+
+/* Feed widgets sometimes collapse — fix their edges too */
+#buddypress .activity,
+#buddypress .bp-profile-content,
+#buddypress .profile {
+    padding-left: 0;
+    padding-right: 0;
+}
+/* Make text smaller in the MemberPress Course sidebar */
+.mpcs-course-progress,
+.mpcs-course-progress *,
+.mpcs-section-title,
+.mpcs-lesson-title,
+.mpcs-lesson-title a {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.5px;
+}
+
+/* Optional — tighten sidebar spacing if you want a denser look */
+.mpcs-course-outline {
+  padding: 0.5rem !important;
+}
+
+/* === UNMASK OS — GLOBAL COURSE TITLE OVERRIDE (ALL VIEWS) === */
+body.mpcs-course-template-default h2,
+body.mpcs-courses-template-default h2,
+body.single-mpcs-course h2,
+body.post-type-archive-mpcs-course h2,
+body.tax-mpcs-course-category h2 {
+  font-size: 18px !important;
+  line-height: 1.3;
+}
+
+/* === MAKE GROUP HEADER 0PX === */
+div#cover-image-container {
+  margin-top: 0;
+}
+
+/* === MAIN DIV MEMBERPRESS LAYOUT === */
+.mpcs-classroom.buddyboss-theme .mpcs-inner-page-main > *,
+.mpcs-classroom.buddyboss-theme .mpcs-main > * {
+  max-width: 1160px;
+  margin-left: 50px;
+  margin-right: 80px;
+}
+
+/* Remove hover styling from MemberPress lesson titles */
+.mpcs-sidebar-wrapper a.text-black:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+  background: transparent !important;
+  outline: none !important;
+}
+
+/* Style ONLY the MemberPress course title at top of the sidebar */
+#mpcs-sidebar-header h2 a.text-black {
+  font-family: "Berkeley Mono", monospace !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: #5b5b5b !important;
+}
+
+.single-mpcs-lesson .entry-title {
+  font-size: 3em !important;
+  line-height: 1.1 !important;
+  margin-bottom: 20px !important;
+  letter-spacing: 0rem !important;
+  color: var(--mpcs-primary-color) !important;
+}
+
+/* 1. Remove padding from ONLY image widgets in the sidebar template */
+.bb-template-v2 .widget-area .widget.widget_media_image {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+/* 2. Remove the figure margin WP adds around the image */
+.bb-template-v2 .widget.widget_media_image .wp-block-image {
+  margin: 0 !important;
+}
+
+/* 3. Make the image fill the box */
+.bb-template-v2 .widget.widget_media_image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Make sure the first Elementor block isn't adding margin */
+.bb-template-v2 .entry-content > .elementor {
+  margin-top: 0 !important;
+}
+
+/* Remove the site title text but keep the entire header structure */
+.site-header--bb .site-title,
+.site-header--bb #site-title {
+  display: none !important;
+}
+
+/* =========================
+   GROUPS DIRECTORY LIST
+   ========================= */
+#groups-dir-list #groups-list .list-wrap {
+  margin: 8px 12px;
+  padding: 12px 16px;
+  border: 1px solid #5F5F5F;
+}
+
+/* =========================
+   GROUP SINGLE PAGES
+   ========================= */
+
+/* Give header + body a card frame */
+body.groups.single-item #buddypress #item-header,
+body.groups.single-item #buddypress #item-body {
+  border: 1px solid #5F5F5F;
+}
+
+/* Join header and body so the frame is continuous */
+body.groups.single-item #buddypress #item-header {
+  border-bottom: 0;
+  padding: 24px 32px 12px 32px;
+}
+
+body.groups.single-item #buddypress #item-body {
+  border-top: 0;
+  padding: 20px 32px 24px 32px;
+}
+
+/* Nav area lives inside the card, no extra border */
+body.groups.single-item #buddypress #item-nav {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Nav bar itself – left padding + top/bottom border */
+body.groups.single-item #buddypress #item-nav ul {
+  margin: 0;
+  padding: 10px 32px;
+  border-top: 1px solid #5F5F5F;
+  border-bottom: 1px solid #5F5F5F;
+  list-style: none;
+  box-sizing: border-box;
+}
+/* GROUPS DIRECTORY — NAV BAR FIX */
+#buddypress .groups-type-navs .groups-nav {
+    padding: 12px 0 !important;       /* top + bottom padding */
+    border-top: 1px solid #5F5F5F !important;
+    border-bottom: 1px solid #5F5F5F !important;
+}
+/* NUCLEAR: borders on the group nav bar UL, no conditions */
+nav#object-nav ul {
+    margin: 0 !important;
+    padding: 12px 32px !important;   /* adjust 32px if you want */
+    border-top: 1px solid #5F5F5F !important;
+    border-bottom: 1px solid #5F5F5F !important;
+    list-style: none !important;
+    box-sizing: border-box;
+}
+/* Remove the extra border around the group header box */
+body.groups.single-item #buddypress .groups-header,
+body.groups.single-item #buddypress .groups-header * {
+    border: none !important;
+    box-shadow: none !important;
+}
+/* --- UNMASK OS: FORCE SINGLE CLEAN MENU LINE ON ALL BUDDYPRESS NAVS --- */
+
+/* Sidebar widgets that contain an image = treat as ads */
+#secondary .widget.widget_block:has(img) {
+    padding: 0 !important;   /* kill inner padding ONLY */
+    /* don't touch margin-bottom or border */
+}
+
+/* Make the ad image full-bleed inside that widget */
+#secondary .widget.widget_block:has(img) figure,
+#secondary .widget.widget_block:has(img) .wp-block-image,
+#secondary .widget.widget_block:has(img) img {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+/* Kill top + bottom padding from inner wrappers for ad widgets */
+#secondary .widget.widget_block:has(img) > * {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Kill the border on ALL BuddyForms fieldsets, site-wide */
+.the_buddyforms_form fieldset,
+.the_buddyforms_form .fieldset {
+    border: none !important;
+    box-shadow: none !important;
+}
+/* Make ALL BuddyForms input fields match the site's border style */
+.the_buddyforms_form input[type="text"],
+.the_buddyforms_form input[type="email"],
+.the_buddyforms_form input[type="number"],
+.the_buddyforms_form input[type="url"],
+.the_buddyforms_form input[type="date"],
+.the_buddyforms_form textarea,
+.the_buddyforms_form select {
+    background: transparent !important;
+    border: 1px solid #444 !important;   /* Matches your site border */
+    color: #eee !important;              /* Keeps text readable on dark background */
+    box-shadow: none !important;
+}
+/* --- UNMASK clean circular checkboxes --- */
+
+/* Make sure the INPUT stays on top and clickable */
+.the_buddyforms_form .bf-input input[type="checkbox"],
+.the_buddyforms_form .bf-input input[type="radio"] {
+    position: relative !important;
+    z-index: 10 !important; /* ensures clicks register */
+    opacity: 0 !important; /* invisible but still clickable */
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+    cursor: pointer;
+}
+
+/* Create the custom circle UI */
+.the_buddyforms_form .bf-input input[type="checkbox"] + span::before,
+.the_buddyforms_form .bf-input input[type="radio"] + span::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #444;
+    border-radius: 50%;
+    background: transparent;
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+}
+
+/* Hover State */
+.the_buddyforms_form .bf-input input[type="checkbox"]:hover + span::before,
+.the_buddyforms_form .bf-input input[type="radio"]:hover + span::before {
+    border-color: #777;
+}
+
+/* Checked State */
+.the_buddyforms_form .bf-input input[type="checkbox"]:checked + span::before,
+.the_buddyforms_form .bf-input input[type="radio"]:checked + span::before {
+    background: #444; /* fill */
+    box-shadow: inset 0 0 0 2px #181818; /* technical inner ring */
+    border-color: #444;
+}
+/* Make all BuddyBoss group blocks transparent */
+.bb-groups {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Hide "Viewing 1 - 6 of 6 groups" only on the UNMASK units page */
+body.page-id-896 p.pag-data {
+    display: none !important;
+}
+/* Kill the big outer frame around the directory – ONLY on this page */
+body.page-id-896 #buddypress,
+body.page-id-896 #buddypress .bp-wrap {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Hide the sort dropdown – ONLY on this page */
+body.page-id-896 #groups-order-by,
+body.page-id-896 label[for="groups-order-by"],
+body.page-id-896 .groups-order-by,
+body.page-id-896 .bp-order-by {
+    display: none !important;
+}
+body.page-id-896 .bp-dir-order-by {
+    display: none !important;
+}
+/* Hide the Groups nav tabs – ONLY on this page */
+body.page-id-896 ul.component-navigation.groups-nav {
+    display: none !important;
+}
+/* Kill the "6 Groups" count ONLY on this page */
+body.page-id-896 .bb-item-count {
+    display: none !important;
+}
+/* Remove the group-type label ONLY on this page */
+body.page-id-896 .group-type {
+    display: none !important;
+}
+/* UNMASK units – apply your border gray to each group card ONLY on this page */
+body.page-id-896 #groups-dir-list #groups-list .list-wrap {
+    border: 1px solid #3A3A3A !important;
+    box-shadow: none !important;
+}
+/* Match Organizer button to #3A3A3A border – ONLY on this page */
+body.page-id-896 .groups-loop-buttons .group-button,
+body.page-id-896 button.group-button {
+    border: 1px solid #3A3A3A !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    width: 130px !important; /* adjust if you want wider/narrower */
+    text-align: center !important;
+}
+/* === Move MemberPress classroom sidebar to the RIGHT === */
+
+/* Force the two columns into a flex row */
+body.mpcs-lesson-template-default .bb-grid .bb-columns,
+body.mpcs-course-template-default .bb-grid .bb-columns {
+    display: flex !important;
+}
+
+/* Main content on the left */
+body.mpcs-lesson-template-default #mpcs-main,
+body.mpcs-course-template-default #mpcs-main {
+    order: 1 !important;
+}
+
+/* Sidebar on the right */
+body.mpcs-lesson-template-default #mpcs-sidebar,
+body.mpcs-course-template-default #mpcs-sidebar {
+    order: 2 !important;
+}
+/* === Sidebar padding + border (right-side sidebar) === */
+
+#mpcs-sidebar {
+    padding-right: 20px !important;
+    border-left: 1px solid var(--buddyboss-border-color, #2a2a2a) !important;
+}
+/* === FORCE STYLE ON MEMBERPRESS LESSON NAV BUTTONS === */
+
+body.single-mpcs-lesson #previous_lesson_link,
+body.single-mpcs-lesson #next_lesson_link,
+body.single-mpcs-lesson .mpcs-lesson-navigation a,
+body.single-mpcs-lesson .mpcs-lesson-navigation button,
+body.single-mpcs-course #previous_lesson_link,
+body.single-mpcs-course #next_lesson_link,
+body.single-mpcs-course .mpcs-lesson-navigation a,
+body.single-mpcs-course .mpcs-lesson-navigation button {
+    background: #c23838 !important;         /* UNMASK red */
+    color: #2a2a2a  !important;
+    border: 1px solid #2a2a2a !important;    /* OS gray */
+    padding: 2px 20px !important;
+    border-radius: 0 !important;             /* no round */
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+    letter-spacing: 1px !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+}
+
+/* HOVER */
+body.single-mpcs-lesson #previous_lesson_link:hover,
+body.single-mpcs-lesson #next_lesson_link:hover,
+body.single-mpcs-course #previous_lesson_link:hover,
+body.single-mpcs-course #next_lesson_link:hover {
+    background: #a12c2c !important;          /* darker red */
+    border-color: #2a2a2a !important;
+    color: #fff !important;
+}
+
+/* === HIVE MISTRESS CHAT - UNMASK OS STYLE === */
+
+#hm-chat {
+    max-width: 100% !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 1px solid #3A3A3A !important;
+    font-family: 'Berkeley Mono', monospace !important;
+    color: #eee !important;
+    border-radius: 0 !important;
+}
+
+.hm-header {
+    padding: 24px 32px 12px 32px !important;
+    border-bottom: 1px solid #3A3A3A !important;
+    background: transparent !important;
+}
+
+.hm-title {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.5px !important;
+    color: #5b5b5b !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+}
+
+.hm-subtitle {
+    font-size: 10px !important;
+    color: #444 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    margin: 4px 0 0 0 !important;
+}
+
+.hm-messages {
+    min-height: 500px !important;
+    max-height: 500px !important;
+    background: transparent !important;
+    padding: 32px !important;
+    border: none !important;
+}
+
+.hm-msg {
+    margin-bottom: 24px !important;
+    line-height: 1.6 !important;
+}
+
+.hm-msg-label {
+    font-size: 10px !important;
+    color: #444 !important;
+    margin-bottom: 8px !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+.hm-msg-user .hm-msg-label { 
+    color: #5b5b5b !important; 
+}
+
+.hm-msg-assistant .hm-msg-label { 
+    color: #444 !important; 
+}
+
+.hm-msg-content {
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    color: #eee !important;
+}
+
+.hm-msg-user .hm-msg-content { 
+    color: #eee !important; 
+}
+
+.hm-msg-assistant .hm-msg-content { 
+    color: #999 !important; 
+}
+
+.hm-input-area {
+    padding: 20px 32px !important;
+    border-top: 1px solid #3A3A3A !important;
+    border-bottom: 1px solid #3A3A3A !important;
+    display: flex !important;
+    gap: 16px !important;
+    background: transparent !important;
+}
+
+.hm-input-area input {
+    flex: 1 !important;
+    background: transparent !important;
+    border: 1px solid #444 !important;
+    color: #eee !important;
+    padding: 12px 16px !important;
+    font-family: 'Berkeley Mono', monospace !important;
+    font-size: 13px !important;
+}
+
+.hm-input-area input:focus {
+    outline: none !important;
+    border-color: #777 !important;
+}
+
+.hm-input-area input::placeholder {
+    color: #444 !important;
+}
+
+.hm-input-area button {
+    background: #c23838 !important;
+    color: #2a2a2a !important;
+    border: 1px solid #2a2a2a !important;
+    padding: 12px 32px !important;
+    font-family: 'Berkeley Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    border-radius: 0 !important;
+}
+
+.hm-input-area button:hover {
+    background: #a12c2c !important;
+    color: #fff !important;
+}
+
+.hm-input-area button:disabled {
+    background: transparent !important;
+    color: #444 !important;
+    border-color: #444 !important;
+    cursor: not-allowed !important;
+}
+
+.hm-footer {
+    padding: 12px 32px !important;
+    border-top: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 10px !important;
+    color: #444 !important;
+    letter-spacing: 1px !important;
+    background: transparent !important;
+    text-transform: uppercase !important;
+}
+
+.hm-empty {
+    text-align: center !important;
+    color: #444 !important;
+    padding: 80px 20px !important;
+    font-size: 11px !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+.hm-loading {
+    border-color: #444 !important;
+    border-top-color: #777 !important;
+}
+#hm-chat {
+    margin: 20px !important;
+    padding: 0 !important;
+    border: 1px solid #3A3A3A !important;
+}
+/* Kill BuddyPress border ONLY on Hive Mistress AI page */
+body.page-template-default.page.page-id-2496 #buddypress,
+body.page-template-default.page.page-id-2496 #buddypress .buddypress-wrap,
+body.page-template-default.page.page-id-2496 .buddypress-wrap {
+    border: none !important;
+    box-shadow: none !important;
+}
+/* === NUCLEAR SQUARE AVATAR === */
+
+body.bp-user #item-header-avatar img.avatar,
+body.bp-user #item-header-avatar img,
+body.bp-user .avatar,
+.users-header #item-header-avatar img,
+.users-header .avatar,
+#buddypress .avatar,
+#buddypress img.avatar,
+.bp-user img.avatar {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+}
+
+/* Kill overlay circle */
+.users-header #item-header-avatar .link-change-overlay,
+#item-header-avatar .link-change-overlay {
+    border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+}
+
+/* Kill any parent container rounding */
+#item-header-avatar,
+.item-header-avatar,
+#item-header-avatar a {
+    border-radius: 0 !important;
+    overflow: visible !important;
+}
+body.bp-user #item-header-avatar img.avatar {
+    border: 1px solid #5F5F5F !important;
+}
+body #buddypress #item-header-cover-image {
+    padding-bottom: 0 !important;
+}
+#buddypress .users-header.single-headers {
+    padding: 20px 20px !important;
+}
+body #buddypress #item-header-cover-image {
+    min-height: auto;
+    margin-bottom: 0;
+    padding-bottom: 0px;
+    width: 100%;
+}
+
+/* ===================================================================
+   UNMASK OS TOKENS (adjust if needed)
+   =================================================================== */
+
+:root {
+    --unmask-bg:        #181818;
+    --unmask-panel-bg:  #181818;
+    --unmask-border:    #5F5F5F;
+    --unmask-fg:        #5F5F5F;
+    --unmask-muted:     #8A8A8A;
+    --unmask-soft:      #5F5F5F;
+    --unmask-danger:    #C23838;
+    --unmask-button-bg: #C23838;
+    --unmask-button-fg: #181818;
+}
+
+/* ===================================================================
+   OUTER CARD: FACTORY BOOKING WIDGET
+   =================================================================== */
+
+.factory-booking-widget {
+    max-width: 450px;                           /* keep it tight center */
+    margin:  auto;
+    background: transparent !important;         /* kill plugin grey/white */
+    border: 1px solid var(--unmask-border) !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    font-family: "Berkeley Mono", monospace !important;
+    color: var(--unmask-fg) !important;
+}
+
+/* ===================================================================
+   PRICE HEADER (TOP BAR WITH $60.00)
+   =================================================================== */
+
+.factory-booking-price {
+    background: var(--unmask-panel-bg) !important;
+    padding: 0 !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+    text-align: left !important;
+    color: var(--unmask-fg) !important;
+}
+
+/* $60.00 text and siblings */
+.factory-booking-price h1,
+.factory-booking-price h2,
+.factory-booking-price h3,
+.factory-booking-price .price,
+.factory-booking-price .estimated-total {
+    background: transparent !important;
+    color: var(--unmask-fg) !important;
+    font-size: 16px !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    padding: 10px 10px !important;
+    border: none !important;
+}
+
+/* “Estimated total” caption */
+.factory-booking-price p,
+.factory-booking-price small {
+    color: var(--unmask-muted) !important;
+    font-size: 11px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    margin: 0px 0px 0px 0px !important;
+}
+
+/* ===================================================================
+   BOOKING FORM (INSIDE WIDGET)
+   =================================================================== */
+
+.factory-booking-form {
+    background: transparent !important;         /* outer widget carries card frame */
+    border: none !important;
+    margin: 0px !important;
+    padding: 10px!important;
+    font-family: "Berkeley Mono", monospace !important;
+    color: var(--unmask-fg) !important;
+}
+
+/* kill random plugin backgrounds & shadows inside the form */
+.factory-booking-form *,
+.factory-booking-form form,
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* main content padding */
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    padding: 10px 10px !important;
+}
+
+/* ------------------- Labels & helper text ------------------------- */
+
+.factory-booking-form label {
+    font-size: 12px !important;
+    color: var(--unmask-muted) !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 2px
+	 !important;
+    display: block !important;
+    font-weight: 400 !important;
+}
+
+.factory-booking-form .help-text,
+.factory-booking-form .description {
+    font-size: 10px !important;
+    color: var(--unmask-soft) !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+/* ------------------- Inputs (keep tight) ------------------------- */
+
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="email"],
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"],
+.factory-booking-form select,
+.factory-booking-form textarea,
+.factory-booking-form .flatpickr-input {
+    background: var(--unmask-panel-bg) !important;
+    border: 1px solid var(--unmask-border) !important;
+    color: var(--unmask-fg) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    /* use plugin’s padding – don’t inflate */
+}
+
+.factory-booking-form input::placeholder,
+.factory-booking-form textarea::placeholder {
+    color: var(--unmask-soft) !important;
+}
+
+.factory-booking-form input:focus,
+.factory-booking-form select:focus,
+.factory-booking-form textarea:focus {
+    outline: none !important;
+    border-color: var(--unmask-muted) !important;
+}
+
+/* side-by-side fields row */
+.factory-booking-form .form-row {
+    display: flex !important;
+    gap: 20px !important;
+}
+
+.factory-booking-form .form-row > * {
+    flex: 1 1 0 !important;
+}
+
+/* ------------------- Add-ons ------------------------------------- */
+
+.factory-booking-form .addon-item,
+.factory-booking-form .add-ons-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.factory-booking-form .addon-checkbox {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    padding: 12px 14px !important;
+    border: 1px solid var(--unmask-border) !important;
+    cursor: pointer !important;
+    background: transparent !important;
+    transition: border-color 0.18s ease !important;
+}
+
+.factory-booking-form .addon-checkbox:hover {
+    border-color: var(--unmask-muted) !important;
+}
+
+.factory-booking-form input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 18px !important;
+    height: 18px !important;
+    border: 1px solid var(--unmask-border) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.factory-booking-form input[type="checkbox"]:checked {
+    background: var(--unmask-border) !important;
+    border-color: var(--unmask-fg) !important;
+}
+
+.factory-booking-form .addon-label {
+    flex: 1 !important;
+    font-size: 13px !important;
+    color: var(--unmask-fg) !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+}
+
+/* ------------------- Price summary lines ------------------------- */
+
+.factory-booking-form .price-summary {
+    padding: 24px 32px 8px 32px !important;
+    margin-top: 8px !important;
+    border-top: 1px solid var(--unmask-border) !important;
+}
+
+.factory-booking-form .price-line {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 12px !important;
+    color: var(--unmask-muted) !important;
+    margin-bottom: 8px !important;
+}
+
+.factory-booking-form .price-line.total {
+    font-size: 18px !important;
+    color: var(--unmask-border) !important;
+    border-top: 1px solid var(--unmask-border) !important;
+    padding-top: 12px !important;
+}
+
+/* ------------------- Stripe block -------------------------------- */
+
+.factory-booking-form .stripe-card-section {
+    padding: 24px 32px !important;
+    border-top: 1px solid var(--unmask-border) !important;
+}
+
+.factory-booking-form #card-element {
+    background: transparent !important;
+    border: 1px solid var(--unmask-border) !important;
+    border-radius: 0 !important;
+}
+
+.factory-booking-form #card-errors {
+    color: var(--unmask-danger) !important;
+    font-size: 11px !important;
+    margin-top: 6px !important;
+}
+
+/* ------------------- Request to book button ---------------------- */
+
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    background: var(--unmask-button-bg) !important;   /* same red as other buttons */
+    color: var(--unmask-button-fg) !important;        /* black text */
+    border: 1px solid var(--unmask-border) !important;
+    padding: 10px 28px !important;
+    font-family: "Berkeley Mono", monospace !important;
+    font-size: 13px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: none !important;                  /* matches “Learn more” vibe */
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+    margin: px px px px !important;
+    display: inline-block !important;
+}
+
+.factory-booking-form button[type="submit"]:hover,
+.factory-booking-form .submit-button:hover {
+    background: #A12C2C !important;
+    border-color: var(--unmask-border) !important;
+    color: var(--unmask-button-fg) !important;
+}
+
+.factory-booking-form button[type="submit"]:disabled,
+.factory-booking-form .submit-button:disabled {
+    background: transparent !important;
+    color: var(--unmask-soft) !important;
+    border-color: var(--unmask-soft) !important;
+    cursor: not-allowed !important;
+}
+
+/* links inside form – no purple visited */
+.factory-booking-form a,
+.factory-booking-form a:visited {
+    color: var(--unmask-fg) !important;
+}
+
+/* ===================================================================
+   MY BOOKINGS SHORTCODE
+   =================================================================== */
+
+.factory-my-bookings {
+    background: transparent !important;
+    border: 1px solid var(--unmask-border) !important;
+    color: var(--unmask-fg) !important;
+    border-radius: 0 !important;
+    margin: 40px 0 !important;
+    padding: 24px 32px !important;
+    font-family: "Berkeley Mono", monospace !important;
+}
+
+/* kill any internal white/grey cards */
+.factory-my-bookings,
+.factory-my-bookings * {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* header */
+.factory-my-bookings h2 {
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: var(--unmask-fg) !important;
+    margin: 0 0 24px 0 !important;
+}
+
+/* table / rows */
+.factory-my-bookings table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.factory-my-bookings th {
+    font-size: 11px !important;
+    color: var(--unmask-muted) !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    padding: 8px 0 !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+}
+
+.factory-my-bookings td {
+    font-size: 13px !important;
+    color: var(--unmask-fg) !important;
+    padding: 8px 0 !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+}
+
+/* status chips */
+.factory-my-bookings .status-badge,
+.factory-my-bookings .status-approved,
+.factory-my-bookings .status-pending,
+.factory-my-bookings .status-denied {
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 3px 10px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+}
+
+.factory-my-bookings .status-approved {
+    color: #9BD3A8 !important;
+    border: 1px solid #9BD3A8 !important;
+}
+
+.factory-my-bookings .status-pending {
+    color: var(--unmask-muted) !important;
+    border: 1px solid var(--unmask-border) !important;
+}
+
+.factory-my-bookings .status-denied {
+    color: var(--unmask-danger) !important;
+    border: 1px solid var(--unmask-danger) !important;
+}
+
+/* “View details” etc – monochrome border buttons */
+.factory-my-bookings a,
+.factory-my-bookings a:visited,
+.factory-my-bookings button {
+    color: var(--unmask-fg) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+
+.factory-my-bookings a.view-details,
+.factory-my-bookings button.view-details {
+    border: 1px solid var(--unmask-border) !important;
+    padding: 8px 20px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+}
+
+.factory-my-bookings a.view-details:hover,
+.factory-my-bookings button.view-details:hover {
+    background: var(--unmask-fg) !important;
+    color: #181818 !important;
+}
+
+/* empty state */
+.factory-my-bookings .no-bookings {
+    text-align: center !important;
+    color: var(--unmask-soft) !important;
+    padding: 60px 20px !important;
+    font-size: 13px !important;
+}
+
+/* mobile labels for stacked table */
+@media (max-width: 768px) {
+    .factory-my-bookings td:before {
+        content: attr(data-label) !important;
+        display: block !important;
+        font-size: 10px !important;
+        color: var(--unmask-muted) !important;
+        letter-spacing: 0.16em !important;
+        text-transform: uppercase !important;
+        margin-bottom: 4px !important;
+    }
+}
+
+/* FINAL NUKE – kill any light borders inside MY BOOKINGS */
+
+/* 1) Force every border to UNMASK gray */
+.factory-my-bookings,
+.factory-my-bookings * {
+    border-color: var(--unmask-border, #5F5F5F) !important;
+    outline-color: var(--unmask-border, #5F5F5F) !important;
+}
+
+/* 2) Kill shadow-based fake borders */
+.factory-my-bookings,
+.factory-my-bookings * {
+    box-shadow: none !important;
+}
+
+/* 3) Catch common card wrappers the plugin might be using */
+.factory-my-bookings .booking,
+.factory-my-bookings .booking-item,
+.factory-my-bookings .factory-booking,
+.factory-my-bookings .factory-booking-card,
+.factory-my-bookings .factory-my-booking-item {
+    border-color: var(--unmask-border, #5F5F5F) !important;
+}
+/* ===========================================================
+   NUCLEAR BORDER CLEANUP — BOOKING FORM SHORTCODE
+   Applies to: .factory-booking-widget / .factory-booking-form
+   =========================================================== */
+
+/* Force ALL borders inside the widget to use UNMASK gray */
+.factory-booking-widget,
+.factory-booking-widget *,
+.factory-booking-form,
+.factory-booking-form * {
+    border-color: var(--unmask-border, #5F5F5F) !important;
+    outline-color: var(--unmask-border, #5F5F5F) !important;
+}
+
+/* Kill ALL box-shadows pretending to be borders */
+.factory-booking-widget,
+.factory-booking-widget *,
+.factory-booking-form,
+.factory-booking-form * {
+    box-shadow: none !important;
+}
+
+/* Remove any plugin-generated light background blocks */
+.factory-booking-widget,
+.factory-booking-widget *,
+.factory-booking-form,
+.factory-booking-form * {
+    background-color: transparent !important;
+}
+
+/* Stripe card frame — they use internal divs */
+.factory-booking-form .StripeElement,
+.factory-booking-form .stripe-card-section *,
+.factory-booking-form .stripe-card-element,
+.factory-booking-form .stripe-card-input {
+    background-color: transparent !important;
+    border-color: var(--unmask-border, #5F5F5F) !important;
+    box-shadow: none !important;
+}
+
+/* Add-ons rows (plugin sometimes injects white inset lines) */
+.factory-booking-form .addon,
+.factory-booking-form .addon *,
+.factory-booking-form .addons-list *,
+.factory-booking-form .addon-row {
+    border-color: var(--unmask-border, #5F5F5F) !important;
+    box-shadow: none !important;
+}
+
+/* Time selectors / date selectors */
+.factory-booking-form select,
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"] {
+    border: 1px solid var(--unmask-border, #5F5F5F) !important;
+    background: transparent !important;
+    color: #EEE !important;
+}
+
+/* Horizontal rules (light gray by default) */
+.factory-booking-form hr,
+.factory-booking-widget hr {
+    border-color: var(--unmask-border, #5F5F5F) !important;
+}
+
+/* Payment notes / info rows */
+.factory-booking-form .payment-info,
+.factory-booking-form .stripe-note {
+    border-color: var(--unmask-border, #5F5F5F) !important;
+}
+
+/* Submit button — match your UNMASK OS red button */
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    background: #C23838 !important;
+    border: 1px solid var(--unmask-border, #5F5F5F) !important;
+    border-radius: 0 !important;
+    color: #2A2A2A !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+.factory-booking-form button[type="submit"]:hover {
+    background: #A12C2C !important;
+    color: #FFF !important;
+}
+/* ============================================================
+   UNMASK OS — GLOBAL FLATPICKR THEME
+   (kills the purple header + white card)
+   ============================================================ */
+
+/* Calendar shell */
+.flatpickr-calendar {
+    background: #181818 !important;
+    border: 1px solid #5F5F5F !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-family: "Berkeley Mono", monospace !important;
+    color: #E5E5E5 !important;
+}
+
+/* Month header bar */
+.flatpickr-months {
+    background: #181818 !important;
+    border-bottom: 1px solid #5F5F5F !important;
+}
+
+.flatpickr-months .flatpickr-month {
+    background: #181818 !important;
+    color: #E5E5E5 !important;
+}
+
+/* Current month text */
+.flatpickr-current-month {
+    font-family: "Berkeley Mono", monospace !important;
+    font-size: 13px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: #E5E5E5 !important;
+}
+
+/* Prev / next arrows */
+.flatpickr-prev-month, 
+.flatpickr-next-month {
+    color: #E5E5E5 !important;
+    fill: #E5E5E5 !important;
+}
+
+.flatpickr-prev-month:hover, 
+.flatpickr-next-month:hover {
+    color: #C23838 !important;
+    fill: #C23838 !important;
+}
+
+/* Weekday labels */
+.flatpickr-weekdays {
+    background: #181818 !important;
+    border-bottom: 1px solid #5F5F5F !important;
+}
+
+.flatpickr-weekday {
+    font-family: "Berkeley Mono", monospace !important;
+    font-size: 10px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: #8A8A8A !important;
+}
+
+/* Day grid */
+.flatpickr-days {
+    background: #181818 !important;
+}
+
+.flatpickr-day {
+    background: transparent !important;
+    border-radius: 0 !important;
+    border: 1px solid transparent !important;
+    color: #E5E5E5 !important;
+    font-family: "Berkeley Mono", monospace !important;
+}
+
+/* Hover */
+.flatpickr-day:hover {
+    background: rgba(255,255,255,0.03) !important;
+    border-color: #5F5F5F !important;
+}
+
+/* Selected / range */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected:focus {
+    background: #C23838 !important;      /* UNMASK red */
+    border-color: #C23838 !important;
+    color: #181818 !important;
+}
+
+/* Today marker */
+.flatpickr-day.today {
+    border-color: #5F5F5F !important;
+}
+
+/* Disabled / unavailable */
+.flatpickr-day.disabled,
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.disabled:hover {
+    color: #5F5F5F !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    cursor: not-allowed !important;
+}
+
+/* Time picker bar if used */
+.flatpickr-time {
+    background: #181818 !important;
+    border-top: 1px solid #5F5F5F !important;
+}
+
+.flatpickr-time input {
+    background: transparent !important;
+    border: 1px solid #5F5F5F !important;
+    color: #E5E5E5 !important;
+    font-family: "Berkeley Mono", monospace !important;
+}
+/* HARD OVERRIDE: month dropdown in Flatpickr */
+
+.flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+
+    background: #181818 !important;          /* UNMASK panel */
+    color: #E5E5E5 !important;               /* OS text */
+    border: px solid #5F5F5F !important;    /* OS border gray */
+    border-radius: 0 !important;
+    padding: 4px 10px !important;
+
+    font-family: "Berkeley Mono", monospace !important;
+    font-size: 12px !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+
+    box-shadow: none !important;
+}
+
+/* Focus / hover keep same look (no blue / purple) */
+.flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months:focus,
+.flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    outline: none !important;
+    background: #181818 !important;
+    border-color: #5F5F5F !important;
+    color: #E5E5E5 !important;
+}
+/* Hide sidebar on page 2561 and 2553 */
+body.page-id-2561 #secondary,
+body.page-id-2553 #secondary {
+    display: none !important;
+}
+
+/* Expand main content on those pages */
+body.page-id-2561 .site-main,
+body.page-id-2553 .site-main {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+/* ===========================
+   UNMASK – BOOKING CARD COMPACT LAYOUT
+   =========================== */
+
+/* Slightly narrower card so it feels like a side panel */
+.factory-booking-widget {
+    max-width: 420px !important;
+}
+
+/* Core inner padding – this was the main bloat */
+.factory-booking-form {
+    padding: 12px 16px !important;
+    margin: 0 !important;
+}
+
+/* Kill the extra inner padding blocks add */
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    padding: 8px 0 12px 0 !important;
+}
+
+/* Labels: close to fields, not floating */
+.factory-booking-form label {
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+}
+
+/* Inputs: tighter height */
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="email"],
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"],
+.factory-booking-form select,
+.factory-booking-form textarea,
+.factory-booking-form .flatpickr-input {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+}
+
+/* Rows (start / end time etc.) – less horizontal waste */
+.factory-booking-form .form-row {
+    gap: 10px !important;
+}
+
+/* Add-ons block: stop it from ballooning */
+.factory-booking-form .addon-item,
+.factory-booking-form .add-ons-list {
+    gap: 6px !important;
+}
+
+.factory-booking-form .addon-checkbox {
+    padding: 6px 10px !important;
+    margin: 0 !important;
+}
+
+/* Price summary tighter */
+.factory-booking-form .price-summary {
+    padding: 10px 16px 4px 16px !important;
+    margin-top: 6px !important;
+}
+
+/* Stripe/payment section tighter */
+.factory-booking-form .stripe-card-section {
+    padding: 10px 16px !important;
+}
+
+/* Fix the submit button margin (your old rule had `margin: px px` ) */
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    margin: 12px 0 0 0 !important;
+    width: 100% !important;        /* like Peerspace: full-width CTA */
+}
+
+/* Top price bar – keep thin */
+.factory-booking-price {
+    padding: 6px 12px !important;
+}
+
+.factory-booking-price .price,
+.factory-booking-price .estimated-total,
+.factory-booking-price h1,
+.factory-booking-price h2,
+.factory-booking-price h3 {
+    padding: 0 !important;
+    line-height: 1.3 !important;
+}
+/* ===========================
+   UNMASK – COMPACT BOOKING OVERRIDES
+   (paste AFTER all previous booking CSS)
+   =========================== */
+
+/* Keep card narrow + anchored, not huge */
+.factory-booking-widget {
+    max-width: 420px !important;
+    margin: 0 0 0 auto !important;   /* hugs the right side like Peerspace */
+}
+
+/* Core padding – biggest offender */
+.factory-booking-form {
+    padding: 8px 12px !important;
+    margin: 0 !important;
+}
+
+/* Kill extra inner padding blocks add */
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    padding: 4px 0 8px 0 !important;
+    margin: 0 !important;
+}
+
+/* Labels close to fields, small line-height */
+.factory-booking-form label {
+    margin: 0 0 2px 0 !important;
+    line-height: 1.2 !important;
+    font-size: 11px !important;
+}
+
+/* Inputs: shorter and tighter */
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="email"],
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"],
+.factory-booking-form select,
+.factory-booking-form textarea,
+.factory-booking-form .flatpickr-input {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+}
+
+/* Row (start / end time etc.) – less gap */
+.factory-booking-form .form-row {
+    gap: 8px !important;
+}
+
+/* ------- ADD-ONS: SLIM, ALIGNED ROWS ------- */
+
+.factory-booking-form .add-ons-list,
+.factory-booking-form .addon-item {
+    gap: 4px !important;
+}
+
+/* whole add-on line */
+.factory-booking-form .addon-checkbox {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 4px 8px !important;
+    margin: 0 !important;
+}
+
+/* checkbox box */
+.factory-booking-form input[type="checkbox"] {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+/* text block */
+.factory-booking-form .addon-label {
+    flex: 1 1 auto !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    margin: 0 8px !important;
+}
+
+/* price on the right, thin */
+.factory-booking-form .addon-price {
+    font-size: 11px !important;
+    white-space: nowrap !important;
+}
+
+/* helper/descriptions under add-ons – tiny + tight */
+.factory-booking-form .help-text,
+.factory-booking-form .description {
+    font-size: 9px !important;
+    margin: 2px 0 4px 0 !important;
+}
+
+/* Price summary + Stripe section compact */
+.factory-booking-form .price-summary,
+.factory-booking-form .stripe-card-section {
+    padding: 8px 12px !important;
+    margin-top: 4px !important;
+}
+
+/* Submit button: one line, not huge block of space */
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    margin: 10px 0 0 0 !important;
+    padding: 8px 12px !important;
+    width: 100% !important;
+    font-size: 12px !important;
+}
+/* ===========================
+   UNMASK – BOOKING CARD COMPACT LAYOUT
+   =========================== */
+
+/* Slightly narrower card so it feels like a side panel */
+.factory-booking-widget {
+    max-width: 420px !important;
+}
+
+/* Core inner padding – this was the main bloat */
+.factory-booking-form {
+    padding: 12px 16px !important;
+    margin: 0 !important;
+}
+
+/* Kill the extra inner padding blocks add */
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    padding: 8px 0 12px 0 !important;
+}
+
+/* Labels: close to fields, not floating */
+.factory-booking-form label {
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+}
+
+/* Inputs: tighter height */
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="email"],
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"],
+.factory-booking-form select,
+.factory-booking-form textarea,
+.factory-booking-form .flatpickr-input {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+}
+
+/* Rows (start / end time etc.) – less horizontal waste */
+.factory-booking-form .form-row {
+    gap: 10px !important;
+}
+
+/* Add-ons block: stop it from ballooning */
+.factory-booking-form .addon-item,
+.factory-booking-form .add-ons-list {
+    gap: 6px !important;
+}
+
+.factory-booking-form .addon-checkbox {
+    padding: 6px 10px !important;
+    margin: 0 !important;
+}
+
+/* Price summary tighter */
+.factory-booking-form .price-summary {
+    padding: 10px 16px 4px 16px !important;
+    margin-top: 6px !important;
+}
+
+/* Stripe/payment section tighter */
+.factory-booking-form .stripe-card-section {
+    padding: 10px 16px !important;
+}
+
+/* Fix the submit button margin (your old rule had `margin: px px` ) */
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    margin: 12px 0 0 0 !important;
+    width: 100% !important;        /* like Peerspace: full-width CTA */
+}
+
+/* Top price bar – keep thin */
+.factory-booking-price {
+    padding: 6px 12px !important;
+}
+
+.factory-booking-price .price,
+.factory-booking-price .estimated-total,
+.factory-booking-price h1,
+.factory-booking-price h2,
+.factory-booking-price h3 {
+    padding: 0 !important;
+    line-height: 1.3 !important;
+}
+/* ============================================================
+   UNMASK – NUCLEAR COMPACT MODE FOR FACTORY BOOKING FORM
+   (put this AFTER all previous booking CSS)
+   ============================================================ */
+
+/* 1. Card behaves like Peerspace sidebar: tight and scrollable */
+.factory-booking-widget {
+    max-width: 420px !important;
+    max-height: 80vh !important;      /* never taller than screen */
+    overflow-y: auto !important;      /* inner scroll if needed   */
+    padding: 0 !important;
+}
+
+/* 2. Kill gratuitous vertical spacing inside the form */
+.factory-booking-form {
+    padding: 6px 10px !important;
+    margin: 0 !important;
+}
+
+/* generic vertical trim for all blocks in the form */
+.factory-booking-form * {
+    line-height: 1.3 !important;
+}
+
+.factory-booking-form p,
+.factory-booking-form div,
+.factory-booking-form section {
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+    padding-top: 0 !important;
+    padding-bottom: 4px !important;
+}
+
+/* keep labels very close to fields */
+.factory-booking-form label {
+    margin-bottom: 2px !important;
+    font-size: 11px !important;
+}
+
+/* inputs shorter */
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="email"],
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"],
+.factory-booking-form select,
+.factory-booking-form textarea,
+.factory-booking-form .flatpickr-input {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+}
+
+/* row gaps (start / end time, etc.) */
+.factory-booking-form .form-row,
+.factory-booking-form .row,
+.factory-booking-form .form-group-row {
+    gap: 6px !important;
+}
+
+/* 3. ADD-ONS: skinny aligned rows, no big boxes */
+
+.factory-booking-form .add-ons-list,
+.factory-booking-form .addons,
+.factory-booking-form .addon-item {
+    gap: 3px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* individual add-on line */
+.factory-booking-form .addon-checkbox,
+.factory-booking-form .addon,
+.factory-booking-form .addon-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 4px 8px !important;
+    margin: 0 !important;
+    border-width: 1px 0 0 0 !important;          /* only top border */
+    border-style: solid !important;
+    border-color: var(--unmask-border) !important;
+}
+
+/* Checkbox box */
+.factory-booking-form input[type="checkbox"] {
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+}
+
+/* text block */
+.factory-booking-form .addon-label,
+.factory-booking-form .addon-title,
+.factory-booking-form .addon-description {
+    flex: 1 1 auto !important;
+    margin: 0 8px !important;
+    font-size: 11px !important;
+}
+
+/* price on right */
+.factory-booking-form .addon-price {
+    white-space: nowrap !important;
+    font-size: 11px !important;
+}
+
+/* helper copy under add-ons */
+.factory-booking-form .help-text,
+.factory-booking-form .description {
+    font-size: 9px !important;
+    margin: 2px 0 4px 0 !important;
+}
+
+/* 4. Price summary + Stripe block = compact sections */
+
+.factory-booking-form .price-summary,
+.factory-booking-form .stripe-card-section,
+.factory-booking-form .payment-section {
+    padding: 6px 10px !important;
+    margin-top: 4px !important;
+}
+
+/* 5. Submit button – single tight bar at bottom */
+
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    margin: 8px 0 0 0 !important;
+    font-size: 12px !important;
+}
+
+/* 6. Nuke any random spacers / hr the plugin inserts */
+.factory-booking-form hr,
+.factory-booking-form .spacer,
+.factory-booking-form .separator {
+    display: none !important;
+}
+
+/* ============================================================
+   UNMASK OS TOKENS
+   ============================================================ */
+
+:root {
+    --unmask-bg:        #181818;
+    --unmask-panel-bg:  #181818;
+    --unmask-border:    #5F5F5F;
+    --unmask-fg:        #E5E5E5;
+    --unmask-muted:     #8A8A8A;
+    --unmask-soft:      #5F5F5F;
+    --unmask-danger:    #C23838;
+    --unmask-button-bg: #C23838;
+    --unmask-button-fg: #181818;
+}
+
+/* ============================================================
+   OUTER CARD
+   ============================================================ */
+
+.factory-booking-widget {
+    max-width: 420px !important;
+    background: transparent !important;
+    border: 1px solid var(--unmask-border) !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+    font-family: "Berkeley Mono", monospace !important;
+    color: var(--unmask-fg) !important;
+    margin: 0 auto !important;
+}
+
+/* sticky on desktop – like Peerspace right column */
+@media (min-width: 1024px) {
+    .factory-booking-widget {
+        position: sticky !important;
+        top: 96px !important;
+        max-height: calc(100vh - 120px) !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* mobile: full width card, no sticky */
+@media (max-width: 1023px) {
+    .factory-booking-widget {
+        max-width: 100% !important;
+        margin: 24px auto !important;
+        position: static !important;
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
+
+/* ============================================================
+   PRICE BAR
+   ============================================================ */
+
+.factory-booking-price {
+    background: var(--unmask-panel-bg) !important;
+    border-bottom: 1px solid var(--unmask-border) !important;
+    padding: 6px 12px !important;
+    text-align: left !important;
+}
+
+.factory-booking-price .price,
+.factory-booking-price .estimated-total,
+.factory-booking-price h1,
+.factory-booking-price h2,
+.factory-booking-price h3 {
+    background: transparent !important;
+    color: var(--unmask-fg) !important;
+    font-size: 16px !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    line-height: 1.3 !important;
+}
+
+.factory-booking-price p,
+.factory-booking-price small {
+    color: var(--unmask-muted) !important;
+    font-size: 10px !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+}
+
+/* ============================================================
+   FORM BODY – COMPACT
+   ============================================================ */
+
+.factory-booking-form {
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 8px 10px 10px 10px !important;
+    font-family: "Berkeley Mono", monospace !important;
+    color: var(--unmask-fg) !important;
+}
+
+.factory-booking-form *,
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* section padding (this is where most of the vertical bloat was) */
+.factory-booking-form .form-section,
+.factory-booking-form .booking-form-container {
+    padding: 6px 8px !important;
+    margin: 0 !important;
+}
+
+/* generic spacing between rows/fields */
+.factory-booking-form .form-row,
+.factory-booking-form .form-group,
+.factory-booking-form .field,
+.factory-booking-form p {
+    margin-bottom: 8px !important;
+}
+
+/* labels + help text */
+.factory-booking-form label {
+    font-size: 11px !important;
+    color: var(--unmask-muted) !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 2px !important;
+    display: block !important;
+    font-weight: 400 !important;
+}
+
+.factory-booking-form .help-text,
+.factory-booking-form .description {
+    font-size: 10px !important;
+    color: var(--unmask-soft) !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    margin: 4px 0 6px 0 !important;
+}
+
+/* inputs */
+.factory-booking-form input[type="text"],
+.factory-booking-form input[type="email"],
+.factory-booking-form input[type="number"],
+.factory-booking-form input[type="date"],
+.factory-booking-form input[type="time"],
+.factory-booking-form select,
+.factory-booking-form textarea,
+.factory-booking-form .flatpickr-input {
+    background: var(--unmask-panel-bg) !important;
+    border: 1px solid var(--unmask-border) !important;
+    color: var(--unmask-fg) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 8px 10px !important;
+    box-sizing: border-box !important;
+}
+
+.factory-booking-form input::placeholder,
+.factory-booking-form textarea::placeholder {
+    color: var(--unmask-soft) !important;
+}
+
+.factory-booking-form input:focus,
+.factory-booking-form select:focus,
+.factory-booking-form textarea:focus {
+    outline: none !important;
+    border-color: var(--unmask-muted) !important;
+}
+
+/* side-by-side fields */
+.factory-booking-form .form-row {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.factory-booking-form .form-row > * {
+    flex: 1 1 0 !important;
+}
+
+/* ============================================================
+   ADD-ONS – ALIGNED + COMPACT
+   ============================================================ */
+
+/* container scroll if you have tons of add-ons */
+.factory-booking-form .add-ons-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    max-height: 220px !important;
+    overflow-y: auto !important;
+    padding-right: 2px !important;
+}
+
+/* each add-on row = thin card */
+.factory-booking-form .addon-checkbox,
+.factory-booking-form .addon-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 8px 10px !important;
+    border: 1px solid var(--unmask-border) !important;
+    cursor: pointer !important;
+    background: transparent !important;
+}
+
+.factory-booking-form input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    border: 1px solid var(--unmask-border) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.factory-booking-form input[type="checkbox"]:checked {
+    background: var(--unmask-border) !important;
+    border-color: var(--unmask-fg) !important;
+}
+
+/* left column text */
+.factory-booking-form .addon-label {
+    flex: 1 1 auto !important;
+    font-size: 12px !important;
+    color: var(--unmask-fg) !important;
+    text-transform: none !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* optional description under title */
+.factory-booking-form .addon-label small,
+.factory-booking-form .addon-description {
+    display: block !important;
+    font-size: 10px !important;
+    color: var(--unmask-muted) !important;
+    margin-top: 2px !important;
+}
+
+/* right-aligned price */
+.factory-booking-form .addon-price {
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    margin-left: 8px !important;
+}
+
+/* ============================================================
+   PRICE SUMMARY / STRIPE / BUTTON
+   ============================================================ */
+
+.factory-booking-form .price-summary {
+    padding: 8px 10px 6px 10px !important;
+    margin-top: 6px !important;
+    border-top: 1px solid var(--unmask-border) !important;
+}
+
+.factory-booking-form .price-line {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 11px !important;
+    color: var(--unmask-muted) !important;
+    margin-bottom: 4px !important;
+}
+
+.factory-booking-form .price-line.total {
+    font-size: 14px !important;
+    color: var(--unmask-fg) !important;
+    border-top: 1px solid var(--unmask-border) !important;
+    padding-top: 6px !important;
+}
+
+/* Stripe block */
+.factory-booking-form .stripe-card-section {
+    padding: 8px 10px 10px 10px !important;
+    border-top: 1px solid var(--unmask-border) !important;
+}
+
+.factory-booking-form #card-element {
+    background: transparent !important;
+    border: px solid var(--unmask-border) !important;
+    border-radius: 0 !important;
+}
+
+.factory-booking-form #card-errors {
+    color: var(--unmask-danger) !important;
+    font-size: 10px !important;
+    margin-top: 4px !important;
+}
+
+/* submit */
+.factory-booking-form button[type="submit"],
+.factory-booking-form .submit-button {
+    background: var(--unmask-button-bg) !important;
+    color: var(--unmask-button-fg) !important;
+    border: 1px solid var(--unmask-border) !important;
+    padding: 5px 5px !important;
+    font-family: "Berkeley Mono", monospace !important;
+    font-size: 12px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: none !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+    display: block !important;
+    width: 100% !important;         /* big Peerspace-style bar */
+    text-align: center !important;
+}
+
+.factory-booking-form button[type="submit"]:hover,
+.factory-booking-form .submit-button:hover {
+    background: #A12C2C !important;
+    border-color: var(--unmask-border) !important;
+    color: var(--unmask-button-fg) !important;
+}
+
+.factory-booking-form button[type="submit"]:disabled,
+.factory-booking-form .submit-button:disabled {
+    background: transparent !important;
+    color: var(--unmask-soft) !important;
+    border-color: var(--unmask-soft) !important;
+    cursor: not-allowed !important;
+}
+
+/* kill purple links */
+.factory-booking-form a,
+.factory-booking-form a:visited {
+    color: var(--unmask-fg) !important;
+}
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   UNMASK DOSSIER v2.0
+   Clean replacement for profile page styling
+   
+   STRUCTURE:
+   1. Tokens
+   2. Header (avatar, name, meta)
+   3. Navigation tabs
+   4. Accordion sections
+   5. Field styling
+   6. Availability badges (prep for PHP)
+   7. System box (prep for PHP)
+   ============================================================ */
+
+/* ============================================================
+   1. TOKENS
+   ============================================================ */
+
+:root {
+    --dossier-bg: #0a0a0a;
+    --dossier-panel: #111111;
+    --dossier-border: #282828;
+    --dossier-border-hover: #3a3a3a;
+    --dossier-text: #e0e0e0;
+    --dossier-text-muted: #888888;
+    --dossier-text-dim: #555555;
+    --dossier-accent-green: #00ff88;
+    --dossier-accent-green-bg: #0d2818;
+    --dossier-accent-green-border: #1a4d2e;
+    --dossier-accent-blue: #8888ff;
+    --dossier-accent-blue-bg: #1a1a2e;
+    --dossier-accent-blue-border: #2d2d5a;
+    --dossier-font: "Berkeley Mono", "SF Mono", "Consolas", monospace;
+}
+
+/* ============================================================
+   2. HEADER — Avatar, Name, Meta
+   ============================================================ */
+
+/* Remove default BuddyBoss header padding/borders */
+#buddypress .users-header.single-headers {
+    padding: 24px 0 !important;
+    border: none !important;
+}
+
+/* Avatar container */
+#buddypress #item-header-avatar {
+    margin-right: 20px !important;
+}
+
+/* Avatar image — square, bordered */
+#buddypress #item-header-avatar img.avatar {
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 0 !important;
+    border: 1px solid var(--dossier-border) !important;
+}
+
+/* Name area container */
+#buddypress #item-header-content {
+    padding: 0 !important;
+}
+
+/* Main display name (currently V-002, will become scene name) */
+#buddypress #item-header-content h2.user-nicename,
+#buddypress #item-header-content .display-name,
+#buddypress .users-header .user-nicename {
+    font-family: var(--dossier-font) !important;
+    font-size: 24px !important;
+    font-weight: 400 !important;
+    color: var(--dossier-text) !important;
+    letter-spacing: -0.5px !important;
+    margin: 0 0 8px 0 !important;
+    text-transform: none !important;
+}
+
+/* Username line (@V-002 • Joined May 2024) */
+#buddypress #item-header-content .user-name,
+#buddypress #item-header-content .activity,
+#buddypress .users-header .activity {
+    font-family: var(--dossier-font) !important;
+    font-size: 13px !important;
+    color: var(--dossier-text-muted) !important;
+    margin: 0 !important;
+}
+
+/* Hide the @ symbol if needed */
+#buddypress #item-header-content .user-name::before {
+    content: none !important;
+}
+
+/* ============================================================
+   2b. DESIGNATION BADGE (add via PHP later)
+   Placeholder styling for when we inject the badge
+   ============================================================ */
+
+.dossier-designation-badge {
+    display: inline-block;
+    background: var(--dossier-panel);
+    border: 1px solid var(--dossier-border);
+    padding: 4px 10px;
+    font-family: var(--dossier-font);
+    font-size: 12px;
+    color: var(--dossier-accent-green);
+    letter-spacing: 1px;
+    margin-top: 12px;
+}
+
+/* ============================================================
+   2c. BIO IN HEADER (add via PHP later)
+   Placeholder styling for when we inject the bio
+   ============================================================ */
+
+.dossier-header-bio {
+    font-family: var(--dossier-font);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--dossier-text-muted);
+    margin: 16px 0;
+    max-width: 500px;
+}
+
+/* ============================================================
+   2d. AVAILABILITY BADGES (add via PHP later)
+   Placeholder styling for header badges
+   ============================================================ */
+
+.dossier-availability-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.dossier-badge {
+    padding: 4px 10px;
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    text-transform: lowercase;
+    border: 1px solid;
+}
+
+.dossier-badge--available-photo {
+    background: var(--dossier-accent-green-bg);
+    border-color: var(--dossier-accent-green-border);
+    color: var(--dossier-accent-green);
+}
+
+.dossier-badge--seeking {
+    background: var(--dossier-accent-blue-bg);
+    border-color: var(--dossier-accent-blue-border);
+    color: var(--dossier-accent-blue);
+}
+
+.dossier-badge--bookings {
+    background: #2e1a1a;
+    border-color: #5a2d2d;
+    color: #ff8888;
+}
+
+/* ============================================================
+   3. NAVIGATION TABS
+   ============================================================ */
+
+#buddypress nav#object-nav,
+#buddypress .item-list-tabs {
+    border-top: 1px solid var(--dossier-border) !important;
+    border-bottom: 1px solid var(--dossier-border) !important;
+    margin: 24px 0 !important;
+    padding: 0 !important;
+}
+
+#buddypress nav#object-nav ul,
+#buddypress .item-list-tabs ul {
+    display: flex !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    border: none !important;
+}
+
+#buddypress nav#object-nav ul li,
+#buddypress .item-list-tabs ul li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#buddypress nav#object-nav ul li a,
+#buddypress .item-list-tabs ul li a {
+    display: block !important;
+    padding: 14px 20px !important;
+    font-family: var(--dossier-font) !important;
+    font-size: 12px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-muted) !important;
+    text-decoration: none !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+#buddypress nav#object-nav ul li a:hover {
+    color: var(--dossier-text) !important;
+    background: rgba(255,255,255,0.02) !important;
+}
+
+#buddypress nav#object-nav ul li.current a,
+#buddypress nav#object-nav ul li.selected a {
+    color: var(--dossier-text) !important;
+    border-bottom: 1px solid var(--dossier-text) !important;
+    margin-bottom: -1px !important;
+}
+
+/* ============================================================
+   4. ACCORDION SECTIONS
+   ============================================================ */
+
+/* Container spacing */
+.profile.public .group-separator-block {
+    margin-bottom: 1px !important;
+    border: none !important;
+}
+
+/* Header bar — clickable */
+.profile.public .group-separator-block > header.profile-header {
+    cursor: pointer;
+    padding: 14px 0 !important;
+    border: none !important;
+    border-bottom: 1px solid var(--dossier-border) !important;
+    margin-bottom: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: transparent !important;
+}
+
+.profile.public .group-separator-block > header.profile-header:hover {
+    background: rgba(255,255,255,0.01) !important;
+}
+
+/* Arrow indicator */
+.profile.public .group-separator-block > header.profile-header::before {
+    content: "▶" !important;
+    font-size: 10px !important;
+    margin-right: 12px !important;
+    color: var(--dossier-text-dim) !important;
+    transition: transform 0.15s ease !important;
+}
+
+.profile.public .group-separator-block.expanded > header.profile-header::before {
+    content: "▼" !important;
+}
+
+/* Section title */
+.profile.public .group-separator-block h1.bb-profile-title,
+.profile.public .group-separator-block .profile-header h4 {
+    font-family: var(--dossier-font) !important;
+    font-size: 12px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-muted) !important;
+    margin: 0 !important;
+    font-weight: 400 !important;
+}
+
+/* Edit button */
+.profile.public .group-separator-block header a.button.outline,
+.profile.public .group-separator-block header .edit-btn,
+.profile.public .group-separator-block header a[href*="edit"] {
+    font-family: var(--dossier-font) !important;
+    font-size: 10px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-dim) !important;
+    border: 1px solid var(--dossier-border) !important;
+    padding: 4px 12px !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+}
+
+.profile.public .group-separator-block header a.button.outline:hover {
+    background: var(--dossier-border) !important;
+    color: var(--dossier-bg) !important;
+}
+
+/* Content area — HIDDEN by default */
+.profile.public .group-separator-block .bp-widget {
+    display: none !important;
+    border: none !important;
+    border-bottom: 1px solid var(--dossier-border) !important;
+    padding: 20px 0 !important;
+    background: transparent !important;
+}
+
+/* Content area — VISIBLE when expanded */
+.profile.public .group-separator-block.expanded .bp-widget {
+    display: block !important;
+}
+
+/* ============================================================
+   5. FIELD STYLING (inside accordions)
+   ============================================================ */
+
+/* Table container */
+.profile.public .bp-widget table.profile-fields {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: transparent !important;
+}
+
+/* Table rows */
+.profile.public .bp-widget table.profile-fields tr {
+    border: none !important;
+}
+
+.profile.public .bp-widget table.profile-fields tr:not(:last-child) {
+    border-bottom: 1px solid rgba(40, 40, 40, 0.5) !important;
+}
+
+/* Table cells */
+.profile.public .bp-widget table.profile-fields td {
+    padding: 12px 0 !important;
+    vertical-align: top !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Field label */
+.profile.public .bp-widget table.profile-fields td.label {
+    font-family: var(--dossier-font) !important;
+    font-size: 11px !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--dossier-text-dim) !important;
+    width: 35% !important;
+    padding-right: 16px !important;
+}
+
+/* Field value */
+.profile.public .bp-widget table.profile-fields td.data,
+.profile.public .bp-widget table.profile-fields td.data p {
+    font-family: var(--dossier-font) !important;
+    font-size: 13px !important;
+    color: var(--dossier-text-muted) !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* Links in field values */
+.profile.public .bp-widget table.profile-fields td.data a {
+    color: var(--dossier-text-muted) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2px !important;
+}
+
+.profile.public .bp-widget table.profile-fields td.data a:hover {
+    color: var(--dossier-text) !important;
+}
+
+/* ============================================================
+   6. SYSTEM BOX (add via PHP later)
+   Placeholder styling for records + Factory sessions
+   ============================================================ */
+
+.dossier-system-box {
+    background: var(--dossier-panel);
+    border: 1px solid var(--dossier-border);
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.dossier-system-box__header {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+    text-transform: lowercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.dossier-system-box__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.dossier-system-box__stat-label {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+    margin-bottom: 4px;
+}
+
+.dossier-system-box__stat-value {
+    font-family: var(--dossier-font);
+    font-size: 20px;
+    color: var(--dossier-text);
+    margin-bottom: 4px;
+}
+
+.dossier-system-box__stat-meta {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+}
+
+.dossier-system-box__seeking {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--dossier-border);
+}
+
+.dossier-system-box__seeking-label {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+    margin-bottom: 8px;
+}
+
+.dossier-system-box__seeking-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dossier-system-box__seeking-value span {
+    font-family: var(--dossier-font);
+    font-size: 13px;
+    color: var(--dossier-accent-green);
+}
+
+.dossier-system-box__seeking-value a {
+    font-family: var(--dossier-font);
+    font-size: 11px;
+    color: var(--dossier-text-dim);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ============================================================
+   7. ACTION BUTTONS (message, book Factory)
+   ============================================================ */
+
+.dossier-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.dossier-actions button,
+.dossier-actions a.button {
+    font-family: var(--dossier-font) !important;
+    font-size: 12px !important;
+    padding: 10px 16px !important;
+    background: transparent !important;
+    border: 1px solid var(--dossier-border) !important;
+    color: var(--dossier-text) !important;
+    border-radius: 0 !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+}
+
+.dossier-actions button:hover,
+.dossier-actions a.button:hover {
+    background: var(--dossier-border) !important;
+    color: var(--dossier-bg) !important;
+}
+
+/* Style existing BuddyBoss action buttons */
+#buddypress #item-header-content .generic-button a,
+#buddypress #item-header-content .action button,
+#buddypress .users-header .action a {
+    font-family: var(--dossier-font) !important;
+    font-size: 12px !important;
+    padding: 10px 16px !important;
+    background: transparent !important;
+    border: 1px solid var(--dossier-border) !important;
+    color: var(--dossier-text) !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+}
+
+#buddypress #item-header-content .generic-button a:hover,
+#buddypress .users-header .action a:hover {
+    background: var(--dossier-border) !important;
+    color: var(--dossier-bg) !important;
+}
+
+/* ============================================================
+   8. GLOBAL OVERRIDES
+   Kill any remaining unwanted borders/backgrounds
+   ============================================================ */
+
+/* Main profile wrapper */
+#buddypress .bp-profile-wrapper,
+#buddypress .bp-profile-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Profile content area */
+#buddypress #item-body {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Kill the outer BuddyPress frame if present */
+body.bp-user #buddypress {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure minimum height so sidebar doesn't jump */
+.bp-profile-content,
+.bp-profile-wrapper {
+    min-height: 400px !important;
+}
+
+/* ============================================================
+   9. RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    #buddypress #item-header-avatar img.avatar {
+        width: 80px !important;
+        height: 80px !important;
+    }
+    
+    #buddypress #item-header-content h2.user-nicename,
+    #buddypress .users-header .user-nicename {
+        font-size: 20px !important;
+    }
+    
+    #buddypress nav#object-nav ul {
+        flex-wrap: wrap !important;
+    }
+    
+    #buddypress nav#object-nav ul li a {
+        padding: 10px 14px !important;
+        font-size: 11px !important;
+    }
+    
+    .profile.public .bp-widget table.profile-fields td.label {
+        width: 40% !important;
+        font-size: 10px !important;
+    }
+    
+    .dossier-system-box__grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+/* ============================================================
+   UNMASK DOSSIER v2.1 — PATCH
+   Fixes: accordion, avatar size, member badge
+   ADD THIS AFTER THE MAIN DOSSIER CSS
+   ============================================================ */
+
+/* ============================================================
+   FIX 1: AVATAR SIZE + CAMERA OVERLAY
+   ============================================================ */
+
+/* Make avatar bigger */
+#buddypress #item-header-avatar img.avatar,
+.users-header #item-header-avatar img.avatar,
+#item-header-avatar img.avatar {
+    width: 180px !important;
+    height: 180px !important;
+    min-width: 180px !important;
+    min-height: 180px !important;
+}
+
+/* Avatar container size */
+#item-header-avatar,
+#buddypress #item-header-avatar {
+    width: 180px !important;
+    height: 180px !important;
+    min-width: 180px !important;
+}
+
+/* Hide the camera overlay icon */
+#item-header-avatar .link-change-overlay,
+#buddypress #item-header-avatar .link-change-overlay,
+.users-header #item-header-avatar .link-change-overlay,
+#item-header-avatar .avatar-overlay,
+#item-header-avatar .bb-img-edit-wrap {
+    display: none !important;
+}
+
+/* If viewing own profile, show overlay on hover only */
+.bp-user.my-profile #item-header-avatar:hover .link-change-overlay {
+    display: flex !important;
+    opacity: 0.8 !important;
+}
+
+/* ============================================================
+   FIX 2: KILL THE MEMBER TYPE BADGE
+   That weird box next to V-002
+   ============================================================ */
+
+#buddypress .bp-member-type,
+#buddypress .bb-current-member-,
+#buddypress span.bp-member-type,
+#buddypress .member-type,
+.users-header .bp-member-type,
+.users-header .member-type,
+#item-header-content .bp-member-type,
+#item-header-content .member-type {
+    display: none !important;
+}
+
+/* ============================================================
+   FIX 3: ACCORDION — ENSURE IT OPENS
+   The content area visibility rules
+   ============================================================ */
+
+/* Default state: HIDDEN */
+.profile.public .group-separator-block .bp-widget,
+.profile.public .group-separator-block > .bp-widget,
+.profile.public .group-separator-block .profile-fields-group,
+#buddypress .group-separator-block .bp-widget {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+}
+
+/* Expanded state: VISIBLE */
+.profile.public .group-separator-block.expanded .bp-widget,
+.profile.public .group-separator-block.expanded > .bp-widget,
+.profile.public .group-separator-block.expanded .profile-fields-group,
+#buddypress .group-separator-block.expanded .bp-widget {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 20px 0 !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    border-bottom: 1px solid var(--dossier-border, #282828) !important;
+}
+
+/* ============================================================
+   FIX 4: HEADER ROW LAYOUT
+   Make sure avatar and content sit side by side properly
+   ============================================================ */
+
+#buddypress .users-header.single-headers,
+#buddypress #item-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+}
+
+#buddypress #item-header-avatar {
+    flex-shrink: 0 !important;
+}
+
+#buddypress #item-header-content {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+/* ============================================================
+   FIX 5: NAME STYLING
+   Clean up the V-002 display
+   ============================================================ */
+
+#buddypress h2.user-nicename,
+#buddypress #item-header-content h2,
+.users-header h2.user-nicename {
+    font-family: "Berkeley Mono", "SF Mono", monospace !important;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color: #e0e0e0 !important;
+    letter-spacing: -0.5px !important;
+    margin: 0 0 8px 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* The @V-002 • Joined line */
+#buddypress #item-header-content .activity,
+#buddypress .users-header .activity,
+#buddypress #item-header-content p.activity {
+    font-family: "Berkeley Mono", "SF Mono", monospace !important;
+    font-size: 13px !important;
+    color: #888888 !important;
+    margin: 0 !important;
+}
+
+/* ============================================================
+   FIX 6: RESPONSIVE AVATAR
+   ============================================================ */
+
+@media (max-width: 768px) {
+    #buddypress #item-header-avatar img.avatar,
+    #item-header-avatar img.avatar {
+        width: 120px !important;
+        height: 120px !important;
+        min-width: 120px !important;
+        min-height: 120px !important;
+    }
+    
+    #item-header-avatar,
+    #buddypress #item-header-avatar {
+        width: 120px !important;
+        height: 120px !important;
+        min-width: 120px !important;
+    }
+    
+    #buddypress .users-header.single-headers,
+    #buddypress #item-header {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+}
+
+/* ============================================================
+   UNMASK DOSSIER HEADER — Custom Elements
+   Styles for PHP-injected header structure
+   ADD THIS AFTER YOUR OTHER DOSSIER CSS
+   ============================================================ */
+
+/* Container */
+.unmask-dossier-header {
+    margin-bottom: 8px;
+}
+
+/* Scene Name — Primary heading */
+.unmask-dossier-header__name {
+    font-family: "Berkeley Mono", "SF Mono", monospace !important;
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color: #e0e0e0 !important;
+    letter-spacing: -0.5px !important;
+    margin: 0 0 12px 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+    text-transform: none !important;
+}
+
+/* Designation Badge */
+.unmask-dossier-header__designation {
+    display: inline-block;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 4px 12px;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    color: #00ff88;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+/* Pronouns + City line */
+.unmask-dossier-header__meta {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 13px;
+    color: #888888;
+    margin-bottom: 16px;
+}
+
+/* Bio */
+.unmask-dossier-header__bio {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #aaaaaa;
+    margin-bottom: 16px;
+    max-width: 500px;
+}
+
+/* Availability Badges Container */
+.unmask-dossier-header__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+/* Badge Base */
+.unmask-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+}
+
+/* Available to be photographed — Green */
+.unmask-badge--photo {
+    background: #0d2818;
+    border-color: #1a4d2e;
+    color: #00ff88;
+}
+
+/* Available to photograph — Blue */
+.unmask-badge--photographer {
+    background: #1a1a2e;
+    border-color: #2d2d5a;
+    color: #8888ff;
+}
+
+/* Open to bookings — Orange/Amber */
+.unmask-badge--bookings {
+    background: #2e2a1a;
+    border-color: #5a4d2d;
+    color: #ffaa44;
+}
+
+/* Seeking collaborators — Purple (if you add this field later) */
+.unmask-badge--seeking {
+    background: #2a1a2e;
+    border-color: #4d2d5a;
+    color: #cc88ff;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .unmask-dossier-header__name {
+        font-size: 22px !important;
+        text-align: center;
+    }
+    
+    .unmask-dossier-header__designation {
+        display: block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+    }
+    
+    .unmask-dossier-header__meta {
+        text-align: center;
+    }
+    
+    .unmask-dossier-header__bio {
+        text-align: center;
+        max-width: 100%;
+    }
+    
+    .unmask-dossier-header__badges {
+        justify-content: center;
+    }
+}
+/* Hide the @V-002 • Joined May 2024 line */
+.header-meta-wrap .item-meta,
+.header-meta-wrap,
+#item-header-content .item-meta,
+div.item-meta {
+    display: none !important;
+}
+
+/* 
+ * UNMASK ISO Board Styles
+ * 
+ * Add this to: Appearance → Customize → Additional CSS
+ * 
+ * Or: Elementor → Site Settings → Custom CSS (if you have Pro)
+ */
+
+/* ==================== LAYOUT ==================== */
+
+.iso-board-wrapper {
+    background-color: #0a0a0a;
+    padding: 40px 24px;
+    min-height: 60vh;
+}
+
+.iso-board-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 24px;
+}
+
+.iso-board-main {
+    flex: 1;
+    max-width: 680px;
+}
+
+.iso-board-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .iso-board-container {
+        flex-direction: column;
+    }
+    .iso-board-sidebar {
+        width: 100%;
+        order: -1;
+    }
+}
+
+/* ==================== HEADER ==================== */
+
+.iso-board-header {
+    margin-bottom: 24px;
+}
+
+.iso-board-title {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 24px;
+    font-weight: 400;
+    color: #e0e0e0;
+    margin: 0 0 4px 0;
+    text-transform: lowercase;
+}
+
+.iso-board-subtitle {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 13px;
+    color: #555;
+    margin: 0 0 16px 0;
+}
+
+/* ==================== STATS BAR ==================== */
+
+.iso-stats-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: #111;
+    border: 1px solid #1a1a1a;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+}
+
+.iso-stats-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.iso-stat {
+    color: #555;
+}
+
+.iso-stat-number {
+    color: #888;
+}
+
+.iso-live-indicator {
+    color: #00ff88;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+}
+
+/* ==================== FILTERS ==================== */
+
+.iso-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.iso-filter-group {
+    display: flex;
+    gap: 4px;
+}
+
+.iso-filter-btn {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    background-color: transparent;
+    border: 1px solid #282828;
+    color: #555;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.iso-filter-btn:hover {
+    border-color: #444;
+    color: #888;
+}
+
+.iso-filter-btn.active {
+    background-color: #1a1a1a;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+.iso-filter-seeking.active {
+    border-color: rgba(0,255,136,0.3);
+    color: #00ff88;
+}
+
+.iso-filter-offering.active {
+    border-color: rgba(136,136,255,0.3);
+    color: #8888ff;
+}
+
+.iso-filter-factory.active {
+    border-color: rgba(0,255,136,0.3);
+    color: #00ff88;
+}
+
+.iso-filter-divider {
+    color: #282828;
+}
+
+.iso-category-select {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    background-color: #0a0a0a;
+    border: 1px solid #282828;
+    color: #888;
+}
+
+.iso-checkbox {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #444;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.iso-checkbox.checked {
+    background-color: #00ff88;
+    border-color: #00ff88;
+}
+
+/* ==================== CARDS ==================== */
+
+.iso-listings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.iso-card {
+    background-color: #111;
+    border: 1px solid #282828;
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.iso-card:hover {
+    border-color: #333;
+}
+
+.iso-card.expanded {
+    border-color: #444;
+}
+
+.iso-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.iso-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.iso-card-divider {
+    color: #333;
+}
+
+.iso-type {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.iso-type--seeking {
+    color: #00ff88;
+}
+
+.iso-type--offering {
+    color: #8888ff;
+}
+
+.iso-category-label {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    color: #555;
+}
+
+.iso-expiration {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 10px;
+    color: #555;
+}
+
+.iso-expiration.urgent {
+    color: #ff6666;
+}
+
+.iso-card-title {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 15px;
+    font-weight: 400;
+    color: #e0e0e0;
+    margin: 0 0 8px 0;
+    text-transform: lowercase;
+}
+
+.iso-card-description {
+    display: none;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.iso-card.expanded .iso-card-description {
+    display: block;
+}
+
+.iso-card-description p {
+    margin: 0;
+}
+
+.iso-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+}
+
+.iso-card-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.iso-author-name {
+    font-size: 12px;
+    color: #888;
+}
+
+.iso-author-designation {
+    font-size: 11px;
+    color: #444;
+}
+
+.iso-card-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.iso-factory-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border: 1px solid;
+}
+
+.iso-factory--yes {
+    color: #00ff88;
+    border-color: rgba(0,255,136,0.2);
+}
+
+.iso-factory--preferred {
+    color: #ffaa00;
+    border-color: rgba(255,170,0,0.2);
+}
+
+.iso-factory--open {
+    color: #555;
+    border-color: #282828;
+}
+
+.iso-factory--no {
+    color: #444;
+    border-color: #1a1a1a;
+}
+
+.iso-card-actions {
+    display: none;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.iso-card.expanded .iso-card-actions {
+    display: flex;
+}
+
+.iso-btn {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    text-align: center;
+    flex: 1;
+    cursor: pointer;
+}
+
+.iso-btn-respond {
+    background-color: #0d2818;
+    border: 1px solid #1a4d2e;
+    color: #00ff88;
+}
+
+.iso-btn-respond:hover {
+    background-color: #0f3020;
+    color: #00ff88;
+}
+
+.iso-btn-dossier {
+    background-color: transparent;
+    border: 1px solid #333;
+    color: #888;
+}
+
+.iso-btn-dossier:hover {
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.iso-empty {
+    padding: 60px 20px;
+    text-align: center;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 13px;
+    color: #444;
+    background-color: #111;
+    border: 1px solid #282828;
+}
+
+/* ==================== SIDEBAR ==================== */
+
+.iso-post-cta {
+    display: block;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    padding: 14px 16px;
+    background-color: #111;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.iso-post-cta:hover {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+.iso-sidebar-widget {
+    background-color: #111;
+    border: 1px solid #282828;
+    padding: 14px;
+    margin-bottom: 16px;
+}
+
+.iso-widget-header {
+    margin-bottom: 12px;
+}
+
+.iso-widget-title {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.iso-factory-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.iso-factory-item:last-of-type {
+    border-bottom: none;
+}
+
+.iso-factory-item-title {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    color: #e0e0e0;
+    margin-bottom: 4px;
+}
+
+.iso-factory-item-author {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 10px;
+    color: #555;
+}
+
+.iso-factory-empty {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    color: #444;
+    padding: 8px 0;
+}
+
+.iso-factory-cta {
+    display: block;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    padding: 10px 12px;
+    background-color: #0d2818;
+    border: 1px solid #1a4d2e;
+    color: #00ff88;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.iso-factory-cta:hover {
+    background-color: #0f3020;
+    color: #00ff88;
+}
+
+/* ==================== SUBMIT FORM ==================== */
+
+.iso-submit-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.iso-submit-header {
+    margin-bottom: 24px;
+}
+
+.iso-submit-title {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 20px;
+    font-weight: 400;
+    color: #e0e0e0;
+    margin: 0 0 4px 0;
+}
+
+.iso-submit-subtitle {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    color: #555;
+    margin: 0;
+}
+
+.iso-form-group {
+    margin-bottom: 20px;
+}
+
+.iso-form-label {
+    display: block;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.iso-form-hint {
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    color: #444;
+    margin: 0 0 8px 0;
+}
+
+.iso-toggle-group {
+    display: flex;
+    gap: 8px;
+}
+
+.iso-toggle input {
+    display: none;
+}
+
+.iso-toggle-btn {
+    display: block;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    padding: 10px 20px;
+    background-color: #111;
+    border: 1px solid #282828;
+    color: #555;
+    cursor: pointer;
+}
+
+.iso-toggle input:checked + .iso-toggle-seeking {
+    background-color: #0d2818;
+    border-color: #1a4d2e;
+    color: #00ff88;
+}
+
+.iso-toggle input:checked + .iso-toggle-offering {
+    background-color: #1a1a2e;
+    border-color: #2d2d5a;
+    color: #8888ff;
+}
+
+.iso-form-select,
+.iso-form-input,
+.iso-form-textarea {
+    width: 100%;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 13px;
+    padding: 12px;
+    background-color: #0a0a0a;
+    border: 1px solid #282828;
+    color: #e0e0e0;
+}
+
+.iso-form-select:focus,
+.iso-form-input:focus,
+.iso-form-textarea:focus {
+    outline: none;
+    border-color: #444;
+}
+
+.iso-form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.iso-factory-grid,
+.iso-expiration-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.iso-factory-option input,
+.iso-expiration-option input {
+    display: none;
+}
+
+.iso-factory-btn,
+.iso-expiration-btn {
+    display: block;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 11px;
+    padding: 10px;
+    background-color: #111;
+    border: 1px solid #282828;
+    color: #555;
+    text-align: center;
+    cursor: pointer;
+}
+
+.iso-factory-option input:checked + .iso-factory-btn,
+.iso-expiration-option input:checked + .iso-expiration-btn {
+    background-color: #1a1a1a;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.iso-form-factory-group .iso-factory-option input:checked + .iso-factory-btn {
+    background-color: #0d2818;
+    border-color: #1a4d2e;
+    color: #00ff88;
+}
+
+.iso-form-submit {
+    width: 100%;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 12px;
+    padding: 14px;
+    background-color: #111;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.iso-form-submit:hover {
+    background-color: #1a1a1a;
+}
+
+.iso-success,
+.iso-error {
+    padding: 20px;
+    margin-bottom: 20px;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+    font-size: 13px;
+}
+
+.iso-success {
+    background-color: #0d2818;
+    border: 1px solid #1a4d2e;
+    color: #00ff88;
+}
+
+.iso-error {
+    background-color: #2e0d0d;
+    border: 1px solid #4d1a1a;
+    color: #ff6666;
+}
+
+.iso-login-prompt {
+    text-align: center;
+    padding: 40px;
+    font-family: "Berkeley Mono", "SF Mono", monospace;
+}
+
+.iso-login-prompt p {
+    color: #666;
+    margin-bottom: 16px;
+}
+
+/* ==================== MOBILE ==================== */
+
+@media (max-width: 600px) {
+    .iso-board-wrapper,
+    .iso-submit-wrapper {
+        padding: 20px 16px;
+    }
+    
+    .iso-card-header,
+    .iso-card-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .iso-card-actions {
+        flex-direction: column;
+    }
+    
+    .iso-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .iso-filter-divider {
+        display: none;
+    }
+    
+    .iso-factory-grid,
+    .iso-expiration-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/*
+ * ============================================================================
+ * UNMASK — APPROVED CSS OVERRIDES
+ * ============================================================================
+ * 
+ * Add to: Appearance → Customize → Additional CSS
+ * 
+ * WHAT THIS INCLUDES:
+ * ✓ Typography: Berkeley Mono on UI, preserve body font for records
+ * ✓ Remove BuddyBoss letter-spacing
+ * ✓ Hide profile nav tabs (feed, connections, stories, events, hard limits)
+ * ✓ Sharp corners everywhere (no border-radius)
+ * ✓ Fix double borders / ensure spacing between elements
+ * 
+ * WHAT THIS DOES NOT INCLUDE:
+ * ✗ Button styling (skipped)
+ * ✗ Sidebar styling (skipped)
+ * ✗ Link colors (define later)
+ * ✗ Any brand colors (define later)
+ * 
+ * ============================================================================
+ */
+
+
+/* ============================================================================
+   TYPOGRAPHY: BERKELEY MONO ON UI, PRESERVE BODY FONT FOR RECORDS
+   ============================================================================ */
+
+/* UI elements get Berkeley Mono */
+.bp-profile-header,
+.bb-profile-header,
+.widget-title,
+.bp-navs,
+nav,
+.menu,
+.nav-menu,
+header,
+footer,
+.site-header,
+.site-footer,
+input,
+textarea,
+select,
+label,
+.form-label,
+.iso-board-wrapper,
+.iso-card,
+.iso-filters,
+.buddypress-wrap .activity-header,
+.buddypress-wrap .activity-meta,
+.member-type-label,
+.bp-member-type,
+time,
+.timestamp,
+.meta,
+figcaption {
+    font-family: "Berkeley Mono", "SF Mono", "Consolas", "Monaco", monospace !important;
+}
+
+/* Records/articles/magazine content: DO NOT override - keep existing body font */
+/* .entry-content, .record-content, article p, .post-content — left alone */
+
+
+/* ============================================================================
+   REMOVE BUDDYBOSS LETTER-SPACING
+   ============================================================================ */
+
+.buddypress-wrap *,
+#buddypress *,
+.bp-profile-header *,
+.bb-profile-header * {
+    letter-spacing: 0 !important;
+}
+
+
+/* ============================================================================
+   HIDE PROFILE NAV TABS
+   ============================================================================ */
+
+/* Hide the entire profile navigation bar */
+#item-nav,
+.bp-navs.bp-subnavs,
+.main-navs.bp-navs,
+.member-nav-tabs,
+.profile-nav-tabs,
+#object-nav.component-navigation,
+.bp-navs:not(.group-create-navs):not(.directory-navs) {
+    display: none !important;
+}
+
+/* Also hide specific tabs if the above doesn't catch them */
+.bp-navs li#activity-personal-li,
+.bp-navs li#friends-personal-li,
+.bp-navs li#connections-personal-li,
+.bp-navs li#stories-personal-li,
+.bp-navs li#events-personal-li,
+.bp-navs li#feed-personal-li,
+.bp-navs li#hard-limits-personal-li {
+    display: none !important;
+}
+
+
+/* ============================================================================
+   SHARP CORNERS — NO BORDER-RADIUS ANYWHERE
+   ============================================================================ */
+
+*,
+*::before,
+*::after {
+    border-radius: 0 !important;
+}
+
+/* Explicit overrides for stubborn elements */
+img,
+img.avatar,
+.avatar,
+.bp-avatar,
+button,
+input,
+textarea,
+select,
+.widget,
+.card,
+.iso-card,
+.activity-content,
+.buddypress-wrap,
+#buddypress {
+    border-radius: 0 !important;
+}
+
+
+/* ============================================================================
+   FIX DOUBLE BORDERS / SPACING BETWEEN ELEMENTS
+   ============================================================================ */
+
+/* Ensure consistent border width */
+.widget,
+.card,
+.iso-card,
+.activity-content,
+.bp-feedback,
+[class*="border"] {
+    border-width: 1px !important;
+}
+
+/* Add margin to prevent border collapse */
+.widget + .widget,
+.card + .card,
+.iso-card + .iso-card,
+.activity-list > li + li {
+    margin-top: 12px !important;
+}
+
+/* Remove double borders on adjacent elements */
+.widget:not(:last-child) {
+    border-bottom: none !important;
+    margin-bottom: 12px !important;
+}
+
+/* Fix border collapse on nested containers */
+.buddypress-wrap .bp-list > li {
+    border-top: none !important;
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+}
+
+.buddypress-wrap .bp-list > li:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Ensure spacing in profile sections */
+#item-header,
+#item-body,
+.profile-content {
+    margin-bottom: 16px !important;
+}
+
+/* Gap between accordion sections if you have them */
+.accordion-item + .accordion-item,
+.profile-section + .profile-section {
+    margin-top: 12px !important;
+}
+/* ============================================================================
+   KILL GLOBAL CONTENT BORDER — ALL PAGES
+   ============================================================================ */
+
+/* Main content wrappers */
+.site-content,
+#content,
+.bb-content,
+main.site-main,
+.site-main,
+.content-area,
+#primary,
+.bb-grid,
+.buddypress-wrap,
+#buddypress,
+.bp-wrap,
+.elementor,
+.elementor-section-wrap,
+article.page,
+article.post,
+.entry-content {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* BuddyBoss specific wrappers that often have borders */
+.bb-template-v2 .site-content-grid,
+.bb-template-v2 #content,
+.bb-template-v2 .content-area,
+body.buddypress .site-content,
+body.bb-template-v2 .site-main {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* The inner content frame BuddyBoss adds */
+.bb-grid > .bb-content,
+.site-content > .bb-grid,
+.site-content-grid > * {
+    border: none !important;
+}
+
+/* Elementor containers (in case it's coming from there) */
+.elementor-container,
+.elementor-column-wrap,
+.elementor-widget-wrap,
+.elementor-element {
+    border: none !important;
+    box-shadow: none !important;
+}
+/* Record Data widget - fill container */
+.unmask-record-widget {
+    background: #1e1e1e;
+    border: 1px solid #2e2e2e;
+    height: 100%;
+}
+
+/* Remove any padding/margin from widget wrapper */
+.widget_unmask_record_data {
+    padding: 0 !important;
+    margin-bottom: 16px;
+}
+
+.widget_unmask_record_data > div {
+    padding: 0;
+}
+.unmask-record-widget {
+    border: none !important;
+}
+.unmask-record-widget {
+    border: none !important;
+    border-bottom: 1px solid #2e2e2e !important;
+}
+.bb-buddypanel .site-content {
+    padding-right: 0 !important;
+}
+/* ========================================
+   FIX 1: ACCESS TERMINAL
+   ======================================== */
+
+.unmask-access-terminal,
+.unmask-access-terminal.e-con {
+    background: #111 !important;
+    border: 1px solid #252525 !important;
+    padding: 20px 24px !important;
+}
+
+/* Each row inside terminal */
+.unmask-access-terminal .access-line {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #1e1e1e !important;
+    margin: 0 !important;
+}
+
+.unmask-access-terminal .access-line:last-child {
+    border-bottom: none !important;
+}
+
+.unmask-access-terminal .access-line .label {
+    color: #666 !important;
+}
+
+.unmask-access-terminal .access-line .value {
+    color: #888 !important;
+    text-align: right !important;
+}
+
+.unmask-access-terminal .access-line .value span {
+    color: #8a3233 !important;
+}
+
+/* ========================================
+   FIX 2: WHERE IT GOES GRID
+   ======================================== */
+
+.unmask-where-section,
+.unmask-where-section.e-con {
+    background: #252525 !important;
+    padding: 1px !important;
+    gap: 1px !important;
+}
+
+/* Each of the 4 cells */
+.unmask-where-section > .e-con,
+.unmask-where-section > .e-con-inner > .e-con,
+.unmask-where-section .where-item {
+    background: #111 !important;
+    padding: 24px 20px !important;
+    margin: 0 !important;
+}
+
+/* Cell labels (THE FACTORY, UNCUT, etc) */
+.unmask-where-section .label,
+.unmask-where-section .elementor-heading-title {
+    font-family: 'Berkeley Mono', monospace !important;
+    font-size: 10px !important;
+    color: #444 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    margin: 0 0 10px 0 !important;
+}
+
+/* Cell description text */
+.unmask-where-section .desc,
+.unmask-where-section .elementor-widget-text-editor p {
+    font-family: 'Berkeley Mono', monospace !important;
+    font-size: 12px !important;
+    color: #777 !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+}
+
+/* Red accent */
+.unmask-where-section .desc span,
+.unmask-where-section p span {
+    color: #8a3233 !important;
+}
