@@ -331,11 +331,59 @@
 ## Next Steps
 
 1. ✅ Initial audit complete
-2. ⏳ Extract design tokens to `00-design-system.css`
-3. ⏳ Split style.css into partials
+2. ✅ Extract design tokens to `00-design-system.css` (600 lines)
+3. ✅ Split style.css into partials (9 files)
 4. ⏳ Extract inline CSS from PHP snippets
-5. ⏳ Update functions.php to enqueue partials
+5. ✅ Update functions.php to enqueue partials
 6. ⏳ Cross-reference and reconcile
+
+---
+
+## Completion Status (2025-12-31)
+
+### CSS Architecture Migration Complete
+
+All CSS partials now use the consolidated design system tokens:
+- Primitive tokens: `--primitive-void`, `--primitive-red`, `--primitive-gray-*`, etc.
+- Semantic tokens: `--bg-page`, `--text-primary`, `--border-default`, etc.
+- Typography: `--font-ui`, `--font-body`, `--type-*`, `--leading-*`, `--tracking-*`
+- Spacing: `--gap-section`, `--gap-element`, `--gap-tight`, `--gap-micro`
+
+### Files Updated
+| File | Lines | Status |
+|------|-------|--------|
+| `00-design-system.css` | 600 | Source of truth |
+| `01-base.css` | 212 | Updated |
+| `02-components.css` | 474 | Updated |
+| `03-buddyboss.css` | 488 | Updated |
+| `04-memberpress.css` | 145 | Updated |
+| `05-plugins.css` | 246 | Updated |
+| `06-pages.css` | 226 | Updated |
+| `07-dashboard.css` | 238 | Updated |
+| `08-utilities.css` | 252 | Updated |
+| `style.css` | 10 | Header only |
+
+### Snippet Classes Fully Documented
+- Hive Mistress AI: 14 classes
+- ISO Board: 9 classes
+- Record Type Badge: 5 classes
+- UNMASK Dossier: 6 classes
+- Collapse Memberpress: 3 classes
+
+### Remaining TBD Items (Require JSON Export Review)
+The following snippets still need class extraction from the WPCode JSON export:
+- Homepage Button (#7)
+- Header Update (#8)
+- Homepage Zone Widgets (#12)
+- UNMASK Gallery Split (#16)
+- UNMASK Gallery Picker (#17)
+- Tags Display (#18)
+- Archive Features Bundle (#19)
+- Archive Stats (#20)
+- UNMASK Card Template (#21)
+- Full Bleed Card Styles (#23)
+- Hidden Card Link (#24)
+- Web Map (#29)
 
 ---
 

@@ -27,8 +27,8 @@
 .the_buddyforms_form textarea,
 .the_buddyforms_form select {
     background: transparent !important;
-    border: 1px solid var(--unmask-border-light) !important;
-    color: var(--unmask-fg-secondary) !important;
+    border: 1px solid var(--border-hover) !important;
+    color: var(--text-primary) !important;
     box-shadow: none !important;
 }
 
@@ -55,26 +55,26 @@
     display: inline-block;
     width: 18px;
     height: 18px;
-    border: 1px solid var(--unmask-border-light);
+    border: 1px solid var(--border-hover);
     border-radius: 50%;
     background: transparent;
-    margin-right: 8px;
+    margin-right: var(--gap-micro);
     vertical-align: middle;
-    transition: all 0.15s ease;
+    transition: all var(--duration-fast) var(--ease-out);
 }
 
 /* Hover state */
 .the_buddyforms_form .bf-input input[type="checkbox"]:hover + span::before,
 .the_buddyforms_form .bf-input input[type="radio"]:hover + span::before {
-    border-color: var(--unmask-focus);
+    border-color: var(--border-focus);
 }
 
 /* Checked state */
 .the_buddyforms_form .bf-input input[type="checkbox"]:checked + span::before,
 .the_buddyforms_form .bf-input input[type="radio"]:checked + span::before {
-    background: var(--unmask-border-light);
-    box-shadow: inset 0 0 0 2px var(--unmask-bg);
-    border-color: var(--unmask-border-light);
+    background: var(--border-hover);
+    box-shadow: inset 0 0 0 2px var(--bg-page);
+    border-color: var(--border-hover);
 }
 
 /* ==========================================================================
@@ -138,37 +138,37 @@
    ========================================================================== */
 
 .flatpickr-calendar {
-    background: var(--unmask-bg) !important;
-    border: 1px solid var(--unmask-border) !important;
+    background: var(--bg-page) !important;
+    border: 1px solid var(--border-default) !important;
     box-shadow: none !important;
-    font-family: var(--unmask-font-mono) !important;
+    font-family: var(--font-ui) !important;
 }
 
 .flatpickr-months {
-    background: var(--unmask-bg) !important;
-    border-bottom: 1px solid var(--unmask-border) !important;
+    background: var(--bg-page) !important;
+    border-bottom: 1px solid var(--border-default) !important;
 }
 
 .flatpickr-months .flatpickr-month {
     background: transparent !important;
-    color: var(--unmask-fg) !important;
+    color: var(--text-primary) !important;
 }
 
 .flatpickr-current-month {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 14px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
 }
 
 .flatpickr-prev-month,
 .flatpickr-next-month {
-    color: var(--unmask-muted) !important;
-    fill: var(--unmask-muted) !important;
+    color: var(--text-secondary) !important;
+    fill: var(--text-secondary) !important;
 }
 
 .flatpickr-prev-month:hover,
 .flatpickr-next-month:hover {
-    color: var(--unmask-fg) !important;
-    fill: var(--unmask-fg) !important;
+    color: var(--text-primary) !important;
+    fill: var(--text-primary) !important;
 }
 
 .flatpickr-weekdays {
@@ -176,9 +176,9 @@
 }
 
 .flatpickr-weekday {
-    color: var(--unmask-muted) !important;
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 10px !important;
+    color: var(--text-secondary) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-sm) !important;
     text-transform: uppercase !important;
 }
 
@@ -187,28 +187,28 @@
 }
 
 .flatpickr-day {
-    color: var(--unmask-fg) !important;
+    color: var(--text-primary) !important;
     border-radius: 0 !important;
-    font-family: var(--unmask-font-mono) !important;
+    font-family: var(--font-ui) !important;
 }
 
 .flatpickr-day:hover {
-    background: var(--unmask-border) !important;
-    border-color: var(--unmask-border) !important;
+    background: var(--border-default) !important;
+    border-color: var(--border-default) !important;
 }
 
 .flatpickr-day.selected {
-    background: var(--unmask-button-bg) !important;
-    border-color: var(--unmask-button-bg) !important;
-    color: var(--unmask-button-fg) !important;
+    background: var(--btn-primary-bg) !important;
+    border-color: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
 }
 
 .flatpickr-day.today {
-    border-color: var(--unmask-muted) !important;
+    border-color: var(--text-secondary) !important;
 }
 
 .flatpickr-day.disabled {
-    color: var(--unmask-disabled) !important;
+    color: var(--text-muted) !important;
 }
 
 /* ==========================================================================
@@ -218,8 +218,8 @@
 /* Force all borders to UNMASK gray */
 .widget form,
 .widget form * {
-    border-color: var(--unmask-border) !important;
-    outline-color: var(--unmask-border) !important;
+    border-color: var(--border-default) !important;
+    outline-color: var(--border-default) !important;
 }
 
 /* Force all borders inside widget */
@@ -229,17 +229,17 @@
 .widget button,
 .widget fieldset,
 .widget [class*="border"] {
-    border-color: var(--unmask-border) !important;
-    outline-color: var(--unmask-border) !important;
+    border-color: var(--border-default) !important;
+    outline-color: var(--border-default) !important;
 }
 
 /* Submit button - match UNMASK OS red button */
 .widget form button[type="submit"],
 .widget form input[type="submit"] {
-    background: var(--unmask-button-bg) !important;
-    color: var(--unmask-button-fg) !important;
-    border: 1px solid var(--unmask-border) !important;
-    font-family: var(--unmask-font-mono) !important;
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border: 1px solid var(--border-default) !important;
+    font-family: var(--font-ui) !important;
     text-transform: uppercase !important;
-    letter-spacing: 1px !important;
+    letter-spacing: var(--tracking-labels) !important;
 }

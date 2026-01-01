@@ -12,9 +12,8 @@
    ========================================================================== */
 
 #buddypress.buddypress-wrap {
-    background: var(--bb-content-background-color);
-    border: 1px solid var(--bb-content-border-color);
-    border-radius: var(--bb-block-radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
     padding: 0;
     overflow: hidden;
 }
@@ -46,8 +45,8 @@ div#cover-image-container {
 
 #buddypress.buddypress-wrap nav.users-nav.main-navs {
     background: transparent;
-    border-top: 1px solid var(--bb-content-border-color);
-    border-bottom: 1px solid var(--bb-content-border-color);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
     margin: 0;
     padding: 12px 30px;
 }
@@ -132,7 +131,7 @@ body.bp-user .avatar,
 
 /* Avatar border */
 body.bp-user #item-header-avatar img.avatar {
-    border: 1px solid var(--unmask-border) !important;
+    border: 1px solid var(--border-default) !important;
 }
 
 /* Kill overlay circle */
@@ -162,9 +161,9 @@ body.bp-user #item-header-avatar img.avatar {
    ========================================================================== */
 
 #groups-dir-list #groups-list .list-wrap {
-    margin: 8px 12px;
-    padding: 12px 16px;
-    border: 1px solid var(--unmask-border);
+    margin: var(--gap-micro) 12px;
+    padding: 12px var(--gap-tight);
+    border: 1px solid var(--border-default);
 }
 
 /* ==========================================================================
@@ -174,18 +173,18 @@ body.bp-user #item-header-avatar img.avatar {
 /* Give header + body a card frame */
 body.groups.single-item #buddypress #item-header,
 body.groups.single-item #buddypress #item-body {
-    border: 1px solid var(--unmask-border);
+    border: 1px solid var(--border-default);
 }
 
 /* Join header and body so the frame is continuous */
 body.groups.single-item #buddypress #item-header {
     border-bottom: 0;
-    padding: 24px 32px 12px 32px;
+    padding: var(--gap-element) 32px 12px 32px;
 }
 
 body.groups.single-item #buddypress #item-body {
     border-top: 0;
-    padding: 20px 32px 24px 32px;
+    padding: 20px 32px var(--gap-element) 32px;
 }
 
 /* Nav area lives inside the card */
@@ -199,8 +198,8 @@ body.groups.single-item #buddypress #item-nav {
 body.groups.single-item #buddypress #item-nav ul {
     margin: 0;
     padding: 10px 32px;
-    border-top: 1px solid var(--unmask-border);
-    border-bottom: 1px solid var(--unmask-border);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
     list-style: none;
     box-sizing: border-box;
 }
@@ -208,16 +207,16 @@ body.groups.single-item #buddypress #item-nav ul {
 /* Groups directory nav bar fix */
 #buddypress .groups-type-navs .groups-nav {
     padding: 12px 0 !important;
-    border-top: 1px solid var(--unmask-border) !important;
-    border-bottom: 1px solid var(--unmask-border) !important;
+    border-top: 1px solid var(--border-default) !important;
+    border-bottom: 1px solid var(--border-default) !important;
 }
 
 /* Group nav bar UL */
 nav#object-nav ul {
     margin: 0 !important;
     padding: 12px 32px !important;
-    border-top: 1px solid var(--unmask-border) !important;
-    border-bottom: 1px solid var(--unmask-border) !important;
+    border-top: 1px solid var(--border-default) !important;
+    border-bottom: 1px solid var(--border-default) !important;
     list-style: none !important;
     box-sizing: border-box;
 }
@@ -241,7 +240,7 @@ body.groups.single-item #buddypress .groups-header * {
 
 /* Remove default BuddyBoss header padding/borders */
 #buddypress .users-header.single-headers {
-    padding: 24px 0 !important;
+    padding: var(--gap-element) 0 !important;
     border: none !important;
 }
 
@@ -255,7 +254,7 @@ body.groups.single-item #buddypress .groups-header * {
     width: 120px !important;
     height: 120px !important;
     border-radius: 0 !important;
-    border: 1px solid var(--dossier-border) !important;
+    border: 1px solid var(--border-default) !important;
 }
 
 /* Name area container */
@@ -267,12 +266,12 @@ body.groups.single-item #buddypress .groups-header * {
 #buddypress #item-header-content h2.user-nicename,
 #buddypress #item-header-content .display-name,
 #buddypress .users-header .user-nicename {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 24px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-2xl) !important;
     font-weight: 400 !important;
-    color: var(--dossier-text) !important;
-    letter-spacing: -0.5px !important;
-    margin: 0 0 8px 0 !important;
+    color: var(--text-primary) !important;
+    letter-spacing: var(--tracking-headlines) !important;
+    margin: 0 0 var(--gap-micro) 0 !important;
     text-transform: none !important;
 }
 
@@ -280,9 +279,9 @@ body.groups.single-item #buddypress .groups-header * {
 #buddypress #item-header-content .user-name,
 #buddypress #item-header-content .activity,
 #buddypress .users-header .activity {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 13px !important;
-    color: var(--dossier-text-muted) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
+    color: var(--text-secondary) !important;
     margin: 0 !important;
 }
 
@@ -292,9 +291,9 @@ body.groups.single-item #buddypress .groups-header * {
 
 #buddypress nav#object-nav,
 #buddypress .item-list-tabs {
-    border-top: 1px solid var(--dossier-border) !important;
-    border-bottom: 1px solid var(--dossier-border) !important;
-    margin: 24px 0 !important;
+    border-top: 1px solid var(--border-default) !important;
+    border-bottom: 1px solid var(--border-default) !important;
+    margin: var(--gap-element) 0 !important;
     padding: 0 !important;
 }
 
@@ -318,25 +317,25 @@ body.groups.single-item #buddypress .groups-header * {
 #buddypress .item-list-tabs ul li a {
     display: block !important;
     padding: 14px 20px !important;
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 12px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
     text-transform: lowercase !important;
-    letter-spacing: 0.5px !important;
-    color: var(--dossier-text-muted) !important;
+    letter-spacing: var(--tracking-body) !important;
+    color: var(--text-secondary) !important;
     text-decoration: none !important;
     border: none !important;
     background: transparent !important;
 }
 
 #buddypress nav#object-nav ul li a:hover {
-    color: var(--dossier-text) !important;
+    color: var(--text-primary) !important;
     background: rgba(255,255,255,0.02) !important;
 }
 
 #buddypress nav#object-nav ul li.current a,
 #buddypress nav#object-nav ul li.selected a {
-    color: var(--dossier-text) !important;
-    border-bottom: 1px solid var(--dossier-text) !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--text-primary) !important;
     margin-bottom: -1px !important;
 }
 
@@ -355,7 +354,7 @@ body.groups.single-item #buddypress .groups-header * {
     cursor: pointer;
     padding: 14px 0 !important;
     border: none !important;
-    border-bottom: 1px solid var(--dossier-border) !important;
+    border-bottom: 1px solid var(--border-default) !important;
     margin-bottom: 0 !important;
     display: flex !important;
     justify-content: space-between !important;
@@ -370,10 +369,10 @@ body.groups.single-item #buddypress .groups-header * {
 /* Arrow indicator */
 .profile.public .group-separator-block > header.profile-header::before {
     content: "\25B6" !important;
-    font-size: 10px !important;
+    font-size: var(--type-sm) !important;
     margin-right: 12px !important;
-    color: var(--dossier-text-dim) !important;
-    transition: transform 0.15s ease !important;
+    color: var(--text-muted) !important;
+    transition: transform var(--duration-fast) var(--ease-out) !important;
 }
 
 .profile.public .group-separator-block.expanded > header.profile-header::before {
@@ -383,11 +382,11 @@ body.groups.single-item #buddypress .groups-header * {
 /* Section title */
 .profile.public .group-separator-block h1.bb-profile-title,
 .profile.public .group-separator-block .profile-header h4 {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 12px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
     text-transform: lowercase !important;
-    letter-spacing: 0.5px !important;
-    color: var(--dossier-text-muted) !important;
+    letter-spacing: var(--tracking-body) !important;
+    color: var(--text-secondary) !important;
     margin: 0 !important;
     font-weight: 400 !important;
 }
@@ -396,12 +395,12 @@ body.groups.single-item #buddypress .groups-header * {
 .profile.public .group-separator-block header a.button.outline,
 .profile.public .group-separator-block header .edit-btn,
 .profile.public .group-separator-block header a[href*="edit"] {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 10px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-sm) !important;
     text-transform: lowercase !important;
-    letter-spacing: 0.5px !important;
-    color: var(--dossier-text-dim) !important;
-    border: 1px solid var(--dossier-border) !important;
+    letter-spacing: var(--tracking-body) !important;
+    color: var(--text-muted) !important;
+    border: 1px solid var(--border-default) !important;
     padding: 4px 12px !important;
     background: transparent !important;
     border-radius: 0 !important;
@@ -409,15 +408,15 @@ body.groups.single-item #buddypress .groups-header * {
 }
 
 .profile.public .group-separator-block header a.button.outline:hover {
-    background: var(--dossier-border) !important;
-    color: var(--dossier-bg) !important;
+    background: var(--border-default) !important;
+    color: var(--bg-page) !important;
 }
 
 /* Content area - HIDDEN by default */
 .profile.public .group-separator-block .bp-widget {
     display: none !important;
     border: none !important;
-    border-bottom: 1px solid var(--dossier-border) !important;
+    border-bottom: 1px solid var(--border-default) !important;
     padding: 20px 0 !important;
     background: transparent !important;
 }
@@ -457,32 +456,32 @@ body.groups.single-item #buddypress .groups-header * {
 
 /* Field label */
 .profile.public .bp-widget table.profile-fields td.label {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 11px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-sm) !important;
     text-transform: lowercase !important;
-    letter-spacing: 0.5px !important;
-    color: var(--dossier-text-dim) !important;
+    letter-spacing: var(--tracking-body) !important;
+    color: var(--text-muted) !important;
     width: 35% !important;
-    padding-right: 16px !important;
+    padding-right: var(--gap-tight) !important;
 }
 
 /* Field value */
 .profile.public .bp-widget table.profile-fields td.data,
 .profile.public .bp-widget table.profile-fields td.data p {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: 13px !important;
-    color: var(--dossier-text-muted) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
+    color: var(--text-secondary) !important;
     margin: 0 !important;
-    line-height: 1.5 !important;
+    line-height: var(--leading-normal) !important;
 }
 
 /* Links in field values */
 .profile.public .bp-widget table.profile-fields td.data a {
-    color: var(--dossier-text-muted) !important;
+    color: var(--text-secondary) !important;
     text-decoration: underline !important;
     text-underline-offset: 2px !important;
 }
 
 .profile.public .bp-widget table.profile-fields td.data a:hover {
-    color: var(--dossier-text) !important;
+    color: var(--text-primary) !important;
 }

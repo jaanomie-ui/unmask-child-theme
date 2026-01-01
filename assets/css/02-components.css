@@ -9,24 +9,24 @@
  */
 
 /* ==========================================================================
-   DOSSIER TOKENS
+   DOSSIER TOKENS (Component-specific)
    ========================================================================== */
 
 :root {
     --dossier-bg: #0a0a0a;
     --dossier-panel: #111111;
-    --dossier-border: #282828;
-    --dossier-border-hover: #3a3a3a;
-    --dossier-text: #e0e0e0;
-    --dossier-text-muted: #888888;
-    --dossier-text-dim: #555555;
-    --dossier-accent-green: #00ff88;
+    --dossier-border: var(--border-default);
+    --dossier-border-hover: var(--border-hover);
+    --dossier-text: var(--text-primary);
+    --dossier-text-muted: var(--text-secondary);
+    --dossier-text-dim: var(--text-muted);
+    --dossier-accent-green: var(--primitive-green-glow);
     --dossier-accent-green-bg: #0d2818;
     --dossier-accent-green-border: #1a4d2e;
     --dossier-accent-blue: #8888ff;
     --dossier-accent-blue-bg: #1a1a2e;
     --dossier-accent-blue-border: #2d2d5a;
-    --dossier-font: var(--unmask-font-mono);
+    --dossier-font: var(--font-ui);
 }
 
 /* ==========================================================================
@@ -38,31 +38,31 @@
     margin: 20px !important;
     padding: 0 !important;
     background: transparent !important;
-    border: 1px solid var(--unmask-border-subtle) !important;
-    font-family: var(--unmask-font-mono) !important;
-    color: var(--unmask-fg-secondary) !important;
+    border: 1px solid var(--border-subtle) !important;
+    font-family: var(--font-ui) !important;
+    color: var(--text-primary) !important;
     border-radius: 0 !important;
 }
 
 .hm-header {
     padding: 24px 32px 12px 32px !important;
-    border-bottom: 1px solid var(--unmask-border-subtle) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
     background: transparent !important;
 }
 
 .hm-title {
-    font-size: var(--unmask-text-lg) !important;
+    font-size: var(--type-lg) !important;
     font-weight: 400 !important;
-    letter-spacing: var(--unmask-tracking-normal) !important;
-    color: var(--unmask-soft) !important;
+    letter-spacing: var(--tracking-body) !important;
+    color: var(--text-secondary) !important;
     text-transform: uppercase !important;
     margin: 0 !important;
 }
 
 .hm-subtitle {
-    font-size: var(--unmask-text-xs) !important;
-    color: var(--unmask-border-light) !important;
-    letter-spacing: var(--unmask-tracking-wide) !important;
+    font-size: var(--type-xs) !important;
+    color: var(--text-muted) !important;
+    letter-spacing: var(--tracking-labels) !important;
     text-transform: uppercase !important;
     margin: 4px 0 0 0 !important;
 }
@@ -77,90 +77,90 @@
 
 .hm-msg {
     margin-bottom: 24px !important;
-    line-height: var(--unmask-leading-relaxed) !important;
+    line-height: var(--leading-relaxed) !important;
 }
 
 .hm-msg-label {
-    font-size: var(--unmask-text-xs) !important;
-    color: var(--unmask-border-light) !important;
+    font-size: var(--type-xs) !important;
+    color: var(--text-muted) !important;
     margin-bottom: 8px !important;
-    letter-spacing: var(--unmask-tracking-wide) !important;
+    letter-spacing: var(--tracking-labels) !important;
     text-transform: uppercase !important;
 }
 
 .hm-msg-user .hm-msg-label {
-    color: var(--unmask-soft) !important;
+    color: var(--text-secondary) !important;
 }
 
 .hm-msg-assistant .hm-msg-label {
-    color: var(--unmask-border-light) !important;
+    color: var(--text-muted) !important;
 }
 
 .hm-msg-content {
-    font-size: var(--unmask-text-md) !important;
-    line-height: var(--unmask-leading-relaxed) !important;
-    color: var(--unmask-fg-secondary) !important;
+    font-size: var(--type-base) !important;
+    line-height: var(--leading-relaxed) !important;
+    color: var(--text-primary) !important;
 }
 
 .hm-msg-user .hm-msg-content {
-    color: var(--unmask-fg-secondary) !important;
+    color: var(--text-primary) !important;
 }
 
 .hm-msg-assistant .hm-msg-content {
-    color: var(--unmask-muted) !important;
+    color: var(--text-secondary) !important;
 }
 
 .hm-input-area {
     padding: 20px 32px !important;
-    border-top: 1px solid var(--unmask-border-subtle) !important;
-    border-bottom: 1px solid var(--unmask-border-subtle) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
     display: flex !important;
-    gap: 16px !important;
+    gap: var(--gap-tight) !important;
     background: transparent !important;
 }
 
 .hm-input-area input {
     flex: 1 !important;
     background: transparent !important;
-    border: 1px solid var(--unmask-border-light) !important;
-    color: var(--unmask-fg-secondary) !important;
-    padding: var(--unmask-padding-input) !important;
-    font-family: var(--unmask-font-mono) !important;
-    font-size: var(--unmask-text-md) !important;
+    border: 1px solid var(--border-hover) !important;
+    color: var(--text-primary) !important;
+    padding: 10px 12px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
 }
 
 .hm-input-area input:focus {
     outline: none !important;
-    border-color: var(--unmask-focus) !important;
+    border-color: var(--border-focus) !important;
 }
 
 .hm-input-area input::placeholder {
-    color: var(--unmask-border-light) !important;
+    color: var(--text-muted) !important;
 }
 
 .hm-input-area button {
-    background: var(--unmask-button-bg) !important;
-    color: var(--unmask-button-fg) !important;
-    border: 1px solid var(--unmask-text-dark) !important;
-    padding: var(--unmask-padding-button) !important;
-    font-family: var(--unmask-font-mono) !important;
-    font-size: var(--unmask-text-sm) !important;
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border: 1px solid var(--primitive-void) !important;
+    padding: 12px 24px !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-sm) !important;
     font-weight: 600 !important;
-    letter-spacing: var(--unmask-tracking-wide) !important;
+    letter-spacing: var(--tracking-labels) !important;
     cursor: pointer !important;
     text-transform: uppercase !important;
     border-radius: 0 !important;
 }
 
 .hm-input-area button:hover {
-    background: var(--unmask-button-hover-bg) !important;
+    background: var(--btn-primary-bg-hover) !important;
     color: #fff !important;
 }
 
 .hm-input-area button:disabled {
     background: transparent !important;
-    color: var(--unmask-disabled) !important;
-    border-color: var(--unmask-disabled) !important;
+    color: var(--text-muted) !important;
+    border-color: var(--text-muted) !important;
     cursor: not-allowed !important;
 }
 
@@ -169,25 +169,25 @@
     border-top: 0 !important;
     display: flex !important;
     justify-content: space-between !important;
-    font-size: var(--unmask-text-xs) !important;
-    color: var(--unmask-border-light) !important;
-    letter-spacing: var(--unmask-tracking-wide) !important;
+    font-size: var(--type-xs) !important;
+    color: var(--text-muted) !important;
+    letter-spacing: var(--tracking-labels) !important;
     background: transparent !important;
     text-transform: uppercase !important;
 }
 
 .hm-empty {
     text-align: center !important;
-    color: var(--unmask-border-light) !important;
+    color: var(--text-muted) !important;
     padding: 80px 20px !important;
-    font-size: var(--unmask-text-sm) !important;
-    letter-spacing: var(--unmask-tracking-wide) !important;
+    font-size: var(--type-sm) !important;
+    letter-spacing: var(--tracking-labels) !important;
     text-transform: uppercase !important;
 }
 
 .hm-loading {
-    border-color: var(--unmask-border-light) !important;
-    border-top-color: var(--unmask-focus) !important;
+    border-color: var(--text-muted) !important;
+    border-top-color: var(--border-focus) !important;
 }
 
 /* Kill BuddyPress border on Hive Mistress AI page */
@@ -207,10 +207,10 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    font-family: var(--unmask-font-mono);
-    font-size: var(--unmask-text-xs);
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
     text-transform: lowercase;
-    border: 1px solid var(--dossier-border);
+    border: 1px solid var(--border-default);
     background: transparent;
 }
 
@@ -238,8 +238,8 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
 /* Dossier header badges */
 .dossier-badge {
     padding: 4px 10px;
-    font-family: var(--dossier-font);
-    font-size: 11px;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
     text-transform: lowercase;
     border: 1px solid;
 }
@@ -267,64 +267,64 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
    ========================================================================== */
 
 .unmask-dossier-header {
-    margin-bottom: 24px;
+    margin-bottom: var(--gap-element);
 }
 
 .unmask-dossier-header__name {
-    font-family: var(--unmask-font-mono);
-    font-size: 32px;
+    font-family: var(--font-ui);
+    font-size: var(--type-3xl);
     font-weight: 400;
-    letter-spacing: -0.5px;
-    margin: 0 0 8px 0;
+    letter-spacing: var(--tracking-headlines);
+    margin: 0 0 var(--gap-micro) 0;
 }
 
 .unmask-dossier-header__designation {
-    font-family: var(--unmask-font-mono);
-    font-size: var(--unmask-text-xs);
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
     text-transform: uppercase;
-    letter-spacing: var(--unmask-tracking-wide);
-    color: var(--unmask-muted);
-    margin: 0 0 16px 0;
+    letter-spacing: var(--tracking-labels);
+    color: var(--text-muted);
+    margin: 0 0 var(--gap-tight) 0;
 }
 
 .unmask-dossier-header__meta {
-    font-family: var(--unmask-font-mono);
-    font-size: var(--unmask-text-base);
-    color: var(--unmask-soft);
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-secondary);
 }
 
 .unmask-dossier-header__bio {
-    font-family: var(--unmask-font-mono);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--dossier-text-muted);
-    margin: 16px 0;
-    max-width: 500px;
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    line-height: var(--leading-normal);
+    color: var(--text-secondary);
+    margin: var(--gap-tight) 0;
+    max-width: var(--content-narrow);
 }
 
 .unmask-dossier-header__badges {
     display: flex;
-    gap: 8px;
+    gap: var(--gap-micro);
     flex-wrap: wrap;
-    margin-top: 16px;
+    margin-top: var(--gap-tight);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .unmask-dossier-header__name {
-        font-size: 24px;
+        font-size: var(--type-2xl);
     }
 
     .unmask-dossier-header__designation {
-        font-size: 9px;
+        font-size: var(--type-xs);
     }
 
     .unmask-dossier-header__meta {
-        font-size: 11px;
+        font-size: var(--type-sm);
     }
 
     .unmask-dossier-header__bio {
-        font-size: 13px;
+        font-size: var(--type-sm);
     }
 
     .unmask-dossier-header__badges {
@@ -337,15 +337,15 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
    ========================================================================== */
 
 .unmask-record-widget {
-    background: var(--unmask-surface);
+    background: var(--bg-card);
     border: none !important;
-    border-bottom: 1px solid var(--unmask-border-dark) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
     height: 100%;
 }
 
 .widget_unmask_record_data {
     padding: 0 !important;
-    margin-bottom: 16px;
+    margin-bottom: var(--gap-tight);
 }
 
 .widget_unmask_record_data > div {
@@ -359,7 +359,7 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
 .unmask-access-terminal,
 .unmask-access-terminal.e-con {
     background: #111 !important;
-    border: 1px solid var(--unmask-border-dark) !important;
+    border: 1px solid var(--border-subtle) !important;
     padding: 20px 24px !important;
 }
 
@@ -368,7 +368,7 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
     justify-content: space-between !important;
     align-items: baseline !important;
     padding: 12px 0 !important;
-    border-bottom: 1px solid var(--unmask-surface) !important;
+    border-bottom: 1px solid var(--bg-card) !important;
     margin: 0 !important;
 }
 
@@ -377,16 +377,16 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
 }
 
 .unmask-access-terminal .access-line .label {
-    color: #666 !important;
+    color: var(--text-muted) !important;
 }
 
 .unmask-access-terminal .access-line .value {
-    color: var(--unmask-muted) !important;
+    color: var(--text-secondary) !important;
     text-align: right !important;
 }
 
 .unmask-access-terminal .access-line .value span {
-    color: var(--unmask-accent-dark) !important;
+    color: var(--primitive-red-dark) !important;
 }
 
 /* ==========================================================================
@@ -395,7 +395,7 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
 
 .unmask-where-section,
 .unmask-where-section.e-con {
-    background: var(--unmask-surface-alt) !important;
+    background: var(--bg-elevated) !important;
     padding: 1px !important;
     gap: 1px !important;
 }
@@ -410,26 +410,26 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
 
 .unmask-where-section .label,
 .unmask-where-section .elementor-heading-title {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: var(--unmask-text-xs) !important;
-    color: var(--unmask-border-light) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-xs) !important;
+    color: var(--text-muted) !important;
     text-transform: uppercase !important;
-    letter-spacing: var(--unmask-tracking-wider) !important;
+    letter-spacing: var(--tracking-labels) !important;
     margin: 0 0 10px 0 !important;
 }
 
 .unmask-where-section .desc,
 .unmask-where-section .elementor-widget-text-editor p {
-    font-family: var(--unmask-font-mono) !important;
-    font-size: var(--unmask-text-base) !important;
-    color: var(--unmask-focus) !important;
-    line-height: var(--unmask-leading-relaxed) !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
+    color: var(--text-secondary) !important;
+    line-height: var(--leading-relaxed) !important;
     margin: 0 !important;
 }
 
 .unmask-where-section .desc span,
 .unmask-where-section p span {
-    color: var(--unmask-accent-dark) !important;
+    color: var(--primitive-red-dark) !important;
 }
 
 /* ==========================================================================
@@ -438,36 +438,36 @@ body.page-template-default.page.page-id-2496 .buddypress-wrap {
 
 .dossier-system-box {
     background: var(--dossier-panel);
-    border: 1px solid var(--dossier-border);
-    padding: 16px;
-    margin-bottom: 24px;
+    border: 1px solid var(--border-default);
+    padding: var(--gap-tight);
+    margin-bottom: var(--gap-element);
 }
 
 .dossier-system-box__header {
-    font-family: var(--dossier-font);
-    font-size: 11px;
-    color: var(--dossier-text-dim);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
     text-transform: lowercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--tracking-labels);
     margin-bottom: 12px;
 }
 
 .dossier-system-box__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: var(--gap-tight);
 }
 
 .dossier-system-box__stat-label {
-    font-family: var(--dossier-font);
-    font-size: 11px;
-    color: var(--dossier-text-dim);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
     margin-bottom: 4px;
 }
 
 .dossier-system-box__stat-value {
-    font-family: var(--dossier-font);
-    font-size: 20px;
-    color: var(--dossier-text);
+    font-family: var(--font-ui);
+    font-size: var(--type-xl);
+    color: var(--text-primary);
     margin-bottom: 4px;
 }

@@ -15,7 +15,7 @@
 *,
 *::before,
 *::after {
-    border-radius: var(--unmask-radius) !important;
+    border-radius: 0 !important;
 }
 
 /* Enforce sharp edges on common UI elements */
@@ -34,15 +34,15 @@ a,
 .alert,
 .badge,
 .form-control {
-    border-radius: var(--unmask-radius) !important;
+    border-radius: 0 !important;
 }
 
-/* Remove shadows and transitions for cleaner geometry */
+/* Remove shadows for cleaner geometry */
 button,
 a,
 input,
 .card {
-    box-shadow: var(--unmask-shadow) !important;
+    box-shadow: none !important;
 }
 
 /* ==========================================================================
@@ -77,7 +77,7 @@ time,
 .timestamp,
 .meta,
 figcaption {
-    font-family: var(--unmask-font-mono) !important;
+    font-family: var(--font-ui) !important;
 }
 
 /* Remove BuddyBoss letter-spacing globally */
@@ -85,7 +85,7 @@ figcaption {
 #buddypress *,
 .bp-profile-header *,
 .bb-profile-header * {
-    letter-spacing: var(--unmask-tracking-tight) !important;
+    letter-spacing: var(--tracking-body) !important;
 }
 
 /* ==========================================================================
@@ -99,7 +99,7 @@ figcaption {
 .activity-content,
 .bp-feedback,
 [class*="border"] {
-    border-width: var(--unmask-border-width) !important;
+    border-width: 1px !important;
 }
 
 /* Add margin to prevent border collapse */
@@ -107,20 +107,20 @@ figcaption {
 .card + .card,
 .iso-card + .iso-card,
 .activity-list > li + li {
-    margin-top: var(--unmask-margin-element) !important;
+    margin-top: var(--gap-element) !important;
 }
 
 /* Remove double borders on adjacent elements */
 .widget:not(:last-child) {
     border-bottom: none !important;
-    margin-bottom: var(--unmask-margin-element) !important;
+    margin-bottom: var(--gap-element) !important;
 }
 
 /* Fix border collapse on nested containers */
 .buddypress-wrap .bp-list > li {
     border-top: none !important;
-    margin-top: var(--unmask-space-2) !important;
-    padding-top: var(--unmask-space-2) !important;
+    margin-top: var(--gap-micro) !important;
+    padding-top: var(--gap-micro) !important;
 }
 
 .buddypress-wrap .bp-list > li:first-child {
@@ -132,12 +132,12 @@ figcaption {
 #item-header,
 #item-body,
 .profile-content {
-    margin-bottom: var(--unmask-space-4) !important;
+    margin-bottom: var(--gap-tight) !important;
 }
 
 .accordion-item + .accordion-item,
 .profile-section + .profile-section {
-    margin-top: var(--unmask-margin-element) !important;
+    margin-top: var(--gap-element) !important;
 }
 
 /* ==========================================================================

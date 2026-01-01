@@ -49,14 +49,14 @@ body.page-id-896 .group-type {
 
 /* Apply border gray to each group card */
 body.page-id-896 #groups-dir-list #groups-list .list-wrap {
-    border: 1px solid var(--unmask-border-subtle) !important;
+    border: 1px solid var(--border-subtle) !important;
     box-shadow: none !important;
 }
 
 /* Match Organizer button */
 body.page-id-896 .groups-loop-buttons .group-button,
 body.page-id-896 button.group-button {
-    border: 1px solid var(--unmask-border-subtle) !important;
+    border: 1px solid var(--border-subtle) !important;
     background: transparent !important;
     border-radius: 0 !important;
     width: 130px !important;
@@ -70,19 +70,19 @@ body.page-id-896 button.group-button {
 
 /* Booking card compact layout */
 .factory-booking-card {
-    background: var(--unmask-surface);
-    border: 1px solid var(--unmask-border);
-    padding: var(--unmask-padding-card);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 20px 24px;
 }
 
 .factory-booking-form {
-    font-family: var(--unmask-font-mono);
+    font-family: var(--font-ui);
 }
 
 /* Factory grid layouts */
 .factory-grid {
     display: grid;
-    gap: 16px;
+    gap: var(--gap-tight);
 }
 
 /* ==========================================================================
@@ -91,28 +91,28 @@ body.page-id-896 button.group-button {
 
 /* Board wrapper */
 .iso-board-wrapper {
-    font-family: var(--unmask-font-mono);
+    font-family: var(--font-ui);
 }
 
 /* Filters container */
 .iso-filters {
     display: flex;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: var(--gap-tight);
     flex-wrap: wrap;
 }
 
 .iso-filter-divider {
-    border-left: 1px solid var(--unmask-border);
-    height: 24px;
+    border-left: 1px solid var(--border-default);
+    height: var(--gap-element);
 }
 
 /* Cards */
 .iso-card {
-    background: var(--unmask-surface);
-    border: 1px solid var(--unmask-border);
-    padding: var(--unmask-padding-card);
-    margin-bottom: var(--unmask-margin-element);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 20px 24px;
+    margin-bottom: var(--gap-element);
 }
 
 .iso-card-header {
@@ -124,15 +124,15 @@ body.page-id-896 button.group-button {
 
 .iso-card-meta {
     display: flex;
-    gap: 16px;
-    color: var(--unmask-muted);
-    font-size: var(--unmask-text-sm);
+    gap: var(--gap-tight);
+    color: var(--text-muted);
+    font-size: var(--type-sm);
 }
 
 .iso-card-actions {
     display: flex;
-    gap: 8px;
-    margin-top: 16px;
+    gap: var(--gap-micro);
+    margin-top: var(--gap-tight);
 }
 
 /* Grid layouts */
@@ -140,20 +140,20 @@ body.page-id-896 button.group-button {
 .iso-expiration-group {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
+    gap: var(--gap-tight);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .iso-card {
-        padding: 20px 16px;
+        padding: 20px var(--gap-tight);
     }
 
     .iso-card-header,
     .iso-card-meta {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: var(--gap-micro);
     }
 
     .iso-card-actions {
@@ -182,21 +182,21 @@ body.page-id-896 button.group-button {
 /* Archive features */
 .archive-stats {
     display: flex;
-    gap: 24px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--unmask-border);
-    margin-bottom: 24px;
+    gap: var(--gap-element);
+    padding: var(--gap-tight) 0;
+    border-bottom: 1px solid var(--border-default);
+    margin-bottom: var(--gap-element);
 }
 
 .archive-stat {
-    font-family: var(--unmask-font-mono);
-    font-size: var(--unmask-text-sm);
-    color: var(--unmask-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
 }
 
 .archive-stat-value {
-    font-size: var(--unmask-text-lg);
-    color: var(--unmask-fg);
+    font-size: var(--type-lg);
+    color: var(--text-primary);
 }
 
 /* ==========================================================================
@@ -205,21 +205,21 @@ body.page-id-896 button.group-button {
 
 /* Homepage button/CTA styling */
 .homepage-cta {
-    background: var(--unmask-button-bg);
-    color: var(--unmask-button-fg);
-    border: 1px solid var(--unmask-border);
-    padding: var(--unmask-padding-button);
-    font-family: var(--unmask-font-mono);
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: 1px solid var(--border-default);
+    padding: 12px 24px;
+    font-family: var(--font-ui);
     text-transform: uppercase;
-    letter-spacing: var(--unmask-tracking-wide);
+    letter-spacing: var(--tracking-labels);
 }
 
 .homepage-cta:hover {
-    background: var(--unmask-button-hover-bg);
+    background: var(--btn-primary-bg-hover);
     color: #fff;
 }
 
 /* Zone widgets */
 .homepage-zone {
-    margin-bottom: var(--unmask-margin-section);
+    margin-bottom: var(--gap-section);
 }

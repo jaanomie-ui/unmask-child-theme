@@ -1,152 +1,599 @@
-/**
- * UNMASK Design System
- *
- * CSS Custom Properties (Design Tokens)
- * This file defines all colors, spacing, typography, and other
- * design tokens used throughout the UNMASK theme.
- *
- * @package UNMASK
- * @since 1.0.0
- */
+/* ============================================================================
+   UNMASK DESIGN SYSTEM — CONSOLIDATED
+   Generated: 2025-12-31
+   
+   This file combines all locked tokens from Phases 1-6.
+   Deploy this as your single source of truth.
+   ============================================================================ */
 
-/* ==========================================================================
-   COLOR TOKENS
-   ========================================================================== */
+/* ============================================================================
+   PHASE 1: COLOR PRIMITIVES
+   ============================================================================ */
 
 :root {
-    /* Background Colors */
-    --unmask-bg: #181818;
-    --unmask-panel-bg: #181818;
-    --unmask-surface: #1e1e1e;
-    --unmask-surface-alt: #252525;
+  /* Backgrounds */
+  --primitive-void: #181818;
+  --primitive-surface: #1c1c1c;
+  --primitive-elevated: #242424;
 
-    /* Border Colors */
-    --unmask-border: #5F5F5F;
-    --unmask-border-subtle: #3A3A3A;
-    --unmask-border-dark: #2e2e2e;
-    --unmask-border-light: #444;
+  /* Gray Scale */
+  --primitive-gray-900: #1e1e1e;
+  --primitive-gray-800: #2e2e2e;
+  --primitive-gray-700: #3d3d3d;
+  --primitive-gray-600: #4f4f4f;
+  --primitive-gray-500: #636363;
+  --primitive-gray-400: #787878;
+  --primitive-gray-300: #8e8e8e;
+  --primitive-gray-200: #a6a6a6;
+  --primitive-gray-100: #c2c2c2;
 
-    /* Text Colors */
-    --unmask-fg: #E5E5E5;
-    --unmask-fg-secondary: #eee;
-    --unmask-muted: #8A8A8A;
-    --unmask-soft: #5F5F5F;
-    --unmask-text-dark: #2a2a2a;
-
-    /* Accent Colors */
-    --unmask-danger: #C23838;
-    --unmask-danger-hover: #a12c2c;
-    --unmask-accent-dark: #8a3233;
-
-    /* Button Colors */
-    --unmask-button-bg: #C23838;
-    --unmask-button-fg: #181818;
-    --unmask-button-hover-bg: #a12c2c;
-
-    /* State Colors */
-    --unmask-focus: #777;
-    --unmask-disabled: #444;
+  /* Accents */
+  --primitive-red: #8a3233;
+  --primitive-red-light: #a13d3e;
+  --primitive-red-dark: #6b2627;
+  --primitive-blue: #2C3D68;
+  --primitive-blue-light: #3a4f87;
+  --primitive-green: #3D6854;
+  --primitive-green-light: #4a7d65;
+  --primitive-green-glow: #4ade80;
 }
 
-/* ==========================================================================
-   TYPOGRAPHY TOKENS
-   ========================================================================== */
+/* ============================================================================
+   PHASE 1: COLOR SEMANTICS
+   ============================================================================ */
 
 :root {
-    /* Font Families */
-    --unmask-font-mono: "Berkeley Mono", "SF Mono", "Consolas", "Monaco", monospace;
-    --unmask-font-body: inherit; /* Preserve parent theme body font */
+  /* Backgrounds */
+  --bg-page: var(--primitive-void);
+  --bg-card: var(--primitive-surface);
+  --bg-card-hover: var(--primitive-elevated);
+  --bg-elevated: var(--primitive-elevated);
+  --bg-input: var(--primitive-void);
 
-    /* Font Sizes */
-    --unmask-text-xs: 10px;
-    --unmask-text-sm: 11px;
-    --unmask-text-base: 12px;
-    --unmask-text-md: 13px;
-    --unmask-text-lg: 16px;
-    --unmask-text-xl: 18px;
-    --unmask-text-2xl: 3em;
+  /* Text */
+  --text-primary: var(--primitive-gray-100);
+  --text-secondary: var(--primitive-gray-300);
+  --text-muted: var(--primitive-gray-500);
+  --text-inverse: var(--primitive-void);
 
-    /* Line Heights */
-    --unmask-leading-tight: 1.1;
-    --unmask-leading-snug: 1.2;
-    --unmask-leading-normal: 1.4;
-    --unmask-leading-relaxed: 1.6;
+  /* Borders */
+  --border-default: var(--primitive-gray-800);
+  --border-subtle: var(--primitive-gray-900);
+  --border-hover: var(--primitive-gray-700);
+  --border-focus: var(--primitive-red);
 
-    /* Letter Spacing */
-    --unmask-tracking-tight: 0;
-    --unmask-tracking-normal: 0.5px;
-    --unmask-tracking-wide: 1px;
-    --unmask-tracking-wider: 1.5px;
+  /* Links */
+  --link-default: var(--primitive-red-dark);
+  --link-hover: var(--primitive-red-light);
+  --link-visited: var(--primitive-gray-500);
+
+  /* Focus Ring */
+  --focus-ring: var(--primitive-red);
+
+  /* Primary Button */
+  --btn-primary-bg: var(--primitive-red-dark);
+  --btn-primary-bg-hover: var(--primitive-red-light);
+  --btn-primary-bg-active: var(--primitive-void);
+  --btn-primary-text: var(--primitive-surface);
+  --btn-primary-border: var(--primitive-void);
+  --btn-primary-border-hover: var(--primitive-red-light);
+
+  /* Secondary Button */
+  --btn-secondary-bg: transparent;
+  --btn-secondary-bg-hover: var(--primitive-red-light);
+  --btn-secondary-text: var(--primitive-gray-500);
+  --btn-secondary-text-hover: var(--primitive-void);
+  --btn-secondary-border: var(--primitive-red);
+  --btn-secondary-border-hover: var(--primitive-red-light);
+
+  /* Ghost Button */
+  --btn-ghost-text: var(--primitive-gray-400);
+  --btn-ghost-text-hover: var(--primitive-gray-200);
+
+  /* Status: Seeking */
+  --status-seeking-text: var(--primitive-red);
+  --status-seeking-border: var(--primitive-red);
+  --status-seeking-bg: transparent;
+
+  /* Status: Offering */
+  --status-offering-text: var(--primitive-blue);
+  --status-offering-border: var(--primitive-blue);
+  --status-offering-bg: transparent;
+
+  /* Status: Success */
+  --status-success-text: var(--primitive-green-glow);
+  --status-success-border: var(--primitive-green);
+  --status-success-bg: transparent;
 }
 
-/* ==========================================================================
-   SPACING TOKENS
-   ========================================================================== */
+/* ============================================================================
+   PHASE 2: TYPOGRAPHY
+   ============================================================================ */
 
 :root {
-    /* Spacing Scale */
-    --unmask-space-1: 4px;
-    --unmask-space-2: 8px;
-    --unmask-space-3: 12px;
-    --unmask-space-4: 16px;
-    --unmask-space-5: 20px;
-    --unmask-space-6: 24px;
-    --unmask-space-8: 32px;
-    --unmask-space-10: 40px;
-    --unmask-space-12: 48px;
-    --unmask-space-16: 64px;
-    --unmask-space-20: 80px;
+  /* Font Stacks */
+  --font-ui: "Berkeley Mono", "SF Mono", "Monaco", monospace;
+  --font-body: "Tiempos Text", Georgia, "Times New Roman", serif;
 
-    /* Component Padding */
-    --unmask-padding-card: 20px 24px;
-    --unmask-padding-panel: 24px 32px;
-    --unmask-padding-button: 12px 32px;
-    --unmask-padding-input: 12px 16px;
+  /* Type Scale — 1.25 ratio, 13px base */
+  --type-xs: 8px;
+  --type-sm: 10px;
+  --type-base: 13px;
+  --type-lg: 16px;
+  --type-xl: 20px;
+  --type-2xl: 25px;
+  --type-3xl: 32px;
 
-    /* Section Margins */
-    --unmask-margin-section: 30px;
-    --unmask-margin-element: 12px;
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* Letter Spacing */
+  --tracking-headlines: -0.02em;
+  --tracking-body: -0.01em;
+  --tracking-labels: 0.05em;
+  --tracking-code: 0em;
 }
 
-/* ==========================================================================
-   LAYOUT TOKENS
-   ========================================================================== */
+/* ============================================================================
+   PHASE 3: LAYOUT
+   ============================================================================ */
 
 :root {
-    /* Border Radius - UNMASK uses hard edges */
-    --unmask-radius: 0;
-    --unmask-radius-avatar: 50%; /* Exception: avatars can be circular */
+  /* Content Widths */
+  --content-max: 680px;
+  --content-narrow: 480px;
+  --content-wide: 1200px;
 
-    /* Border Widths */
-    --unmask-border-width: 1px;
+  /* Frame Margins — Desktop */
+  --frame-left: 120px;
+  --frame-right: 48px;
+  --frame-top: 64px;
+  --frame-bottom: 80px;
 
-    /* Shadows - UNMASK uses none */
-    --unmask-shadow: none;
+  /* Spacing Scale */
+  --gap-section: 48px;
+  --gap-element: 24px;
+  --gap-tight: 16px;
+  --gap-micro: 8px;
 
-    /* Max Widths */
-    --unmask-max-content: 1160px;
-    --unmask-max-chat: 100%;
+  /* Breakpoints */
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
 }
 
-/* ==========================================================================
-   TRANSITION TOKENS
-   ========================================================================== */
+/* ============================================================================
+   PHASE 5: MOTION
+   ============================================================================ */
 
 :root {
-    /* Transitions - minimal for UNMASK aesthetic */
-    --unmask-transition-fast: 0.15s ease;
-    --unmask-transition-normal: 0.2s ease;
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: ease-out;
+  --ease-in-out: ease-in-out;
 }
 
-/* ==========================================================================
-   Z-INDEX SCALE
-   ========================================================================== */
+/* ============================================================================
+   BASE RESET
+   ============================================================================ */
 
-:root {
-    --unmask-z-base: 1;
-    --unmask-z-dropdown: 100;
-    --unmask-z-sticky: 200;
-    --unmask-z-overlay: 300;
-    --unmask-z-modal: 400;
-    --unmask-z-tooltip: 500;
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+::selection {
+  background: rgba(138, 50, 51, 0.3);
+  color: var(--text-primary);
+}
+
+/* ============================================================================
+   TYPOGRAPHY
+   ============================================================================ */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--type-base);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-body);
+  color: var(--text-primary);
+  background: var(--bg-page);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-headlines);
+  margin: 0;
+}
+
+h1 { font-size: var(--type-3xl); }
+h2 { font-size: var(--type-2xl); }
+h3 { font-size: var(--type-xl); }
+h4 { font-size: var(--type-lg); }
+
+h5, h6 {
+  font-size: var(--type-sm);
+  letter-spacing: var(--tracking-labels);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+p { margin: 0 0 1em 0; }
+
+.prose {
+  font-size: var(--type-base);
+  line-height: var(--leading-relaxed);
+}
+
+.label, .meta {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  letter-spacing: var(--tracking-labels);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================================================
+   LAYOUT
+   ============================================================================ */
+
+.frame {
+  margin-left: var(--frame-left);
+  margin-right: var(--frame-right);
+  max-width: var(--content-max);
+  padding-top: var(--frame-top);
+  padding-bottom: var(--frame-bottom);
+}
+
+.frame-narrow { max-width: var(--content-narrow); }
+.frame-wide { max-width: var(--content-wide); }
+
+.space-section { margin-bottom: var(--gap-section); }
+.space-element { margin-bottom: var(--gap-element); }
+.space-tight { margin-bottom: var(--gap-tight); }
+.space-micro { margin-bottom: var(--gap-micro); }
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: var(--tracking-body);
+  text-transform: lowercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid;
+  padding: 12px 24px;
+  transition: all var(--duration-fast) var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-micro);
+}
+
+.btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border-color: var(--btn-primary-border);
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-border-hover);
+}
+
+.btn-primary:active {
+  background: var(--btn-primary-bg-active);
+}
+
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border-color: var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+  background: var(--btn-secondary-bg-hover);
+  color: var(--btn-secondary-text-hover);
+  border-color: var(--btn-secondary-border-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--btn-ghost-text);
+  border-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.btn-ghost:hover {
+  color: var(--btn-ghost-text-hover);
+}
+
+.btn-sm { font-size: var(--type-xs); padding: 8px 16px; }
+.btn-lg { font-size: var(--type-base); padding: 16px 32px; }
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: var(--bg-card);
+  border-color: var(--border-default);
+  color: var(--text-muted);
+}
+
+/* ============================================================================
+   FORMS
+   ============================================================================ */
+
+.input,
+.textarea,
+.select {
+  font-family: var(--font-ui);
+  font-size: var(--type-base);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-body);
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.input:hover,
+.textarea:hover,
+.select:hover {
+  border-color: var(--border-hover);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-label {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  letter-spacing: var(--tracking-labels);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: var(--gap-micro);
+}
+
+.form-group {
+  margin-bottom: var(--gap-element);
+}
+
+/* ============================================================================
+   CARDS
+   ============================================================================ */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+}
+
+.card-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header-title {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  letter-spacing: var(--tracking-labels);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.card-body { padding: 16px; }
+
+.card-title {
+  font-family: var(--font-ui);
+  font-size: var(--type-lg);
+  color: var(--text-primary);
+  margin: 0 0 var(--gap-micro) 0;
+  text-transform: lowercase;
+}
+
+.card-text {
+  font-family: var(--font-body);
+  font-size: var(--type-base);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+  margin: 0;
+}
+
+.card-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-subtle);
+  text-align: right;
+}
+
+.card-cta {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--link-default);
+  text-decoration: none;
+}
+
+.card-cta:hover { color: var(--link-hover); }
+
+/* ============================================================================
+   BADGES
+   ============================================================================ */
+
+.badge {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  letter-spacing: var(--tracking-labels);
+  text-transform: lowercase;
+  padding: 4px 10px;
+  border: 1px solid;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-seeking {
+  color: var(--status-seeking-text);
+  border-color: var(--status-seeking-border);
+  background: var(--status-seeking-bg);
+}
+
+.badge-offering {
+  color: var(--status-offering-text);
+  border-color: var(--status-offering-border);
+  background: var(--status-offering-bg);
+}
+
+.badge-success {
+  color: var(--status-success-text);
+  border-color: var(--status-success-border);
+  background: var(--status-success-bg);
+}
+
+.badge-neutral {
+  color: var(--text-muted);
+  border-color: var(--border-default);
+  background: transparent;
+}
+
+/* ============================================================================
+   LINKS
+   ============================================================================ */
+
+a {
+  color: var(--link-default);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+a:hover { color: var(--link-hover); }
+a:visited { color: var(--link-visited); }
+
+.link-cta {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--link-default);
+}
+
+.link-cta::before { content: '['; }
+.link-cta::after { content: ' →]'; }
+
+/* ============================================================================
+   DIVIDERS
+   ============================================================================ */
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: var(--gap-section) 0;
+}
+
+.divider-subtle {
+  border-top-color: var(--border-subtle);
+  margin: var(--gap-element) 0;
+}
+
+/* ============================================================================
+   LOADING STATE
+   ============================================================================ */
+
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid var(--text-muted);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================================
+   RESPONSIVE — Tablet
+   ============================================================================ */
+
+@media (max-width: 1023px) {
+  :root {
+    --frame-left: 48px;
+    --frame-right: 48px;
+    --frame-top: 48px;
+    --frame-bottom: 64px;
+    --gap-section: 40px;
+    --gap-element: 24px;
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE — Mobile
+   ============================================================================ */
+
+@media (max-width: 767px) {
+  :root {
+    --frame-left: 16px;
+    --frame-right: 16px;
+    --frame-top: 32px;
+    --frame-bottom: 48px;
+    --gap-section: 32px;
+    --gap-element: 20px;
+  }
 }
