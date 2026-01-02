@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-get_header('fullbleed');
+get_header();
 
 while (have_posts()) :
     the_post();
@@ -183,4 +183,4 @@ while (have_posts()) :
 <?php
 endwhile;
 
-get_footer('fullbleed');
+get_footer();

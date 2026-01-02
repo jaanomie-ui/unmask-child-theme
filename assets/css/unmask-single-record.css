@@ -5,18 +5,23 @@
    3-Column Swiss Grid / Viewport Hero / Tiempos Body
    Uses design system tokens from 00-design-system.css
 
-   Note: This template uses header-fullbleed.php which bypasses
-   BuddyBoss containers, so no override hacks needed.
+   Works within BuddyBoss container structure (respects sidebar).
    ============================================================================ */
 
 /* ============================================================================
-   FULLBLEED MAIN RESET
+   BUDDYBOSS INTEGRATION
+   Expand content area while respecting sidebar
    ============================================================================ */
 
-.unmask-main--fullbleed {
+/* Remove padding from BuddyBoss content container on single posts */
+body.single-post .bb-grid-cell.medium-8 {
     padding: 0;
-    margin: 0;
+}
+
+/* Make container full-width within its cell */
+body.single-post .site-content > .container {
     max-width: none;
+    padding: 0;
 }
 
 /* ============================================================================
