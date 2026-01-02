@@ -223,3 +223,370 @@ body.page-id-896 button.group-button {
 .homepage-zone {
     margin-bottom: var(--gap-section);
 }
+
+/* ==========================================================================
+   THE FACTORY - COMPLETE PAGE STYLES
+   Extracted from WPCode snippet #2945 (Factory page styles)
+   Date: 2025-01-01
+   ========================================================================== */
+
+/*
+  THE FACTORY - Page Styles
+  UNMASK Magazine
+
+  DEPTH LAYERS:
+  - void #181818 (page background)
+  - surface #1c1c1c (buttons, headers)
+  - elevated #242424 (expanded content)
+
+  BORDERS: Only #2e2e2e
+  BUTTON TEXT: Black #181818 on red background
+*/
+
+/* Factory-specific variables (scoped to .unmask-factory-page) */
+.unmask-factory-page {
+  --unmask-bg-void: #181818;
+  --unmask-bg-surface: #1c1c1c;
+  --unmask-bg-elevated: #242424;
+  --unmask-gray-900: #1e1e1e;
+  --unmask-gray-800: #2e2e2e;
+  --unmask-gray-700: #3d3d3d;
+  --unmask-gray-600: #4f4f4f;
+  --unmask-gray-500: #636363;
+  --unmask-gray-400: #787878;
+  --unmask-gray-300: #8e8e8e;
+  --unmask-gray-200: #a6a6a6;
+  --unmask-gray-100: #c2c2c2;
+  --unmask-red: #8a3233;
+  --unmask-blue: #2C3D68;
+  --unmask-green: #3D6854;
+  --unmask-green-glow: #4ade80;
+  --unmask-text-primary: #c2c2c2;
+  --unmask-text-secondary: #8e8e8e;
+  --unmask-text-muted: #636363;
+  --unmask-border-primary: #2e2e2e;
+  --unmask-font: "Berkeley Mono", "SF Mono", "Monaco", monospace;
+}
+
+/* PAGE CONTAINER */
+.unmask-factory-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 64px 24px 80px 24px;
+  font-family: var(--unmask-font);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--unmask-text-primary);
+  background: var(--unmask-bg-void);
+}
+
+/* HERO */
+.unmask-factory-hero {
+  margin-bottom: 48px;
+}
+
+.unmask-factory-label {
+  display: block;
+  font-size: 10px;
+  color: var(--unmask-text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.unmask-factory-title {
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--unmask-text-primary);
+  margin: 0 0 20px 0;
+  letter-spacing: 2px;
+  text-transform: lowercase;
+}
+
+.unmask-factory-intro {
+  font-size: 13px;
+  color: var(--unmask-text-secondary);
+  max-width: 560px;
+  margin: 0 0 20px 0;
+  line-height: 1.7;
+}
+
+/* STATUS INDICATOR */
+.unmask-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.unmask-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--unmask-green-glow);
+  box-shadow: 0 0 8px var(--unmask-green-glow), 0 0 16px rgba(74, 222, 128, 0.4);
+  animation: unmask-pulse 2s ease-in-out infinite;
+}
+
+@keyframes unmask-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.unmask-status-text {
+  font-size: 12px;
+  color: var(--unmask-text-secondary);
+}
+
+/* DIVIDER */
+.unmask-divider {
+  border: none;
+  border-top: 1px solid var(--unmask-border-primary);
+  margin: 48px 0 32px 0;
+}
+
+/* ROLE SELECTOR */
+.unmask-factory-selector {
+  margin-bottom: 48px;
+}
+
+.unmask-factory-selector .unmask-factory-label {
+  margin-bottom: 16px;
+}
+
+.unmask-role-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ROLE ITEM (Accordion) */
+.unmask-role-button {
+  width: 100%;
+  background: var(--unmask-bg-surface);
+  border: 1px solid var(--unmask-border-primary);
+  color: var(--unmask-text-secondary);
+  padding: 14px 18px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--unmask-font);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.unmask-role-button:hover {
+  background: #202020;
+}
+
+.unmask-role-item.active .unmask-role-button {
+  color: var(--unmask-text-primary);
+}
+
+.unmask-role-arrow {
+  color: var(--unmask-text-muted);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.unmask-role-item.active .unmask-role-arrow {
+  transform: rotate(90deg);
+  color: var(--unmask-red);
+}
+
+/* ROLE CONTENT (Expanded) */
+.unmask-role-content {
+  display: none;
+  background: var(--unmask-bg-elevated);
+  border: 1px solid var(--unmask-border-primary);
+  border-top: none;
+  animation: unmask-fadeIn 0.2s ease;
+}
+
+.unmask-role-item.active .unmask-role-content {
+  display: block;
+}
+
+@keyframes unmask-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.unmask-role-body {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--unmask-border-primary);
+}
+
+.unmask-role-title {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--unmask-text-primary);
+  margin: 0 0 12px 0;
+  text-transform: lowercase;
+}
+
+.unmask-role-text {
+  font-size: 13px;
+  color: var(--unmask-text-secondary);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ROLE DETAILS GRID */
+.unmask-role-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid var(--unmask-border-primary);
+}
+
+.unmask-detail {
+  padding: 12px 24px;
+}
+
+.unmask-detail:nth-child(odd) {
+  border-right: 1px solid var(--unmask-border-primary);
+}
+
+.unmask-detail:nth-child(1),
+.unmask-detail:nth-child(2) {
+  border-bottom: 1px solid var(--unmask-border-primary);
+}
+
+.unmask-detail-label {
+  display: block;
+  font-size: 10px;
+  color: var(--unmask-text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.unmask-detail-value {
+  display: block;
+  font-size: 13px;
+  color: var(--unmask-text-primary);
+}
+
+/* ROLE CTA */
+.unmask-role-cta {
+  padding: 16px 24px;
+}
+
+/* FACTORY BUTTONS */
+.unmask-btn {
+  display: inline-block;
+  font-family: var(--unmask-font);
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* Primary Button: Red background, black text */
+.unmask-btn-primary {
+  background: var(--unmask-red);
+  color: var(--unmask-bg-void);
+  border: 1px solid var(--unmask-red);
+  padding: 12px 24px;
+}
+
+.unmask-btn-primary:hover {
+  background: transparent;
+  color: var(--unmask-red);
+}
+
+/* Large variant */
+.unmask-btn-large {
+  padding: 14px 32px;
+  font-size: 13px;
+}
+
+/* Secondary Button: Outline only */
+.unmask-btn-secondary {
+  background: transparent;
+  color: var(--unmask-red);
+  border: 1px solid var(--unmask-red);
+  padding: 12px 24px;
+}
+
+.unmask-btn-secondary:hover {
+  background: var(--unmask-red);
+  color: var(--unmask-bg-void);
+}
+
+/* SPECIFICATIONS GRID */
+.unmask-factory-specs {
+  margin-bottom: 48px;
+}
+
+.unmask-factory-specs .unmask-factory-label {
+  margin-bottom: 16px;
+}
+
+.unmask-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--unmask-border-primary);
+  border: 1px solid var(--unmask-border-primary);
+}
+
+.unmask-spec {
+  padding: 14px 18px;
+  background: var(--unmask-bg-surface);
+}
+
+.unmask-spec-label {
+  display: block;
+  font-size: 10px;
+  color: var(--unmask-text-muted);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.unmask-spec-value {
+  display: block;
+  font-size: 13px;
+  color: var(--unmask-text-primary);
+}
+
+/* FINAL CTA */
+.unmask-factory-final {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.unmask-factory-tagline {
+  font-size: 14px;
+  color: var(--unmask-text-muted);
+  font-style: italic;
+  margin: 0 0 20px 0;
+}
+
+/* FACTORY RESPONSIVE */
+@media (max-width: 640px) {
+  .unmask-factory-page {
+    padding: 32px 16px 48px 16px;
+  }
+
+  .unmask-role-details {
+    grid-template-columns: 1fr;
+  }
+
+  .unmask-detail {
+    border-right: none !important;
+    border-bottom: 1px solid var(--unmask-border-primary);
+  }
+
+  .unmask-detail:last-child {
+    border-bottom: none;
+  }
+
+  .unmask-specs-grid {
+    grid-template-columns: 1fr;
+  }
+}
