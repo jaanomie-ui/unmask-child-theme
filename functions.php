@@ -58,6 +58,14 @@ function unmask_enqueue_styles() {
         array('unmask-layout-system'),
         $theme_version
     );
+
+    // BuddyBoss bridge - integrates components with BuddyBoss
+    wp_enqueue_style(
+        'unmask-buddyboss-bridge',
+        $css_dir . 'unmask-buddyboss-bridge-v1.css',
+        array('unmask-components'),
+        $theme_version
+    );
 }
 
 /* ==========================================================================
