@@ -42,6 +42,14 @@ function unmask_enqueue_styles() {
         );
         $prev_handle = $handle;
     }
+
+    // Layout system - loaded after design system, before other partials use it
+    wp_enqueue_style(
+        'unmask-layout-system',
+        $css_dir . 'unmask-layout-system.css',
+        array('unmask-00-design-system'),
+        $theme_version
+    );
 }
 
 /* ==========================================================================
