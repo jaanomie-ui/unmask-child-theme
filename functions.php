@@ -69,5 +69,12 @@ function unmask_enqueue_styles() {
 }
 
 /* ==========================================================================
+   INCLUDES
+   ========================================================================== */
+
+// Shortcodes v1 - Component shortcodes with template parts
+require_once get_stylesheet_directory() . '/includes/unmask-shortcodes-v1.php';
+
+/* ==========================================================================
    CUSTOM SNIPPETS GO BELOW
    ========================================================================== */
