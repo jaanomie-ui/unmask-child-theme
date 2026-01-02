@@ -7,13 +7,13 @@
  *
  * @param array $args {
  *     @type string $text     Button text
- *     @type string $url      Link URL
- *     @type string $variant  primary|secondary|ghost|danger
+ *     @type string $type     primary|secondary|ghost|danger
  *     @type string $size     sm|md|lg
- *     @type string $icon     Icon class
+ *     @type string $href     Link URL
+ *     @type string $target   Link target (_blank, etc.)
+ *     @type string $icon     Icon class (optional)
  *     @type bool   $disabled Whether button is disabled
  *     @type string $class    Additional CSS classes
- *     @type string $target   Link target (_blank, etc.)
  * }
  */
 
@@ -25,18 +25,18 @@ if (!defined('ABSPATH')) {
 // Get args passed from shortcode or direct call
 $args = wp_parse_args($args ?? array(), array(
     'text'     => 'Button',
-    'url'      => '#',
-    'variant'  => 'primary',
+    'type'     => 'primary',
     'size'     => 'md',
+    'href'     => '#',
+    'target'   => '',
     'icon'     => '',
     'disabled' => false,
     'class'    => '',
-    'target'   => '',
 ));
 
 // Build CSS classes
 $classes = array('unmask-btn');
-$classes[] = 'unmask-btn--' . esc_attr($args['variant']);
+$classes[] = 'unmask-btn--' . esc_attr($args['type']);
 $classes[] = 'unmask-btn--' . esc_attr($args['size']);
 
 if ($args['disabled']) {
@@ -65,7 +65,7 @@ if ($args['disabled']) {
 $attr_string = implode(' ', $attrs);
 ?>
 
-<a href="<?php echo esc_url($args['url']); ?>" class="<?php echo $class_string; ?>"<?php echo $attr_string ? ' ' . $attr_string : ''; ?>>
+<a href="<?php echo esc_url($args['href']); ?>" class="<?php echo $class_string; ?>"<?php echo $attr_string ? ' ' . $attr_string : ''; ?>>
     <?php if (!empty($args['icon'])) : ?>
         <span class="unmask-btn__icon"><?php echo esc_html($args['icon']); ?></span>
     <?php endif; ?>

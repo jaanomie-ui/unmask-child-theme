@@ -2,8 +2,8 @@
 /**
  * UNMASK Shortcodes v1
  *
- * Component shortcodes for use in WordPress content.
- * Each shortcode calls a corresponding template part.
+ * Component shortcodes for use in Gutenberg blocks when PHP isn't possible.
+ * Prefer using get_template_part() directly in PHP templates.
  *
  * @package UNMASK
  * @since 1.0.0
@@ -66,7 +66,7 @@ function unmask_parse_bool($value) {
 /**
  * Button shortcode
  *
- * Usage: [unmask_button text="Click me" url="#" variant="primary" size="md"]
+ * Usage: [unmask_button text="Click me" type="primary" href="/page/"]
  *
  * @param array $atts Shortcode attributes
  * @return string Button HTML
@@ -74,13 +74,13 @@ function unmask_parse_bool($value) {
 function unmask_button_shortcode($atts) {
     $atts = shortcode_atts(array(
         'text'     => 'Button',
-        'url'      => '#',
-        'variant'  => 'primary',  // primary, secondary, ghost, danger
+        'type'     => 'primary',  // primary, secondary, ghost, danger
         'size'     => 'md',       // sm, md, lg
-        'icon'     => '',         // Icon class or name
+        'href'     => '#',
+        'target'   => '',
+        'icon'     => '',
         'disabled' => 'false',
         'class'    => '',
-        'target'   => '',
     ), $atts, 'unmask_button');
 
     $atts['disabled'] = unmask_parse_bool($atts['disabled']);
@@ -98,19 +98,21 @@ add_shortcode('unmask_button', 'unmask_button_shortcode');
 /**
  * Badge shortcode
  *
- * Usage: [unmask_badge text="New" variant="success" size="sm"]
+ * Usage: [unmask_badge text="D-047" type="drone" dot="true"]
  *
  * @param array $atts Shortcode attributes
  * @return string Badge HTML
  */
 function unmask_badge_shortcode($atts) {
     $atts = shortcode_atts(array(
-        'text'    => '',
-        'variant' => 'default',  // default, success, warning, error, info
-        'size'    => 'md',       // sm, md, lg
-        'icon'    => '',
-        'class'   => '',
+        'text'  => '',
+        'type'  => 'default',  // published, draft, expired, active, drone, visitor, schedule, available
+        'size'  => 'md',       // sm, md, lg
+        'dot'   => 'false',
+        'class' => '',
     ), $atts, 'unmask_badge');
+
+    $atts['dot'] = unmask_parse_bool($atts['dot']);
 
     ob_start();
     get_template_part('template-parts/components/unmask-badge', null, $atts);
@@ -125,23 +127,23 @@ add_shortcode('unmask_badge', 'unmask_badge_shortcode');
 /**
  * Avatar shortcode
  *
- * Usage: [unmask_avatar user_id="1" size="md" show_status="true"]
+ * Usage: [unmask_avatar user_id="1" size="lg" online="true"]
  *
  * @param array $atts Shortcode attributes
  * @return string Avatar HTML
  */
 function unmask_avatar_shortcode($atts) {
     $atts = shortcode_atts(array(
-        'user_id'     => get_current_user_id(),
-        'size'        => 'md',      // xs, sm, md, lg, xl
-        'show_status' => 'false',
-        'status'      => 'offline', // online, offline, away, busy
-        'linked'      => 'true',
-        'class'       => '',
+        'user_id' => get_current_user_id(),
+        'size'    => 'md',      // xs, sm, md, lg, xl
+        'online'  => 'false',
+        'square'  => 'false',
+        'href'    => '',
+        'class'   => '',
     ), $atts, 'unmask_avatar');
 
-    $atts['show_status'] = unmask_parse_bool($atts['show_status']);
-    $atts['linked'] = unmask_parse_bool($atts['linked']);
+    $atts['online'] = unmask_parse_bool($atts['online']);
+    $atts['square'] = unmask_parse_bool($atts['square']);
     $atts['user_id'] = intval($atts['user_id']);
 
     ob_start();
@@ -157,23 +159,25 @@ add_shortcode('unmask_avatar', 'unmask_avatar_shortcode');
 /**
  * Card (fullbleed) shortcode
  *
- * Usage: [unmask_card title="Card Title" image="url" url="#"]Content here[/unmask_card]
+ * Usage: [unmask_card post_id="123"]
+ * Or:    [unmask_card subject="Title" image="url" href="/page/"]
  *
  * @param array $atts Shortcode attributes
- * @param string $content Enclosed content
  * @return string Card HTML
  */
-function unmask_card_shortcode($atts, $content = null) {
+function unmask_card_shortcode($atts) {
     $atts = shortcode_atts(array(
-        'title'    => '',
-        'subtitle' => '',
-        'image'    => '',
-        'url'      => '',
-        'variant'  => 'default',  // default, elevated, outline
-        'class'    => '',
+        'post_id'    => 0,
+        'image'      => '',
+        'file_id'    => '',
+        'type_badge' => '',
+        'subject'    => '',
+        'desc'       => '',
+        'href'       => '',
+        'class'      => '',
     ), $atts, 'unmask_card');
 
-    $atts['content'] = do_shortcode($content);
+    $atts['post_id'] = intval($atts['post_id']);
 
     ob_start();
     get_template_part('template-parts/components/unmask-card-fullbleed', null, $atts);
