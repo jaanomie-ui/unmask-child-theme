@@ -114,6 +114,7 @@
   /* Font Stacks */
   --font-ui: "Berkeley Mono", "SF Mono", "Monaco", monospace;
   --font-body: "Tiempos Text", Georgia, "Times New Roman", serif;
+  --font-editorial: "Tiempos Headline", Georgia, serif;
 
   /* Type Scale — 1.25 ratio, 13px base */
   --type-xs: 8px;

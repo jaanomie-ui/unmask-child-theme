@@ -66,6 +66,16 @@ function unmask_enqueue_styles() {
         array('unmask-components'),
         $theme_version
     );
+
+    // Homepage styles - only on homepage template
+    if (is_page_template('page-templates/template-homepage.php')) {
+        wp_enqueue_style(
+            'unmask-homepage',
+            $css_dir . 'unmask-homepage.css',
+            array('unmask-00-design-system'),
+            $theme_version
+        );
+    }
 }
 
 /* ==========================================================================
