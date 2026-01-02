@@ -50,6 +50,14 @@ function unmask_enqueue_styles() {
         array('unmask-00-design-system'),
         $theme_version
     );
+
+    // Component library - loaded after layout system
+    wp_enqueue_style(
+        'unmask-components',
+        $css_dir . 'unmask-components.css',
+        array('unmask-layout-system'),
+        $theme_version
+    );
 }
 
 /* ==========================================================================
