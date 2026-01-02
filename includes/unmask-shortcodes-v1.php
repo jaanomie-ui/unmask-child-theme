@@ -224,3 +224,236 @@ function unmask_iso_card_shortcode($atts) {
     return ob_get_clean();
 }
 add_shortcode('unmask_iso_card', 'unmask_iso_card_shortcode');
+
+/* ==========================================================================
+   SHORTCODE: [unmask_type_badge]
+   ========================================================================== */
+
+/**
+ * Type badge shortcode - displays category as styled badge
+ *
+ * Usage: [unmask_type_badge]
+ *
+ * @param array $atts Shortcode attributes
+ * @return string Badge HTML
+ */
+function unmask_type_badge_shortcode($atts) {
+    $categories = get_the_category();
+
+    if (empty($categories)) {
+        return '';
+    }
+
+    $category = $categories[0];
+    $name = strtoupper($category->name);
+    $slug = $category->slug;
+
+    // Red for profiles/interviews, Blue for events/photoshoots
+    $color_class = 'profile';
+    if ($slug === 'photoshoots' || $slug === 'events' || $slug === 'event') {
+        $color_class = 'event';
+    }
+
+    return '<span class="unmask-type-badge unmask-type-badge--' . esc_attr($color_class) . '">' . esc_html($name) . '</span>';
+}
+add_shortcode('unmask_type_badge', 'unmask_type_badge_shortcode');
+
+/* ==========================================================================
+   SHORTCODE: [unmask_tags]
+   ========================================================================== */
+
+/**
+ * Tags display shortcode
+ *
+ * Usage: [unmask_tags]
+ *
+ * @param array $atts Shortcode attributes
+ * @return string Tags HTML
+ */
+function unmask_tags_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'post_id' => get_the_ID(),
+    ), $atts);
+
+    $tags = get_the_tags($atts['post_id']);
+
+    if (empty($tags)) {
+        return '';
+    }
+
+    $output = '<div class="unmask-tags-label">TAGS</div>';
+    $output .= '<div class="unmask-tags">';
+
+    foreach ($tags as $tag) {
+        $output .= sprintf(
+            '<a href="%s" class="unmask-tag">%s</a>',
+            esc_url(get_tag_link($tag->term_id)),
+            esc_html($tag->name)
+        );
+    }
+
+    $output .= '</div>';
+
+    return $output;
+}
+add_shortcode('unmask_tags', 'unmask_tags_shortcode');
+
+/* ==========================================================================
+   HELPER: Get gallery images
+   ========================================================================== */
+
+/**
+ * Get gallery images for a post
+ *
+ * @param string $ids Comma-separated image IDs (optional)
+ * @param int $post_id Post ID
+ * @return array Array of image data
+ */
+function unmask_get_gallery_images($ids = '', $post_id = 0) {
+    $images = array();
+
+    // If IDs provided, use those
+    if (!empty($ids)) {
+        $image_ids = array_map('intval', explode(',', $ids));
+    } else {
+        // Get from post meta
+        $image_ids = get_post_meta($post_id, 'unmask_gallery_images', true);
+        if (!is_array($image_ids)) {
+            $image_ids = array();
+        }
+    }
+
+    // If still no images, try featured image
+    if (empty($image_ids)) {
+        $thumbnail_id = get_post_thumbnail_id($post_id);
+        if ($thumbnail_id) {
+            $image_ids = array($thumbnail_id);
+        }
+    }
+
+    foreach ($image_ids as $id) {
+        $full = wp_get_attachment_image_src($id, 'full');
+        $thumb = wp_get_attachment_image_src($id, 'thumbnail');
+        $meta = wp_get_attachment_metadata($id);
+
+        if ($full) {
+            $filename = basename(get_attached_file($id));
+            $images[] = array(
+                'id'       => $id,
+                'full'     => $full[0],
+                'thumb'    => $thumb ? $thumb[0] : $full[0],
+                'width'    => $full[1],
+                'height'   => $full[2],
+                'filename' => $filename,
+            );
+        }
+    }
+
+    return $images;
+}
+
+/* ==========================================================================
+   SHORTCODE: [unmask_gallery_lead]
+   ========================================================================== */
+
+/**
+ * Gallery lead image shortcode
+ *
+ * Usage: [unmask_gallery_lead height="500px"]
+ *
+ * @param array $atts Shortcode attributes
+ * @return string Gallery HTML
+ */
+function unmask_gallery_lead_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'ids'     => '',
+        'post_id' => get_the_ID(),
+        'width'   => '100%',
+        'height'  => '500px',
+    ), $atts);
+
+    $images = unmask_get_gallery_images($atts['ids'], $atts['post_id']);
+
+    if (empty($images)) {
+        return '<div class="unmask-gallery-empty">No images found.</div>';
+    }
+
+    $gallery_id = 'unmask-gallery-' . $atts['post_id'];
+    $total = count($images);
+    $image_json = json_encode($images);
+
+    ob_start();
+    ?>
+    <div class="unmask-gallery-lead"
+         id="<?php echo esc_attr($gallery_id); ?>-lead"
+         data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
+         data-total="<?php echo esc_attr($total); ?>"
+         data-images='<?php echo esc_attr($image_json); ?>'
+         style="width: <?php echo esc_attr($atts['width']); ?>; height: <?php echo esc_attr($atts['height']); ?>;">
+
+        <img
+            src="<?php echo esc_url($images[0]['full']); ?>"
+            alt="<?php echo esc_attr($images[0]['filename']); ?>"
+            class="unmask-gallery-lead__img"
+        />
+
+        <div class="unmask-gallery-lead__filename"><?php echo esc_html($images[0]['filename']); ?></div>
+
+        <div class="unmask-gallery-lead__counter">
+            <span class="unmask-gallery-current">01</span> \ <?php echo str_pad($total, 2, '0', STR_PAD_LEFT); ?>
+        </div>
+
+        <?php if ($total > 1) : ?>
+        <button class="unmask-gallery-nav unmask-gallery-nav--prev" aria-label="Previous">←</button>
+        <button class="unmask-gallery-nav unmask-gallery-nav--next" aria-label="Next">→</button>
+        <?php endif; ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('unmask_gallery_lead', 'unmask_gallery_lead_shortcode');
+
+/* ==========================================================================
+   SHORTCODE: [unmask_gallery_strip]
+   ========================================================================== */
+
+/**
+ * Gallery thumbnail strip shortcode
+ *
+ * Usage: [unmask_gallery_strip]
+ *
+ * @param array $atts Shortcode attributes
+ * @return string Gallery strip HTML
+ */
+function unmask_gallery_strip_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'ids'     => '',
+        'post_id' => get_the_ID(),
+    ), $atts);
+
+    $images = unmask_get_gallery_images($atts['ids'], $atts['post_id']);
+
+    if (empty($images)) {
+        return '';
+    }
+
+    $gallery_id = 'unmask-gallery-' . $atts['post_id'];
+
+    ob_start();
+    ?>
+    <div class="unmask-gallery-strip" data-gallery-id="<?php echo esc_attr($gallery_id); ?>">
+        <?php foreach ($images as $index => $image) : ?>
+        <div class="unmask-gallery-strip__item<?php echo $index === 0 ? ' unmask-gallery-strip__item--active' : ''; ?>"
+             data-index="<?php echo esc_attr($index); ?>">
+            <img
+                src="<?php echo esc_url($image['thumb']); ?>"
+                alt="<?php echo esc_attr($image['filename']); ?>"
+            />
+            <span class="unmask-gallery-strip__label">IMG_<?php echo str_pad($index + 1, 3, '0', STR_PAD_LEFT); ?></span>
+        </div>
+        <?php endforeach; ?>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('unmask_gallery_strip', 'unmask_gallery_strip_shortcode');

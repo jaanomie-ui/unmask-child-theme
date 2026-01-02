@@ -76,6 +76,25 @@ function unmask_enqueue_styles() {
             $theme_version
         );
     }
+
+    // Single record styles - only on single posts
+    if (is_single() && get_post_type() === 'post') {
+        wp_enqueue_style(
+            'unmask-single-record',
+            $css_dir . 'unmask-single-record.css',
+            array('unmask-00-design-system'),
+            $theme_version
+        );
+
+        // Gallery JavaScript
+        wp_enqueue_script(
+            'unmask-gallery',
+            get_stylesheet_directory_uri() . '/assets/js/unmask-gallery.js',
+            array(),
+            $theme_version,
+            true
+        );
+    }
 }
 
 /* ==========================================================================

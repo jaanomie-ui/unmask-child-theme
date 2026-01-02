@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-get_header();
+get_header('fullbleed');
 ?>
 
 <div class="unmask-homepage">
@@ -70,4 +70,4 @@ get_header();
 </div>
 
 <?php
-get_footer();
+get_footer('fullbleed');
