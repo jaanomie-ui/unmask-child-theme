@@ -71,8 +71,8 @@
 
 .factory-book-layout {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: var(--gap-section);
+    grid-template-columns: 360px minmax(auto, 500px);
+    gap: var(--gap-element);
     align-items: start;
 }
 
