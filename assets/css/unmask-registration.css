@@ -6,74 +6,291 @@
    So corporate it is funny and a bit over the top.
 
    Note: Design tokens are inherited from 00-design-system.css
+
+   HOW THIS CSS WORKS (without !important):
+   1. functions.php filters out BuddyBoss body classes (has-sidebar, bb-buddypanel, etc.)
+      This prevents BuddyBoss layout rules from ever applying.
+
+   2. This stylesheet loads AFTER BuddyBoss theme CSS via dependency chain:
+      buddyboss-theme-template-css -> unmask-registration-css
+      This means our styles win the cascade with equal specificity.
+
+   3. We use body.unmask-registration-mode prefix for specificity where needed.
+      This creates specificity: 0,0,2,0 (class + class) which beats most BuddyBoss rules.
    ============================================================================ */
+
+/* ==========================================================================
+   REGISTRATION MODE — Layout Reset
+   When body has .unmask-registration-mode, isolate from any remaining
+   BuddyBoss styles that might leak through.
+   ========================================================================== */
+
+/* Hide BuddyBoss UI elements that shouldn't appear */
+body.unmask-registration-mode .site-header-container,
+body.unmask-registration-mode .bb-toggle-panel,
+body.unmask-registration-mode #buddypanel,
+body.unmask-registration-mode .buddypanel-wrap,
+body.unmask-registration-mode .bb-mobile-header,
+body.unmask-registration-mode .site-footer,
+body.unmask-registration-mode #buddypress-header,
+body.unmask-registration-mode .bb-header,
+body.unmask-registration-mode .header-aside {
+    display: none;
+}
+
+/* Reset body to dark background */
+body.unmask-registration-mode {
+    background: #181818;
+    background-color: #181818;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Reset wrapper elements */
+body.unmask-registration-mode #page,
+body.unmask-registration-mode .site,
+body.unmask-registration-mode #main,
+body.unmask-registration-mode .site-main,
+body.unmask-registration-mode .unmask-main--fullbleed {
+    background: #181818;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure no sidebar margins/padding remain */
+body.unmask-registration-mode .site-main {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Reset any BuddyBoss content containers */
+body.unmask-registration-mode .site-content,
+body.unmask-registration-mode .bb-grid,
+body.unmask-registration-mode .container:not(.site-header-container) {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Registration/welcome page containers */
+body.unmask-registration-mode .registration-page,
+body.unmask-registration-mode .welcome-page {
+    background: var(--primitive-void);
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   MEMBERPRESS FORM RESET
+   MemberPress adds its own styles. Since our CSS loads after BuddyBoss theme,
+   we win the cascade. We use .registration-form prefix for extra specificity.
+   ========================================================================== */
+
+.registration-form .mepr-signup-form,
+.registration-form .mp_form,
+.registration-form .mepr_checkout,
+.registration-form .mp_wrapper {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* MemberPress field rows */
+.registration-form .mp_form_row,
+.registration-form .mepr_checkout .mp_form_row {
+    margin-bottom: var(--gap-element);
+    padding: 0;
+}
+
+/* MemberPress labels */
+.registration-form .mp_form_row label,
+.registration-form .mp-form-label label,
+.registration-form .mepr_checkout label,
+.registration-form .mepr-form-input-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: var(--gap-micro);
+    font-weight: 400;
+}
+
+/* MemberPress inputs */
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="password"],
+.registration-form input[type="tel"],
+.registration-form input[type="url"],
+.registration-form input[type="number"],
+.registration-form select,
+.registration-form textarea,
+.registration-form .mepr-form-input {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--bg-input);
+    background-color: var(--primitive-void);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    padding: 12px 16px;
+    width: 100%;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.registration-form input:hover,
+.registration-form select:hover,
+.registration-form textarea:hover {
+    border-color: var(--border-hover);
+}
+
+.registration-form input:focus,
+.registration-form select:focus,
+.registration-form textarea:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2);
+}
+
+.registration-form input::placeholder {
+    color: var(--text-muted);
+}
+
+/* MemberPress submit button */
+.registration-form input[type="submit"],
+.registration-form button[type="submit"],
+.registration-form .mepr-submit,
+.registration-form .mepr-signup-button {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    background: var(--primitive-red-dark);
+    color: var(--text-primary);
+    border: 1px solid var(--primitive-void);
+    border-radius: 0;
+    padding: 16px 32px;
+    cursor: pointer;
+    box-shadow: none;
+    width: auto;
+    display: inline-block;
+}
+
+.registration-form input[type="submit"]:hover,
+.registration-form button[type="submit"]:hover,
+.registration-form .mepr-submit:hover {
+    background: var(--primitive-red-light);
+    border-color: var(--primitive-red-light);
+}
+
+/* Hide MemberPress required asterisks - we use placeholder text instead */
+.registration-form .mepr-field-required {
+    display: none;
+}
+
+/* MemberPress error messages */
+.registration-form .mepr-form-has-errors .mepr-validation-error,
+.registration-form .mepr-form-has-errors .mepr-error-message,
+.registration-form .cc-error {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--primitive-red-light);
+    background: transparent;
+    border: none;
+    padding: 8px 0;
+}
+
+/* Hide BuddyBoss/MemberPress price row styling we don't want */
+.registration-form .mepr_price,
+.registration-form .mepr_bold {
+    display: none;
+}
+
+/* BuddyBoss checkout details wrapper */
+.registration-form .bb-mp-checkout-details {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+}
 
 /* ============================================================================
    SYSTEM BAR
    ============================================================================ */
 
 .system-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px;
-  border-bottom: 1px solid var(--border-default);
-  background: var(--primitive-surface);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--border-default);
+    background: var(--primitive-surface);
 }
 
 .system-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .system-logo {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
 }
 
 .system-path {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
 }
 
 .system-bar-right {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .system-status {
-  font-family: var(--font-ui);
-  font-size: var(--type-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--primitive-green-glow);
-  animation: pulse 2s ease-in-out infinite;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primitive-green-glow);
+    animation: pulse 2s ease-in-out infinite;
 }
 
 .status-dot-active {
-  background: var(--primitive-green-glow);
-  box-shadow: 0 0 8px var(--primitive-green-glow);
+    background: var(--primitive-green-glow);
+    box-shadow: 0 0 8px var(--primitive-green-glow);
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 /* ============================================================================
@@ -81,8 +298,8 @@
    ============================================================================ */
 
 .registration-page {
-  min-height: 100vh;
-  background: var(--bg-page);
+    min-height: 100vh;
+    background: var(--bg-page);
 }
 
 /* ============================================================================
@@ -90,9 +307,9 @@
    ============================================================================ */
 
 .registration-frame {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: calc(100vh - 49px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 49px);
 }
 
 /* ============================================================================
@@ -100,52 +317,52 @@
    ============================================================================ */
 
 .registration-form-container {
-  padding: 64px 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 560px;
+    padding: 64px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 560px;
 }
 
 .registration-header {
-  margin-bottom: var(--gap-section);
+    margin-bottom: var(--gap-section);
 }
 
 .registration-title {
-  font-family: var(--font-ui);
-  font-size: var(--type-3xl);
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  margin-bottom: var(--gap-tight);
+    font-family: var(--font-ui);
+    font-size: var(--type-3xl);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: var(--gap-tight);
 }
 
 .registration-intro {
-  font-family: var(--font-body);
-  font-size: var(--type-base);
-  line-height: 1.6;
-  color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--type-base);
+    line-height: 1.6;
+    color: var(--text-secondary);
 }
 
 /* ============================================================================
-   FORM ELEMENTS — MemberPress Overrides
+   FORM ELEMENTS
    ============================================================================ */
 
 .registration-form .form-group,
 .registration-form .mp_form_row {
-  margin-bottom: var(--gap-element);
+    margin-bottom: var(--gap-element);
 }
 
 .registration-form .form-label,
 .registration-form label {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  display: block;
-  margin-bottom: var(--gap-micro);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: var(--gap-micro);
 }
 
 .registration-form .input,
@@ -155,46 +372,46 @@
 .registration-form input[type="password"],
 .registration-form select,
 .registration-form .mepr-form-input {
-  font-family: var(--font-ui);
-  font-size: var(--type-base);
-  line-height: 1.5;
-  color: var(--text-primary);
-  background: var(--bg-input);
-  border: 1px solid var(--border-default);
-  padding: 12px 16px;
-  width: 100%;
-  transition: border-color var(--duration-fast) var(--ease-out);
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    line-height: 1.5;
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    padding: 12px 16px;
+    width: 100%;
+    transition: border-color var(--duration-fast) var(--ease-out);
 }
 
 .registration-form .input:hover,
 .registration-form .select:hover,
 .registration-form input:hover,
 .registration-form select:hover {
-  border-color: var(--border-hover);
+    border-color: var(--border-hover);
 }
 
 .registration-form .input:focus,
 .registration-form .select:focus,
 .registration-form input:focus,
 .registration-form select:focus {
-  outline: none;
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2);
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2);
 }
 
 .registration-form .input::placeholder,
 .registration-form input::placeholder {
-  color: var(--text-muted);
+    color: var(--text-muted);
 }
 
 .registration-form .select,
 .registration-form select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23636363' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 40px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23636363' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
 }
 
 /* ============================================================================
@@ -202,66 +419,66 @@
    ============================================================================ */
 
 .function-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap-tight);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-tight);
 }
 
 .function-option {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .function-option input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .function-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
-  text-align: center;
-  transition: all var(--duration-fast) var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    text-align: center;
+    transition: all var(--duration-fast) var(--ease-out);
 }
 
 .function-option:hover .function-box {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
 }
 
 .function-option input:checked + .function-box {
-  background: var(--primitive-red-dark);
-  border-color: var(--primitive-red);
+    background: var(--primitive-red-dark);
+    border-color: var(--primitive-red);
 }
 
 .function-option input:focus + .function-box {
-  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.3);
+    box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.3);
 }
 
 .function-code {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  margin-bottom: 4px;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 4px;
 }
 
 .function-desc {
-  font-family: var(--font-ui);
-  font-size: var(--type-xs);
-  letter-spacing: 0.02em;
-  color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
 }
 
 .function-option input:checked + .function-box .function-code,
 .function-option input:checked + .function-box .function-desc {
-  color: var(--primitive-surface);
+    color: var(--primitive-surface);
 }
 
 /* ============================================================================
@@ -269,47 +486,47 @@
    ============================================================================ */
 
 .form-actions {
-  margin-top: var(--gap-section);
-  margin-bottom: var(--gap-element);
+    margin-top: var(--gap-section);
+    margin-bottom: var(--gap-element);
 }
 
 .registration-form .btn,
 .registration-form input[type="submit"],
 .registration-form .mepr-submit {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  text-transform: lowercase;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid;
-  padding: 12px 24px;
-  transition: all var(--duration-fast) var(--ease-out);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--gap-micro);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid;
+    padding: 12px 24px;
+    transition: all var(--duration-fast) var(--ease-out);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-micro);
 }
 
 .registration-form .btn-primary,
 .registration-form input[type="submit"],
 .registration-form .mepr-submit {
-  background: var(--primitive-red-dark);
-  color: var(--primitive-surface);
-  border-color: var(--primitive-void);
+    background: var(--primitive-red-dark);
+    color: var(--primitive-surface);
+    border-color: var(--primitive-void);
 }
 
 .registration-form .btn-primary:hover,
 .registration-form input[type="submit"]:hover,
 .registration-form .mepr-submit:hover {
-  background: var(--primitive-red-light);
-  border-color: var(--primitive-red-light);
+    background: var(--primitive-red-light);
+    border-color: var(--primitive-red-light);
 }
 
 .registration-form .btn-lg {
-  font-size: var(--type-base);
-  padding: 16px 32px;
+    font-size: var(--type-base);
+    padding: 16px 32px;
 }
 
 /* ============================================================================
@@ -317,21 +534,22 @@
    ============================================================================ */
 
 .form-footer {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: var(--gap-element);
 }
 
 .form-footer-link {
-  color: var(--link-default);
-  text-decoration: none;
+    color: var(--link-default);
+    text-decoration: none;
 }
 
 .form-footer-link:hover {
-  color: var(--link-hover);
+    color: var(--link-hover);
 }
 
 /* ============================================================================
@@ -339,86 +557,86 @@
    ============================================================================ */
 
 .registration-terminal {
-  background: var(--primitive-gray-900);
-  border-left: 1px solid var(--border-default);
-  padding: 64px 48px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    background: var(--primitive-gray-900);
+    border-left: 1px solid var(--border-default);
+    padding: 64px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .terminal-window {
-  width: 100%;
-  max-width: 400px;
-  background: var(--primitive-void);
-  border: 1px solid var(--border-default);
-  margin-bottom: var(--gap-section);
+    width: 100%;
+    max-width: 400px;
+    background: var(--primitive-void);
+    border: 1px solid var(--border-default);
+    margin-bottom: var(--gap-section);
 }
 
 .terminal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: var(--primitive-surface);
-  border-bottom: 1px solid var(--border-default);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--primitive-surface);
+    border-bottom: 1px solid var(--border-default);
 }
 
 .terminal-title {
-  font-family: var(--font-ui);
-  font-size: var(--type-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
 .terminal-controls {
-  display: flex;
-  gap: 6px;
+    display: flex;
+    gap: 6px;
 }
 
 .terminal-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--primitive-gray-600);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primitive-gray-600);
 }
 
 .terminal-body {
-  padding: 16px;
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  line-height: 1.8;
+    padding: 16px;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    line-height: 1.8;
 }
 
 .terminal-line {
-  color: var(--text-muted);
+    color: var(--text-muted);
 }
 
 .terminal-success {
-  color: var(--primitive-green-glow);
+    color: var(--primitive-green-glow);
 }
 
 .terminal-blink {
-  animation: blink 1s step-end infinite;
+    animation: blink 1s step-end infinite;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 .terminal-notice {
-  text-align: center;
+    text-align: center;
 }
 
 .notice-text {
-  font-family: var(--font-ui);
-  font-size: var(--type-xs);
-  letter-spacing: 0.02em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
 }
 
 /* ============================================================================
@@ -426,52 +644,52 @@
    ============================================================================ */
 
 .welcome-page {
-  min-height: 100vh;
-  background: var(--bg-page);
+    min-height: 100vh;
+    background: var(--bg-page);
 }
 
 .welcome-frame {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 64px 48px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 48px;
 }
 
 .welcome-header {
-  text-align: center;
-  margin-bottom: var(--gap-section);
+    text-align: center;
+    margin-bottom: var(--gap-section);
 }
 
 .welcome-label {
-  font-family: var(--font-body);
-  font-size: var(--type-base);
-  color: var(--text-secondary);
-  margin-bottom: var(--gap-tight);
+    font-family: var(--font-body);
+    font-size: var(--type-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--gap-tight);
 }
 
 .welcome-designation {
-  font-family: var(--font-ui);
-  font-size: 72px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 72px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
 }
 
 .welcome-page .divider {
-  border: none;
-  border-top: 1px solid var(--border-default);
-  margin: var(--gap-section) 0;
+    border: none;
+    border-top: 1px solid var(--border-default);
+    margin: var(--gap-section) 0;
 }
 
 .welcome-prompt {
-  text-align: center;
-  margin-bottom: var(--gap-section);
+    text-align: center;
+    margin-bottom: var(--gap-section);
 }
 
 .welcome-prompt-text {
-  font-family: var(--font-ui);
-  font-size: var(--type-lg);
-  letter-spacing: 0.02em;
-  color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--type-lg);
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
 }
 
 /* ============================================================================
@@ -479,78 +697,78 @@
    ============================================================================ */
 
 .onboarding-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap-element);
-  margin-bottom: var(--gap-section);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-element);
+    margin-bottom: var(--gap-section);
 }
 
 .onboarding-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
-  text-decoration: none;
-  transition: all var(--duration-fast) var(--ease-out);
-  display: flex;
-  flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    text-decoration: none;
+    transition: all var(--duration-fast) var(--ease-out);
+    display: flex;
+    flex-direction: column;
 }
 
 .onboarding-card:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
 }
 
 .onboarding-card .card-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border-default);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-default);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .onboarding-card .card-header-title {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
-  color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: var(--text-muted);
 }
 
 .onboarding-card .card-header-icon {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  color: var(--text-muted);
-  transition: transform var(--duration-fast) var(--ease-out);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .onboarding-card:hover .card-header-icon {
-  transform: translateX(4px);
+    transform: translateX(4px);
 }
 
 .onboarding-card .card-body {
-  padding: 16px;
-  flex: 1;
+    padding: 16px;
+    flex: 1;
 }
 
 .onboarding-card .card-text {
-  font-family: var(--font-body);
-  font-size: var(--type-base);
-  line-height: 1.5;
-  color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--type-base);
+    line-height: 1.5;
+    color: var(--text-secondary);
 }
 
 .onboarding-card .card-footer {
-  padding: 12px 16px;
-  border-top: 1px solid var(--border-default);
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-default);
 }
 
 .onboarding-card .card-cta {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  color: var(--link-default);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--link-default);
 }
 
 .onboarding-card:hover .card-cta {
-  color: var(--link-hover);
+    color: var(--link-hover);
 }
 
 /* ============================================================================
@@ -558,16 +776,16 @@
    ============================================================================ */
 
 .welcome-footer {
-  text-align: center;
-  padding-top: var(--gap-section);
-  border-top: 1px solid var(--border-default);
+    text-align: center;
+    padding-top: var(--gap-section);
+    border-top: 1px solid var(--border-default);
 }
 
 .welcome-footer-text {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  color: var(--text-muted);
-  margin-bottom: 8px;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    margin-bottom: 8px;
 }
 
 /* ============================================================================
@@ -575,26 +793,26 @@
    ============================================================================ */
 
 @media (max-width: 1023px) {
-  .registration-frame {
-    grid-template-columns: 1fr;
-  }
+    .registration-frame {
+        grid-template-columns: 1fr;
+    }
 
-  .registration-form-container {
-    padding: 48px;
-    max-width: none;
-  }
+    .registration-form-container {
+        padding: 48px;
+        max-width: none;
+    }
 
-  .registration-terminal {
-    display: none;
-  }
+    .registration-terminal {
+        display: none;
+    }
 
-  .function-grid {
-    grid-template-columns: 1fr;
-  }
+    .function-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .onboarding-grid {
-    grid-template-columns: 1fr;
-  }
+    .onboarding-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ============================================================================
@@ -602,30 +820,30 @@
    ============================================================================ */
 
 @media (max-width: 767px) {
-  .system-bar {
-    padding: 12px 16px;
-  }
+    .system-bar {
+        padding: 12px 16px;
+    }
 
-  .registration-form-container {
-    padding: 32px 16px;
-  }
+    .registration-form-container {
+        padding: 32px 16px;
+    }
 
-  .registration-title {
-    font-size: var(--type-2xl);
-  }
+    .registration-title {
+        font-size: var(--type-2xl);
+    }
 
-  .welcome-frame {
-    padding: 32px 16px;
-  }
+    .welcome-frame {
+        padding: 32px 16px;
+    }
 
-  .welcome-designation {
-    font-size: 48px;
-  }
+    .welcome-designation {
+        font-size: 48px;
+    }
 
-  .registration-form .btn-lg,
-  .registration-form input[type="submit"],
-  .registration-form .mepr-submit {
-    width: 100%;
-    justify-content: center;
-  }
+    .registration-form .btn-lg,
+    .registration-form input[type="submit"],
+    .registration-form .mepr-submit {
+        width: 100%;
+        justify-content: center;
+    }
 }

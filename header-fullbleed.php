@@ -15,6 +15,10 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Check if this is a registration/welcome page (these have their own header)
+$is_registration_page = is_page_template('page-templates/page-register-visitor.php') ||
+                        is_page_template('page-templates/page-welcome.php');
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -25,15 +29,14 @@ if (!defined('ABSPATH')) {
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class('unmask-fullbleed'); ?>>
+<body <?php body_class($is_registration_page ? 'unmask-fullbleed unmask-registration-mode' : 'unmask-fullbleed'); ?>>
 <?php wp_body_open(); ?>
 
 <div id="page" class="site">
 
     <?php
-    // Include BuddyBoss header navigation if needed
-    // This pulls in just the nav, not the content containers
-    if (function_exists('buddyboss_theme_header')) {
+    // Skip BuddyBoss header on registration/welcome pages (they have their own system-bar)
+    if (!$is_registration_page && function_exists('buddyboss_theme_header')) {
         buddyboss_theme_header();
     }
     ?>

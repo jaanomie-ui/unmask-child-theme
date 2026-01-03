@@ -109,20 +109,214 @@ require_once get_stylesheet_directory() . '/includes/unmask-shortcodes-v1.php';
    ========================================================================== */
 
 /**
- * Enqueue registration page styles
+ * Helper function to check if current page uses registration/welcome templates
  */
-add_action('wp_enqueue_scripts', 'unmask_registration_styles');
-function unmask_registration_styles() {
-    // Check if we're on registration or welcome page templates
+function unmask_is_registration_page() {
+    // Multiple detection methods for reliability
+
+    // Method 1: Check page template slug
+    $template_slug = get_page_template_slug();
+    if ($template_slug === 'page-templates/page-register-visitor.php' ||
+        $template_slug === 'page-templates/page-welcome.php') {
+        return true;
+    }
+
+    // Method 2: Check is_page_template (backup)
     if (is_page_template('page-templates/page-register-visitor.php') ||
         is_page_template('page-templates/page-welcome.php')) {
+        return true;
+    }
 
-        wp_enqueue_style(
-            'unmask-registration',
-            get_stylesheet_directory_uri() . '/assets/css/unmask-registration.css',
-            array('unmask-00-design-system'),
-            wp_get_theme()->get('Version')
-        );
+    // Method 3: Check body class (most reliable at body_class filter time)
+    // This works because WordPress adds template classes before our filter
+    global $post;
+    if ($post && is_page()) {
+        $stored_template = get_post_meta($post->ID, '_wp_page_template', true);
+        if ($stored_template === 'page-templates/page-register-visitor.php' ||
+            $stored_template === 'page-templates/page-welcome.php') {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Filter body classes on registration/welcome pages
+ *
+ * WHY THIS IS NEEDED:
+ * BuddyBoss adds layout classes (has-sidebar, page-sidebar, sidebar-right,
+ * bb-buddypanel, etc.) to body that trigger parent theme layout rules.
+ * Even though header-fullbleed.php skips the BuddyBoss header, these classes
+ * still get added and cause layout conflicts.
+ *
+ * By removing these classes at the source, we eliminate the CSS battles
+ * entirely - no need for !important overrides.
+ */
+add_filter('body_class', 'unmask_filter_registration_body_classes', PHP_INT_MAX);
+function unmask_filter_registration_body_classes($classes) {
+    // Only filter on registration/welcome pages
+    if (!unmask_is_registration_page()) {
+        return $classes;
+    }
+
+    // Classes to REMOVE - these trigger BuddyBoss layout rules
+    $remove_classes = array(
+        // Sidebar classes - prevent sidebar layout rules
+        'has-sidebar',
+        'page-sidebar',
+        'sidebar-right',
+        'sidebar-left',
+        'blog-sidebar',
+        'search-sidebar',
+        'activity-sidebar-left',
+        'activity-sidebar-right',
+        'members-sidebar',
+        'profile-sidebar',
+        'groups-sidebar',
+        'group-sidebar',
+        'forums-sidebar',
+        'woo-sidebar',
+
+        // BuddyPanel classes - prevent panel offset rules
+        'bb-buddypanel',
+        'bb-buddypanel-left',
+        'bb-buddypanel-right',
+        'buddypanel-logo',
+
+        // Header classes - prevent sticky header rules
+        'sticky-header',
+
+        // Other layout classes
+        'header-style-1',
+        'header-style-2',
+        'header-style-3',
+        'header-style-4',
+        'header-style-5',
+    );
+
+    // BuddyBoss adds some classes as concatenated strings like 'has-sidebar blog-sidebar sidebar-right'
+    // We need to split these and filter individual classes
+    $new_classes = array();
+    foreach ($classes as $class_entry) {
+        // Split concatenated class strings
+        $individual_classes = preg_split('/\s+/', trim($class_entry));
+        foreach ($individual_classes as $class) {
+            $class = trim($class);
+            if (!empty($class) && !in_array($class, $remove_classes, true)) {
+                $new_classes[] = $class;
+            }
+        }
+    }
+
+    return array_unique($new_classes);
+}
+
+/**
+ * Enqueue registration page styles AFTER BuddyBoss theme CSS
+ *
+ * WHY THIS IS NEEDED:
+ * BuddyBoss theme CSS (buddyboss-theme-css, buddyboss-theme-template-css)
+ * loads AFTER child theme CSS due to how BuddyBoss enqueues its styles.
+ * By setting the dependency to 'buddyboss-theme-template-css', we ensure
+ * our registration CSS loads last in the cascade and wins specificity
+ * battles without needing !important.
+ *
+ * Load order becomes:
+ * 1. Child theme CSS
+ * 2. BuddyBoss theme CSS
+ * 3. unmask-registration CSS (LAST - wins cascade!)
+ */
+add_action('wp_enqueue_scripts', 'unmask_registration_styles', 999);
+function unmask_registration_styles() {
+    // Check if we're on registration or welcome page templates
+    if (!unmask_is_registration_page()) {
+        return;
+    }
+
+    // Dependency on BuddyBoss theme CSS ensures we load AFTER it
+    // If buddyboss-theme-template-css doesn't exist, fall back to just design system
+    $deps = array('unmask-00-design-system');
+    if (wp_style_is('buddyboss-theme-template-css', 'registered') ||
+        wp_style_is('buddyboss-theme-template-css', 'enqueued')) {
+        $deps[] = 'buddyboss-theme-template-css';
+    }
+
+    wp_enqueue_style(
+        'unmask-registration',
+        get_stylesheet_directory_uri() . '/assets/css/unmask-registration.css',
+        $deps,
+        wp_get_theme()->get('Version')
+    );
+}
+
+/**
+ * Dequeue unnecessary styles on registration/welcome pages
+ * Keeps: Header, BuddyPanel sidebar, Footer essentials
+ * Removes: Plugins, features not needed for registration
+ */
+add_action('wp_enqueue_scripts', 'unmask_dequeue_registration_styles', 999);
+function unmask_dequeue_registration_styles() {
+    // Only run on registration/welcome pages
+    if (!unmask_is_registration_page()) {
+        return;
+    }
+
+    // Styles to DEQUEUE (not needed for registration)
+    $dequeue_styles = array(
+        // BuddyBoss social features
+        'bb-activity-post-feature-image',
+        'bb-polls-style',
+        'bb-schedule-posts',
+        'bb-access-control',
+        'bp-zoom',
+        'bp-media-videojs-css',
+        'bp-mentions-css',
+
+        // MemberPress (we override these)
+        'mp-theme',
+        'bb-meprlms-frontend',
+
+        // BuddyBoss MemberPress integration (conflicts with our form styles)
+        'buddyboss-theme-memberpress',
+        'member-profile-css',
+
+        // Modern Events Calendar
+        'mec-frontend-style',
+        'mec-general-calendar-style',
+        'mec-font-icons',
+        'mec-lity-style',
+        'mec-select2-style',
+        'mec-single-builder',
+        'mec-tooltip-style',
+        'mec-tooltip-shadow-style',
+        'mec-bp-main',
+
+        // WooCommerce
+        'woocommerce-general',
+        'woocommerce-layout',
+        'woocommerce-smallscreen',
+        'wc-blocks-style',
+        'wc-stripe-blocks-checkout-style',
+        'buddyboss-theme-woocommerce',
+
+        // Other plugins
+        'factory-booking-frontend',
+        'ssa-styles',
+        'ssa-upcoming-appointments-card-style',
+        'featherlight',
+        'flatpickr',
+
+        // Forums (not needed)
+        'buddyboss-theme-forums',
+
+        // TutorLMS
+        'bb-tutorlms-admin',
+    );
+
+    foreach ($dequeue_styles as $handle) {
+        wp_dequeue_style($handle);
+        wp_deregister_style($handle);
     }
 }
 
