@@ -282,10 +282,6 @@
    ============================================================================ */
 
 .factory-book-form {
-    background: var(--bg-card);
-    border: 1px solid var(--border-default);
-    padding: var(--gap-element);
-    min-height: 400px;
     margin-left: 21px;
 }
 

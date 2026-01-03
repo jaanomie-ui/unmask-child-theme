@@ -60,11 +60,7 @@ get_header();
 
                 <!-- RIGHT: Booking Form Column -->
                 <div class="factory-book-form">
-                    <h2 class="factory-book-section__title">Select Date + Time</h2>
-
-                    <div class="factory-book-form__container">
-                        <?php echo do_shortcode('[factory_booking]'); ?>
-                    </div>
+                    <?php echo do_shortcode('[factory_booking]'); ?>
                 </div>
 
             </div>
