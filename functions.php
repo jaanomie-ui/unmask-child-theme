@@ -104,6 +104,12 @@ function unmask_enqueue_styles() {
 // Shortcodes v1 - Component shortcodes with template parts
 require_once get_stylesheet_directory() . '/includes/unmask-shortcodes-v1.php';
 
+// Factory page styles
+require_once get_stylesheet_directory() . '/inc/enqueue-factory.php';
+
+// Factory Booking page styles
+require_once get_stylesheet_directory() . '/inc/enqueue-factory-book.php';
+
 /* ==========================================================================
    REGISTRATION PAGE STYLES
    ========================================================================== */

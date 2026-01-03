@@ -1,0 +1,574 @@
+/* ============================================================================
+   THE FACTORY BOOK PAGE — STYLES
+
+   Layout: Two-column with booking form
+   Mobile-first: Form appears first on mobile
+   Design system compliant — uses --primitive-* and --text-* tokens
+   ============================================================================ */
+
+/* ============================================================================
+   PAGE CONTAINER
+   ============================================================================ */
+
+.factory-book-page {
+    max-width: 1100px;
+    padding-top: var(--gap-section);
+    padding-bottom: var(--frame-bottom);
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.factory-book-header {
+    margin-bottom: var(--gap-section);
+}
+
+.factory-book-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-micro);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: var(--gap-tight);
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.factory-book-back:hover {
+    color: var(--text-primary);
+}
+
+.factory-book-back__arrow {
+    font-size: var(--type-base);
+}
+
+.factory-book-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-3xl);
+    font-weight: 400;
+    letter-spacing: var(--tracking-headlines);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    margin: 0 0 var(--gap-micro) 0;
+}
+
+.factory-book-location {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ============================================================================
+   TWO-COLUMN LAYOUT
+   ============================================================================ */
+
+.factory-book-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--gap-section);
+    align-items: start;
+}
+
+/* Mobile: Stack with form first */
+@media (max-width: 900px) {
+    .factory-book-layout {
+        grid-template-columns: 1fr;
+        gap: var(--gap-element);
+    }
+
+    /* Reorder: Form first on mobile */
+    .factory-book-form {
+        order: -1;
+    }
+}
+
+/* ============================================================================
+   CONTEXT COLUMN (LEFT)
+   ============================================================================ */
+
+.factory-book-context {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-element);
+}
+
+/* ============================================================================
+   SECTIONS
+   ============================================================================ */
+
+.factory-book-section {
+    padding-bottom: var(--gap-element);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.factory-book-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.factory-book-section__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    font-weight: 400;
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 var(--gap-tight) 0;
+}
+
+/* ============================================================================
+   RATE CARDS
+   ============================================================================ */
+
+.factory-book-rate {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: var(--gap-tight);
+    margin-bottom: var(--gap-tight);
+    position: relative;
+}
+
+.factory-book-rate:last-child {
+    margin-bottom: 0;
+}
+
+.factory-book-rate--disabled {
+    opacity: 0.4;
+    border-color: var(--primitive-red);
+}
+
+.factory-book-rate__badge {
+    position: absolute;
+    top: var(--gap-micro);
+    right: var(--gap-micro);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--primitive-red);
+    border: 1px solid var(--primitive-red);
+    padding: 2px 6px;
+}
+
+.factory-book-rate__price {
+    font-family: var(--font-ui);
+    font-size: var(--type-2xl);
+    font-weight: 400;
+    letter-spacing: var(--tracking-headlines);
+    color: var(--text-primary);
+}
+
+.factory-book-rate__unit {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+}
+
+.factory-book-rate__label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* ============================================================================
+   LIST STYLES
+   ============================================================================ */
+
+.factory-book-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.factory-book-list li {
+    font-family: var(--font-body);
+    font-size: var(--type-base);
+    color: var(--text-secondary);
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: var(--gap-micro);
+}
+
+.factory-book-list li:last-child {
+    margin-bottom: 0;
+}
+
+.factory-book-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+/* ============================================================================
+   ISO BOARD CTA
+   ============================================================================ */
+
+.factory-book-iso {
+    background: rgba(154, 133, 66, 0.08);
+    border: 1px solid rgba(154, 133, 66, 0.3);
+    padding: var(--gap-tight);
+    display: flex;
+    gap: var(--gap-tight);
+    align-items: flex-start;
+    margin-top: var(--gap-element);
+}
+
+.factory-book-iso__icon {
+    color: #C4A632;
+    font-size: var(--type-xl);
+    line-height: 1;
+}
+
+.factory-book-iso__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.factory-book-iso__text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: #C4A632;
+}
+
+.factory-book-iso__link {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: #C4A632;
+    text-decoration: none;
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.factory-book-iso__link:hover {
+    opacity: 0.7;
+}
+
+/* ============================================================================
+   BOOKING FORM COLUMN (RIGHT)
+   ============================================================================ */
+
+.factory-book-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: var(--gap-element);
+    min-height: 400px;
+}
+
+.factory-book-form__container {
+    /* Container for shortcode output */
+}
+
+/* ============================================================================
+   BOOKING FORM INTEGRATION
+   Factory Booking System plugin overrides for UNMASK design system
+   Converts white/purple → dark/red
+   ============================================================================ */
+
+/* Widget container - remove white bg, border-radius */
+.factory-book-form__container .factory-booking-widget {
+    max-width: 100%;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+/* Price display header */
+.factory-book-form__container .factory-booking-price {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-bottom: none;
+    padding: var(--gap-element);
+}
+
+.factory-book-form__container .price-amount {
+    font-family: var(--font-ui);
+    font-size: var(--type-3xl);
+    font-weight: 400;
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-headlines);
+}
+
+.factory-book-form__container .price-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+}
+
+/* Form container */
+.factory-book-form__container .factory-booking-form {
+    font-family: var(--font-ui);
+    padding: var(--gap-element);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+}
+
+/* Form groups */
+.factory-book-form__container .form-group {
+    margin-bottom: var(--gap-element);
+}
+
+.factory-book-form__container .form-group label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    font-weight: 400;
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--gap-micro);
+}
+
+/* Input fields */
+.factory-book-form__container .form-group input[type="text"],
+.factory-book-form__container .form-group input[type="number"],
+.factory-book-form__container .form-group input[type="date"],
+.factory-book-form__container .form-group select,
+.factory-book-form__container .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    font-family: var(--font-body);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+}
+
+.factory-book-form__container .form-group input:focus,
+.factory-book-form__container .form-group select:focus,
+.factory-book-form__container .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primitive-red);
+}
+
+.factory-book-form__container .form-group .description {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* Duration display */
+.factory-book-form__container .duration-display {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    padding: var(--gap-tight);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+}
+
+/* Addon options */
+.factory-book-form__container .addon-option {
+    display: block;
+    padding: var(--gap-tight);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    margin-bottom: var(--gap-micro);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.factory-book-form__container .addon-option:hover {
+    border-color: var(--primitive-red);
+    background: var(--bg-elevated);
+}
+
+.factory-book-form__container .addon-price {
+    color: var(--primitive-red);
+    font-weight: 400;
+}
+
+.factory-book-form__container .addon-description {
+    color: var(--text-muted);
+    font-size: var(--type-xs);
+}
+
+/* Payment section */
+.factory-book-form__container .payment-section {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    padding: var(--gap-element);
+    margin-top: var(--gap-element);
+}
+
+/* Stripe card element */
+.factory-book-form__container .stripe-card-element {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    padding: var(--gap-tight);
+}
+
+.factory-book-form__container .stripe-card-element:focus-within {
+    border-color: var(--primitive-red);
+    box-shadow: none;
+}
+
+.factory-book-form__container .card-errors {
+    color: var(--primitive-red);
+    font-size: var(--type-xs);
+}
+
+/* Price breakdown */
+.factory-book-form__container .price-breakdown {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    padding: var(--gap-element);
+    margin: var(--gap-element) 0;
+}
+
+.factory-book-form__container .price-breakdown h4 {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    font-weight: 400;
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 var(--gap-tight) 0;
+}
+
+.factory-book-form__container .price-line {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+}
+
+.factory-book-form__container .price-line.total-line {
+    border-top: 1px solid var(--border-default);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+}
+
+/* Submit button */
+.factory-book-form__container .factory-submit-btn {
+    width: 100%;
+    padding: var(--gap-tight) var(--gap-element);
+    background: var(--primitive-red);
+    color: var(--text-primary);
+    border: 1px solid var(--primitive-red);
+    border-radius: 0;
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.factory-book-form__container .factory-submit-btn:hover {
+    background: transparent;
+    color: var(--primitive-red);
+}
+
+.factory-book-form__container .factory-submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Booking note */
+.factory-book-form__container .booking-note {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: var(--gap-tight);
+}
+
+/* ============================================================================
+   FLATPICKR CALENDAR — UNMASK THEME
+   ============================================================================ */
+
+.flatpickr-calendar {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.flatpickr-months {
+    background: var(--bg-elevated);
+    border-radius: 0;
+}
+
+.flatpickr-month {
+    color: var(--text-primary);
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+.flatpickr-current-month input.cur-year {
+    color: var(--text-primary);
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    color: var(--text-muted);
+}
+
+.flatpickr-prev-month:hover,
+.flatpickr-next-month:hover {
+    color: var(--text-primary);
+}
+
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+    fill: var(--text-muted);
+}
+
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg {
+    fill: var(--text-primary);
+}
+
+.flatpickr-weekday {
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: var(--tracking-labels);
+}
+
+.flatpickr-day {
+    color: var(--text-secondary);
+    border-radius: 0;
+}
+
+.flatpickr-day:hover {
+    background: var(--bg-elevated);
+    border-color: var(--primitive-red);
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+    background: var(--primitive-red);
+    border-color: var(--primitive-red);
+    color: var(--text-primary);
+}
+
+.flatpickr-day.today {
+    border-color: var(--primitive-red);
+}
+
+.flatpickr-day.disabled,
+.flatpickr-day.disabled:hover {
+    color: var(--text-muted);
+    opacity: 0.3;
+    background: transparent;
+}
