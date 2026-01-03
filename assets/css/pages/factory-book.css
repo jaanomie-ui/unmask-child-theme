@@ -285,10 +285,6 @@
     margin-left: 21px;
 }
 
-.factory-book-form__container {
-    /* Container for shortcode output */
-}
-
 /* ============================================================================
    BOOKING FORM INTEGRATION
    Factory Booking System plugin overrides for UNMASK design system
@@ -296,7 +292,7 @@
    ============================================================================ */
 
 /* Widget container - remove white bg, border-radius */
-.factory-book-form__container .factory-booking-widget {
+.factory-book-form .factory-booking-widget {
     max-width: 100%;
     background: transparent;
     border: none;
@@ -304,14 +300,14 @@
 }
 
 /* Price display header */
-.factory-book-form__container .factory-booking-price {
+.factory-book-form .factory-booking-price {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
     border-bottom: none;
     padding: var(--gap-element);
 }
 
-.factory-book-form__container .price-amount {
+.factory-book-form .price-amount {
     font-family: var(--font-ui);
     font-size: var(--type-3xl);
     font-weight: 400;
@@ -319,14 +315,14 @@
     letter-spacing: var(--tracking-headlines);
 }
 
-.factory-book-form__container .price-label {
+.factory-book-form .price-label {
     font-family: var(--font-ui);
     font-size: var(--type-sm);
     color: var(--text-muted);
 }
 
 /* Form container */
-.factory-book-form__container .factory-booking-form {
+.factory-book-form .factory-booking-form {
     font-family: var(--font-ui);
     padding: var(--gap-element);
     background: var(--bg-surface);
@@ -334,11 +330,11 @@
 }
 
 /* Form groups */
-.factory-book-form__container .form-group {
+.factory-book-form .form-group {
     margin-bottom: var(--gap-element);
 }
 
-.factory-book-form__container .form-group label {
+.factory-book-form .form-group label {
     font-family: var(--font-ui);
     font-size: var(--type-xs);
     font-weight: 400;
@@ -349,11 +345,11 @@
 }
 
 /* Input fields */
-.factory-book-form__container .form-group input[type="text"],
-.factory-book-form__container .form-group input[type="number"],
-.factory-book-form__container .form-group input[type="date"],
-.factory-book-form__container .form-group select,
-.factory-book-form__container .form-group textarea {
+.factory-book-form .form-group input[type="text"],
+.factory-book-form .form-group input[type="number"],
+.factory-book-form .form-group input[type="date"],
+.factory-book-form .form-group select,
+.factory-book-form .form-group textarea {
     width: 100%;
     padding: 12px;
     background: var(--bg-card);
@@ -364,21 +360,21 @@
     color: var(--text-primary);
 }
 
-.factory-book-form__container .form-group input:focus,
-.factory-book-form__container .form-group select:focus,
-.factory-book-form__container .form-group textarea:focus {
+.factory-book-form .form-group input:focus,
+.factory-book-form .form-group select:focus,
+.factory-book-form .form-group textarea:focus {
     outline: none;
     border-color: var(--primitive-red);
 }
 
-.factory-book-form__container .form-group .description {
+.factory-book-form .form-group .description {
     font-size: var(--type-xs);
     color: var(--text-muted);
     margin-top: 4px;
 }
 
 /* Duration display */
-.factory-book-form__container .duration-display {
+.factory-book-form .duration-display {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
     border-radius: 0;
@@ -389,7 +385,7 @@
 }
 
 /* Addon options */
-.factory-book-form__container .addon-option {
+.factory-book-form .addon-option {
     display: block;
     padding: var(--gap-tight);
     background: var(--bg-card);
@@ -400,23 +396,23 @@
     transition: border-color var(--duration-fast) var(--ease-out);
 }
 
-.factory-book-form__container .addon-option:hover {
+.factory-book-form .addon-option:hover {
     border-color: var(--primitive-red);
     background: var(--bg-elevated);
 }
 
-.factory-book-form__container .addon-price {
+.factory-book-form .addon-price {
     color: var(--primitive-red);
     font-weight: 400;
 }
 
-.factory-book-form__container .addon-description {
+.factory-book-form .addon-description {
     color: var(--text-muted);
     font-size: var(--type-xs);
 }
 
 /* Payment section */
-.factory-book-form__container .payment-section {
+.factory-book-form .payment-section {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
     border-radius: 0;
@@ -425,25 +421,25 @@
 }
 
 /* Stripe card element */
-.factory-book-form__container .stripe-card-element {
+.factory-book-form .stripe-card-element {
     background: var(--bg-card);
     border: 1px solid var(--border-default);
     border-radius: 0;
     padding: var(--gap-tight);
 }
 
-.factory-book-form__container .stripe-card-element:focus-within {
+.factory-book-form .stripe-card-element:focus-within {
     border-color: var(--primitive-red);
     box-shadow: none;
 }
 
-.factory-book-form__container .card-errors {
+.factory-book-form .card-errors {
     color: var(--primitive-red);
     font-size: var(--type-xs);
 }
 
 /* Price breakdown */
-.factory-book-form__container .price-breakdown {
+.factory-book-form .price-breakdown {
     background: var(--bg-elevated);
     border: 1px solid var(--border-default);
     border-radius: 0;
@@ -451,7 +447,7 @@
     margin: var(--gap-element) 0;
 }
 
-.factory-book-form__container .price-breakdown h4 {
+.factory-book-form .price-breakdown h4 {
     font-family: var(--font-ui);
     font-size: var(--type-xs);
     font-weight: 400;
@@ -461,20 +457,20 @@
     margin: 0 0 var(--gap-tight) 0;
 }
 
-.factory-book-form__container .price-line {
+.factory-book-form .price-line {
     font-family: var(--font-ui);
     font-size: var(--type-sm);
     color: var(--text-secondary);
 }
 
-.factory-book-form__container .price-line.total-line {
+.factory-book-form .price-line.total-line {
     border-top: 1px solid var(--border-default);
     font-size: var(--type-base);
     color: var(--text-primary);
 }
 
 /* Submit button */
-.factory-book-form__container .factory-submit-btn {
+.factory-book-form .factory-submit-btn {
     width: 100%;
     padding: var(--gap-tight) var(--gap-element);
     background: var(--primitive-red);
@@ -490,18 +486,18 @@
     transition: all var(--duration-fast) var(--ease-out);
 }
 
-.factory-book-form__container .factory-submit-btn:hover {
+.factory-book-form .factory-submit-btn:hover {
     background: transparent;
     color: var(--primitive-red);
 }
 
-.factory-book-form__container .factory-submit-btn:disabled {
+.factory-book-form .factory-submit-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
 }
 
 /* Booking note */
-.factory-book-form__container .booking-note {
+.factory-book-form .booking-note {
     font-family: var(--font-ui);
     font-size: var(--type-xs);
     color: var(--text-muted);
