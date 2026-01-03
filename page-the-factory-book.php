@@ -56,36 +56,6 @@ get_header();
                         </div>
                     </section>
 
-                    <!-- Includes -->
-                    <section class="factory-book-section">
-                        <h2 class="factory-book-section__title">Includes</h2>
-                        <ul class="factory-book-list">
-                            <li>studio space</li>
-                            <li>natural + artificial lighting</li>
-                            <li>c-stands + grip gear</li>
-                            <li>red seamless backdrop</li>
-                        </ul>
-                    </section>
-
-                    <!-- Policy -->
-                    <section class="factory-book-section">
-                        <h2 class="factory-book-section__title">Policy</h2>
-                        <ul class="factory-book-list">
-                            <li>2-hour minimum</li>
-                            <li>same-day booking available</li>
-                            <li>24-hour cancellation</li>
-                        </ul>
-                    </section>
-
-                    <!-- ISO Board CTA -->
-                    <div class="factory-book-iso">
-                        <span class="factory-book-iso__icon">⬡</span>
-                        <div class="factory-book-iso__content">
-                            <span class="factory-book-iso__text">need a photographer?</span>
-                            <a href="<?php echo esc_url(home_url('/iso-board/')); ?>" class="factory-book-iso__link">→ ISO Board</a>
-                        </div>
-                    </div>
-
                 </aside>
 
                 <!-- RIGHT: Booking Form Column -->
