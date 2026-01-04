@@ -60,6 +60,7 @@
 
 .rail__track {
     display: flex;
+    align-items: flex-start; /* All cards align to top */
     gap: var(--gap-tight);
     overflow-x: auto;
     overflow-y: hidden;
