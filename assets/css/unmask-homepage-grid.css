@@ -84,24 +84,47 @@
    Fixed widths for horizontal scroll behavior
    ------------------------------------------------------------------------- */
 
-/* All record cards uniform size - no featured first card */
+/* ==========================================================================
+   CARD SIZING — ALL CARDS UNIFORM (kill featured first card)
+   Using !important to override any conflicting rules
+   ========================================================================== */
+
+/* Record cards: ALL uniform 280px */
 .rail__track .card--record,
-.rail__track .card--record:first-child {
-    width: 280px;
-    min-height: auto;
-    aspect-ratio: 4 / 5;
+.rail__track .card--record:first-child,
+.rail__track .card--record:first-of-type,
+.rail__track > .card--record:first-child,
+.rail__track > article:first-child,
+.rail__track > article:first-of-type {
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    min-height: auto !important;
+    aspect-ratio: 4 / 5 !important;
+    flex: 0 0 280px !important;
+    grid-column: span 1 !important;
 }
 
-.rail__track .card--iso {
-    width: 320px;
+/* ISO cards: ALL uniform 320px */
+.rail__track .card--iso,
+.rail__track .card--iso:first-child,
+.rail__track .card--iso:first-of-type {
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    flex: 0 0 320px !important;
 }
 
-.rail__track .card--factory {
-    width: 260px;
-}
-
-.rail__track .factory-card {
-    width: 320px;
+/* Factory cards: ALL uniform 320px */
+.rail__track .factory-card,
+.rail__track .factory-card:first-child,
+.rail__track .factory-card:first-of-type,
+.rail__track .card--factory,
+.rail__track .card--factory:first-child {
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    flex: 0 0 320px !important;
 }
 
 
