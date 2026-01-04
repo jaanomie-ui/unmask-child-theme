@@ -1,0 +1,225 @@
+/* ==========================================================================
+   UNMASK HOMEPAGE GRID STRUCTURE
+   Netflix/Spotify rail pattern with inline widgets
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------
+   BASE GRID CONTAINER
+   2-column foundation, all children flow into it
+   ------------------------------------------------------------------------- */
+
+.homepage-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-element);
+    padding: var(--gap-section) var(--gap-element);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+/* -------------------------------------------------------------------------
+   RAILS (horizontal scroll sections)
+   Full width, contains header + scrollable cards
+   ------------------------------------------------------------------------- */
+
+.rail {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-tight);
+}
+
+.rail__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 var(--gap-micro);
+}
+
+.rail__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.rail__link {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.rail__link:hover {
+    color: var(--text-secondary);
+}
+
+.rail__track {
+    display: flex;
+    gap: var(--gap-tight);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: var(--gap-micro);
+}
+
+.rail__track::-webkit-scrollbar {
+    display: none;
+}
+
+.rail__track > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
+
+
+/* -------------------------------------------------------------------------
+   CARD SIZING FOR RAILS
+   Fixed widths for horizontal scroll behavior
+   ------------------------------------------------------------------------- */
+
+.rail__track .card--record {
+    width: 280px;
+    min-height: 380px;
+}
+
+.rail__track .card--iso {
+    width: 320px;
+}
+
+.rail__track .card--factory {
+    width: 260px;
+}
+
+.rail__track .factory-card {
+    width: 280px;
+}
+
+
+/* -------------------------------------------------------------------------
+   HORIZONTAL WIDGET
+   Full width, used for activity feeds, quotes, CTAs
+   ------------------------------------------------------------------------- */
+
+.widget-h {
+    grid-column: span 2;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: var(--gap-element);
+}
+
+.widget-h__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 var(--gap-tight) 0;
+}
+
+.widget-h__placeholder {
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+}
+
+
+/* -------------------------------------------------------------------------
+   SQUARE WIDGET
+   Half width, two fit per row
+   ------------------------------------------------------------------------- */
+
+.widget-sq {
+    grid-column: span 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: var(--gap-element);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-sq__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 var(--gap-tight) 0;
+}
+
+.widget-sq__placeholder {
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* -------------------------------------------------------------------------
+   STATIC SECTION (the web, full-width non-card sections)
+   ------------------------------------------------------------------------- */
+
+.section-static {
+    grid-column: span 2;
+    padding: var(--gap-section) 0;
+}
+
+.section-static__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: var(--tracking-labels);
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 var(--gap-element) 0;
+    padding: 0 var(--gap-micro);
+}
+
+.section-static__placeholder {
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    padding: var(--gap-element);
+    border: 1px dashed var(--border-default);
+    text-align: center;
+}
+
+
+/* -------------------------------------------------------------------------
+   RESPONSIVE ADJUSTMENTS
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .homepage-grid {
+        grid-template-columns: 1fr;
+        gap: var(--gap-tight);
+        padding: var(--gap-element) var(--gap-tight);
+    }
+
+    .rail,
+    .widget-h,
+    .widget-sq,
+    .section-static {
+        grid-column: span 1;
+    }
+
+    .widget-sq {
+        aspect-ratio: auto;
+        min-height: 200px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .homepage-grid {
+        gap: var(--gap-section);
+    }
+}

@@ -1,0 +1,947 @@
+/* ============================================================================
+   UNMASK UNIFIED CARD SYSTEM
+   Version: 1.0.0
+   Generated: 2026-01-04
+
+   Architecture:
+   .card                    → Base styles (background, border, transitions)
+   .card--{category}        → Content type (record, iso, member, factory, submit, location)
+   .card--{context}         → Layout context (grid, featured, fullbleed, split, minimal, elevated, compact)
+   .card__{element}         → Sub-components (header, body, footer, image, title, etc.)
+   .card--{state}           → States (hover handled via CSS, plus blurred, active, etc.)
+
+   Dependencies:
+   - 00-design-system.css (must load before this file)
+
+   Migration Notes:
+   See CLASS MAPPING section at bottom for old → new class conversions
+   ============================================================================ */
+
+/* ============================================================================
+   1. BASE CARD
+   ============================================================================ */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+}
+
+/* Interactive cards get pointer and lift effect */
+.card[href],
+.card--interactive {
+  cursor: pointer;
+}
+
+.card[href]:hover,
+.card--interactive:hover {
+  transform: translateY(-2px);
+}
+
+/* ============================================================================
+   2. SUB-COMPONENTS — Structure
+   ============================================================================ */
+
+/* Card Link — Makes entire card clickable */
+.card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+/* Card Header */
+.card__header {
+  padding: var(--gap-tight);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Card Body */
+.card__body {
+  padding: var(--gap-tight);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Footer */
+.card__footer {
+  padding: 12px var(--gap-tight);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Card Content — Alternative to body for simpler cards */
+.card__content {
+  padding: var(--gap-tight);
+  flex: 1;
+}
+
+/* ============================================================================
+   3. SUB-COMPONENTS — Image & Visual
+   ============================================================================ */
+
+/* Card Image Container */
+.card__image {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Default aspect ratio */
+.card__image {
+  aspect-ratio: 4 / 5;
+}
+
+/* Image element inside container */
+.card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter var(--duration-slow) var(--ease-out);
+}
+
+/* Desaturated default, color on hover */
+.card__image img {
+  filter: grayscale(20%) contrast(1.05);
+}
+
+.card:hover .card__image img {
+  filter: grayscale(0%) contrast(1);
+}
+
+/* Gradient Overlay */
+.card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--gap-element) var(--gap-tight) var(--gap-tight);
+  background: linear-gradient(
+    to top,
+    rgba(24, 24, 24, 0.95) 0%,
+    rgba(24, 24, 24, 0.7) 60%,
+    transparent 100%
+  );
+  z-index: 2;
+}
+
+/* ============================================================================
+   4. SUB-COMPONENTS — Typography
+   ============================================================================ */
+
+/* Section Label (small uppercase) */
+.card__label {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  letter-spacing: var(--tracking-labels);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--gap-micro);
+}
+
+/* Card Title */
+.card__title {
+  font-family: var(--font-ui);
+  font-size: var(--type-lg);
+  font-weight: 400;
+  color: var(--text-primary);
+  text-transform: lowercase;
+  line-height: var(--leading-tight);
+  margin: 0 0 var(--gap-micro) 0;
+}
+
+/* Card Subtitle / Secondary Title */
+.card__subtitle {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--gap-micro);
+}
+
+/* Card Text / Description */
+.card__text {
+  font-family: var(--font-body);
+  font-size: var(--type-base);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+  margin: 0;
+}
+
+/* Truncated text (3 lines) */
+.card__text--truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Card CTA Link */
+.card__cta {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--link-default);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.card__cta:hover {
+  color: var(--link-hover);
+}
+
+/* ============================================================================
+   5. SUB-COMPONENTS — Meta & Badges
+   ============================================================================ */
+
+/* Meta Container */
+.card__meta {
+  display: flex;
+  gap: var(--gap-tight);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Individual Meta Item */
+.card__meta-item {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-labels);
+}
+
+/* File ID Badge */
+.card__file-id {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  background: rgba(24, 24, 24, 0.7);
+  padding: 4px var(--gap-micro);
+  backdrop-filter: blur(4px);
+}
+
+/* Positioned file ID (top-left) */
+.card__file-id--positioned {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+}
+
+/* Type Badge */
+.card__type {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-labels);
+  padding: 4px 10px;
+  border: 1px solid;
+  background: rgba(24, 24, 24, 0.7);
+}
+
+/* Positioned type badge (top-right) */
+.card__type--positioned {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+}
+
+/* Title below image (for simplified record cards) */
+.card__title--below {
+  position: relative;
+  padding: var(--gap-tight);
+  margin: 0;
+  background: var(--bg-card);
+  z-index: 2;
+}
+
+/* Type variants */
+.card__type--profile {
+  color: var(--primitive-red);
+  border-color: var(--primitive-red);
+}
+
+.card__type--event {
+  color: var(--primitive-blue-light);
+  border-color: var(--primitive-blue-light);
+}
+
+.card__type--seeking {
+  color: var(--status-seeking-text);
+  border-color: var(--status-seeking-border);
+}
+
+.card__type--offering {
+  color: var(--primitive-blue-light);
+  border-color: var(--primitive-blue);
+}
+
+/* Info Badge (blue variant for ISO designation labels) */
+.badge-info {
+  color: var(--primitive-blue-light);
+  border: 1px solid var(--primitive-blue);
+  background: rgba(44, 61, 104, 0.1);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+}
+
+/* Badges Container */
+.card__badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* ============================================================================
+   6. SUB-COMPONENTS — Avatar & Author
+   ============================================================================ */
+
+/* Avatar */
+.card__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primitive-gray-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__avatar--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.card__avatar--lg {
+  width: 64px;
+  height: 64px;
+}
+
+/* Author Info Block */
+.card__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card__author-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.card__author-name {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--text-secondary);
+}
+
+.card__author-role {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================================
+   7. SUB-COMPONENTS — Actions
+   ============================================================================ */
+
+.card__actions {
+  display: flex;
+  gap: var(--gap-micro);
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+/* ============================================================================
+   8. CATEGORY MODIFIERS — Content Types
+   ============================================================================ */
+
+/* --- RECORD (Magazine content) --- */
+.card--record {
+  overflow: hidden;
+}
+
+.card--record .card__image {
+  aspect-ratio: 4 / 5;
+}
+
+.card--record .card__title {
+  font-size: var(--type-lg);
+}
+
+/* --- ISO (Listings) --- */
+.card--iso {
+  /* Standard card with header/body/footer structure */
+}
+
+.card--iso .card__header {
+  gap: 12px;
+}
+
+.card--iso .card__title {
+  margin-bottom: var(--gap-micro);
+  line-height: 1.3;
+}
+
+.card--iso .card__text {
+  margin-bottom: var(--gap-tight);
+  flex: 1;
+}
+
+/* Factory preferred highlight */
+.card--iso.card--preferred:hover {
+  border-color: var(--primitive-amber);
+  box-shadow: 0 8px 24px rgba(212, 160, 25, 0.2), 0 0 0 1px var(--primitive-amber);
+}
+
+/* --- MEMBER / DOSSIER (Profiles) --- */
+.card--member {
+  width: 200px;
+}
+
+.card--member .card__image {
+  aspect-ratio: 1 / 1;
+}
+
+.card--member .card__content {
+  padding: 12px;
+}
+
+.card--member .card__label {
+  color: var(--primitive-red-dark);
+}
+
+/* --- FACTORY (Booking) - Legacy text cards --- */
+.card--factory {
+  padding: 20px var(--gap-element);
+}
+
+.card--factory .card__header {
+  border-bottom: none;
+  padding: 0 0 var(--gap-tight) 0;
+}
+
+.card--factory .card__body {
+  padding: 0;
+}
+
+/* --- FACTORY IMAGE CARDS (Homepage rail) --- */
+.factory-card {
+  position: relative;
+  width: 280px;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.factory-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.factory-card__image {
+  flex: 1;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Gradient placeholder backgrounds */
+.factory-card__image--photo-studio {
+  background: linear-gradient(135deg, var(--primitive-gray-800) 0%, var(--primitive-elevated) 50%, var(--primitive-gray-700) 100%);
+}
+
+.factory-card__image--interview {
+  background: linear-gradient(225deg, var(--primitive-gray-800) 0%, var(--primitive-blue) 50%, var(--primitive-gray-700) 100%);
+}
+
+.factory-card__image--meeting {
+  background: linear-gradient(180deg, var(--primitive-gray-800) 0%, var(--primitive-green) 50%, var(--primitive-gray-700) 100%);
+}
+
+.factory-card__image--editing {
+  background: linear-gradient(315deg, var(--primitive-gray-800) 0%, var(--primitive-red-dark) 50%, var(--primitive-gray-700) 100%);
+}
+
+.factory-card__title {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-primary);
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.factory-card__desc {
+  padding: 16px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: left;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --- SUBMIT / CTA (Action cards) --- */
+.card--submit {
+  border-style: dashed;
+  min-height: 300px;
+}
+
+.card--submit:hover {
+  border-color: var(--primitive-red);
+  border-style: solid;
+}
+
+.card--submit .card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 40px var(--gap-element);
+}
+
+.card--submit .card__icon {
+  font-size: 24px;
+  color: var(--text-muted);
+  margin-bottom: var(--gap-tight);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.card--submit:hover .card__icon {
+  color: var(--primitive-red);
+}
+
+/* --- LOCATION --- */
+.card--location {
+  padding: var(--gap-tight);
+}
+
+.card--location .card__title {
+  font-size: var(--type-base);
+  margin-bottom: 4px;
+}
+
+/* --- ONBOARDING --- */
+.card--onboarding {
+  text-decoration: none;
+}
+
+.card--onboarding .card__header-icon {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.card--onboarding:hover .card__header-icon {
+  transform: translateX(4px);
+}
+
+/* ============================================================================
+   9. CONTEXT MODIFIERS — Layout Variations
+   ============================================================================ */
+
+/* --- GRID (In grid layout) --- */
+.card--grid {
+  height: 100%;
+}
+
+/* --- FEATURED (Spans multiple columns) --- */
+.card--featured {
+  grid-column: span 2;
+}
+
+.card--featured .card__image {
+  aspect-ratio: 16 / 10;
+}
+
+.card--featured .card__title {
+  font-size: var(--type-xl);
+}
+
+.card--featured .card__text {
+  font-size: var(--type-base);
+  -webkit-line-clamp: 3;
+}
+
+/* --- FULLBLEED (Image fills card) --- */
+.card--fullbleed {
+  overflow: hidden;
+}
+
+.card--fullbleed .card__image {
+  aspect-ratio: 4 / 5;
+  position: relative;
+}
+
+.card--fullbleed .card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.card--fullbleed .card__file-id {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+}
+
+.card--fullbleed .card__type {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+}
+
+/* Fullbleed with title below image (simplified record cards) */
+.card--fullbleed .card__title--below {
+  position: relative;
+  padding: var(--gap-tight);
+  margin: 0;
+  background: var(--bg-card);
+}
+
+/* --- SPLIT (50/50 layout) --- */
+.card--split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.card--split .card__image {
+  aspect-ratio: 1 / 1;
+}
+
+.card--split .card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --- MINIMAL (Text only, subtle border) --- */
+.card--minimal {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  padding: var(--gap-tight);
+}
+
+.card--minimal:hover {
+  background: var(--bg-card);
+}
+
+/* --- ELEVATED (Raised with shadow) --- */
+.card--elevated {
+  background: var(--bg-elevated);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card--elevated:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* --- COMPACT (Reduced padding) --- */
+.card--compact .card__header {
+  padding: 12px;
+}
+
+.card--compact .card__body {
+  padding: 12px;
+}
+
+.card--compact .card__footer {
+  padding: 10px 12px;
+}
+
+/* --- HORIZONTAL (Side-by-side layout) --- */
+.card--horizontal {
+  flex-direction: row;
+}
+
+.card--horizontal .card__image {
+  width: 40%;
+  flex-shrink: 0;
+  aspect-ratio: unset;
+}
+
+.card--horizontal .card__content {
+  flex: 1;
+}
+
+/* ============================================================================
+   10. STATE MODIFIERS
+   ============================================================================ */
+
+/* Blurred (restricted content) */
+.card--blurred .card__avatar,
+.card--blurred .card__author-name,
+.card--blurred .card__text {
+  filter: blur(4px);
+  user-select: none;
+}
+
+/* Active/Selected */
+.card--active {
+  border-color: var(--primitive-red);
+}
+
+/* Disabled */
+.card--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Expiring soon */
+.card--expiring .card__meta-item {
+  color: var(--primitive-red);
+}
+
+/* Drone status (green glow) */
+.card--drone .card__avatar {
+  border: 1px solid var(--primitive-green-glow);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.3);
+}
+
+.card--drone:hover .card__avatar {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+}
+
+/* ============================================================================
+   11. SIZE MODIFIERS
+   ============================================================================ */
+
+.card--sm {
+  max-width: 200px;
+}
+
+.card--md {
+  max-width: 280px;
+}
+
+.card--lg {
+  max-width: 400px;
+}
+
+.card--full {
+  max-width: 100%;
+}
+
+/* ============================================================================
+   12. ASPECT RATIO MODIFIERS
+   ============================================================================ */
+
+.card--ratio-square .card__image {
+  aspect-ratio: 1 / 1;
+}
+
+.card--ratio-portrait .card__image {
+  aspect-ratio: 4 / 5;
+}
+
+.card--ratio-tall .card__image {
+  aspect-ratio: 3 / 4;
+}
+
+.card--ratio-landscape .card__image {
+  aspect-ratio: 16 / 9;
+}
+
+.card--ratio-wide .card__image {
+  aspect-ratio: 16 / 10;
+}
+
+/* ============================================================================
+   13. RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  /* Stack split cards */
+  .card--split {
+    grid-template-columns: 1fr;
+  }
+
+  /* Featured cards span full width */
+  .card--featured {
+    grid-column: span 1;
+  }
+
+  .card--featured .card__image {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* Member cards full width */
+  .card--member {
+    width: 100%;
+  }
+
+  /* Horizontal cards stack */
+  .card--horizontal {
+    flex-direction: column;
+  }
+
+  .card--horizontal .card__image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Reduce padding on compact */
+  .card--compact .card__header,
+  .card--compact .card__body,
+  .card--compact .card__footer {
+    padding: 10px;
+  }
+
+  /* ISO card adjustments */
+  .card--iso .card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-micro);
+  }
+
+  .card--iso .card__actions {
+    flex-direction: column;
+  }
+}
+
+/* ============================================================================
+   14. UTILITY CLASSES
+   ============================================================================ */
+
+/* Full-width in grid */
+.card--span-full {
+  grid-column: 1 / -1;
+}
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+  .card--hide-mobile {
+    display: none;
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 769px) {
+  .card--hide-desktop {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   CLASS MAPPING — Old to New
+
+   Use this reference when migrating templates:
+
+   00-design-system.css:
+   .card                        → .card (unchanged)
+   .card-header                 → .card__header
+   .card-header-title           → .card__label
+   .card-body                   → .card__body
+   .card-title                  → .card__title
+   .card-text                   → .card__text
+   .card-footer                 → .card__footer
+   .card-cta                    → .card__cta
+
+   unmask-components.css:
+   .record-card-fullbleed       → .card.card--record.card--fullbleed
+   .record-card-split           → .card.card--record.card--split
+   .record-card-minimal         → .card.card--record.card--minimal
+   .dossier-card                → .card.card--member
+   .iso-card                    → .card.card--iso
+
+   unmask-homepage.css:
+   .unmask-record-card          → .card.card--record.card--grid
+   .unmask-record-card__link    → .card__link
+   .unmask-record-card__image   → .card__image img
+   .unmask-record-card__subject → .card__title
+   .unmask-record-card__type    → .card__type
+
+   07-dashboard.css:
+   .unmask-card                 → .card
+   .unmask-card-elevated        → .card.card--elevated
+   .unmask-card-header          → .card__header
+   .unmask-card-title           → .card__label
+   .unmask-card-content         → .card__content
+   .unmask-dossiers-card        → .card.card--span-full
+
+   06-pages.css:
+   .factory-booking-card        → .card.card--factory
+   .iso-card                    → .card.card--iso
+
+   pages/iso-board.css:
+   .iso-listing-card            → .card.card--iso.card--grid
+   .iso-card-header             → .card__header
+   .iso-card-avatar             → .card__avatar
+   .iso-card-body               → .card__body
+   .iso-card-title              → .card__title
+   .iso-card-description        → .card__text.card__text--truncate
+   .iso-card-footer             → .card__footer
+   .iso-card-badges             → .card__badges
+   .factory-preferred           → .card--preferred
+   .blurred                     → .card--blurred
+
+   pages/archive-magazine.css:
+   .archive-record-card         → .card.card--record.card--fullbleed
+   .archive-record-card--featured → .card.card--record.card--fullbleed.card--featured
+   .archive-submit-card         → .card.card--submit
+   .archive-location-card       → .card.card--location
+   .archive-card-title          → .card__title
+   .archive-card-excerpt        → .card__text
+   .archive-file-id             → .card__file-id.card__file-id--positioned
+   .archive-type-badge          → .card__type.card__type--positioned
+
+   unmask-registration.css:
+   .onboarding-card             → .card.card--onboarding
+
+   ============================================================================ */
