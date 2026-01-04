@@ -124,15 +124,17 @@
   --font-ui: "Berkeley Mono", "SF Mono", "Monaco", monospace;
   --font-body: "Tiempos Text", Georgia, "Times New Roman", serif;
   --font-editorial: "Tiempos Headline", Georgia, serif;
+  --font-mono: var(--font-ui);  /* alias for compatibility */
 
-  /* Type Scale — 1.25 ratio, 13px base */
-  --type-xs: 8px;
-  --type-sm: 10px;
-  --type-base: 13px;
-  --type-lg: 16px;
-  --type-xl: 20px;
-  --type-2xl: 25px;
-  --type-3xl: 32px;
+  /* Type Scale — 1.25 ratio, 16px base */
+  --type-xs: 10px;
+  --type-sm: 12px;
+  --type-md: 14px;
+  --type-base: 16px;
+  --type-lg: 20px;
+  --type-xl: 25px;
+  --type-2xl: 32px;
+  --type-3xl: 40px;
 
   /* Line Heights */
   --leading-none: 1;
@@ -274,86 +276,6 @@ p { margin: 0 0 1em 0; }
 .space-micro { margin-bottom: var(--gap-micro); }
 
 /* ============================================================================
-   BUTTONS
-   ============================================================================ */
-
-.btn {
-  font-family: var(--font-ui);
-  font-size: var(--type-sm);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: var(--tracking-body);
-  text-transform: lowercase;
-  text-decoration: none;
-  cursor: pointer;
-  border: 1px solid;
-  padding: 12px 24px;
-  transition: all var(--duration-fast) var(--ease-out);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--gap-micro);
-}
-
-.btn:focus-visible {
-  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2);
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
-.btn-primary {
-  background: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
-  border-color: var(--btn-primary-border);
-}
-
-.btn-primary:hover {
-  background: var(--btn-primary-bg-hover);
-  border-color: var(--btn-primary-border-hover);
-}
-
-.btn-primary:active {
-  background: var(--btn-primary-bg-active);
-}
-
-.btn-secondary {
-  background: var(--btn-secondary-bg);
-  color: var(--btn-secondary-text);
-  border-color: var(--btn-secondary-border);
-}
-
-.btn-secondary:hover {
-  background: var(--btn-secondary-bg-hover);
-  color: var(--btn-secondary-text-hover);
-  border-color: var(--btn-secondary-border-hover);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--btn-ghost-text);
-  border-color: transparent;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.btn-ghost:hover {
-  color: var(--btn-ghost-text-hover);
-}
-
-.btn-sm { font-size: var(--type-xs); padding: 8px 16px; }
-.btn-lg { font-size: var(--type-base); padding: 16px 32px; }
-
-.btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  pointer-events: none;
-  background: var(--bg-card);
-  border-color: var(--border-default);
-  color: var(--text-muted);
-}
-
-/* ============================================================================
    FORMS
    ============================================================================ */
 
@@ -474,46 +396,6 @@ p { margin: 0 0 1em 0; }
 .card-cta:hover { color: var(--link-hover); }
 
 /* ============================================================================
-   BADGES
-   ============================================================================ */
-
-.badge {
-  font-family: var(--font-ui);
-  font-size: var(--type-xs);
-  letter-spacing: var(--tracking-labels);
-  text-transform: lowercase;
-  padding: 4px 10px;
-  border: 1px solid;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.badge-seeking {
-  color: var(--status-seeking-text);
-  border-color: var(--status-seeking-border);
-  background: var(--status-seeking-bg);
-}
-
-.badge-offering {
-  color: var(--status-offering-text);
-  border-color: var(--status-offering-border);
-  background: var(--status-offering-bg);
-}
-
-.badge-success {
-  color: var(--status-success-text);
-  border-color: var(--status-success-border);
-  background: var(--status-success-bg);
-}
-
-.badge-neutral {
-  color: var(--text-muted);
-  border-color: var(--border-default);
-  background: transparent;
-}
-
-/* ============================================================================
    LINKS
    ============================================================================ */
 
@@ -548,34 +430,6 @@ a:visited { color: var(--link-visited); }
 .divider-subtle {
   border-top-color: var(--border-subtle);
   margin: var(--gap-element) 0;
-}
-
-/* ============================================================================
-   LOADING STATE
-   ============================================================================ */
-
-.btn-loading {
-  position: relative;
-  color: transparent !important;
-  pointer-events: none;
-}
-
-.btn-loading::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  margin: -8px 0 0 -8px;
-  border: 2px solid var(--text-muted);
-  border-top-color: var(--text-primary);
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 /* ============================================================================

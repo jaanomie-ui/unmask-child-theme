@@ -45,7 +45,7 @@
   gap: var(--space-2, 8px);
   padding: var(--space-2, 8px) var(--space-6, 24px);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--type-sm);
   font-weight: 400;
   text-transform: lowercase;
   letter-spacing: 0.03em;
@@ -128,12 +128,12 @@
 /* Sizes */
 .btn-sm {
   padding: var(--space-1, 4px) var(--space-4, 16px);
-  font-size: 10px;
+  font-size: var(--type-xs);
 }
 
 .btn-lg {
   padding: var(--space-3, 12px) var(--space-8, 32px);
-  font-size: 12px;
+  font-size: var(--type-sm);
 }
 
 /* Icon button */
@@ -152,7 +152,7 @@
 
 .form-label {
   display: block;
-  font-size: 9px;
+  font-size: var(--type-xs);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted, #525252);
@@ -167,7 +167,7 @@
   border: 1px solid var(--border-primary, #2a2a2a);
   color: var(--text-primary, #c2c2c2);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--type-sm);
   transition: all 0.15s;
 }
 
@@ -193,7 +193,7 @@
 }
 
 .form-error {
-  font-size: 10px;
+  font-size: var(--type-sm);
   color: var(--status-error, #ef4444);
   margin-top: var(--space-1, 4px);
 }
@@ -205,7 +205,7 @@
 }
 
 .form-char-count {
-  font-size: 9px;
+  font-size: var(--type-xs);
   color: var(--text-muted, #525252);
   text-align: right;
   margin-top: var(--space-1, 4px);
@@ -262,7 +262,7 @@
 }
 
 .form-checkbox-label {
-  font-size: 11px;
+  font-size: var(--type-sm);
   color: var(--text-secondary, #8e8e8e);
 }
 
@@ -474,7 +474,7 @@
   gap: 4px;
   padding: 3px 8px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--type-xs);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -541,7 +541,7 @@
 
 .badge-factory-ready::before {
   content: '⬡';
-  font-size: 8px;
+  font-size: var(--type-xs);
 }
 
 /* Schedule (ISO) */
@@ -603,7 +603,7 @@
    ======================================== */
 .section-head {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--type-xs);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -638,7 +638,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--type-sm);
 }
 
 .toast-content {
@@ -646,14 +646,14 @@
 }
 
 .toast-title {
-  font-size: 11px;
+  font-size: var(--type-sm);
   font-weight: 400;
   color: var(--text-primary, #c2c2c2);
   margin-bottom: 2px;
 }
 
 .toast-message {
-  font-size: 10px;
+  font-size: var(--type-sm);
   color: var(--text-muted, #525252);
 }
 
@@ -726,7 +726,7 @@
 }
 
 .modal-title {
-  font-size: 13px;
+  font-size: var(--type-md);
   font-weight: 400;
   color: var(--text-primary, #c2c2c2);
 }
@@ -736,12 +736,12 @@
   border: none;
   color: var(--text-muted, #525252);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--type-base);
 }
 
 .modal-body {
   padding: var(--space-4, 16px);
-  font-size: 12px;
+  font-size: var(--type-sm);
   color: var(--text-secondary, #8e8e8e);
   line-height: 1.6;
 }
@@ -777,20 +777,20 @@
 }
 
 .empty-state-icon {
-  font-size: 32px;
+  font-size: var(--type-2xl);
   color: var(--text-muted, #525252);
   margin-bottom: var(--space-4, 16px);
 }
 
 .empty-state-title {
-  font-size: 13px;
+  font-size: var(--type-md);
   font-weight: 400;
   color: var(--text-primary, #c2c2c2);
   margin-bottom: var(--space-2, 8px);
 }
 
 .empty-state-message {
-  font-size: 11px;
+  font-size: var(--type-sm);
   color: var(--text-muted, #525252);
   margin-bottom: var(--space-4, 16px);
   max-width: 280px;
@@ -807,20 +807,20 @@
 }
 
 .error-state-icon {
-  font-size: 32px;
+  font-size: var(--type-2xl);
   color: var(--status-error, #ef4444);
   margin-bottom: var(--space-4, 16px);
 }
 
 .error-state-title {
-  font-size: 13px;
+  font-size: var(--type-md);
   font-weight: 400;
   color: var(--text-primary, #c2c2c2);
   margin-bottom: var(--space-2, 8px);
 }
 
 .error-state-message {
-  font-size: 11px;
+  font-size: var(--type-sm);
   color: var(--text-muted, #525252);
   margin-bottom: var(--space-4, 16px);
 }
