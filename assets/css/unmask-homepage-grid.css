@@ -89,7 +89,7 @@
    Using !important to override any conflicting rules
    ========================================================================== */
 
-/* Record cards: ALL uniform 280px */
+/* Record cards: ALL uniform 280px with fixed height */
 .rail__track .card--record,
 .rail__track .card--record:first-child,
 .rail__track .card--record:first-of-type,
@@ -99,20 +99,32 @@
     width: 280px !important;
     min-width: 280px !important;
     max-width: 280px !important;
-    min-height: auto !important;
-    aspect-ratio: 4 / 5 !important;
+    height: 350px !important;
+    min-height: 350px !important;
+    max-height: 350px !important;
+    aspect-ratio: unset !important;
     flex: 0 0 280px !important;
     grid-column: span 1 !important;
 }
 
-/* ISO cards: ALL uniform 320px */
+/* Record card image fills the card */
+.rail__track .card--record .card__image,
+.rail__track .card--record .card__link {
+    height: 100% !important;
+}
+
+/* ISO cards: ALL uniform 320px with fixed height */
 .rail__track .card--iso,
 .rail__track .card--iso:first-child,
 .rail__track .card--iso:first-of-type {
     width: 320px !important;
     min-width: 320px !important;
     max-width: 320px !important;
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
     flex: 0 0 320px !important;
+    overflow: hidden !important;
 }
 
 /* Factory cards: ALL uniform 320px */
