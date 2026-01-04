@@ -406,6 +406,23 @@
   /* Standard card with header/body/footer structure */
 }
 
+/* ISO card rotating background colors */
+.card--iso:nth-child(4n+1) {
+  background: var(--iso-bg-olive);
+}
+
+.card--iso:nth-child(4n+2) {
+  background: var(--iso-bg-cool);
+}
+
+.card--iso:nth-child(4n+3) {
+  background: var(--iso-bg-warm);
+}
+
+.card--iso:nth-child(4n+4) {
+  background: var(--iso-bg-neutral);
+}
+
 .card--iso .card__header {
   gap: 12px;
 }
@@ -460,13 +477,16 @@
 /* --- FACTORY IMAGE CARDS (Homepage rail) --- */
 .factory-card {
   position: relative;
-  width: 280px;
+  width: 320px;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border: 1px solid var(--border-default);
-  background: var(--bg-card);
+  background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   transition: all var(--duration-fast) var(--ease-out);
   flex-shrink: 0;
@@ -477,31 +497,20 @@
   transform: translateY(-2px);
 }
 
-.factory-card__image {
-  flex: 1;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-/* Gradient placeholder backgrounds */
-.factory-card__image--photo-studio {
+/* Gradient placeholder backgrounds (applied directly to card) */
+.factory-card--photo-studio {
   background: linear-gradient(135deg, var(--primitive-gray-800) 0%, var(--primitive-elevated) 50%, var(--primitive-gray-700) 100%);
 }
 
-.factory-card__image--interview {
+.factory-card--interview {
   background: linear-gradient(225deg, var(--primitive-gray-800) 0%, var(--primitive-blue) 50%, var(--primitive-gray-700) 100%);
 }
 
-.factory-card__image--meeting {
+.factory-card--meeting {
   background: linear-gradient(180deg, var(--primitive-gray-800) 0%, var(--primitive-green) 50%, var(--primitive-gray-700) 100%);
 }
 
-.factory-card__image--editing {
+.factory-card--editing {
   background: linear-gradient(315deg, var(--primitive-gray-800) 0%, var(--primitive-red-dark) 50%, var(--primitive-gray-700) 100%);
 }
 
@@ -514,16 +523,21 @@
   letter-spacing: 0.05em;
   margin: 0;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 
 .factory-card__desc {
-  padding: 16px;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
   font-family: var(--font-body);
   font-size: 11px;
   color: var(--text-secondary);
   text-align: left;
   line-height: 1.5;
   margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* --- SUBMIT / CTA (Action cards) --- */

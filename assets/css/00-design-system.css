@@ -36,6 +36,15 @@
   --primitive-green: #3D6854;
   --primitive-green-light: #4a7d65;
   --primitive-green-glow: #4ade80;
+  --primitive-amber: #d4a019;
+  --primitive-amber-light: #e6b82a;
+  --primitive-amber-glow: rgba(212, 160, 25, 0.15);
+
+  /* ISO Card Backgrounds (subtle tinted darks) */
+  --iso-bg-olive: #1e1f1c;
+  --iso-bg-cool: #1b1c1e;
+  --iso-bg-warm: #1f1c1a;
+  --iso-bg-neutral: #1d1c1b;
 }
 
 /* ============================================================================

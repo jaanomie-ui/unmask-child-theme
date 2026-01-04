@@ -84,9 +84,12 @@
    Fixed widths for horizontal scroll behavior
    ------------------------------------------------------------------------- */
 
-.rail__track .card--record {
+/* All record cards uniform size - no featured first card */
+.rail__track .card--record,
+.rail__track .card--record:first-child {
     width: 280px;
-    min-height: 380px;
+    min-height: auto;
+    aspect-ratio: 4 / 5;
 }
 
 .rail__track .card--iso {
@@ -98,7 +101,7 @@
 }
 
 .rail__track .factory-card {
-    width: 280px;
+    width: 320px;
 }
 
 

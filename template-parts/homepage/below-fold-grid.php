@@ -74,7 +74,9 @@ $total_isos = $iso_query->found_posts;
                                     <?php the_post_thumbnail('large', ['loading' => 'lazy']); ?>
                                 <?php endif; ?>
                             </div>
-                            <h3 class="card__title card__title--below"><?php the_title(); ?></h3>
+                            <div class="card__overlay">
+                                <h3 class="card__title"><?php the_title(); ?></h3>
+                            </div>
                         </a>
                     </article>
                 <?php endwhile; ?>
@@ -194,28 +196,20 @@ $total_isos = $iso_query->found_posts;
         </header>
         <div class="rail__track">
             <!-- Factory image cards with gradient placeholders -->
-            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card">
-                <div class="factory-card__image factory-card__image--photo-studio">
-                    <h3 class="factory-card__title">photo studio</h3>
-                </div>
+            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card factory-card--photo-studio">
+                <h3 class="factory-card__title">photo studio</h3>
                 <p class="factory-card__desc">Professional lighting, backdrops, and equipment for portrait and editorial shoots.</p>
             </a>
-            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card">
-                <div class="factory-card__image factory-card__image--interview">
-                    <h3 class="factory-card__title">interview room</h3>
-                </div>
+            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card factory-card--interview">
+                <h3 class="factory-card__title">interview room</h3>
                 <p class="factory-card__desc">Soundproofed space for audio recording, podcasts, and video interviews.</p>
             </a>
-            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card">
-                <div class="factory-card__image factory-card__image--meeting">
-                    <h3 class="factory-card__title">meeting space</h3>
-                </div>
+            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card factory-card--meeting">
+                <h3 class="factory-card__title">meeting space</h3>
                 <p class="factory-card__desc">Flexible event space for workshops, screenings, and community gatherings.</p>
             </a>
-            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card">
-                <div class="factory-card__image factory-card__image--editing">
-                    <h3 class="factory-card__title">editing suite</h3>
-                </div>
+            <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="factory-card factory-card--editing">
+                <h3 class="factory-card__title">editing suite</h3>
                 <p class="factory-card__desc">Workstations with professional software for video and audio post-production.</p>
             </a>
         </div>
