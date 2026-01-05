@@ -66,7 +66,7 @@ while (have_posts()) :
 
             <!-- Column 2: Title Area (RIGHT justified, tags at bottom LEFT) -->
             <div class="record-hero__title-col">
-                <span class="record-hero__label">subject dossier:</span>
+                <span class="record-hero__label">interview:</span>
 
                 <h1 class="record-hero__title"><?php echo esc_html($title); ?></h1>
 
@@ -87,11 +87,6 @@ while (have_posts()) :
                         <div class="record-hero__meta-label">filed</div>
                         <div class="record-hero__meta-value"><?php echo esc_html($date); ?></div>
                     </div>
-
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">words</div>
-                        <div class="record-hero__meta-value"><?php echo number_format($word_count); ?></div>
-                    </div>
                 </div>
 
                 <!-- Tags anchored to bottom, LEFT justified -->
@@ -107,6 +102,11 @@ while (have_posts()) :
                 <?php echo do_shortcode('[unmask_type_badge]'); ?>
 
                 <div class="record-hero__meta-grid record-hero__meta-grid--secondary">
+                    <div class="record-hero__meta-item">
+                        <div class="record-hero__meta-label">words</div>
+                        <div class="record-hero__meta-value"><?php echo number_format($word_count); ?></div>
+                    </div>
+
                     <?php if ($issue) : ?>
                     <div class="record-hero__meta-item">
                         <div class="record-hero__meta-label">issue</div>
@@ -157,6 +157,91 @@ while (have_posts()) :
             </div>
         </div>
     </article>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         COMMENTS SECTION - WordPress Native
+    ═══════════════════════════════════════════════════════════════ -->
+    <?php if (comments_open() || get_comments_number()) : ?>
+    <section class="record-comments">
+        <div class="record-comments__container">
+            <header class="record-comments__header">
+                <span class="record-comments__label">discussion</span>
+                <span class="record-comments__count"><?php echo get_comments_number(); ?> responses</span>
+            </header>
+            <?php comments_template(); ?>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         RELATED RECORDS - By Tag, Fallback to Category
+    ═══════════════════════════════════════════════════════════════ -->
+    <?php
+    // Get current post's tags
+    $current_tags = wp_get_post_tags($post_id, ['fields' => 'ids']);
+    $current_categories = wp_get_post_categories($post_id);
+
+    // Try to find related by tags first
+    $related_args = [
+        'post__not_in'   => [$post_id],
+        'posts_per_page' => 3,
+        'post_status'    => 'publish',
+        'meta_query'     => [
+            [
+                'key'     => '_thumbnail_id',
+                'compare' => 'EXISTS',
+            ],
+        ],
+    ];
+
+    if (!empty($current_tags)) {
+        $related_args['tag__in'] = $current_tags;
+    } elseif (!empty($current_categories)) {
+        $related_args['category__in'] = $current_categories;
+    }
+
+    $related_query = new WP_Query($related_args);
+
+    if ($related_query->have_posts()) :
+    ?>
+    <section class="record-related">
+        <header class="record-related__header">
+            <span class="record-related__label">related records</span>
+            <span class="record-related__count"><?php echo $related_query->found_posts; ?> in archive</span>
+        </header>
+
+        <div class="record-related__grid">
+            <?php while ($related_query->have_posts()) : $related_query->the_post(); ?>
+                <?php
+                $related_file_id = get_post_meta(get_the_ID(), 'unmask_file_id', true) ?: sprintf('UM-%03d', get_the_ID());
+                $related_type = get_post_meta(get_the_ID(), 'unmask_type', true) ?: 'record';
+                ?>
+                <article class="unmask-record-card">
+                    <a href="<?php the_permalink(); ?>" class="unmask-record-card__link">
+                        <div class="unmask-record-card__image-wrap">
+                            <?php if (has_post_thumbnail()) : ?>
+                                <?php the_post_thumbnail('large', [
+                                    'class'   => 'unmask-record-card__image',
+                                    'loading' => 'lazy',
+                                ]); ?>
+                            <?php endif; ?>
+                            <div class="unmask-record-card__gradient"></div>
+                        </div>
+
+                        <span class="unmask-record-card__file-id"><?php echo esc_html($related_file_id); ?></span>
+
+                        <div class="unmask-record-card__overlay">
+                            <h3 class="unmask-record-card__subject"><?php the_title(); ?></h3>
+                            <span class="unmask-record-card__type"><?php echo esc_html($related_type); ?></span>
+                            <p class="unmask-record-card__excerpt"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
+                        </div>
+                    </a>
+                </article>
+            <?php endwhile; ?>
+        </div>
+        <?php wp_reset_postdata(); ?>
+    </section>
+    <?php endif; ?>
 
     <!-- ═══════════════════════════════════════════════════════════════
          FOOTER - Navigation

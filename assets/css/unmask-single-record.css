@@ -190,7 +190,7 @@ body.single-post .site-content > .container {
 .record-hero__tags .unmask-tag {
     font-family: var(--font-ui);
     font-size: var(--type-sm);
-    padding: var(--gap-micro) var(--gap-tight);
+    padding: 4px var(--gap-tight); /* Reduced vertical padding for header tags */
     border: 1px solid var(--border-default);
     color: var(--text-secondary);
     background: transparent;
@@ -309,12 +309,16 @@ body.single-post .site-content > .container {
 }
 
 .record-body__container {
-    max-width: 65ch; /* Optimal reading width: 45-75 characters */
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
 }
 
 /* Article typography - Tiempos Text */
 .record-body__content {
+    grid-column: 1 / 4;
+    padding: 0 calc(100% / 6); /* Half-column margins on each side */
+    max-width: none;
     font-family: var(--font-body);
     font-size: 18px;
     line-height: 1.7;
@@ -649,6 +653,370 @@ body.single-post .site-content > .container {
 }
 
 /* ============================================================================
+   COMMENTS SECTION - WordPress Native with UNMASK Styling
+   ============================================================================ */
+
+.record-comments {
+    background: var(--bg-page);
+    border-top: 1px solid var(--border-default);
+    padding: var(--gap-section) var(--gap-element);
+}
+
+.record-comments__container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.record-comments__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--gap-element);
+    padding-bottom: var(--gap-tight);
+    border-bottom: 1px solid var(--border-default);
+}
+
+.record-comments__label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primitive-red);
+}
+
+.record-comments__count {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+/* WordPress Comment List Overrides */
+.record-comments .comment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.record-comments .comment {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: var(--gap-element);
+    margin-bottom: var(--gap-tight);
+}
+
+.record-comments .comment-author {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-tight);
+    margin-bottom: var(--gap-tight);
+}
+
+.record-comments .comment-author .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    filter: grayscale(20%);
+}
+
+.record-comments .comment-author .fn {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-primary);
+    font-style: normal;
+}
+
+.record-comments .comment-author .fn a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.record-comments .comment-metadata {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--gap-tight);
+}
+
+.record-comments .comment-metadata a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.record-comments .comment-content {
+    font-family: var(--font-body);
+    font-size: var(--type-base);
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.record-comments .comment-content p {
+    margin: 0 0 var(--gap-tight) 0;
+}
+
+.record-comments .comment-content p:last-child {
+    margin-bottom: 0;
+}
+
+.record-comments .reply {
+    margin-top: var(--gap-tight);
+}
+
+.record-comments .reply a {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast);
+}
+
+.record-comments .reply a:hover {
+    color: var(--primitive-red);
+}
+
+/* Nested Comments */
+.record-comments .children {
+    list-style: none;
+    margin: var(--gap-tight) 0 0 var(--gap-element);
+    padding: 0;
+    border-left: 2px solid var(--border-default);
+    padding-left: var(--gap-element);
+}
+
+/* Comment Form */
+.record-comments .comment-respond {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: var(--gap-element);
+    margin-top: var(--gap-element);
+}
+
+.record-comments .comment-reply-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin: 0 0 var(--gap-element) 0;
+}
+
+.record-comments .comment-form label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: var(--gap-micro);
+}
+
+.record-comments .comment-form input[type="text"],
+.record-comments .comment-form input[type="email"],
+.record-comments .comment-form input[type="url"],
+.record-comments .comment-form textarea {
+    width: 100%;
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    background: var(--bg-page);
+    border: 1px solid var(--border-default);
+    padding: 12px;
+    margin-bottom: var(--gap-tight);
+    transition: border-color var(--duration-fast);
+}
+
+.record-comments .comment-form input:focus,
+.record-comments .comment-form textarea:focus {
+    outline: none;
+    border-color: var(--border-hover);
+}
+
+.record-comments .comment-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.record-comments .comment-form .submit {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-inverse);
+    background: var(--btn-primary-bg);
+    border: 1px solid var(--btn-primary-border);
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+}
+
+.record-comments .comment-form .submit:hover {
+    background: var(--btn-primary-bg-hover);
+    border-color: var(--btn-primary-border-hover);
+}
+
+/* BuddyBoss Comment Overrides - Force UNMASK styling */
+body.single-post .comments-area,
+body.single-post #comments {
+    background: transparent !important;
+}
+
+body.single-post .comment-list > li.comment {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: 0 !important;
+    padding: var(--gap-element) !important;
+    margin-bottom: var(--gap-tight) !important;
+}
+
+/* ============================================================================
+   RELATED RECORDS SECTION
+   ============================================================================ */
+
+.record-related {
+    background: var(--bg-page);
+    border-top: 1px solid var(--border-default);
+    padding: var(--gap-section) var(--gap-element);
+}
+
+.record-related__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--gap-element);
+}
+
+.record-related__label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--primitive-red);
+}
+
+.record-related__count {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.record-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-tight);
+}
+
+/* Related Record Cards */
+.record-related .unmask-record-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    transition: all var(--duration-fast);
+}
+
+.record-related .unmask-record-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.record-related .unmask-record-card__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.record-related .unmask-record-card__image-wrap {
+    aspect-ratio: 4 / 5;
+    position: relative;
+    overflow: hidden;
+}
+
+.record-related .unmask-record-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: filter var(--duration-slow);
+}
+
+.record-related .unmask-record-card:hover .unmask-record-card__image {
+    filter: grayscale(0%);
+}
+
+.record-related .unmask-record-card__gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(24, 24, 24, 0.95) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.record-related .unmask-record-card__file-id {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px var(--gap-micro);
+    z-index: 2;
+}
+
+.record-related .unmask-record-card__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--gap-element) var(--gap-tight) var(--gap-tight);
+    z-index: 2;
+}
+
+.record-related .unmask-record-card__subject {
+    font-family: var(--font-ui);
+    font-size: var(--type-lg);
+    font-weight: 400;
+    color: var(--text-primary);
+    text-transform: lowercase;
+    margin: 0 0 var(--gap-micro) 0;
+    line-height: 1.2;
+}
+
+.record-related .unmask-record-card__type {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Excerpt - Hidden by default, shown on hover */
+.record-related .unmask-record-card__excerpt {
+    font-family: var(--font-body);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: var(--gap-tight) 0 0 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all var(--duration-fast);
+}
+
+.record-related .unmask-record-card:hover .unmask-record-card__excerpt {
+    max-height: 100px;
+    opacity: 1;
+}
+
+/* ============================================================================
    RESPONSIVE — 1024px: Hide column 3, merge metadata into column 2
    ============================================================================ */
 
@@ -731,12 +1099,44 @@ body.single-post .site-content > .container {
         padding: var(--gap-section) var(--gap-tight) var(--frame-bottom);
     }
 
+    .record-body__container {
+        grid-template-columns: 1fr;
+    }
+
     .record-body__content {
         font-size: 16px;
+        padding: 0; /* Remove half-column margins on mobile */
     }
 
     .record-body__content > p:first-of-type::first-letter {
         font-size: 3em;
+    }
+
+    /* Comments adjustments */
+    .record-comments {
+        padding: var(--gap-element) var(--gap-tight);
+    }
+
+    .record-comments__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--gap-micro);
+    }
+
+    /* Related records adjustments */
+    .record-related {
+        padding: var(--gap-element) var(--gap-tight);
+    }
+
+    .record-related__grid {
+        grid-template-columns: 1fr;
+        gap: var(--gap-element);
+    }
+
+    .record-related__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--gap-micro);
     }
 
     /* Footer stacking */
