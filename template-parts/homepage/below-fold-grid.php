@@ -61,7 +61,7 @@ $total_isos = $iso_query->found_posts;
          ===================================================================== -->
     <section class="rail">
         <header class="rail__header">
-            <h2 class="rail__title">Latest Records</h2>
+            <span class="rail__label">Latest Records</span>
             <a href="<?php echo esc_url(home_url('/records/')); ?>" class="rail__link"><?php echo esc_html($total_records); ?> records →</a>
         </header>
         <div class="rail__track">
@@ -92,7 +92,7 @@ $total_isos = $iso_query->found_posts;
          ===================================================================== -->
     <section class="rail">
         <header class="rail__header">
-            <h2 class="rail__title">Active ISOs</h2>
+            <span class="rail__label">Active ISOs</span>
             <a href="<?php echo esc_url(home_url('/iso-board/')); ?>" class="rail__link"><?php echo esc_html($total_isos); ?> listings →</a>
         </header>
         <div class="rail__track">
@@ -182,7 +182,7 @@ $total_isos = $iso_query->found_posts;
          WIDGET-H: ACTIVITY FEED (PLACEHOLDER)
          ===================================================================== -->
     <div class="widget-h">
-        <h3 class="widget-h__title">Activity</h3>
+        <span class="widget-h__label">Activity</span>
         <p class="widget-h__placeholder">Activity feed coming soon</p>
     </div>
 
@@ -191,7 +191,7 @@ $total_isos = $iso_query->found_posts;
          ===================================================================== -->
     <section class="rail">
         <header class="rail__header">
-            <h2 class="rail__title">The Factory</h2>
+            <span class="rail__label">The Factory</span>
             <a href="<?php echo esc_url(home_url('/the-factory/')); ?>" class="rail__link">book a session →</a>
         </header>
         <div class="rail__track">
@@ -219,11 +219,11 @@ $total_isos = $iso_query->found_posts;
          WIDGET-SQ: PLACEHOLDERS
          ===================================================================== -->
     <div class="widget-sq">
-        <h3 class="widget-sq__title">Widget</h3>
+        <span class="widget-sq__label">Widget</span>
         <div class="widget-sq__placeholder">Coming soon</div>
     </div>
     <div class="widget-sq">
-        <h3 class="widget-sq__title">Widget</h3>
+        <span class="widget-sq__label">Widget</span>
         <div class="widget-sq__placeholder">Coming soon</div>
     </div>
 
@@ -231,7 +231,7 @@ $total_isos = $iso_query->found_posts;
          SECTION-STATIC: THE WEB (PLACEHOLDER)
          ===================================================================== -->
     <section class="section-static">
-        <h2 class="section-static__title">The Web</h2>
+        <span class="section-static__label">The Web</span>
         <div class="section-static__placeholder">
             Network visualization coming soon
         </div>
