@@ -1,0 +1,689 @@
+/**
+ * UNMASK Magazine Archive Styles
+ * Template: page-templates/template-archive-magazine.php
+ *
+ * Adapted to use UNMASK Design System tokens from 00-design-system.css
+ * Terminal energy. Platform presence. Erotic tension.
+ * ============================================================
+ */
+
+/* =============================================================================
+   LAYOUT
+   ============================================================================= */
+
+.archive-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.archive-main {
+    min-width: 0;
+}
+
+/* =============================================================================
+   HEADER — 3-Column Grid (title | stats | empty)
+   ============================================================================= */
+
+.archive-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 24px;
+}
+
+.archive-title {
+    font-family: var(--font-ui);
+    font-size: 28px;
+    font-weight: 400;
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.archive-header-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+}
+
+.archive-header-empty {
+    /* Empty third column */
+}
+
+/* =============================================================================
+   BUTTONS
+   ============================================================================= */
+
+.archive-btn {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    padding: 10px 20px;
+    border: 1px solid var(--border-default);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-transform: lowercase;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.archive-btn--shuffle:hover {
+    border-color: var(--border-hover);
+    color: var(--text-secondary);
+}
+
+/* =============================================================================
+   FILTER GRID — 3 columns × 3 rows
+   ============================================================================= */
+
+.archive-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 20px;
+    padding: 20px 0;
+    margin-bottom: 24px;
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
+}
+
+/* Each row: stacked label + content */
+.archive-filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Row 1: Type — column 1 only */
+.archive-filter-row--type {
+    grid-column: 1;
+}
+
+/* Row 2: Tags — spans column 1 and halfway into column 2 */
+.archive-filter-row--tags {
+    grid-column: 1 / 3;
+}
+
+/* Row 3: Shuffle — column 1 only */
+.archive-filter-row--shuffle {
+    grid-column: 1;
+}
+
+.archive-filter-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.archive-filter-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.archive-filter-btn {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.archive-filter-btn:hover {
+    color: var(--text-primary);
+}
+
+.archive-filter-btn.active {
+    color: var(--text-primary);
+    border-color: var(--primitive-red);
+}
+
+.archive-tag-btn {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    padding: 4px 8px;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-muted);
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.archive-tag-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-secondary);
+}
+
+.archive-tag-btn.active {
+    border-color: var(--primitive-red);
+    color: var(--text-primary);
+}
+
+/* Reset button */
+.archive-reset-btn {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    padding: 4px 12px;
+    background: transparent;
+    border: 1px solid var(--primitive-red);
+    color: var(--primitive-red);
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.archive-reset-btn:hover {
+    background: var(--primitive-red);
+    color: var(--bg-page);
+}
+
+/* =============================================================================
+   RECORD GRID
+
+   ALIGNMENT FIX (2026-01-05):
+   Cards were appearing at different heights due to inherited styles.
+   Solution: Use explicit fixed heights (not aspect-ratio), aggressive
+   !important overrides on margin/padding/align-self, and target first-child
+   specifically. See git commit for details.
+   Reference: Similar fix applied to homepage rails (commit be21e9a).
+   ============================================================================= */
+
+.archive-record-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px 40px; /* row-gap column-gap */
+    align-items: start !important; /* Force all items to align to top */
+}
+
+/* Enforce uniform card dimensions - explicit height like homepage fix */
+.archive-record-grid > .card,
+.archive-record-grid > .card:first-child,
+.archive-record-grid > .card:nth-child(1),
+.archive-record-grid > article,
+.archive-record-grid > article:first-child {
+    height: 320px !important;
+    min-height: 320px !important;
+    max-height: 320px !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    align-self: start !important;
+    justify-self: stretch !important;
+}
+
+.archive-record-grid > .card .card__link {
+    display: block;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.archive-record-grid > .card .card__image {
+    height: 100% !important;
+    aspect-ratio: unset !important;
+    margin: 0 !important;
+}
+
+.archive-record-grid > .card .card__image img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+/* Reset any inherited borders that could affect alignment */
+.archive-record-grid > .card {
+    box-sizing: border-box !important;
+    border-width: 1px !important;
+}
+
+/* Card styles moved to unmask-cards.css (.card--archive modifier) */
+
+/* =============================================================================
+   SUBMIT CARD
+   ============================================================================= */
+
+.archive-submit-card {
+    background: var(--bg-card);
+    border: 1px dashed var(--border-default);
+    height: 320px !important;
+    min-height: 320px !important;
+    max-height: 320px !important;
+    transition: border-color var(--duration-fast) var(--ease-out), border-style var(--duration-fast) var(--ease-out);
+}
+
+.archive-submit-card:hover {
+    border-color: var(--primitive-red);
+    border-style: solid;
+}
+
+.archive-submit-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.archive-submit-icon {
+    font-size: 24px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.archive-submit-card:hover .archive-submit-icon {
+    color: var(--primitive-red);
+}
+
+.archive-submit-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-labels);
+    margin-bottom: 8px;
+}
+
+.archive-submit-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.archive-submit-text {
+    font-family: var(--font-body);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    max-width: 200px;
+}
+
+/* =============================================================================
+   SIDEBAR
+   ============================================================================= */
+
+.archive-sidebar {
+    position: sticky;
+    top: 40px;
+    height: fit-content;
+}
+
+.archive-sidebar-message {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 16px;
+    border: 1px solid var(--border-default);
+    margin-bottom: 20px;
+}
+
+.archive-sidebar-section {
+    margin-bottom: 24px;
+}
+
+.archive-sidebar-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-labels);
+    margin-bottom: 12px;
+}
+
+/* YOUR TRAIL */
+.archive-trail-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.archive-trail-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-default);
+}
+
+.archive-trail-item a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+}
+
+.archive-trail-thumb {
+    width: 32px;
+    height: 40px;
+    background: var(--text-muted);
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.archive-trail-info {
+    min-width: 0;
+}
+
+.archive-trail-name {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.archive-trail-time {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+}
+
+.archive-trail-empty {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    padding: 8px 0;
+}
+
+/* LOCATION CARD */
+.archive-location-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 16px;
+}
+
+.archive-location-name {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.archive-location-stat {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+/* DRONE CTA */
+.archive-drone-cta {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 20px 16px;
+    text-align: center;
+}
+
+.archive-drone-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-labels);
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.archive-drone-benefits {
+    font-family: var(--font-body);
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: var(--leading-normal);
+}
+
+.archive-drone-price {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+/* =============================================================================
+   PAGINATION
+   ============================================================================= */
+
+.archive-pagination {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-default);
+}
+
+.archive-pagination ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.archive-pagination li {
+    margin: 0;
+}
+
+.archive-pagination a,
+.archive-pagination span {
+    display: block;
+    padding: 8px 12px;
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    text-transform: lowercase;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.archive-pagination a:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+.archive-pagination .current {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+/* =============================================================================
+   SHUFFLE MODAL
+   ============================================================================= */
+
+.archive-shuffle-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--duration-slow) var(--ease-out);
+}
+
+.archive-shuffle-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.archive-shuffle-modal-content {
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+    padding: 24px;
+}
+
+.archive-shuffle-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.archive-shuffle-close:hover {
+    color: var(--text-primary);
+}
+
+.archive-shuffle-card {
+    text-align: center;
+}
+
+.archive-shuffle-file-id {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    letter-spacing: var(--tracking-labels);
+    margin-bottom: 16px;
+}
+
+.archive-shuffle-image-wrapper {
+    width: 260px;
+    height: 325px;
+    margin: 0 auto 16px;
+    overflow: hidden;
+}
+
+.archive-shuffle-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.archive-shuffle-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xl);
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.archive-shuffle-excerpt {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.archive-shuffle-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* =============================================================================
+   NO RECORDS
+   ============================================================================= */
+
+.archive-no-records {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--type-sm);
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 1100px) {
+    .archive-record-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header: stack to single column */
+    .archive-header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .archive-header-stats {
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .archive-header-empty {
+        display: none;
+    }
+
+    .archive-title {
+        font-size: 24px;
+    }
+
+    /* Filter grid: single column */
+    .archive-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .archive-filter-row--type,
+    .archive-filter-row--tags,
+    .archive-filter-row--shuffle {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .archive-container {
+        padding: 32px 20px;
+    }
+
+    .archive-record-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    /* Taller cards on mobile for better presence */
+    .archive-record-grid > .card {
+        height: 380px !important;
+        min-height: 380px !important;
+        max-height: 380px !important;
+    }
+
+    .archive-header-stats {
+        flex-wrap: wrap;
+    }
+}

@@ -275,8 +275,9 @@
 
 /* Type variants */
 .card__type--profile {
-  color: var(--primitive-red);
-  border-color: var(--primitive-red);
+  color: var(--primitive-gray-200); /* Subtle but legible on dark red */
+  border-color: var(--primitive-red-dark);
+  background: var(--primitive-red-dark);
 }
 
 .card__type--event {
@@ -732,6 +733,97 @@
 
 .card--horizontal .card__content {
   flex: 1;
+}
+
+/* --- ARCHIVE (Magazine archive grid cards) --- */
+.card--archive {
+  overflow: hidden;
+}
+
+/* Type badge: top-left, tighter to corner */
+.card--archive .card__type {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: auto;
+  z-index: 3;
+}
+
+/* Title visible by default, hidden on hover */
+.card--archive .card__title {
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.card--archive:hover .card__title {
+  opacity: 0;
+}
+
+/* Dark overlay on hover - increased contrast */
+.card--archive .card__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85);
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+  z-index: 1;
+}
+
+.card--archive:hover .card__image::after {
+  opacity: 1;
+}
+
+/* Hover reveal: centered excerpt + stats */
+.card--archive .card__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
+}
+
+.card--archive:hover .card__reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card--archive .card__reveal-text {
+  font-family: var(--font-body);
+  font-size: var(--type-sm);
+  color: var(--text-primary);
+  line-height: var(--leading-normal);
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card--archive .card__reveal-stats {
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-labels);
+}
+
+/* Hide bottom overlay on archive cards */
+.card--archive .card__overlay {
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.card--archive:hover .card__overlay {
+  opacity: 0;
 }
 
 /* ============================================================================

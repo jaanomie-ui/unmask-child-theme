@@ -477,3 +477,41 @@ a:visited { color: var(--link-visited); }
     --gap-element: 20px;
   }
 }
+
+/* ============================================================================
+   GLOBAL FOOTER
+   ============================================================================ */
+
+.unmask-footer {
+  border-top: 1px solid var(--border-default);
+  padding: var(--gap-element) var(--gap-section);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+}
+
+.unmask-footer__inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.unmask-footer__separator {
+  color: var(--border-default);
+}
+
+.unmask-footer__link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.unmask-footer__link:hover {
+  color: var(--text-primary);
+}
