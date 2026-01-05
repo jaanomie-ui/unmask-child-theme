@@ -53,6 +53,8 @@
   border: none;
   cursor: pointer;
   transition: all 0.15s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Primary — gray text on red, NOT white */
@@ -169,6 +171,8 @@
   font-family: var(--font-mono);
   font-size: var(--type-sm);
   transition: all 0.15s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .form-input:focus {
@@ -342,6 +346,8 @@
   letter-spacing: 0.02em;
   line-height: 1.3;
   margin-bottom: var(--space-2, 8px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .record-card-fullbleed .card-desc {
@@ -349,6 +355,8 @@
   font-size: 10px;
   color: #636363;
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Card sizes */
@@ -478,6 +486,8 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Status */
@@ -611,6 +621,8 @@
   padding-bottom: var(--space-2, 8px);
   border-bottom: 1px solid var(--border-primary, #2a2a2a);
   margin-bottom: var(--space-3, 12px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .section-head.no-border {

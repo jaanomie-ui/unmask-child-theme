@@ -226,6 +226,8 @@ h1, h2, h3, h4, h5, h6 {
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-headlines);
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1 { font-size: var(--type-3xl); }
@@ -253,6 +255,8 @@ p { margin: 0 0 1em 0; }
   letter-spacing: var(--tracking-labels);
   text-transform: uppercase;
   color: var(--text-muted);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ============================================================================
@@ -292,6 +296,8 @@ p { margin: 0 0 1em 0; }
   padding: 10px 12px;
   width: 100%;
   transition: border-color var(--duration-fast) var(--ease-out);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .input:hover,
@@ -325,6 +331,8 @@ p { margin: 0 0 1em 0; }
   color: var(--text-muted);
   display: block;
   margin-bottom: var(--gap-micro);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .form-group {
@@ -360,6 +368,8 @@ p { margin: 0 0 1em 0; }
   letter-spacing: var(--tracking-labels);
   text-transform: uppercase;
   color: var(--text-muted);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .card-body { padding: 16px; }
@@ -370,6 +380,8 @@ p { margin: 0 0 1em 0; }
   color: var(--text-primary);
   margin: 0 0 var(--gap-micro) 0;
   text-transform: lowercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .card-text {
@@ -391,6 +403,8 @@ p { margin: 0 0 1em 0; }
   font-size: var(--type-sm);
   color: var(--link-default);
   text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .card-cta:hover { color: var(--link-hover); }
@@ -412,6 +426,8 @@ a:visited { color: var(--link-visited); }
   font-family: var(--font-ui);
   font-size: var(--type-sm);
   color: var(--link-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .link-cta::before { content: '['; }
