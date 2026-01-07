@@ -145,7 +145,7 @@
     padding: 12px 24px !important;
     font-family: var(--font-ui) !important;
     font-size: var(--type-sm) !important;
-    font-weight: 600 !important;
+    font-weight: 400 !important;
     letter-spacing: var(--tracking-labels) !important;
     cursor: pointer !important;
     text-transform: uppercase !important;

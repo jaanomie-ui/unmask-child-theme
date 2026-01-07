@@ -67,6 +67,22 @@ function unmask_enqueue_styles() {
         $theme_version
     );
 
+    // Visual fixes - screenshot review overrides (loads last for cascade priority)
+    wp_enqueue_style(
+        'unmask-visual-fixes',
+        $css_dir . 'visual-fixes.css',
+        array('unmask-buddyboss-bridge'),
+        $theme_version
+    );
+
+    // Visitor Grid Widget styles
+    wp_enqueue_style(
+        'unmask-visitor-grid-widget',
+        $css_dir . 'widgets/visitor-grid.css',
+        array('unmask-00-design-system'),
+        $theme_version
+    );
+
     // Homepage styles - only on homepage template
     if (is_page_template('page-templates/template-homepage.php')) {
         wp_enqueue_style(
@@ -104,11 +120,59 @@ function unmask_enqueue_styles() {
 // Shortcodes v1 - Component shortcodes with template parts
 require_once get_stylesheet_directory() . '/includes/unmask-shortcodes-v1.php';
 
-// Factory page styles
+// Unified Card System - global card architecture (loads before page-specific CSS)
+require_once get_stylesheet_directory() . '/inc/enqueue-cards.php';
+
+// Factory page styles (unified - includes booking form)
 require_once get_stylesheet_directory() . '/inc/enqueue-factory.php';
 
-// Factory Booking page styles
-require_once get_stylesheet_directory() . '/inc/enqueue-factory-book.php';
+// Magazine Archive page styles and scripts
+require_once get_stylesheet_directory() . '/inc/enqueue-archive-magazine.php';
+
+// Profile/Dossier page styles
+require_once get_stylesheet_directory() . '/inc/enqueue-profile.php';
+
+// ISO Board page styles and AJAX handlers
+require_once get_stylesheet_directory() . '/inc/enqueue-iso-board.php';
+
+// ISO Submit Form styles, scripts, and AJAX handler
+require_once get_stylesheet_directory() . '/inc/enqueue-iso-form.php';
+
+// Submit Hub page styles
+require_once get_stylesheet_directory() . '/inc/enqueue-submit.php';
+
+// Iso Post page styles
+require_once get_stylesheet_directory() . '/inc/enqueue-iso-post.php';
+
+// Homepage grid layout and cards
+require_once get_stylesheet_directory() . '/inc/enqueue-homepage-grid.php';
+
+// Dossier - Profile view (clean terminal aesthetic)
+require_once get_stylesheet_directory() . '/inc/dossier/functions.php';
+require_once get_stylesheet_directory() . '/inc/dossier/queries.php';
+require_once get_stylesheet_directory() . '/inc/enqueue-dossier-view.php';
+
+// Dossier v4 - Notebook system (per-field visibility)
+require_once get_stylesheet_directory() . '/inc/dossier/notebook.php';
+require_once get_stylesheet_directory() . '/inc/enqueue-notebook.php';
+
+// Profile Edit - Split panel + bottom sheet interface
+require_once get_stylesheet_directory() . '/inc/enqueue-profile-edit.php';
+
+// Widgets
+require_once get_stylesheet_directory() . '/inc/widgets/class-visitor-grid-widget.php';
+
+// Mobile Bottom Navigation
+require_once get_stylesheet_directory() . '/inc/enqueue-bottom-nav.php';
+
+// Sidebar Submit CTA
+require_once get_stylesheet_directory() . '/inc/sidebar-submit-cta.php';
+
+// Collapsing Header (mobile)
+require_once get_stylesheet_directory() . '/inc/collapsing-header.php';
+
+// Performance Optimizations (dequeue unused assets)
+require_once get_stylesheet_directory() . '/inc/performance-optimizations.php';
 
 /* ==========================================================================
    REGISTRATION PAGE STYLES
@@ -452,6 +516,604 @@ function unmask_sync_to_buddyboss($txn) {
 add_filter('mepr-signup-redirect-url', 'unmask_registration_redirect', 10, 2);
 function unmask_registration_redirect($url, $txn) {
     return home_url('/welcome/');
+}
+
+/* ==========================================================================
+   DOSSIER/PROFILE HELPER FUNCTIONS
+   ========================================================================== */
+
+/**
+ * Get user's member type (Drone or Visitor) from MemberPress membership
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return string 'drone' or 'visitor'
+ */
+function unmask_get_member_type($user_id = null) {
+    if (!$user_id) {
+        $user_id = function_exists('bp_displayed_user_id') ? bp_displayed_user_id() : get_current_user_id();
+    }
+
+    if (!$user_id) {
+        return 'visitor';
+    }
+
+    // Check if user has active MemberPress subscription
+    if (class_exists('MeprUser') && class_exists('MeprProduct')) {
+        try {
+            $mepr_user = new MeprUser($user_id);
+            $active_memberships = $mepr_user->active_product_subscriptions();
+
+            if (!empty($active_memberships)) {
+                foreach ($active_memberships as $product_id) {
+                    $product = new MeprProduct($product_id);
+                    $title = strtolower($product->post_title);
+
+                    if (strpos($title, 'drone') !== false) {
+                        return 'drone';
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            // MemberPress not fully loaded, fall through to visitor
+        }
+    }
+
+    return 'visitor';
+}
+
+/**
+ * Get user's designation (D-001, V-047 format)
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return string Formatted designation
+ */
+function unmask_get_designation($user_id = null) {
+    if (!$user_id) {
+        $user_id = function_exists('bp_displayed_user_id') ? bp_displayed_user_id() : get_current_user_id();
+    }
+
+    if (!$user_id) {
+        return 'V-000';
+    }
+
+    $member_type = unmask_get_member_type($user_id);
+    $prefix = ($member_type === 'drone') ? 'D' : 'V';
+
+    // Get the designation number from user meta or generate from ID
+    $designation_num = get_user_meta($user_id, 'unmask_designation_number', true);
+
+    if (!$designation_num) {
+        // Generate designation number based on user ID for consistency
+        // This ensures the same user always gets the same number
+        $designation_num = str_pad($user_id, 3, '0', STR_PAD_LEFT);
+        update_user_meta($user_id, 'unmask_designation_number', $designation_num);
+    }
+
+    return $prefix . '-' . $designation_num;
+}
+
+/**
+ * Get designation with visibility-based color class
+ *
+ * Returns the appropriate CSS class for coloring designations based on
+ * the viewer's relationship to the displayed user:
+ * - green: Viewer is connected (interlinked/friends)
+ * - yellow: Viewer is logged in but not connected
+ * - red: Viewer is public (logged out)
+ * - gray: Profile is hidden from viewer
+ *
+ * @param int $displayed_user_id User being viewed
+ * @param int $viewer_id         Current viewer (0 for logged-out)
+ * @return string CSS class: 'designation--green', 'designation--yellow', 'designation--red', or 'designation--gray'
+ */
+function unmask_get_designation_color_class($displayed_user_id, $viewer_id = null) {
+    if ($viewer_id === null) {
+        $viewer_id = get_current_user_id();
+    }
+
+    // Viewer is same as displayed user
+    if ($viewer_id > 0 && $displayed_user_id === $viewer_id) {
+        return 'designation--green';
+    }
+
+    // Viewer is logged out
+    if ($viewer_id <= 0) {
+        return 'designation--red';
+    }
+
+    // Check if connected (friends)
+    if (function_exists('friends_check_friendship') && friends_check_friendship($displayed_user_id, $viewer_id)) {
+        return 'designation--green';
+    }
+
+    // Logged in but not connected
+    return 'designation--yellow';
+}
+
+/**
+ * Get user's bio from xprofile
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return string Bio text
+ */
+function unmask_get_user_bio($user_id = null) {
+    if (!$user_id) {
+        $user_id = function_exists('bp_displayed_user_id') ? bp_displayed_user_id() : get_current_user_id();
+    }
+
+    if (!$user_id) {
+        return '';
+    }
+
+    if (function_exists('xprofile_get_field_data')) {
+        $bio = xprofile_get_field_data('Bio', $user_id);
+        if ($bio) {
+            return $bio;
+        }
+    }
+
+    // Fallback to user description
+    $user = get_userdata($user_id);
+    return $user ? $user->description : '';
+}
+
+/**
+ * Get user's availability flags from xprofile
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return array Availability flags with status
+ */
+function unmask_get_availability_flags($user_id = null) {
+    if (!$user_id) {
+        $user_id = function_exists('bp_displayed_user_id') ? bp_displayed_user_id() : get_current_user_id();
+    }
+
+    $flags = array();
+
+    if (!$user_id) {
+        return $flags;
+    }
+
+    if (function_exists('xprofile_get_field_data')) {
+        // Check each availability field
+        $available_photographed = xprofile_get_field_data('Available to be photographed', $user_id);
+        $available_photograph = xprofile_get_field_data('Available to photograph', $user_id);
+        $seeking_collaborators = xprofile_get_field_data('Seeking collaborators', $user_id);
+        $open_bookings = xprofile_get_field_data('Open to bookings', $user_id);
+
+        if ($available_photographed && strtolower($available_photographed) === 'yes') {
+            $flags[] = array('label' => 'available to be photographed', 'active' => true);
+        }
+        if ($available_photograph && strtolower($available_photograph) === 'yes') {
+            $flags[] = array('label' => 'available to photograph', 'active' => true);
+        }
+        if ($seeking_collaborators && strtolower($seeking_collaborators) === 'yes') {
+            $flags[] = array('label' => 'seeking collaborators', 'active' => true);
+        }
+        if ($open_bookings && strtolower($open_bookings) === 'yes') {
+            $flags[] = array('label' => 'open to bookings', 'active' => true);
+        }
+    }
+
+    return $flags;
+}
+
+/**
+ * Get user's pronouns from xprofile
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return string Pronouns
+ */
+function unmask_get_user_pronouns($user_id = null) {
+    if (!$user_id) {
+        $user_id = function_exists('bp_displayed_user_id') ? bp_displayed_user_id() : get_current_user_id();
+    }
+
+    if (!$user_id) {
+        return '';
+    }
+
+    if (function_exists('xprofile_get_field_data')) {
+        $pronouns = xprofile_get_field_data('Pronouns', $user_id);
+        if ($pronouns) {
+            return $pronouns;
+        }
+    }
+
+    return get_user_meta($user_id, 'unmask_pronouns', true) ?: '';
+}
+
+/**
+ * Get user's location from xprofile
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return string Location
+ */
+function unmask_get_user_location($user_id = null) {
+    if (!$user_id) {
+        $user_id = function_exists('bp_displayed_user_id') ? bp_displayed_user_id() : get_current_user_id();
+    }
+
+    if (!$user_id) {
+        return '';
+    }
+
+    if (function_exists('xprofile_get_field_data')) {
+        $city = xprofile_get_field_data('City', $user_id);
+        if ($city) {
+            return $city;
+        }
+    }
+
+    return '';
+}
+
+/* ==========================================================================
+   DOSSIER HEADER MODIFICATIONS — Phase 2
+   ========================================================================== */
+
+/**
+ * Get user's designation from anomie_handle meta
+ *
+ * @param int $user_id User ID
+ * @return string Designation (e.g., "V-002") or empty string
+ */
+function unmask_get_anomie_handle( $user_id = null ) {
+    if ( ! $user_id ) {
+        $user_id = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : get_current_user_id();
+    }
+    if ( ! $user_id ) {
+        return '';
+    }
+    return get_user_meta( $user_id, 'anomie_handle', true );
+}
+
+/**
+ * Replace member type badge with designation
+ */
+add_filter( 'bp_member_type_name_string', 'unmask_designation_badge', 10, 3 );
+function unmask_designation_badge( $string, $member_type, $user_id ) {
+    if ( empty( $user_id ) ) {
+        $user_id = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : 0;
+    }
+    if ( ! $user_id ) {
+        return $string;
+    }
+
+    $designation = unmask_get_anomie_handle( $user_id );
+    if ( empty( $designation ) ) {
+        return $string;
+    }
+
+    return '<span class="unmask-badge">' . esc_html( $designation ) . '</span>';
+}
+
+/**
+ * Add bio and availability flags after member header meta
+ * Uses bp_before_member_header_meta action hook
+ */
+// DISABLED - profile customization
+// add_action('bp_before_member_header_meta', 'unmask_add_header_bio_availability');
+function unmask_add_header_bio_availability() {
+    // Bail if not on a member page
+    if (!function_exists('bp_is_user') || !bp_is_user()) {
+        return;
+    }
+
+    $user_id = bp_displayed_user_id();
+    if (!$user_id) {
+        return;
+    }
+
+    // Get data from xprofile
+    $bio = '';
+    $pronouns = '';
+    $location = '';
+    $availability_flags = array();
+
+    if (function_exists('xprofile_get_field_data')) {
+        $bio = xprofile_get_field_data('Bio', $user_id);
+        $pronouns = xprofile_get_field_data('Pronouns', $user_id);
+        $location = xprofile_get_field_data('City', $user_id);
+
+        // Note: Availability flags (Available to be photographed, etc.) are temporarily
+        // disabled as the field names need to be verified in BuddyBoss settings.
+        // TODO: Verify exact field names and re-enable availability flags
+    }
+
+    // Output pronouns and location
+    if ($pronouns || $location) {
+        echo '<div class="unmask-meta-extra">';
+        if ($pronouns) {
+            echo '<span class="unmask-pronouns-header">' . esc_html(strtolower($pronouns)) . '</span>';
+        }
+        if ($pronouns && $location) {
+            echo '<span class="separator"> &bull; </span>';
+        }
+        if ($location) {
+            echo '<span class="unmask-location-header">' . esc_html($location) . '</span>';
+        }
+        echo '</div>';
+    }
+
+    // Output bio
+    if ($bio) {
+        echo '<div class="unmask-bio">' . esc_html($bio) . '</div>';
+    }
+
+    // Output availability flags
+    if (!empty($availability_flags)) {
+        echo '<div class="unmask-availability-flags">';
+        foreach ($availability_flags as $flag) {
+            $flag_class = 'unmask-availability-flag unmask-availability-flag--' . ($flag['active'] ? 'active' : 'inactive');
+            echo '<span class="' . esc_attr($flag_class) . '">' . esc_html($flag['label']) . '</span>';
+        }
+        echo '</div>';
+    }
+}
+
+/* ==========================================================================
+   PINK PANTHERS
+   ========================================================================== */
+
+/**
+ * Pink Panthers - Check if on Pink Panthers page
+ */
+function unmask_is_pink_panthers_page() {
+    if (is_page_template('page-templates/page-pink-panthers.php')) {
+        return true;
+    }
+    if (is_page('pink-panthers')) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Pink Panthers - Enqueue Styles
+ */
+function unmask_pink_panthers_styles() {
+    if (unmask_is_pink_panthers_page()) {
+        wp_enqueue_style(
+            'pink-panthers-styles',
+            get_stylesheet_directory_uri() . '/assets/css/pink-panthers.css',
+            array(),
+            filemtime(get_stylesheet_directory() . '/assets/css/pink-panthers.css')
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'unmask_pink_panthers_styles', 20);
+
+/**
+ * Pink Panthers - Hide default page title (we have custom hero)
+ */
+function unmask_pink_panthers_hide_title() {
+    if (!unmask_is_pink_panthers_page()) {
+        return;
+    }
+    ?>
+    <style id="pink-panthers-title-hide">
+        .page-template-page-pink-panthers .entry-header { display: none; }
+    </style>
+    <?php
+}
+add_action('wp_head', 'unmask_pink_panthers_hide_title', 20);
+
+/**
+ * Pink Panthers - Handle Performer Form Submission
+ */
+function unmask_handle_performer_submission() {
+    if (!isset($_POST['pp_nonce']) || !wp_verify_nonce($_POST['pp_nonce'], 'pp_performer_submit')) {
+        return;
+    }
+
+    $performer_data = array(
+        'name' => sanitize_text_field($_POST['performer_name']),
+        'act_type' => sanitize_text_field($_POST['act_type']),
+        'link' => sanitize_url($_POST['performer_link']),
+        'description' => sanitize_textarea_field($_POST['act_description']),
+        'submitted' => current_time('mysql'),
+        'status' => 'pending'
+    );
+
+    // Email notification to admin
+    $to = get_option('admin_email');
+    $subject = 'Pink Panthers: New Performer Submission - ' . $performer_data['name'];
+    $message = "New performer submission:\n\n";
+    $message .= "Name: {$performer_data['name']}\n";
+    $message .= "Act Type: {$performer_data['act_type']}\n";
+    $message .= "Link: {$performer_data['link']}\n";
+    $message .= "Description: {$performer_data['description']}\n";
+
+    wp_mail($to, $subject, $message);
+
+    // Redirect with success message
+    wp_redirect(add_query_arg('submitted', '1', wp_get_referer()));
+    exit;
+}
+add_action('admin_post_nopriv_pp_performer_submit', 'unmask_handle_performer_submission');
+add_action('admin_post_pp_performer_submit', 'unmask_handle_performer_submission');
+
+/**
+ * Pink Panthers - Admin Activity Post Handler
+ */
+function unmask_pp_post_update() {
+    if (!current_user_can('administrator')) {
+        wp_die('Unauthorized');
+    }
+
+    if (!isset($_POST['pp_update_content']) || empty($_POST['pp_update_content'])) {
+        return;
+    }
+
+    $content = sanitize_textarea_field($_POST['pp_update_content']);
+
+    // Post to BuddyBoss activity
+    if (function_exists('bp_activity_add')) {
+        bp_activity_add(array(
+            'user_id' => get_current_user_id(),
+            'content' => $content,
+            'component' => 'activity',
+            'type' => 'activity_update',
+            'primary_link' => home_url('/pink-panthers/')
+        ));
+    }
+
+    wp_redirect(home_url('/pink-panthers/'));
+    exit;
+}
+add_action('admin_post_pp_post_update', 'unmask_pp_post_update');
+
+/* ==========================================================================
+   LOGIN PAGE CUSTOMIZATION
+   ========================================================================== */
+
+/**
+ * Enqueue custom login page styles
+ * Uses UNMASK design tokens for consistent branding
+ *
+ * Priority 999 ensures we load AFTER BuddyBoss login styles
+ */
+add_action('login_enqueue_scripts', 'unmask_login_styles', 999);
+function unmask_login_styles() {
+    $theme_version = wp_get_theme()->get('Version');
+    $css_dir = get_stylesheet_directory_uri() . '/assets/css/';
+
+    // Dependencies - load after BuddyBoss login if present
+    $deps = array();
+    if (wp_style_is('buddyboss-theme-login', 'registered') || wp_style_is('buddyboss-theme-login', 'enqueued')) {
+        $deps[] = 'buddyboss-theme-login';
+    }
+
+    // Enqueue design system tokens first (for CSS variables)
+    wp_enqueue_style(
+        'unmask-design-system-login',
+        $css_dir . '00-design-system.css',
+        $deps,
+        $theme_version
+    );
+
+    // Enqueue login page styles
+    wp_enqueue_style(
+        'unmask-login',
+        $css_dir . 'pages/login.css',
+        array('unmask-design-system-login'),
+        $theme_version
+    );
+}
+
+/**
+ * Change login page logo URL to site home
+ */
+add_filter('login_headerurl', 'unmask_login_logo_url');
+function unmask_login_logo_url() {
+    return home_url();
+}
+
+/**
+ * Change login page logo title to site name
+ */
+add_filter('login_headertext', 'unmask_login_logo_title');
+function unmask_login_logo_title() {
+    return get_bloginfo('name');
+}
+
+/**
+ * Add inline styles to override any plugin inline styles
+ * This runs in the <head> after all stylesheets are loaded
+ */
+add_action('login_head', 'unmask_login_inline_styles', 999);
+function unmask_login_inline_styles() {
+    ?>
+    <style id="unmask-login-override">
+        /* Force consistent font weight and family on ALL elements */
+        body.login,
+        body.login *,
+        body.login *::before,
+        body.login *::after {
+            font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+            font-weight: 400 !important;
+            font-style: normal !important;
+        }
+
+        /* Override any inline background styles */
+        body.login {
+            background: #181818 !important;
+        }
+
+        /* Remove form box styling */
+        body.login form,
+        body.login #loginform,
+        body.login #registerform {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+
+        /* Make login container wider */
+        body.login #login {
+            width: 100% !important;
+            max-width: 400px !important;
+        }
+
+        /* Full-width inputs */
+        body.login input[type="text"],
+        body.login input[type="password"],
+        body.login input[type="email"] {
+            width: 100% !important;
+            font-size: 16px !important;
+            padding: 12px 16px !important;
+            background: #181818 !important;
+            border: 1px solid #2e2e2e !important;
+            border-radius: 0 !important;
+            color: #c2c2c2 !important;
+            min-height: 48px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Full-width button */
+        body.login .button-primary,
+        body.login #wp-submit {
+            width: 100% !important;
+            font-size: 12px !important;
+            letter-spacing: 0.05em !important;
+            text-transform: uppercase !important;
+            padding: 14px 24px !important;
+            background: #6b2627 !important;
+            border: 1px solid #6b2627 !important;
+            border-radius: 0 !important;
+            color: #c2c2c2 !important;
+            min-height: 48px !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+        }
+
+        body.login .button-primary:hover,
+        body.login #wp-submit:hover {
+            background: #a13d3e !important;
+            border-color: #a13d3e !important;
+        }
+
+        /* Consistent label styling */
+        body.login label {
+            font-size: 12px !important;
+            letter-spacing: 0.05em !important;
+            text-transform: uppercase !important;
+            color: #909090 !important;
+        }
+
+        /* Links */
+        body.login a {
+            font-size: 12px !important;
+            color: #6b2627 !important;
+        }
+
+        body.login a:hover {
+            color: #a13d3e !important;
+        }
+    </style>
+    <?php
 }
 
 /* ==========================================================================

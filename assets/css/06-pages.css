@@ -243,29 +243,30 @@ body.page-id-896 button.group-button {
   BUTTON TEXT: Black #181818 on red background
 */
 
-/* Factory-specific variables (scoped to .unmask-factory-page) */
+/* Factory-specific variables — Aliases to design system tokens
+   Source of truth: 00-design-system.css */
 .unmask-factory-page {
-  --unmask-bg-void: #181818;
-  --unmask-bg-surface: #1c1c1c;
-  --unmask-bg-elevated: #242424;
-  --unmask-gray-900: #1e1e1e;
-  --unmask-gray-800: #2e2e2e;
-  --unmask-gray-700: #3d3d3d;
-  --unmask-gray-600: #4f4f4f;
-  --unmask-gray-500: #636363;
-  --unmask-gray-400: #787878;
-  --unmask-gray-300: #8e8e8e;
-  --unmask-gray-200: #a6a6a6;
-  --unmask-gray-100: #c2c2c2;
-  --unmask-red: #8a3233;
-  --unmask-blue: #2C3D68;
-  --unmask-green: #3D6854;
-  --unmask-green-glow: #4ade80;
-  --unmask-text-primary: #c2c2c2;
-  --unmask-text-secondary: #8e8e8e;
-  --unmask-text-muted: #636363;
-  --unmask-border-primary: #2e2e2e;
-  --unmask-font: "Berkeley Mono", "SF Mono", "Monaco", monospace;
+  --unmask-bg-void: var(--primitive-void);
+  --unmask-bg-surface: var(--primitive-surface);
+  --unmask-bg-elevated: var(--primitive-elevated);
+  --unmask-gray-900: var(--primitive-gray-900);
+  --unmask-gray-800: var(--primitive-gray-800);
+  --unmask-gray-700: var(--primitive-gray-700);
+  --unmask-gray-600: var(--primitive-gray-600);
+  --unmask-gray-500: var(--primitive-gray-500);
+  --unmask-gray-400: var(--primitive-gray-400);
+  --unmask-gray-300: var(--primitive-gray-300);
+  --unmask-gray-200: var(--primitive-gray-200);
+  --unmask-gray-100: var(--primitive-gray-100);
+  --unmask-red: var(--primitive-red);
+  --unmask-blue: var(--primitive-blue);
+  --unmask-green: var(--primitive-green);
+  --unmask-green-glow: var(--primitive-green-glow);
+  --unmask-text-primary: var(--text-primary);
+  --unmask-text-secondary: var(--text-secondary);
+  --unmask-text-muted: var(--text-muted);
+  --unmask-border-primary: var(--border-default);
+  --unmask-font: var(--font-ui);
 }
 
 /* PAGE CONTAINER */
@@ -476,47 +477,9 @@ body.page-id-896 button.group-button {
   padding: 16px 24px;
 }
 
-/* FACTORY BUTTONS */
-.unmask-btn {
-  display: inline-block;
-  font-family: var(--unmask-font);
-  font-size: 13px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-/* Primary Button: Red background, black text */
-.unmask-btn-primary {
-  background: var(--unmask-red);
-  color: var(--unmask-bg-void);
-  border: 1px solid var(--unmask-red);
-  padding: 12px 24px;
-}
-
-.unmask-btn-primary:hover {
-  background: transparent;
-  color: var(--unmask-red);
-}
-
-/* Large variant */
-.unmask-btn-large {
-  padding: 14px 32px;
-  font-size: 13px;
-}
-
-/* Secondary Button: Outline only */
-.unmask-btn-secondary {
-  background: transparent;
-  color: var(--unmask-red);
-  border: 1px solid var(--unmask-red);
-  padding: 12px 24px;
-}
-
-.unmask-btn-secondary:hover {
-  background: var(--unmask-red);
-  color: var(--unmask-bg-void);
-}
+/* FACTORY BUTTONS — now use unified system in unmask-components.css
+   Classes: .btn, .btn-primary, .btn-secondary, .btn-lg
+   Legacy aliases: .unmask-btn-primary, .unmask-btn-secondary, .unmask-btn-large */
 
 /* SPECIFICATIONS GRID */
 .unmask-factory-specs {

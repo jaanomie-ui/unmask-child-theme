@@ -2,8 +2,8 @@
 /**
  * Template Name: UNMASK Homepage
  *
- * Swiss grid homepage template with 3-column hero.
- * Switches between desktop and mobile layouts using wp_is_mobile().
+ * Dual-layout homepage: mobile-optimized layout for small screens,
+ * full desktop layout for larger screens.
  *
  * @package UNMASK
  * @since 1.0.0
@@ -17,56 +17,35 @@ if (!defined('ABSPATH')) {
 get_header();
 ?>
 
-<div class="unmask-homepage">
+<!-- Mobile Layout (shown via CSS on small screens) -->
+<div class="unmask-homepage-mobile">
+    <?php get_template_part('template-parts/homepage/mobile-layout'); ?>
+</div>
 
-    <?php if (wp_is_mobile()) : ?>
+<!-- Desktop Layout (shown via CSS on large screens) -->
+<div class="unmask-homepage-desktop">
+    <!-- System Bar -->
+    <?php get_template_part('template-parts/global/system-bar'); ?>
 
-        <!-- MOBILE LAYOUT -->
-        <?php get_template_part('template-parts/homepage/mobile-layout'); ?>
+    <!-- Hero: 3-Column Grid -->
+    <?php get_template_part('template-parts/homepage/hero-section'); ?>
 
-    <?php else : ?>
+    <!-- Below Fold: Rail Grid -->
+    <div class="unmask-below-fold">
+        <?php get_template_part('template-parts/homepage/below-fold-grid'); ?>
+    </div>
 
-        <!-- DESKTOP LAYOUT -->
-        <div class="unmask-desktop">
-
-            <!-- System Bar (fixed) -->
-            <?php get_template_part('template-parts/global/system-bar'); ?>
-
-            <!-- Hero: 3-Column Grid -->
-            <?php get_template_part('template-parts/homepage/hero-section'); ?>
-
-            <!-- Below Fold -->
-            <div class="unmask-below-fold">
-                <div class="unmask-container">
-
-                    <!-- Records Grid -->
-                    <?php get_template_part('template-parts/homepage/records-section'); ?>
-
-                    <!-- Directory Grid -->
-                    <?php get_template_part('template-parts/homepage/directory-section'); ?>
-
-                    <!-- Activity Feed -->
-                    <?php get_template_part('template-parts/homepage/activity-section'); ?>
-
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="unmask-footer">
-                <div class="unmask-footer__left">
-                    unmask is a queer documentation project · chicago, illinois · est. 2024
-                </div>
-                <div class="unmask-footer__right">
-                    <a href="<?php echo esc_url(home_url('/about/')); ?>">about</a> ·
-                    <a href="<?php echo esc_url(home_url('/privacy/')); ?>">privacy</a> ·
-                    <a href="<?php echo esc_url(home_url('/terms/')); ?>">terms</a>
-                </div>
-            </footer>
-
+    <!-- Footer -->
+    <footer class="unmask-footer">
+        <div class="unmask-footer__left">
+            unmask is a queer documentation project · chicago, illinois · est. 2024
         </div>
-
-    <?php endif; ?>
-
+        <div class="unmask-footer__right">
+            <a href="<?php echo esc_url(home_url('/about/')); ?>">about</a> ·
+            <a href="<?php echo esc_url(home_url('/privacy/')); ?>">privacy</a> ·
+            <a href="<?php echo esc_url(home_url('/terms/')); ?>">terms</a>
+        </div>
+    </footer>
 </div>
 
 <?php

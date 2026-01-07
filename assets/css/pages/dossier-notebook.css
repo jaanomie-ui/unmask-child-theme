@@ -1,0 +1,708 @@
+/* ============================================================================
+   DOSSIER NOTEBOOK v4 — Per-Field Visibility Editor
+
+   Replaces BuddyBoss profile edit with notebook-style interface.
+   Each field has visibility circles: green (interlinked), yellow (user),
+   red (visitor), gray (hidden).
+
+   Sections can be locked to a single visibility level or opened for
+   individual field editing.
+   ============================================================================ */
+
+/* ============================================================================
+   NOTEBOOK FRAME
+   ============================================================================ */
+
+.dossier-notebook {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--gap-element, 24px) var(--gap-tight, 16px);
+  font-family: var(--font-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  font-size: var(--type-sm, 14px);
+  line-height: var(--leading-normal, 1.5);
+  color: var(--text-primary, #e8e8e8);
+  background: var(--bg-page, #121212);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Full width on mobile */
+@media (max-width: 768px) {
+  .dossier-notebook {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.dossier-notebook * {
+  box-sizing: border-box;
+}
+
+/* ============================================================================
+   NOTEBOOK HEADER
+   ============================================================================ */
+
+.notebook-header {
+  padding: var(--gap-tight) 20px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.notebook-header__title {
+  font-size: 11px;
+  text-transform: lowercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.notebook-header__title::before {
+  content: ':: ';
+  color: var(--primitive-gray-600);
+}
+
+/* ============================================================================
+   VISIBILITY LEGEND
+   ============================================================================ */
+
+.notebook-legend {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.notebook-legend__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  background: var(--bg-card);
+}
+
+.notebook-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.notebook-legend__dot--green {
+  background: var(--visibility-green-dark);
+  border: 1px solid var(--visibility-green);
+}
+
+.notebook-legend__dot--yellow {
+  background: var(--visibility-yellow-dark);
+  border: 1px solid var(--visibility-yellow);
+}
+
+.notebook-legend__dot--red {
+  background: var(--visibility-red-dark);
+  border: 1px solid var(--visibility-red);
+}
+
+.notebook-legend__dot--gray {
+  background: var(--visibility-gray-dark);
+  border: 1px solid var(--visibility-gray);
+}
+
+.notebook-legend__label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: lowercase;
+}
+
+/* ============================================================================
+   VISIBILITY CIRCLES
+   All circles are 16px diameter
+   Override BuddyBoss button defaults with high specificity
+   ============================================================================ */
+
+.dossier-notebook .visibility-circle,
+.dossier-notebook button.visibility-circle {
+  width: 16px !important;
+  height: 16px !important;
+  /* Extend tap target without increasing visual size */
+  position: relative;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: 1px solid var(--border-subtle, #333) !important;
+  cursor: pointer;
+  padding: 0 !important;
+  margin: 0;
+  flex-shrink: 0;
+  transition: all 0.15s ease-out;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}
+
+.dossier-notebook .visibility-circle:hover {
+  border-color: var(--border-hover, #555) !important;
+}
+
+.dossier-notebook .visibility-circle:focus {
+  outline: 1px solid var(--focus-ring, #666) !important;
+  outline-offset: 2px;
+}
+
+/* Active states - filled circles */
+.dossier-notebook .visibility-circle--green.is-active {
+  background: var(--visibility-green-dark, #3a4340) !important;
+  border-color: var(--visibility-green, #4a5550) !important;
+}
+
+.dossier-notebook .visibility-circle--yellow.is-active {
+  background: var(--visibility-yellow-dark, #4a4538) !important;
+  border-color: var(--visibility-yellow, #6a6350) !important;
+}
+
+.dossier-notebook .visibility-circle--red.is-active {
+  background: var(--visibility-red-dark, #453538) !important;
+  border-color: var(--visibility-red, #5a4548) !important;
+}
+
+.dossier-notebook .visibility-circle--gray.is-active {
+  background: var(--visibility-gray-dark, #2a2a2a) !important;
+  border-color: var(--visibility-gray, #3a3a3a) !important;
+}
+
+/* Disabled state (when section is locked) */
+.dossier-notebook .visibility-circle--disabled,
+.dossier-notebook .visibility-circle[disabled] {
+  opacity: 0.3 !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+/* Circle group */
+.dossier-notebook .visibility-circles {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.dossier-notebook .visibility-circles__divider {
+  width: 1px;
+  height: 10px;
+  background: var(--border-subtle, #333);
+  margin: 0 2px;
+}
+
+/* ============================================================================
+   NOTEBOOK SECTIONS
+   ============================================================================ */
+
+.notebook-section {
+  margin-bottom: 0;
+}
+
+/* Section Header */
+.notebook-section__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 10px 20px;
+  background: #1a1a1a;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.notebook-section__label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+
+.notebook-section__status {
+  margin-left: 8px;
+  font-size: 9px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Section states */
+.notebook-section--open .notebook-section__status::after {
+  content: '(editing)';
+}
+
+.notebook-section--locked-green .notebook-section__label,
+.notebook-section--locked-yellow .notebook-section__label,
+.notebook-section--locked-red .notebook-section__label {
+  /* Locked sections don't show (editing) */
+}
+
+/* ============================================================================
+   NOTEBOOK FIELDS
+   ============================================================================ */
+
+.notebook-field {
+  display: grid;
+  grid-template-columns: 120px 1fr 100px;
+  align-items: center;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--visibility-gray);
+  background: #151515;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+/* Border color based on effective visibility */
+.notebook-field--green {
+  border-left-color: var(--visibility-green);
+}
+
+.notebook-field--yellow {
+  border-left-color: var(--visibility-yellow);
+}
+
+.notebook-field--red {
+  border-left-color: var(--visibility-red);
+}
+
+.notebook-field--gray,
+.notebook-field--hidden {
+  border-left-color: var(--visibility-gray);
+  background: var(--visibility-gray-tint);
+}
+
+/* Hidden field styling */
+.notebook-field--hidden .notebook-field__label,
+.notebook-field--hidden .notebook-field__value {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Field Label */
+.notebook-field__label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notebook-field__label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* Field Value */
+.notebook-field__value-wrap {
+  padding-right: 12px;
+}
+
+.notebook-field__value {
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.notebook-field__value--readonly {
+  color: var(--text-secondary);
+}
+
+/* Field Input */
+.notebook-field__input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 2px 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notebook-field__input::placeholder {
+  color: var(--text-muted);
+}
+
+.notebook-field__input:focus {
+  outline: none;
+  border-bottom-color: var(--primitive-red);
+}
+
+.notebook-field--hidden .notebook-field__input {
+  border-bottom-color: transparent;
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Field Controls */
+.notebook-field__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* Delete button for custom fields */
+.notebook-field__delete {
+  background: none;
+  border: none;
+  color: var(--visibility-red);
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+  line-height: 1;
+}
+
+.notebook-field__delete:hover {
+  color: var(--primitive-red-light);
+}
+
+/* ============================================================================
+   CUSTOM FIELD CREATION
+   ============================================================================ */
+
+.notebook-add-field {
+  display: grid;
+  grid-template-columns: 120px 1fr 100px;
+  align-items: center;
+  padding: 8px 20px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-default);
+  border-left: 3px solid var(--border-subtle);
+}
+
+.notebook-add-field__label-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.notebook-add-field__label-input {
+  width: 90px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notebook-add-field__label-input::placeholder {
+  color: var(--text-muted);
+  text-transform: lowercase;
+}
+
+.notebook-add-field__label-input:focus {
+  outline: none;
+  border-bottom-color: var(--primitive-red);
+}
+
+.notebook-add-field__label-input--error {
+  border-bottom-color: var(--visibility-red);
+}
+
+.notebook-add-field__value-wrap {
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+}
+
+.notebook-add-field__value-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 2px 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notebook-add-field__value-input::placeholder {
+  color: var(--text-muted);
+}
+
+.notebook-add-field__value-input:focus {
+  outline: none;
+  border-bottom-color: var(--primitive-red);
+}
+
+.notebook-add-field__value-input--error {
+  border-bottom-color: var(--visibility-red);
+}
+
+/* Error indicator triangle */
+.field-error-indicator {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid var(--visibility-red);
+  margin-left: 4px;
+  cursor: help;
+}
+
+/* Add button */
+.notebook-add-field__btn {
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: 9px;
+  cursor: pointer;
+  justify-self: end;
+  transition: all var(--duration-fast) var(--ease-out);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notebook-add-field__btn::before {
+  content: '[';
+}
+
+.notebook-add-field__btn::after {
+  content: ']';
+}
+
+.notebook-add-field__btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.notebook-add-field__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Custom fields limit notice */
+.notebook-add-field__limit {
+  grid-column: 1 / -1;
+  font-size: 9px;
+  color: var(--text-muted);
+  padding-top: 4px;
+  text-align: center;
+}
+
+/* ============================================================================
+   BOTTOM PREVIEW BAR
+   Shows field counts per visibility level
+   ============================================================================ */
+
+.notebook-preview {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-default);
+  z-index: 100;
+}
+
+.notebook-preview__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-default);
+}
+
+.notebook-preview__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: var(--bg-card);
+}
+
+.notebook-preview__count {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--text-primary);
+}
+
+.notebook-preview__count--green {
+  background: var(--visibility-green-dark);
+  border: 1px solid var(--visibility-green);
+}
+
+.notebook-preview__count--yellow {
+  background: var(--visibility-yellow-dark);
+  border: 1px solid var(--visibility-yellow);
+}
+
+.notebook-preview__count--red {
+  background: var(--visibility-red-dark);
+  border: 1px solid var(--visibility-red);
+}
+
+.notebook-preview__count--gray {
+  background: var(--visibility-gray-dark);
+  border: 1px solid var(--visibility-gray);
+}
+
+.notebook-preview__label {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Add padding to bottom of notebook to account for fixed preview bar */
+.dossier-notebook {
+  padding-bottom: 100px;
+}
+
+/* ============================================================================
+   SAVING STATE
+   ============================================================================ */
+
+.notebook-field--saving {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.notebook-field--saving::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--text-muted);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* ============================================================================
+   RESPONSIVE — Tablet
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .notebook-field {
+    grid-template-columns: 100px 1fr 88px;
+  }
+
+  .notebook-add-field {
+    grid-template-columns: 100px 1fr 88px;
+  }
+
+  .notebook-legend {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .notebook-preview__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE — Mobile
+   ============================================================================ */
+
+@media (max-width: 480px) {
+  .notebook-field {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .notebook-field__controls {
+    justify-content: flex-start;
+  }
+
+  .notebook-add-field {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .notebook-add-field__btn {
+    justify-self: start;
+  }
+
+  .notebook-section__header {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .visibility-circles {
+    justify-content: flex-start;
+    gap: 8px; /* Increase gap for touch on mobile */
+  }
+
+  /* Expand touch target while keeping visual size small */
+  .dossier-notebook .visibility-circle,
+  .dossier-notebook button.visibility-circle {
+    padding: 12px !important; /* Creates 40x40 touch area (16 + 12*2) */
+    margin: -12px !important; /* Negative margin to cancel visual offset */
+    box-sizing: content-box !important;
+  }
+
+  .visibility-circles__divider {
+    margin: 0 4px;
+  }
+}
+
+/* ==========================================================================
+   Toast Notifications
+   ========================================================================== */
+
+.notebook-toast {
+  position: fixed;
+  bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  padding: 10px 16px;
+  /* brutalist: no radius */
+  font-size: var(--type-xs);
+  font-family: var(--font-mono);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  z-index: 9999;
+  opacity: 0;
+  transition: transform 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
+  pointer-events: none;
+  max-width: calc(100vw - 32px);
+  text-align: center;
+}
+
+.notebook-toast.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.notebook-toast--success {
+  background: var(--primitive-green);
+  color: var(--bg-base);
+  border: 1px solid var(--primitive-green);
+}
+
+.notebook-toast--error {
+  background: var(--primitive-red);
+  color: var(--bg-base);
+  border: 1px solid var(--primitive-red);
+}
+
+.notebook-toast--info {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+}
+
+/* Adjust for bottom nav on mobile */
+body.has-bottom-nav .notebook-toast {
+  bottom: calc(56px + 16px + env(safe-area-inset-bottom, 0px));
+}

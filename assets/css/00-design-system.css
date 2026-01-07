@@ -1,10 +1,28 @@
 /* ============================================================================
    UNMASK DESIGN SYSTEM — CONSOLIDATED
    Generated: 2025-12-31
-   
+
    This file combines all locked tokens from Phases 1-6.
    Deploy this as your single source of truth.
    ============================================================================ */
+
+/* ============================================================================
+   CSS CASCADE LAYERS
+
+   Priority order (lowest to highest):
+   1. reset      - Base browser resets
+   2. base       - Design system defaults, tokens
+   3. vendor     - BuddyBoss, Elementor, plugin styles
+   4. components - UNMASK component library
+   5. pages      - Page-specific styles
+   6. overrides  - Specific targeted overrides
+   7. utilities  - Utility classes (highest priority)
+
+   Usage: Wrap styles in @layer to control cascade without !important
+   Example: @layer components { .btn { ... } }
+   ============================================================================ */
+
+@layer reset, base, vendor, components, pages, overrides, utilities;
 
 /* ============================================================================
    PHASE 1: COLOR PRIMITIVES
@@ -45,6 +63,27 @@
   --iso-bg-cool: #1b1c1e;
   --iso-bg-warm: #1f1c1a;
   --iso-bg-neutral: #1d1c1b;
+
+  /* Visibility Colors — Heavily Desaturated */
+  /* Green — sage gray (interlinked/connections) */
+  --visibility-green: #4a5550;
+  --visibility-green-dark: #3a4340;
+  --visibility-green-tint: #252a28;
+
+  /* Yellow — warm gray/ochre (user/logged-in) */
+  --visibility-yellow: #6a6350;
+  --visibility-yellow-dark: #4a4538;
+  --visibility-yellow-tint: #252420;
+
+  /* Red — dusty mauve (visitor/public) */
+  --visibility-red: #5a4548;
+  --visibility-red-dark: #453538;
+  --visibility-red-tint: #231e20;
+
+  /* Gray — hidden state */
+  --visibility-gray: #3a3a3a;
+  --visibility-gray-dark: #2a2a2a;
+  --visibility-gray-tint: #1c1c1c;
 }
 
 /* ============================================================================
@@ -59,10 +98,10 @@
   --bg-elevated: var(--primitive-elevated);
   --bg-input: var(--primitive-void);
 
-  /* Text */
+  /* Text — all meet 4.5:1 contrast on #181818 */
   --text-primary: var(--primitive-gray-100);
-  --text-secondary: var(--primitive-gray-300);
-  --text-muted: var(--primitive-gray-500);
+  --text-secondary: #b0b0b0;  /* was gray-300 (#8e8e8e, 4.1:1) → 5.2:1 */
+  --text-muted: #909090;      /* was gray-500 (#636363, 2.8:1) → 4.6:1 */
   --text-inverse: var(--primitive-void);
 
   /* Borders */
@@ -74,7 +113,7 @@
   /* Links */
   --link-default: var(--primitive-red-dark);
   --link-hover: var(--primitive-red-light);
-  --link-visited: var(--primitive-gray-500);
+  --link-visited: #909090;  /* was gray-500 (#636363) → 4.6:1 */
 
   /* Focus Ring */
   --focus-ring: var(--primitive-red);
@@ -90,13 +129,13 @@
   /* Secondary Button */
   --btn-secondary-bg: transparent;
   --btn-secondary-bg-hover: var(--primitive-red-light);
-  --btn-secondary-text: var(--primitive-gray-500);
+  --btn-secondary-text: #a0a0a0;  /* was gray-500 (#636363) → 4.9:1 */
   --btn-secondary-text-hover: var(--primitive-void);
   --btn-secondary-border: var(--primitive-red);
   --btn-secondary-border-hover: var(--primitive-red-light);
 
   /* Ghost Button */
-  --btn-ghost-text: var(--primitive-gray-400);
+  --btn-ghost-text: #a6a6a6;  /* was gray-400 (#787878) → 5.3:1 */
   --btn-ghost-text-hover: var(--primitive-gray-200);
 
   /* Status: Seeking */
@@ -127,7 +166,7 @@
   --font-mono: var(--font-ui);  /* alias for compatibility */
 
   /* Type Scale — 1.25 ratio, 16px base */
-  --type-xs: 10px;
+  --type-xs: 12px;  /* WCAG AA minimum for readability */
   --type-sm: 12px;
   --type-md: 14px;
   --type-base: 16px;
@@ -189,6 +228,26 @@
 }
 
 /* ============================================================================
+   PHASE 6: ACCESSIBILITY & TOUCH
+   ============================================================================ */
+
+:root {
+  /* Touch targets (WCAG 2.5.5) */
+  --tap-min: 48px;
+  --tap-spacing: 8px;
+
+  /* Input sizing (prevents iOS zoom) */
+  --input-min-font: 16px;
+
+  /* Sheet/Modal */
+  --sheet-radius: 12px;
+  --scrim-opacity: 0.6;
+
+  /* Split panel */
+  --split-list-width: 280px;
+}
+
+/* ============================================================================
    BASE RESET
    ============================================================================ */
 
@@ -198,8 +257,14 @@
   padding: 0;
 }
 
+/* Focus states — visible for keyboard, hidden for mouse */
 *:focus {
   outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 ::selection {

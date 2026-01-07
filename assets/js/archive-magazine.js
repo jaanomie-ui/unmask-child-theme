@@ -588,6 +588,172 @@
     document.head.appendChild(loadingStyles);
 
     // =============================================================================
+    // INFINITE SCROLL (Mobile Only)
+    // =============================================================================
+
+    let infiniteScrollEnabled = false;
+    let hasMorePages = true;
+    let maxPages = 1;
+
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    function initInfiniteScroll() {
+        if (!isMobile()) {
+            document.body.classList.remove('has-infinite-scroll');
+            return;
+        }
+
+        document.body.classList.add('has-infinite-scroll');
+        infiniteScrollEnabled = true;
+
+        // Get max pages from pagination if present
+        const pagination = document.querySelector('.archive-pagination');
+        if (pagination) {
+            const pageLinks = pagination.querySelectorAll('a.page-numbers, span.page-numbers');
+            let maxFound = 1;
+            pageLinks.forEach(link => {
+                const pageNum = parseInt(link.textContent);
+                if (!isNaN(pageNum) && pageNum > maxFound) {
+                    maxFound = pageNum;
+                }
+            });
+            maxPages = maxFound;
+        }
+
+        hasMorePages = currentPage < maxPages;
+
+        // Create intersection observer for infinite scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '200px', // Start loading before reaching bottom
+            threshold: 0
+        };
+
+        const scrollObserver = new IntersectionObserver(handleInfiniteScroll, observerOptions);
+
+        // Observe the last card in the grid
+        updateScrollObserver(scrollObserver);
+
+        // Re-observe after AJAX loads
+        window.updateScrollObserver = function() {
+            updateScrollObserver(scrollObserver);
+        };
+    }
+
+    function updateScrollObserver(observer) {
+        // Disconnect previous observations
+        observer.disconnect();
+
+        if (!infiniteScrollEnabled || !hasMorePages) return;
+
+        // Observe the last card
+        const cards = archiveGrid.querySelectorAll('.card, .archive-submit-card');
+        if (cards.length > 0) {
+            const lastCard = cards[cards.length - 1];
+            observer.observe(lastCard);
+        }
+    }
+
+    async function handleInfiniteScroll(entries) {
+        const entry = entries[0];
+
+        if (!entry.isIntersecting) return;
+        if (isLoading) return;
+        if (!hasMorePages) return;
+
+        // Load next page
+        currentPage++;
+
+        // Show loading indicator
+        const loader = document.createElement('div');
+        loader.className = 'archive-infinite-loader';
+        loader.id = 'infinite-loader';
+        archiveGrid.appendChild(loader);
+
+        try {
+            const params = new URLSearchParams({
+                action: 'filter_archive_records',
+                nonce: unmaskArchive.nonce,
+                record_type: currentType,
+                record_tags: currentTags.join(','),
+                paged: currentPage
+            });
+
+            isLoading = true;
+            const response = await fetch(unmaskArchive.ajaxUrl + '?' + params.toString());
+            const rawText = await response.text();
+            const data = JSON.parse(rawText);
+
+            // Remove loader
+            const existingLoader = document.getElementById('infinite-loader');
+            if (existingLoader) existingLoader.remove();
+
+            if (data.success && data.data.html.trim()) {
+                // Append new cards (don't replace)
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data.data.html;
+
+                // Remove the "no records" message if present in new content
+                const noRecords = tempDiv.querySelector('.archive-no-records');
+                if (noRecords) noRecords.remove();
+
+                // Skip submit card on subsequent pages
+                const submitCard = tempDiv.querySelector('.archive-submit-card');
+                if (submitCard) submitCard.remove();
+
+                // Append remaining cards
+                while (tempDiv.firstChild) {
+                    archiveGrid.appendChild(tempDiv.firstChild);
+                }
+
+                maxPages = data.data.max_pages || maxPages;
+                hasMorePages = currentPage < maxPages;
+
+                // Re-observe last card
+                if (window.updateScrollObserver) {
+                    window.updateScrollObserver();
+                }
+
+                // Re-init trail tracking
+                initTrailTracking();
+            } else {
+                hasMorePages = false;
+            }
+
+            // Show end message when done
+            if (!hasMorePages) {
+                const endMsg = document.createElement('div');
+                endMsg.className = 'archive-end-message';
+                endMsg.textContent = '— end of archive —';
+                archiveGrid.appendChild(endMsg);
+            }
+
+        } catch (error) {
+            console.error('[Archive] Infinite scroll error:', error);
+            const existingLoader = document.getElementById('infinite-loader');
+            if (existingLoader) existingLoader.remove();
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    // Handle resize - enable/disable infinite scroll
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            if (isMobile() && !infiniteScrollEnabled) {
+                initInfiniteScroll();
+            } else if (!isMobile() && infiniteScrollEnabled) {
+                document.body.classList.remove('has-infinite-scroll');
+                infiniteScrollEnabled = false;
+            }
+        }, 100);
+    });
+
+    // =============================================================================
     // INITIALIZATION
     // =============================================================================
 
@@ -597,6 +763,7 @@
         renderTrail();
         initTrailTracking();
         initPaginationHandlers();
+        initInfiniteScroll();
 
         // Preload shuffle records in background
         setTimeout(fetchShuffleRecords, 1000);

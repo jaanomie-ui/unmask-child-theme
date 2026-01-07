@@ -160,10 +160,12 @@
   font-family: var(--font-ui);
   font-size: var(--type-lg);
   font-weight: 400;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-transform: lowercase;
   line-height: var(--leading-tight);
   margin: 0 0 var(--gap-micro) 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Card Subtitle / Secondary Title */
@@ -176,11 +178,14 @@
 
 /* Card Text / Description */
 .card__text {
-  font-family: var(--font-body);
-  font-size: var(--type-base);
-  color: var(--text-secondary);
-  line-height: var(--leading-normal);
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.7;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Truncated text (3 lines) */
@@ -307,6 +312,46 @@
   padding: 4px 10px;
 }
 
+/* Intent Badges — SEEKING (red glow) vs OFFERING (green glow) */
+.badge-intent {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  padding: 4px 10px;
+  border: 1px solid;
+  -webkit-font-smoothing: antialiased;
+}
+
+.badge-intent--seeking {
+  color: var(--primitive-red-light);
+  background: rgba(138, 50, 51, 0.2);
+  border-color: var(--primitive-red);
+  box-shadow: 0 0 8px rgba(138, 50, 51, 0.3);
+}
+
+.badge-intent--offering {
+  color: var(--primitive-green-light);
+  background: rgba(77, 168, 128, 0.15);
+  border-color: var(--primitive-green);
+  box-shadow: 0 0 8px rgba(77, 168, 128, 0.25);
+}
+
+/* Category Badge — subtle glow */
+.badge-category {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  padding: 4px 10px;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-hover);
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Badges Container */
 .card__badges {
   display: flex;
@@ -321,10 +366,11 @@
 
 /* Avatar */
 .card__avatar {
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--primitive-gray-700);
+  border: 1px solid var(--border-default);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -438,10 +484,10 @@
   flex: 1;
 }
 
-/* Factory preferred highlight */
+/* Factory preferred highlight — uses blue like standard cards, not amber */
 .card--iso.card--preferred:hover {
-  border-color: var(--primitive-amber);
-  box-shadow: 0 8px 24px rgba(212, 160, 25, 0.2), 0 0 0 1px var(--primitive-amber);
+  border-color: var(--border-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* --- MEMBER / DOSSIER (Profiles) --- */

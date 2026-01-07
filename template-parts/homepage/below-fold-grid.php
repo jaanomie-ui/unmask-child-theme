@@ -155,9 +155,9 @@ $total_isos = $iso_query->found_posts;
                         </div>
                         <div class="card__body">
                             <div class="card__badges">
-                                <span class="badge-info"><?php echo esc_html($iso_type); ?></span>
+                                <span class="badge-intent badge-intent--<?php echo esc_attr($iso_type); ?>"><?php echo esc_html($iso_type); ?></span>
                                 <?php if ($iso_category) : ?>
-                                    <span class="card__meta-item"><?php echo esc_html($iso_category); ?></span>
+                                    <span class="badge-category"><?php echo esc_html($iso_category); ?></span>
                                 <?php endif; ?>
                             </div>
                             <h3 class="card__title"><?php the_title(); ?></h3>

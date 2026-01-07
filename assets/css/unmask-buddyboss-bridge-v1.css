@@ -3,9 +3,10 @@
  * =========================================
  * Targets actual HTML classes output by BuddyBoss theme
  * Based on HTML audit: 2026-01-02
- * 
+ *
  * This file bridges our design system to BuddyBoss's HTML structure.
- * 
+ * Uses @layer overrides for proper cascade priority without !important.
+ *
  * Contents:
  * 1. Global BuddyPress Wrapper
  * 2. Profile/Member Pages
@@ -17,10 +18,13 @@
  * 8. Avatars
  * 9. Navigation Tabs
  * 10. Activity Feed
- * 
- * @version 1.0.0
- * @date 2026-01-02
+ *
+ * @version 1.1.0
+ * @date 2026-01-07
  */
+
+/* Wrap all overrides in the overrides layer for cascade priority */
+@layer overrides {
 
 /* ========================================
    1. GLOBAL BUDDYPRESS WRAPPER
@@ -40,7 +44,7 @@
 .buddypress-wrap,
 .bp-wrap,
 #buddypress {
-  background: transparent !important;
+  background: transparent;
 }
 
 /* ========================================
@@ -624,10 +628,10 @@ img.avatar {
    13. UTILITY OVERRIDES
    ======================================== */
 
-/* Remove all BuddyBoss border-radius */
+/* Remove all BuddyBoss border-radius — brutalist aesthetic */
 .buddypress-wrap *,
 #buddypress * {
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 /* Exception: Avatars stay round (unless square context) */
@@ -635,7 +639,7 @@ img.avatar {
 #buddypress .avatar,
 .bp-avatar img,
 img.avatar {
-  border-radius: 50% !important;
+  border-radius: 50%;
 }
 
 /* Force our font everywhere */
@@ -652,5 +656,7 @@ img.avatar {
 .buddypress-wrap *,
 #buddypress *,
 #bbpress-forums * {
-  box-shadow: none !important;
+  box-shadow: none;
 }
+
+} /* End @layer overrides */

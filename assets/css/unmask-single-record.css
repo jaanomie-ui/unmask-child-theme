@@ -110,16 +110,26 @@ body.single-post .site-content > .container {
     border: none;
 }
 
-/* Column 2: Title Area - RIGHT justified */
-.record-hero__title-col {
+/* ============================================================================
+   CONTENT AREA - 3x3 Sub-Grid (Columns 2-3)
+   ============================================================================ */
+
+.record-hero__content-area {
+    grid-column: 2 / 4;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    padding: var(--gap-section) var(--gap-element) var(--gap-section) 20%;
+    gap: 0;
+}
+
+/* Row 1: Status + Label (col 2 only, col 3 empty) */
+.record-hero__row-1 {
+    grid-column: 1 / 2;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    padding: var(--gap-section) var(--gap-element);
-    text-align: right;
-    border-right: 1px solid var(--border-default);
-    position: relative;
+    gap: var(--gap-tight);
+    padding-bottom: var(--gap-element);
 }
 
 .record-hero__label {
@@ -128,7 +138,14 @@ body.single-post .site-content > .container {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--primitive-red);
-    margin-bottom: var(--gap-element);
+}
+
+/* Row 2: Title (spans both columns) */
+.record-hero__row-2 {
+    grid-column: 1 / 3;
+    display: flex;
+    align-items: center;
+    padding: var(--gap-element) 20% var(--gap-element) 0;
 }
 
 .record-hero__title {
@@ -138,15 +155,33 @@ body.single-post .site-content > .container {
     line-height: 1.15;
     color: var(--text-secondary);
     letter-spacing: -0.02em;
-    margin-bottom: var(--gap-section);
+    margin: 0;
 }
 
-/* Metadata grid within column 2 */
+/* Row 3: Tags (left) + Metadata (right) */
+.record-hero__row-3 {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-top: var(--gap-element);
+}
+
+/* Tags in row 3, col 2 */
+.record-hero__tags {
+    align-self: end;
+}
+
+/* Metadata column in row 3, col 3 */
+.record-hero__meta-col {
+    padding-left: var(--gap-element);
+}
+
 .record-hero__meta-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--gap-element) var(--gap-section);
-    text-align: right;
+    gap: var(--gap-tight) var(--gap-element);
+    text-align: left;
 }
 
 .record-hero__meta-label {
@@ -164,12 +199,9 @@ body.single-post .site-content > .container {
     color: var(--text-secondary);
 }
 
-/* Tags - anchored to bottom of column 2 */
-.record-hero__tags {
-    position: absolute;
-    bottom: var(--gap-section);
-    left: var(--gap-element);
-    right: var(--gap-element);
+/* Smaller typography variant for metadata values */
+.record-hero__meta-value--sm {
+    font-size: var(--type-sm);
 }
 
 /* Override tag styles for single record */
@@ -202,46 +234,7 @@ body.single-post .site-content > .container {
     color: var(--text-primary);
 }
 
-/* Column 3: Additional Meta - LEFT justified */
-.record-hero__meta-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: var(--gap-section) var(--gap-element);
-    text-align: left;
-}
-
-.record-hero__meta-col .record-hero__meta-grid {
-    text-align: left;
-}
-
-.record-hero__meta-grid--secondary {
-    margin-top: var(--gap-element);
-}
-
-/* Record ID badge */
-.record-hero__record-id {
-    font-family: var(--font-ui);
-    font-size: var(--type-xs);
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    margin-bottom: var(--gap-element);
-    padding: 6px 12px;
-    border: 1px solid var(--border-default);
-}
-
-/* Type badge override */
-.record-hero__meta-col .unmask-type-badge {
-    font-family: var(--font-ui);
-    font-size: var(--type-xs);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 6px 12px;
-    margin-bottom: var(--gap-element);
-}
-
-/* Status indicator */
+/* Status indicator (in row 1, above label) */
 .record-hero__status {
     display: flex;
     align-items: center;
@@ -249,7 +242,6 @@ body.single-post .site-content > .container {
     font-family: var(--font-ui);
     font-size: var(--type-xs);
     color: var(--text-muted);
-    margin-top: auto;
     letter-spacing: 0.05em;
 }
 
@@ -309,16 +301,12 @@ body.single-post .site-content > .container {
 }
 
 .record-body__container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0;
+    padding-left: calc(100% / 6); /* Offset from left (asymmetrical) */
 }
 
 /* Article typography - Tiempos Text */
 .record-body__content {
-    grid-column: 1 / 4;
-    padding: 0 calc(100% / 6); /* Half-column margins on each side */
-    max-width: none;
+    max-width: 60ch;
     font-family: var(--font-body);
     font-size: 18px;
     line-height: 1.7;
@@ -329,15 +317,9 @@ body.single-post .site-content > .container {
     margin-bottom: 1.5em;
 }
 
-/* Drop cap for first paragraph */
-.record-body__content > p:first-of-type::first-letter {
-    font-size: 4em;
-    float: left;
-    line-height: 0.8;
-    margin-right: 12px;
-    margin-top: 8px;
-    font-family: var(--font-ui);
-    color: var(--text-primary);
+/* Hide gallery blocks in body - images already shown in gallery strip */
+.record-body__content .wp-block-gallery {
+    display: none;
 }
 
 /* Headings in body */
@@ -412,46 +394,6 @@ body.single-post .site-content > .container {
     letter-spacing: 0.5em;
 }
 
-/* ============================================================================
-   FOOTER
-   ============================================================================ */
-
-.record-footer {
-    border-top: 1px solid var(--border-default);
-    padding: var(--gap-element);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-ui);
-    font-size: var(--type-xs);
-    color: var(--text-muted);
-}
-
-.record-footer__nav {
-    display: flex;
-    gap: var(--gap-element);
-}
-
-.record-footer__link {
-    color: var(--text-secondary);
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color var(--duration-fast);
-}
-
-.record-footer__link:hover {
-    color: var(--text-primary);
-}
-
-.record-footer__share {
-    cursor: pointer;
-    transition: color var(--duration-fast);
-}
-
-.record-footer__share:hover {
-    color: var(--text-secondary);
-}
 
 /* ============================================================================
    TYPE BADGE
@@ -653,6 +595,61 @@ body.single-post .site-content > .container {
 }
 
 /* ============================================================================
+   POST NAVIGATION - Prev/Next
+   ============================================================================ */
+
+.record-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--gap-element);
+    padding: var(--gap-section) var(--gap-element);
+    border-top: 1px solid var(--border-default);
+    border-bottom: 1px solid var(--border-default);
+}
+
+.record-nav__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-micro);
+    text-decoration: none;
+    padding: var(--gap-tight);
+    transition: opacity var(--duration-fast);
+}
+
+.record-nav__link:hover {
+    opacity: 0.7;
+}
+
+.record-nav__link--prev {
+    grid-column: 1;
+    text-align: left;
+}
+
+.record-nav__link--next {
+    grid-column: 3;
+    text-align: right;
+}
+
+.record-nav__link--disabled {
+    visibility: hidden;
+}
+
+.record-nav__label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.record-nav__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--primitive-red);
+    line-height: 1.3;
+}
+
+/* ============================================================================
    COMMENTS SECTION - WordPress Native with UNMASK Styling
    ============================================================================ */
 
@@ -850,6 +847,10 @@ body.single-post .site-content > .container {
     padding: 12px 24px;
     cursor: pointer;
     transition: all var(--duration-fast);
+    white-space: nowrap;
+    width: auto;
+    min-width: fit-content;
+    overflow: visible;
 }
 
 .record-comments .comment-form .submit:hover {
@@ -1017,7 +1018,7 @@ body.single-post .comment-list > li.comment {
 }
 
 /* ============================================================================
-   RESPONSIVE — 1024px: Hide column 3, merge metadata into column 2
+   RESPONSIVE — 1024px: Stack content area into single column
    ============================================================================ */
 
 @media (max-width: 1024px) {
@@ -1025,18 +1026,29 @@ body.single-post .comment-list > li.comment {
         grid-template-columns: 1fr 1fr;
     }
 
+    .record-hero__content-area {
+        grid-column: 2 / 3;
+        grid-template-columns: 1fr;
+    }
+
+    .record-hero__row-1 {
+        grid-column: 1;
+    }
+
+    .record-hero__row-2 {
+        grid-column: 1;
+    }
+
+    .record-hero__row-3 {
+        grid-column: 1;
+        grid-template-columns: 1fr;
+        gap: var(--gap-element);
+    }
+
     .record-hero__meta-col {
-        display: none;
-    }
-
-    .record-hero__title-col {
-        padding-bottom: 160px; /* Space for tags */
-    }
-
-    /* Show type badge in column 2 on tablet */
-    .record-hero__title-col::after {
-        content: '';
-        /* Type badge will need to be duplicated in template or handled via JS */
+        padding-left: 0;
+        padding-top: var(--gap-element);
+        border-top: 1px solid var(--border-default);
     }
 }
 
@@ -1061,21 +1073,33 @@ body.single-post .comment-list > li.comment {
         border-bottom: 1px solid var(--border-default);
     }
 
-    .record-hero__title-col {
-        text-align: left;
-        align-items: flex-start;
-        padding: var(--gap-element) var(--gap-tight) 140px;
-        border-right: none;
+    /* Show full image on mobile without cropping */
+    .record-hero__image-col .unmask-gallery-lead__img {
+        object-fit: contain;
+        background: var(--bg-card);
     }
 
-    .record-hero__meta-grid {
-        text-align: left;
+    .record-hero__content-area {
+        grid-column: 1;
+        grid-template-columns: 1fr;
+        padding: var(--gap-element) var(--gap-tight);
     }
 
-    .record-hero__tags {
-        left: var(--gap-tight);
-        right: var(--gap-tight);
-        bottom: var(--gap-element);
+    .record-hero__row-1,
+    .record-hero__row-2,
+    .record-hero__row-3 {
+        grid-column: 1;
+    }
+
+    .record-hero__row-3 {
+        grid-template-columns: 1fr;
+        gap: var(--gap-element);
+    }
+
+    .record-hero__meta-col {
+        padding-left: 0;
+        padding-top: var(--gap-element);
+        border-top: 1px solid var(--border-default);
     }
 
     .record-hero__title {
@@ -1100,12 +1124,12 @@ body.single-post .comment-list > li.comment {
     }
 
     .record-body__container {
-        grid-template-columns: 1fr;
+        padding-left: 0; /* Remove offset on mobile */
     }
 
     .record-body__content {
         font-size: 16px;
-        padding: 0; /* Remove half-column margins on mobile */
+        max-width: none; /* Full width on mobile */
     }
 
     .record-body__content > p:first-of-type::first-letter {
@@ -1139,15 +1163,21 @@ body.single-post .comment-list > li.comment {
         gap: var(--gap-micro);
     }
 
-    /* Footer stacking */
-    .record-footer {
-        flex-direction: column;
-        gap: var(--gap-tight);
-        text-align: center;
+    /* Post navigation stacking */
+    .record-nav {
+        grid-template-columns: 1fr;
+        padding: var(--gap-element) var(--gap-tight);
     }
 
-    .record-footer__nav {
-        order: -1;
+    .record-nav__link--prev,
+    .record-nav__link--next {
+        grid-column: 1;
+        text-align: left;
+    }
+
+    .record-nav__link--next {
+        border-top: 1px solid var(--border-default);
+        padding-top: var(--gap-element);
     }
 }
 
@@ -1164,4 +1194,165 @@ body.single-post .comment-list > li.comment {
         grid-template-columns: 1fr;
         gap: var(--gap-tight);
     }
+
+    .record-hero__title {
+        font-size: 24px;
+    }
+}
+
+/* ============================================================================
+   BUDDYBOSS FOOTER OVERRIDE
+   Hide widget footer on single posts - keep only simple bottom footer
+   ============================================================================ */
+
+body.single-post .footer-widget-area.bb-footer {
+    display: none;
+}
+
+/* ============================================================================
+   STICKY SUBMIT CTA (Mobile)
+   Fixed footer bar encouraging submissions
+   ============================================================================ */
+
+.record-submit-cta {
+    display: none; /* Hidden on desktop */
+}
+
+@media (max-width: 768px) {
+    .record-submit-cta {
+        display: flex;
+        position: fixed;
+        bottom: calc(56px + env(safe-area-inset-bottom, 0px)); /* Above bottom nav */
+        left: 0;
+        right: 0;
+        z-index: 99;
+        background: var(--bg-card);
+        border-top: 1px solid var(--border-default);
+        padding: 12px 16px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        transform: translateY(100%);
+        opacity: 0;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+
+    .record-submit-cta.visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .record-submit-cta__text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .record-submit-cta__label {
+        display: block;
+        font-family: var(--font-ui);
+        font-size: var(--type-xs);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+    }
+
+    .record-submit-cta__title {
+        font-family: var(--font-ui);
+        font-size: var(--type-sm);
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .record-submit-cta__actions {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .record-submit-cta__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        font-family: var(--font-ui);
+        font-size: var(--type-xs);
+        letter-spacing: 0.05em;
+        text-transform: lowercase;
+        text-decoration: none;
+        border: 1px solid var(--border-default);
+        background: transparent;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.15s ease-out;
+        touch-action: manipulation;
+    }
+
+    .record-submit-cta__btn:active {
+        transform: scale(0.95);
+    }
+
+    .record-submit-cta__btn--primary {
+        background: var(--primitive-red);
+        border-color: var(--primitive-red);
+        color: var(--text-inverse);
+    }
+
+    .record-submit-cta__btn--primary:hover {
+        background: #a01830;
+    }
+
+    .record-submit-cta__btn--share {
+        padding: 10px 12px;
+    }
+
+    .record-submit-cta__btn--share svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Adjust main content padding when CTA is visible */
+    body.single-post .unmask-single-record {
+        padding-bottom: calc(56px + 60px + env(safe-area-inset-bottom, 0px)); /* bottom nav + CTA */
+    }
+
+    /* Hide CTA near footer (before comments/related) */
+    .record-submit-cta.near-footer {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* ============================================================================
+   SHARE TOAST NOTIFICATION
+   ============================================================================ */
+
+.record-share-toast {
+    position: fixed;
+    bottom: calc(56px + 70px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-elevated, #2a2a2a);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    padding: 12px 20px;
+    border: 1px solid var(--border-default);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-out;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+.record-share-toast.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.record-share-toast.success {
+    border-color: var(--primitive-green-glow, #4ade80);
 }

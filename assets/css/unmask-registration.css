@@ -40,8 +40,8 @@ body.unmask-registration-mode .header-aside {
 
 /* Reset body to dark background */
 body.unmask-registration-mode {
-    background: #181818;
-    background-color: #181818;
+    background: var(--bg-page);
+    background-color: var(--bg-page);
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -53,7 +53,7 @@ body.unmask-registration-mode .site,
 body.unmask-registration-mode #main,
 body.unmask-registration-mode .site-main,
 body.unmask-registration-mode .unmask-main--fullbleed {
-    background: #181818;
+    background: var(--bg-page);
     max-width: none;
     width: 100%;
     margin: 0;

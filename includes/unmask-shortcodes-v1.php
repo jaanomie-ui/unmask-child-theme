@@ -47,6 +47,40 @@ function unmask_get_user_designation($user_id = null) {
 }
 
 /**
+ * Check if user is a Drone (paid member)
+ *
+ * @param int $user_id WordPress user ID
+ * @return bool True if user is a Drone member
+ */
+function unmask_user_is_drone($user_id = null) {
+    if (!$user_id) {
+        $user_id = get_current_user_id();
+    }
+
+    if (!$user_id) {
+        return false;
+    }
+
+    // Check via MemberPress if available
+    if (class_exists('MeprUser')) {
+        $mepr_user = new MeprUser($user_id);
+        // Drone membership ID from UNMASK config
+        $drone_membership_id = 2093;
+        if ($mepr_user->is_already_subscribed_to($drone_membership_id)) {
+            return true;
+        }
+    }
+
+    // Fallback: check user meta
+    $membership_type = get_user_meta($user_id, 'mepr_membership_type', true);
+    if ($membership_type === 'disruptor' || $membership_type === 'Disruptor' || $membership_type === 'drone' || $membership_type === 'Drone') {
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * Parse shortcode boolean attributes
  *
  * @param mixed $value Attribute value
@@ -303,7 +337,45 @@ add_shortcode('unmask_tags', 'unmask_tags_shortcode');
    ========================================================================== */
 
 /**
+ * Extract image attachment IDs from post content
+ *
+ * Parses Gutenberg blocks for:
+ * - wp-block-image (single images)
+ * - wp-block-gallery (image galleries)
+ *
+ * @param string $content Post content
+ * @return array Array of attachment IDs
+ */
+function unmask_extract_images_from_content($content) {
+    $image_ids = array();
+
+    if (empty($content)) {
+        return $image_ids;
+    }
+
+    // Method 1: Extract from wp-image-{ID} classes (works for both Image and Gallery blocks)
+    if (preg_match_all('/wp-image-(\d+)/', $content, $matches)) {
+        $image_ids = array_map('intval', $matches[1]);
+    }
+
+    // Method 2: Extract from data-id attributes (Gallery block fallback)
+    if (preg_match_all('/data-id=["\'](\d+)["\']/', $content, $matches)) {
+        $image_ids = array_merge($image_ids, array_map('intval', $matches[1]));
+    }
+
+    // Remove duplicates and preserve order
+    $image_ids = array_unique($image_ids);
+
+    return $image_ids;
+}
+
+/**
  * Get gallery images for a post
+ *
+ * Priority order:
+ * 1. Explicit IDs passed to shortcode
+ * 2. Featured image + images extracted from post content
+ * 3. Featured image only as fallback
  *
  * @param string $ids Comma-separated image IDs (optional)
  * @param int $post_id Post ID
@@ -311,30 +383,33 @@ add_shortcode('unmask_tags', 'unmask_tags_shortcode');
  */
 function unmask_get_gallery_images($ids = '', $post_id = 0) {
     $images = array();
+    $image_ids = array();
 
-    // If IDs provided, use those
+    // If explicit IDs provided, use those only
     if (!empty($ids)) {
         $image_ids = array_map('intval', explode(',', $ids));
     } else {
-        // Get from post meta
-        $image_ids = get_post_meta($post_id, 'unmask_gallery_images', true);
-        if (!is_array($image_ids)) {
-            $image_ids = array();
-        }
-    }
-
-    // If still no images, try featured image
-    if (empty($image_ids)) {
+        // Start with featured image
         $thumbnail_id = get_post_thumbnail_id($post_id);
         if ($thumbnail_id) {
-            $image_ids = array($thumbnail_id);
+            $image_ids[] = intval($thumbnail_id);
         }
+
+        // Extract images from post content
+        $post = get_post($post_id);
+        if ($post && !empty($post->post_content)) {
+            $content_ids = unmask_extract_images_from_content($post->post_content);
+            $image_ids = array_merge($image_ids, $content_ids);
+        }
+
+        // Remove duplicates (featured image might also be in content)
+        $image_ids = array_unique($image_ids);
     }
 
+    // Build image data array
     foreach ($image_ids as $id) {
         $full = wp_get_attachment_image_src($id, 'full');
         $thumb = wp_get_attachment_image_src($id, 'thumbnail');
-        $meta = wp_get_attachment_metadata($id);
 
         if ($full) {
             $filename = basename(get_attached_file($id));

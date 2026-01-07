@@ -1,0 +1,430 @@
+/* ============================================================================
+   UNMASK PROFILE PAGE STYLES
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   HEADER BACKGROUND
+   ---------------------------------------------------------------------------- */
+
+/* Match header background to page */
+.bp-user #item-header-cover-image {
+  background: var(--bg-page, #1a1a1a);
+}
+
+.bp-user .item-header-wrap {
+  background: var(--bg-page, #1a1a1a);
+}
+
+/* ----------------------------------------------------------------------------
+   TYPOGRAPHY
+   ---------------------------------------------------------------------------- */
+
+/* Display name - lowercase, clean font */
+.bp-user #item-header-content .user-nicename,
+.bp-user #item-header-content h2 {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+/* Member meta info */
+.bp-user #item-header-content .item-meta {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: 14px;
+  color: var(--text-muted, #888);
+}
+
+/* ----------------------------------------------------------------------------
+   DESIGNATION BADGE
+   ---------------------------------------------------------------------------- */
+
+.bp-user .unmask-badge {
+  display: inline-block;
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #00ff88;
+  border: 1px solid #00ff88;
+  padding: 4px 12px;
+  margin-top: 8px;
+}
+
+/* ----------------------------------------------------------------------------
+   AVATAR
+   ---------------------------------------------------------------------------- */
+
+/* Clean avatar styling */
+.bp-user #item-header-avatar .avatar {
+  border: 1px solid var(--border-default, #333);
+}
+
+/* ----------------------------------------------------------------------------
+   PROFILE SECTIONS (for /profile/ page)
+   ---------------------------------------------------------------------------- */
+
+/* Section headers */
+.bp-user .profile-loop-header h2,
+.bp-user .profile-header h2 {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+
+/* Field labels */
+.bp-user .bp-profile-field .label {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: 13px;
+  color: var(--text-muted, #888);
+  text-transform: lowercase;
+}
+
+/* Field values */
+.bp-user .bp-profile-field .data {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: 14px;
+}
+
+/* ----------------------------------------------------------------------------
+   PROFILE FIELDS GRID
+   ---------------------------------------------------------------------------- */
+
+/* Force profile sections visible (overrides BuddyBoss accordion) */
+.bp-user .group-separator-block,
+.bp-user .group-separator-block .bp-widget,
+#buddypress .group-separator-block,
+#buddypress .group-separator-block .bp-widget,
+#buddypress .bp-widget.visitor-profile,
+#buddypress .bp-widget.creative-practice,
+#buddypress .bp-widget.kink-profile {
+  display: block !important;
+  max-height: 9999px !important;
+  height: auto !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+  visibility: visible !important;
+  position: static !important;
+  clip: auto !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+
+/* Section spacing */
+.bp-user .group-separator-block {
+  margin-bottom: 24px;
+}
+
+/* Profile fields table */
+.bp-user .profile-fields.bp-tables-user {
+  display: table !important;
+  width: 100%;
+}
+
+.bp-user .profile-fields.bp-tables-user tr {
+  display: table-row !important;
+}
+
+.bp-user .profile-fields.bp-tables-user td {
+  display: table-cell !important;
+  padding: 8px 0;
+}
+
+.bp-user .profile-fields.bp-tables-user td.label {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: 13px;
+  color: var(--text-muted, #888);
+  width: 150px;
+  vertical-align: top;
+}
+
+.bp-user .profile-fields.bp-tables-user td.data {
+  font-size: 14px;
+}
+
+.bp-user .profile-fields.bp-tables-user td.data p {
+  margin: 0;
+}
+
+/* ============================================================================
+   EDIT PROFILE PAGE — Clean, simplified layout
+   ============================================================================ */
+
+/* Hide BuddyBoss bloat on edit pages */
+body.bp-user.profile-edit #buddypress .bp-navs,
+body.bp-user.profile-edit #buddypress .item-list-tabs,
+body.bp-user.profile-edit .bb-profile-header,
+body.bp-user.profile-edit .bb-cover-wrap,
+body.bp-user.profile-edit #cover-image-container {
+  display: none !important;
+}
+
+/* Edit page container - full width for split panel layout */
+body.bp-user.profile-edit #buddypress,
+body.bp-user.profile-edit #item-body,
+body.bp-user.profile-edit .bp-wrap {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-page, #1a1a1a);
+}
+
+/* Edit form heading */
+body.bp-user.profile-edit .screen-heading,
+body.bp-user.profile-edit h2.screen-heading {
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: var(--type-base, 16px);
+  font-weight: 400;
+  text-transform: lowercase;
+  color: var(--text-primary, #fff);
+  margin-bottom: var(--gap-tight, 24px);
+  padding-bottom: var(--gap-micro, 8px);
+  border-bottom: 1px solid var(--border-default, #333);
+}
+
+/* Hide redundant "Edit X Information" part */
+body.bp-user.profile-edit .screen-heading.edit-profile-screen {
+  font-size: var(--type-sm, 14px);
+  color: var(--text-muted, #888);
+}
+
+/* Profile group tabs - simplified */
+body.bp-user.profile-edit .button-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--gap-tight, 24px);
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--border-default, #333);
+}
+
+body.bp-user.profile-edit .button-tabs li {
+  margin: 0;
+}
+
+body.bp-user.profile-edit .button-tabs a {
+  display: block;
+  padding: 8px 12px;
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: var(--type-xs, 12px);
+  text-transform: lowercase;
+  color: var(--text-muted, #888);
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-bottom: none;
+  transition: all 0.15s ease;
+}
+
+body.bp-user.profile-edit .button-tabs a:hover {
+  color: var(--text-primary, #fff);
+  background: var(--bg-card, #222);
+}
+
+body.bp-user.profile-edit .button-tabs .current a {
+  color: var(--text-primary, #fff);
+  background: var(--bg-card, #222);
+  border-color: var(--border-default, #333);
+}
+
+/* Edit form container */
+body.bp-user.profile-edit #profile-edit-form {
+  background: transparent;
+}
+
+/* Field wrapper */
+body.bp-user.profile-edit .editfield {
+  margin-bottom: var(--gap-tight, 24px);
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+body.bp-user.profile-edit .editfield fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Field labels */
+body.bp-user.profile-edit .editfield label,
+body.bp-user.profile-edit .editfield .field-name {
+  display: block;
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: var(--type-xs, 12px);
+  font-weight: 400;
+  text-transform: lowercase;
+  color: var(--text-muted, #888);
+  margin-bottom: 6px;
+}
+
+/* Required indicator */
+body.bp-user.profile-edit .editfield .bp-required-field-label {
+  color: var(--primitive-red, #c53030);
+  font-size: 10px;
+}
+
+/* Text inputs */
+body.bp-user.profile-edit .editfield input[type="text"],
+body.bp-user.profile-edit .editfield input[type="email"],
+body.bp-user.profile-edit .editfield input[type="url"],
+body.bp-user.profile-edit .editfield input[type="number"],
+body.bp-user.profile-edit .editfield input[type="tel"],
+body.bp-user.profile-edit .editfield textarea,
+body.bp-user.profile-edit .editfield select {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: var(--type-sm, 14px);
+  color: var(--text-primary, #fff);
+  background: var(--bg-input, #111);
+  border: 1px solid var(--border-default, #333);
+  border-radius: 0;
+  transition: border-color 0.15s ease;
+  -webkit-appearance: none;
+}
+
+body.bp-user.profile-edit .editfield input:focus,
+body.bp-user.profile-edit .editfield textarea:focus,
+body.bp-user.profile-edit .editfield select:focus {
+  outline: none;
+  border-color: var(--primitive-red, #c53030);
+}
+
+body.bp-user.profile-edit .editfield textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Select dropdowns */
+body.bp-user.profile-edit .editfield select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* Checkbox and radio inputs */
+body.bp-user.profile-edit .editfield input[type="checkbox"],
+body.bp-user.profile-edit .editfield input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  accent-color: var(--primitive-red, #c53030);
+}
+
+body.bp-user.profile-edit .editfield .checkbox label,
+body.bp-user.profile-edit .editfield .radio label {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--type-sm, 14px);
+  color: var(--text-secondary, #ccc);
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+/* Multi-select checkboxes container */
+body.bp-user.profile-edit .editfield .input-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Field descriptions */
+body.bp-user.profile-edit .editfield .description,
+body.bp-user.profile-edit .editfield p.description {
+  font-size: 11px;
+  color: var(--text-muted, #888);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* Visibility selector - simplified */
+body.bp-user.profile-edit .field-visibility-settings-toggle,
+body.bp-user.profile-edit .field-visibility-settings {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+body.bp-user.profile-edit .field-visibility-settings-toggle {
+  color: var(--text-muted, #888);
+}
+
+body.bp-user.profile-edit .field-visibility-settings-toggle a {
+  color: var(--link-default, #888);
+}
+
+body.bp-user.profile-edit .field-visibility-settings {
+  padding: 8px;
+  background: var(--bg-card, #222);
+  border: 1px solid var(--border-default, #333);
+}
+
+/* Submit button */
+body.bp-user.profile-edit .submit {
+  margin-top: var(--gap-element, 32px);
+  padding-top: var(--gap-tight, 24px);
+  border-top: 1px solid var(--border-default, #333);
+}
+
+body.bp-user.profile-edit .submit input[type="submit"],
+body.bp-user.profile-edit .submit button {
+  padding: 12px 24px;
+  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-size: var(--type-sm, 14px);
+  text-transform: lowercase;
+  color: var(--bg-base, #000);
+  background: var(--primitive-red-light, #e53e3e);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+body.bp-user.profile-edit .submit input[type="submit"]:hover,
+body.bp-user.profile-edit .submit button:hover {
+  background: var(--primitive-red, #c53030);
+}
+
+/* Hide extraneous BuddyBoss UI elements */
+body.bp-user.profile-edit .bp-feedback,
+body.bp-user.profile-edit .bp-avatar-nav,
+body.bp-user.profile-edit .profile-settings-visibility,
+body.bp-user.profile-edit .bb-xprofile-field-description-popup {
+  display: none;
+}
+
+/* ============================================================================
+   EDIT PROFILE — Mobile responsive
+   ============================================================================ */
+
+@media (max-width: 600px) {
+  body.bp-user.profile-edit #buddypress,
+  body.bp-user.profile-edit #item-body,
+  body.bp-user.profile-edit .bp-wrap {
+    max-width: 100%;
+    padding: var(--gap-micro, 8px);
+  }
+
+  body.bp-user.profile-edit .button-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.bp-user.profile-edit .button-tabs a {
+    white-space: nowrap;
+  }
+
+  body.bp-user.profile-edit .editfield input,
+  body.bp-user.profile-edit .editfield textarea,
+  body.bp-user.profile-edit .editfield select {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  body.bp-user.profile-edit .submit input[type="submit"] {
+    width: 100%;
+  }
+}

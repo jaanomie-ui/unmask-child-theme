@@ -4,6 +4,76 @@
    ========================================================================== */
 
 /* -------------------------------------------------------------------------
+   MOBILE/DESKTOP LAYOUT TOGGLE
+   Shows mobile layout on small screens, desktop on large
+   ------------------------------------------------------------------------- */
+
+.unmask-homepage-mobile {
+    display: none;
+}
+
+.unmask-homepage-desktop {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .unmask-homepage-mobile {
+        display: block;
+    }
+
+    .unmask-homepage-desktop {
+        display: none;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   BUDDYBOSS WRAPPER OVERRIDES
+   Required for horizontal scroll to work on mobile
+   ------------------------------------------------------------------------- */
+
+body.page-template-page-templatestemplate-homepage-php #content.site-content,
+body.page-template-page-templatestemplate-homepage-php .site-content > .container,
+body.page-template-page-templatestemplate-homepage-php .bb-grid.site-content-grid,
+body.page-template-page-templatestemplate-homepage-php #primary.content-area,
+body.page-template-page-templatestemplate-homepage-php .site-main,
+body.page-template-page-templatestemplate-homepage-php .entry-content {
+    max-width: none !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow: visible !important;
+}
+
+body.page-template-page-templatestemplate-homepage-php .bb-grid.site-content-grid {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+}
+
+/* Hide sidebar — homepage has its own layout */
+body.page-template-page-templatestemplate-homepage-php #secondary.widget-area,
+body.page-template-page-templatestemplate-homepage-php aside.widget-area {
+    display: none !important;
+}
+
+/* -------------------------------------------------------------------------
+   CRITICAL: Override BuddyBoss .slick-slider touch-action: pan-y
+   This blocks ALL horizontal swipe on the page
+   ------------------------------------------------------------------------- */
+body.page-template-page-templatestemplate-homepage-php .rail__track {
+    -ms-touch-action: pan-x pan-y !important;
+    touch-action: pan-x pan-y !important;
+}
+
+body.page-template-page-templatestemplate-homepage-php .slick-slider,
+body.page-template-page-templatestemplate-homepage-php .slick-list,
+body.page-template-page-templatestemplate-homepage-php .slick-track {
+    -ms-touch-action: auto !important;
+    touch-action: auto !important;
+}
+
+/* -------------------------------------------------------------------------
    BASE GRID CONTAINER
    2-column foundation, all children flow into it
    ------------------------------------------------------------------------- */
@@ -59,16 +129,17 @@
     color: var(--text-secondary);
 }
 
+/* Rail track - matches working .unmask-mobile__carousel pattern */
 .rail__track {
     display: flex;
-    align-items: flex-start; /* All cards align to top */
+    align-items: flex-start;
     gap: var(--gap-tight);
     overflow-x: auto;
-    overflow-y: hidden;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding-bottom: var(--gap-micro);
+    padding: var(--gap-tight);
+    padding-right: 48px; /* Peek effect for next card */
 }
 
 .rail__track::-webkit-scrollbar {

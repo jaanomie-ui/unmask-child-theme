@@ -1,0 +1,154 @@
+/* ============================================================================
+   UNMASK Visitor Grid Widget
+   Displays visitors in a grid: Designation + Scene Name
+   ============================================================================ */
+
+.widget-visitor-grid {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  padding: var(--gap-tight);
+}
+
+.widget-visitor-grid .widget-title,
+.widget-visitor-grid h3 {
+  font-size: var(--type-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-labels);
+  color: var(--text-muted);
+  font-weight: 400;
+  margin: 0 0 var(--gap-tight) 0;
+  padding-bottom: var(--gap-micro);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.widget-visitor-grid .widget-title::before,
+.widget-visitor-grid h3::before {
+  content: ':: ';
+  color: var(--primitive-gray-600);
+}
+
+/* Grid Container */
+.visitor-grid {
+  display: grid;
+  gap: var(--gap-micro);
+}
+
+.visitor-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.visitor-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.visitor-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Individual Cell */
+.visitor-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--gap-micro);
+  background: var(--bg-page);
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.visitor-cell:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-default);
+}
+
+.visitor-cell:focus {
+  outline: 1px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* Avatar */
+.visitor-cell__avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visitor-cell__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.visitor-cell__placeholder {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+/* Designation (V-001) */
+.visitor-cell__designation {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Drone designation */
+.visitor-cell--drone .visitor-cell__designation {
+  color: var(--primitive-red-light);
+}
+
+/* Scene Name */
+.visitor-cell__name {
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.visitor-cell:hover .visitor-cell__name {
+  color: var(--text-primary);
+}
+
+/* Footer */
+.visitor-grid__footer {
+  margin-top: var(--gap-tight);
+  padding-top: var(--gap-micro);
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.visitor-grid__link {
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.visitor-grid__link::before { content: '['; }
+.visitor-grid__link::after { content: ']'; }
+
+.visitor-grid__link:hover {
+  color: var(--text-primary);
+}
+
+/* Empty state */
+.visitor-grid__empty {
+  font-size: var(--type-xs);
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--gap-tight);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .visitor-grid--cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .visitor-grid--cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

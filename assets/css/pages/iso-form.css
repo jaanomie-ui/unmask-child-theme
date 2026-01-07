@@ -1,0 +1,637 @@
+/* ============================================================================
+   UNMASK ISO SUBMIT FORM STYLES
+   Multi-step form for ISO Board submissions
+   ============================================================================ */
+
+/* ============================================================================
+   PAGE LAYOUT
+   ============================================================================ */
+
+.iso-form-page {
+    padding: 24px 16px;
+    max-width: 560px;
+    margin: 0 auto;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================================
+   FORM HEADER
+   ============================================================================ */
+
+.iso-form-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.iso-form-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xl);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    margin-bottom: 8px;
+}
+
+.iso-form-subtitle {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+}
+
+/* ============================================================================
+   PROGRESS BAR
+   ============================================================================ */
+
+.iso-progress-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.iso-progress-bar.hidden {
+    display: none;
+}
+
+.iso-progress-step {
+    flex: 1;
+    height: 2px;
+    background: var(--border-default);
+    transition: background var(--duration-normal) var(--ease-out);
+}
+
+.iso-progress-step.active {
+    background: var(--primitive-red);
+}
+
+.iso-progress-step.complete {
+    background: var(--primitive-green-light, #3d7a52);
+}
+
+/* ============================================================================
+   FORM STEPS
+   ============================================================================ */
+
+.iso-form-step {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    animation: isoFadeIn var(--duration-normal) var(--ease-out);
+}
+
+.iso-form-step.active {
+    display: flex;
+}
+
+@keyframes isoFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.iso-step-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.iso-step-question {
+    font-family: var(--font-ui);
+    font-size: var(--type-lg);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    margin-bottom: 24px;
+}
+
+/* ============================================================================
+   TYPE TOGGLE - Two Big Buttons
+   ============================================================================ */
+
+.iso-type-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.iso-type-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 32px 24px;
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.iso-type-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+}
+
+.iso-type-btn.selected {
+    border-color: var(--primitive-red);
+    background: rgba(138, 50, 51, 0.1);
+}
+
+.iso-type-btn-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-lg);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.iso-type-btn-hint {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+}
+
+.iso-type-btn.selected .iso-type-btn-label {
+    color: var(--primitive-red-light);
+}
+
+/* ============================================================================
+   CATEGORY GRID
+   ============================================================================ */
+
+.iso-category-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+@media (min-width: 480px) {
+    .iso-category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.iso-category-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 16px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.iso-category-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+}
+
+.iso-category-btn.selected {
+    border-color: var(--primitive-red);
+    background: rgba(138, 50, 51, 0.1);
+}
+
+.iso-category-btn-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-primary);
+    text-transform: lowercase;
+}
+
+.iso-category-btn.selected .iso-category-btn-label {
+    color: var(--primitive-red-light);
+}
+
+/* ============================================================================
+   FORM INPUTS
+   ============================================================================ */
+
+.iso-form-group {
+    margin-bottom: 24px;
+}
+
+.iso-form-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.iso-form-label .required {
+    color: var(--primitive-red);
+}
+
+.iso-form-input {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 14px 16px;
+    width: 100%;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.iso-form-input:focus {
+    outline: none;
+    border-color: var(--primitive-red);
+    background: var(--bg-card-hover);
+}
+
+.iso-form-input::placeholder {
+    color: var(--text-muted);
+}
+
+.iso-form-textarea {
+    font-family: var(--font-body);
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.iso-form-hint {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin-top: 6px;
+}
+
+.iso-char-count {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 4px;
+}
+
+.iso-char-count.warning {
+    color: var(--primitive-amber);
+}
+
+.iso-char-count.error {
+    color: var(--primitive-red);
+}
+
+/* ============================================================================
+   DATE INPUT
+   ============================================================================ */
+
+.iso-form-date {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 14px 16px;
+    width: 100%;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.iso-form-date:focus {
+    outline: none;
+    border-color: var(--primitive-red);
+    background: var(--bg-card-hover);
+}
+
+/* Chrome/Safari date picker styling */
+.iso-form-date::-webkit-calendar-picker-indicator {
+    filter: invert(0.5);
+    cursor: pointer;
+}
+
+/* ============================================================================
+   LOCATION OPTIONS
+   ============================================================================ */
+
+.iso-location-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.iso-location-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 14px 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.iso-location-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+}
+
+.iso-location-btn.selected {
+    border-color: var(--primitive-red);
+    background: rgba(138, 50, 51, 0.1);
+}
+
+.iso-location-btn-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-primary);
+    text-transform: lowercase;
+}
+
+/* ============================================================================
+   FACTORY OPTIONS
+   ============================================================================ */
+
+.iso-factory-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.iso-factory-option {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.iso-factory-option:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+}
+
+.iso-factory-option.selected {
+    border-color: var(--primitive-amber);
+    background: rgba(212, 160, 25, 0.05);
+}
+
+.iso-factory-radio {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-default);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+}
+
+.iso-factory-option.selected .iso-factory-radio {
+    border-color: var(--primitive-amber);
+}
+
+.iso-factory-option.selected .iso-factory-radio::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background: var(--primitive-amber);
+    border-radius: 50%;
+}
+
+.iso-factory-option-content {
+    flex: 1;
+}
+
+.iso-factory-option-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    margin-bottom: 4px;
+}
+
+.iso-factory-option-hint {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+}
+
+/* ============================================================================
+   NAVIGATION BUTTONS
+   ============================================================================ */
+
+.iso-form-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 32px;
+}
+
+.iso-btn {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    padding: 14px 24px;
+    cursor: pointer;
+    text-transform: lowercase;
+    transition: all var(--duration-fast) var(--ease-out);
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+}
+
+.iso-btn-secondary {
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border-default);
+}
+
+.iso-btn-secondary:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+.iso-btn-primary {
+    color: var(--text-primary);
+    background: var(--primitive-red-dark);
+    border: 1px solid var(--primitive-red-dark);
+}
+
+.iso-btn-primary:hover {
+    background: var(--primitive-red-light);
+    border-color: var(--primitive-red-light);
+}
+
+.iso-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.iso-btn-primary:disabled:hover {
+    background: var(--primitive-red-dark);
+    border-color: var(--primitive-red-dark);
+}
+
+.iso-btn-submit {
+    background: var(--primitive-green, #2d5a3d);
+    border-color: var(--primitive-green, #2d5a3d);
+}
+
+.iso-btn-submit:hover {
+    background: var(--primitive-green-light, #3d7a52);
+    border-color: var(--primitive-green-light, #3d7a52);
+}
+
+.iso-btn-submit.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* ============================================================================
+   REVIEW STEP
+   ============================================================================ */
+
+.iso-review-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.iso-review-label {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+}
+
+.iso-review-value {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+}
+
+.iso-review-description {
+    font-family: var(--font-body);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ============================================================================
+   ERROR STATE
+   ============================================================================ */
+
+.iso-form-error {
+    background: rgba(138, 50, 51, 0.1);
+    border: 1px solid var(--primitive-red);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    display: none;
+}
+
+.iso-form-error.active {
+    display: block;
+}
+
+.iso-form-error-text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--primitive-red-light);
+    margin: 0;
+}
+
+/* ============================================================================
+   SUCCESS STATE
+   ============================================================================ */
+
+.iso-success-message {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    padding: 48px 24px;
+    animation: isoFadeIn var(--duration-normal) var(--ease-out);
+}
+
+.iso-success-message.active {
+    display: flex;
+}
+
+.iso-success-icon {
+    width: 64px;
+    height: 64px;
+    border: 2px solid var(--primitive-green-light, #3d7a52);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    background: rgba(61, 122, 82, 0.15);
+}
+
+.iso-success-icon::after {
+    content: '\2713';
+    font-size: 28px;
+    color: var(--primitive-green-light, #3d7a52);
+}
+
+.iso-success-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-xl);
+    color: var(--primitive-green-light, #3d7a52);
+    text-transform: lowercase;
+    margin-bottom: 8px;
+}
+
+.iso-success-text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+}
+
+.iso-success-redirect {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+}
+
+/* ============================================================================
+   ALERT BANNER (for non-logged-in users)
+   ============================================================================ */
+
+.iso-form-page .iso-alert-banner {
+    background: rgba(212, 160, 25, 0.1);
+    border: 1px solid var(--primitive-amber);
+    padding: 24px;
+    text-align: center;
+}
+
+.iso-form-page .iso-alert-text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--primitive-amber-light, #e6b82a);
+    display: block;
+    margin-bottom: 16px;
+}
+
+.iso-form-page .iso-alert-cta {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--primitive-amber-light, #e6b82a);
+    text-decoration: none;
+    border: 1px solid var(--primitive-amber);
+    padding: 10px 20px;
+    display: inline-block;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.iso-form-page .iso-alert-cta:hover {
+    background: var(--primitive-amber);
+    color: var(--primitive-void);
+}

@@ -59,10 +59,11 @@
                         item.classList.toggle('unmask-gallery-strip__item--active', i === currentIndex);
                     });
 
-                    // Scroll active item into view
+                    // Scroll strip horizontally to center active thumbnail (without moving page)
                     const activeItem = strip.querySelector('.unmask-gallery-strip__item--active');
                     if (activeItem) {
-                        activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        const scrollLeft = activeItem.offsetLeft - (strip.offsetWidth / 2) + (activeItem.offsetWidth / 2);
+                        strip.scrollTo({ left: scrollLeft, behavior: 'smooth' });
                     }
                 }
             }

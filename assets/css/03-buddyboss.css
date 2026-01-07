@@ -485,3 +485,457 @@ body.groups.single-item #buddypress .groups-header * {
 .profile.public .bp-widget table.profile-fields td.data a:hover {
     color: var(--text-primary) !important;
 }
+
+/* ==========================================================================
+   BUDDYPANEL SIDEBAR CLEANUP
+   Hide unused menu items (groups, forums) and add custom styling
+   ========================================================================== */
+
+/* Hide Groups menu item */
+.buddypanel-menu li.bp-groups-nav,
+.buddypanel-menu li.menu-item-groups,
+.buddypanel-menu li[class*="groups"],
+.buddypanel .bp-groups-nav,
+#buddypanel-menu .bp-groups-nav,
+.bb-mobile-panel-inner li.bp-groups-nav,
+.bb-mobile-panel-inner li[class*="groups"] {
+    display: none !important;
+}
+
+/* Hide Forums menu item */
+.buddypanel-menu li.bp-forums-nav,
+.buddypanel-menu li.menu-item-forums,
+.buddypanel-menu li[class*="forums"],
+.buddypanel .bp-forums-nav,
+#buddypanel-menu .bp-forums-nav,
+.bb-mobile-panel-inner li.bp-forums-nav,
+.bb-mobile-panel-inner li[class*="forums"] {
+    display: none !important;
+}
+
+/* Hide any "Social Groups" or similar labels */
+.buddypanel-menu li a[href*="/groups"],
+.bb-mobile-panel-inner li a[href*="/groups"] {
+    display: none !important;
+}
+
+/* Hide forum-related items */
+.buddypanel-menu li a[href*="/forums"],
+.bb-mobile-panel-inner li a[href*="/forums"] {
+    display: none !important;
+}
+
+/* ==========================================================================
+   BUDDYPANEL SIDEBAR STYLING
+   ========================================================================== */
+
+/* Panel background — match page background for seamless look */
+.buddypanel,
+.bb-mobile-panel-inner {
+    background: var(--bg-page, #0d0d0d) !important;
+    border-right: 1px solid var(--border-subtle, #222) !important;
+}
+
+/* Menu item styling — terminal aesthetic */
+.buddypanel-menu li a,
+.bb-mobile-panel-inner .bb-mobile-panel-body li a {
+    color: var(--text-muted, #666) !important;
+    font-family: var(--font-ui) !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    padding: 10px 20px 10px 36px !important;
+    transition: color 0.15s ease-out !important;
+    position: relative !important;
+    background: transparent !important;
+}
+
+/* Circle bullet — replaces icons */
+.buddypanel-menu li a::before,
+.bb-mobile-panel-inner .bb-mobile-panel-body li a::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: var(--text-muted, #444) !important;
+    transition: background 0.15s ease-out !important;
+}
+
+.buddypanel-menu li a:hover,
+.bb-mobile-panel-inner .bb-mobile-panel-body li a:hover {
+    color: var(--text-secondary, #999) !important;
+    background: transparent !important;
+}
+
+.buddypanel-menu li a:hover::before,
+.bb-mobile-panel-inner .bb-mobile-panel-body li a:hover::before {
+    background: var(--text-secondary, #999) !important;
+}
+
+/* Active menu item — subtle, not red */
+.buddypanel-menu li.current-menu-item a,
+.buddypanel-menu li.active a,
+.bb-mobile-panel-inner li.current-menu-item a {
+    color: var(--text-primary, #e8e8e8) !important;
+    background: transparent !important;
+}
+
+.buddypanel-menu li.current-menu-item a::before,
+.buddypanel-menu li.active a::before,
+.bb-mobile-panel-inner li.current-menu-item a::before {
+    background: var(--text-primary, #e8e8e8) !important;
+}
+
+/* Hide default icons — we use circles instead */
+.buddypanel-menu li a i,
+.buddypanel-menu li a .bb-icon,
+.buddypanel-menu li a svg,
+.buddypanel-menu li a img.menu-image,
+.bb-mobile-panel-inner li a i,
+.bb-mobile-panel-inner li a .bb-icon {
+    display: none !important;
+}
+
+/* Dividers between sections */
+.buddypanel-menu > li.menu-item-has-children::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--border-subtle, #222);
+    margin: 12px 16px;
+}
+
+/* ==========================================================================
+   SUBMIT CTA IN SIDEBAR (via CSS pseudo-element as fallback)
+   Primary implementation is via PHP hook
+   ========================================================================== */
+
+/* If no Submit button exists, this creates a visual prompt */
+.buddypanel-menu::after {
+    content: none; /* Disabled - using PHP hook instead */
+}
+
+/* ==========================================================================
+   PROFILE EDIT / SETTINGS LAYOUT FIX
+   BuddyBoss .bb-grid uses FLEXBOX (not CSS Grid).
+   Force single-column on profile edit and settings pages.
+   ========================================================================== */
+
+/* NUCLEAR: Target the exact structure - no body class dependency */
+.bb-grid.site-content-grid > #primary.content-area.bs-bp-container {
+    -webkit-box-flex: 1 !important;
+    -ms-flex: 1 1 100% !important;
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Also target without .bs-bp-container in case it varies */
+.bb-grid.site-content-grid > #primary.content-area {
+    -webkit-box-flex: 1 !important;
+    -ms-flex: 1 1 100% !important;
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Target any page with profile-edit or xprofile body class */
+body.profile-edit .site-content-grid,
+body.xprofile .site-content-grid,
+body.bp-user.profile .site-content-grid,
+body.bp-user.settings .site-content-grid {
+    display: block !important;
+}
+
+body.profile-edit .site-content-grid > *,
+body.xprofile .site-content-grid > *,
+body.bp-user.profile .site-content-grid > *,
+body.bp-user.settings .site-content-grid > * {
+    flex: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Break the flex container - force block layout */
+body.profile-edit .bb-grid.site-content-grid,
+body.bp-user.my-profile .bb-grid.site-content-grid,
+body.xprofile .bb-grid.site-content-grid,
+body.bp-user.settings .bb-grid.site-content-grid,
+body.bp-user.change-avatar .bb-grid.site-content-grid,
+body.bp-user.change-cover-image .bb-grid.site-content-grid {
+    display: block !important;
+    flex-wrap: nowrap !important;
+}
+
+/* Force #primary to full width - override flex column sizing */
+body.profile-edit #primary,
+body.profile-edit .content-area,
+body.profile-edit .bs-bp-container,
+body.bp-user.my-profile #primary,
+body.bp-user.my-profile .content-area,
+body.bp-user.my-profile .bs-bp-container,
+body.xprofile #primary,
+body.xprofile .content-area,
+body.xprofile .bs-bp-container,
+body.bp-user.settings #primary,
+body.bp-user.settings .content-area,
+body.bp-user.settings .bs-bp-container {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    float: none !important;
+}
+
+/* Override any bb-grid-cell classes that set column widths */
+body.profile-edit [class*="bb-grid-cell"],
+body.bp-user.my-profile [class*="bb-grid-cell"],
+body.xprofile [class*="bb-grid-cell"],
+body.bp-user.settings [class*="bb-grid-cell"] {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Override BuddyBoss lg-grid-* utility classes that set 66%/33% widths */
+body.profile-edit .lg-grid-2-3,
+body.profile-edit .lg-grid-1-3,
+body.profile-edit .md-grid-2-3,
+body.profile-edit .md-grid-1-3,
+body.bp-user.my-profile .lg-grid-2-3,
+body.bp-user.my-profile .lg-grid-1-3,
+body.bp-user.my-profile .md-grid-2-3,
+body.bp-user.my-profile .md-grid-1-3,
+body.xprofile .lg-grid-2-3,
+body.xprofile .lg-grid-1-3,
+body.xprofile .md-grid-2-3,
+body.xprofile .md-grid-1-3,
+body.bp-user.settings .lg-grid-2-3,
+body.bp-user.settings .lg-grid-1-3,
+body.bp-user.settings .md-grid-2-3,
+body.bp-user.settings .md-grid-1-3,
+body.bp-user.change-avatar .lg-grid-2-3,
+body.bp-user.change-avatar .lg-grid-1-3,
+body.bp-user.change-cover-image .lg-grid-2-3,
+body.bp-user.change-cover-image .lg-grid-1-3 {
+    -webkit-box-flex: 1 !important;
+    -ms-flex: 1 1 100% !important;
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* ==========================================================================
+   HEADER PROFILE DROPDOWN — Terminal Aesthetic
+   ========================================================================== */
+
+/* Dropdown container */
+.header-aside .user-wrap .sub-menu {
+    background: var(--bg-elevated) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    padding: 0 !important;
+    min-width: 220px !important;
+}
+
+.header-aside .user-wrap .sub-menu .wrapper {
+    padding: 0 !important;
+}
+
+/* User header card in dropdown */
+.header-aside .user-wrap .sub-menu-inner > li:first-child {
+    border-bottom: 1px solid var(--border-default) !important;
+    padding: 16px !important;
+    margin-bottom: 0 !important;
+}
+
+.header-aside .user-wrap .sub-menu-inner > li:first-child .user-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.header-aside .user-wrap .sub-menu-inner > li:first-child img.avatar {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 0 !important;
+    border: 1px solid var(--border-default) !important;
+}
+
+.header-aside .user-wrap .sub-menu-inner .user-name {
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
+    color: var(--text-primary) !important;
+    display: block !important;
+}
+
+.header-aside .user-wrap .sub-menu-inner .user-mention {
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-sm) !important;
+    color: var(--text-muted) !important;
+}
+
+/* Menu items */
+.header-aside .user-wrap .sub-menu-inner li {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.header-aside .user-wrap .sub-menu-inner li a,
+.header-aside .user-wrap .bb-my-account-menu li a {
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-sm) !important;
+    text-transform: lowercase !important;
+    letter-spacing: 0.02em !important;
+    color: var(--text-secondary) !important;
+    padding: 12px 16px !important;
+    display: block !important;
+    border: none !important;
+    background: transparent !important;
+    transition: all 0.15s ease-out !important;
+}
+
+.header-aside .user-wrap .sub-menu-inner li a:hover,
+.header-aside .user-wrap .bb-my-account-menu li a:hover {
+    color: var(--text-primary) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Logout link - accent color */
+.header-aside .user-wrap .sub-menu-inner li a[href*="logout"],
+.header-aside .user-wrap .bb-my-account-menu li a[href*="logout"] {
+    color: var(--primitive-red) !important;
+    border-top: 1px solid var(--border-default) !important;
+    margin-top: 8px !important;
+    padding-top: 12px !important;
+}
+
+/* Hide unnecessary menu items in profile dropdown */
+.header-aside .user-wrap .bb-my-account-menu li a[href*="/activity"],
+.header-aside .user-wrap .bb-my-account-menu li a[href*="/groups"],
+.header-aside .user-wrap .bb-my-account-menu li a[href*="/forums"],
+.header-aside .user-wrap .bb-my-account-menu li a[href*="/friends"],
+.header-aside .user-wrap .bb-my-account-menu li a[href*="/connections"],
+.header-aside .user-wrap .bb-my-account-menu li a[href*="/notifications"] {
+    display: none !important;
+}
+
+/* ==========================================================================
+   HEADER SEARCH — Fix White Active State
+   ========================================================================== */
+
+/* Search overlay/panel background */
+.site-header .header-search-wrap,
+.header-search-wrap {
+    background: var(--bg-elevated) !important;
+}
+
+/* Search input styling */
+.header-search-wrap input.search-field,
+.header-search-wrap input[type="search"],
+.site-header input.search-field {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: 0 !important;
+    font-family: var(--font-ui) !important;
+    font-size: var(--type-base) !important;
+    padding: 12px 16px !important;
+    caret-color: var(--primitive-red) !important;
+}
+
+/* Search input focus state — NOT white */
+.header-search-wrap input.search-field:focus,
+.header-search-wrap input[type="search"]:focus,
+.site-header input.search-field:focus {
+    background: var(--bg-card) !important;
+    border-color: var(--primitive-red) !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Search input placeholder */
+.header-search-wrap input.search-field::placeholder,
+.header-search-wrap input[type="search"]::placeholder {
+    color: var(--text-muted) !important;
+    font-family: var(--font-ui) !important;
+}
+
+/* Search icon */
+.header-search-wrap .search-form:before,
+.header-search-wrap .search-icon {
+    color: var(--text-muted) !important;
+}
+
+/* Close button */
+.header-search-wrap .close-search,
+.header-search-wrap .search-form_reset {
+    color: var(--text-muted) !important;
+}
+
+.header-search-wrap .close-search:hover,
+.header-search-wrap .search-form_reset:hover {
+    color: var(--text-primary) !important;
+}
+
+/* ==========================================================================
+   HEADER AVATAR — Square, No Border-Radius
+   ========================================================================== */
+
+.header-aside .user-link img.avatar,
+.header-aside .user-wrap > a img {
+    border-radius: 0 !important;
+    border: 1px solid var(--border-default) !important;
+}
+
+/* ==========================================================================
+   BUTTON FONT WEIGHT NORMALIZATION
+   Fix: BuddyBoss applies font-weight: 600 to .button.outline but not to
+   other buttons, causing visual mismatch between adjacent buttons.
+   Solution: All buttons use font-weight: 400 for consistency.
+   ========================================================================== */
+
+/* Header sign in/sign up buttons — BOTH should match */
+.bb-template-v2 .bb-header-buttons a.button,
+.bb-template-v2 .bb-header-buttons a.button.outline,
+.bb-template-v2 .bb-header-buttons a.button.signup,
+.bb-header-buttons a.button,
+.bb-header-buttons a.button.outline,
+.bb-header-buttons a.button.signup {
+    font-weight: 400 !important;
+    font-family: var(--font-ui) !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* All BuddyBoss buttons — normalize weight */
+.bb-template-v2 a.button,
+.bb-template-v2 button.button,
+.bb-template-v2 input[type="submit"],
+.bb-template-v2 .button.outline,
+.bb-template-v2 .button.small,
+body a.button,
+body button.button,
+body .button.outline {
+    font-weight: 400 !important;
+}
+
+/* BuddyPress action buttons */
+#buddypress a.button,
+#buddypress button,
+#buddypress input[type="submit"],
+.buddypress-wrap a.button,
+.buddypress-wrap button {
+    font-weight: 400 !important;
+}
+
+/* Form submit buttons */
+.wpcf7-submit,
+.gform_button,
+form button[type="submit"],
+form input[type="submit"] {
+    font-weight: 400 !important;
+}

@@ -1,0 +1,42 @@
+/**
+ * Iso Post Page Styles
+ *
+ * @package UNMASK
+ */
+
+/* ==========================================================================
+   PAGE LAYOUT
+   ========================================================================== */
+
+.iso-post-page {
+    padding: var(--space-xl) 0;
+}
+
+.iso-post-page .unmask-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+/* ==========================================================================
+   PAGE HEADER
+   ========================================================================== */
+
+.iso-post-page .page-header {
+    margin-bottom: var(--space-xl);
+}
+
+.iso-post-page .page-title {
+    font-size: var(--type-3xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   PAGE CONTENT
+   ========================================================================== */
+
+.iso-post-page .page-content {
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+}

@@ -1,0 +1,292 @@
+/* ============================================================================
+   VISUAL FIXES — Screenshot Review 2026-01
+
+   Targeted fixes that layer on top of existing styles.
+   Uses @layer overrides for proper cascade priority.
+
+   Issues addressed:
+   1. ISO Cards: padding, spacing, remove yellow hover
+   2. Homepage excerpt: color/size hierarchy
+   3. Submit page: left-align layout
+   4. Pink Panthers: title size/wrapping
+   5. Factory booking form: placeholder styling
+   6. My Bookings page: design system styling
+   ============================================================================ */
+
+@layer overrides {
+
+/* ============================================================================
+   1. ISO CARDS — Homepage + ISO Board
+   ============================================================================ */
+
+/* Increase internal padding from 16px to 24px */
+.card--iso .card__content,
+.card--iso .card__body,
+.iso-listing-card {
+  padding: 24px;
+}
+
+/* Add consistent spacing between content blocks */
+.card--iso .card__title,
+.iso-card-title {
+  margin-bottom: 12px;
+}
+
+.card--iso .card__text,
+.iso-card-description {
+  margin-bottom: 16px;
+}
+
+/* Remove yellow/amber hover on preferred cards — use blue like standard */
+.card--iso.card--preferred:hover {
+  border-color: var(--primitive-blue);
+  box-shadow: 0 4px 12px rgba(77, 148, 255, 0.15);
+}
+
+/* Ensure all ISO cards have consistent hover (blue, not amber) */
+.card--iso:hover {
+  border-color: var(--border-hover);
+  box-shadow: none;
+}
+
+/* Action buttons row spacing */
+.card--iso .card__actions,
+.iso-card-actions {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Avatar/meta row spacing */
+.card--iso .card__meta,
+.iso-card-who {
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+
+/* ============================================================================
+   2. HOMEPAGE RECORD EXCERPT
+   ============================================================================ */
+
+/* Excerpt text should be muted, not primary white */
+.unmask-hero__desc {
+  color: var(--text-muted);
+  font-size: var(--type-sm);
+  line-height: var(--leading-relaxed);
+}
+
+/* Below-fold grid excerpts */
+.below-fold-grid .card__text,
+.record-card__excerpt {
+  color: var(--text-muted);
+  font-size: var(--type-sm);
+}
+
+
+/* ============================================================================
+   3. SUBMIT PAGE — Left Align
+   ============================================================================ */
+
+/* Override centered layout */
+.submit-hub {
+  padding-left: var(--frame-left);
+  padding-right: var(--frame-right);
+}
+
+.submit-hub__container {
+  margin: 0;
+  max-width: 700px;
+}
+
+.submit-hub__header {
+  text-align: left;
+}
+
+.submit-hub__subtitle {
+  margin-inline: 0;
+}
+
+
+/* ============================================================================
+   4. PINK PANTHERS TITLE
+   ============================================================================ */
+
+/* Reduce title size and prevent wrapping */
+.pp-hero__title {
+  font-size: clamp(28px, 6vw, 56px);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* Mobile: allow wrap but smaller */
+@media (max-width: 767px) {
+  .pp-hero__title {
+    font-size: clamp(24px, 10vw, 36px);
+    white-space: normal;
+  }
+}
+
+
+/* ============================================================================
+   5. FACTORY BOOKING FORM — Placeholder Styling
+   ============================================================================ */
+
+/* Ensure placeholder text is muted gray, not white */
+.factory-booking__form input::placeholder,
+.factory-booking__form select option:first-child,
+.factory-booking__form .flatpickr-input::placeholder,
+.mec-booking-form input::placeholder,
+.mec-booking-form select option:disabled {
+  color: var(--text-muted);
+  font-size: var(--type-sm);
+}
+
+/* Fix select dropdown placeholder appearance */
+.factory-booking__form select:invalid,
+.factory-booking__form select option[value=""] {
+  color: var(--text-muted);
+}
+
+/* Flatpickr input placeholder */
+.flatpickr-input::placeholder {
+  color: var(--text-muted);
+}
+
+
+/* ============================================================================
+   6. MY BOOKINGS PAGE — Quick Design System Override
+   ============================================================================ */
+
+/* Target the my-bookings page */
+.page-template-page-my-bookings .site-content,
+.page-id-my-bookings .site-content,
+body[class*="my-bookings"] #primary,
+body[class*="booking"] .woocommerce-account,
+.unmask-my-bookings {
+  background: var(--bg-page);
+  font-family: var(--font-ui);
+}
+
+/* Override Elementor/BuddyBoss wrapper styles */
+.page-template-page-my-bookings .entry-content,
+body[class*="my-bookings"] .entry-content {
+  max-width: 900px;
+  margin: 0;
+  padding: var(--frame-top) var(--frame-left) var(--frame-bottom);
+}
+
+/* Page title */
+.unmask-my-bookings__title,
+.page-template-page-my-bookings .entry-title,
+body[class*="my-bookings"] h1 {
+  font-family: var(--font-ui);
+  font-size: var(--type-xl);
+  font-weight: 400;
+  color: var(--text-primary);
+  text-transform: lowercase;
+  letter-spacing: var(--tracking-headlines);
+  margin-bottom: var(--gap-element);
+}
+
+/* Booking cards/table */
+.unmask-my-bookings .booking-item,
+.woocommerce-orders-table,
+.booking-list-item,
+table.my-bookings-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  margin-bottom: var(--gap-tight);
+}
+
+/* Table styling */
+.woocommerce-orders-table th,
+.my-bookings-table th {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-labels);
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-default);
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.woocommerce-orders-table td,
+.my-bookings-table td {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--text-secondary);
+  padding: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.woocommerce-orders-table tr:hover td,
+.my-bookings-table tr:hover td {
+  background: var(--bg-card-hover);
+}
+
+/* Status badges */
+.booking-status,
+.order-status {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border: 1px solid var(--border-default);
+}
+
+.booking-status--confirmed,
+.order-status--completed {
+  color: var(--primitive-green);
+  border-color: var(--primitive-green);
+}
+
+.booking-status--pending,
+.order-status--pending {
+  color: var(--primitive-amber);
+  border-color: var(--primitive-amber);
+}
+
+.booking-status--cancelled,
+.order-status--cancelled {
+  color: var(--primitive-red);
+  border-color: var(--primitive-red);
+}
+
+/* Empty state */
+.unmask-my-bookings--empty,
+.woocommerce-message {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--gap-section);
+  border: 1px dashed var(--border-default);
+}
+
+/* Action buttons in booking list */
+.booking-actions a,
+.woocommerce-orders-table .button {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  text-transform: lowercase;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+  background: transparent;
+  padding: 8px 12px;
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.booking-actions a:hover,
+.woocommerce-orders-table .button:hover {
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: var(--bg-elevated);
+}
+
+} /* End @layer overrides */

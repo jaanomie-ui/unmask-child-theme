@@ -36,43 +36,47 @@
 }
 
 /* ========================================
-   1. BUTTONS
+   1. BUTTONS — Consolidated System
+   Uses tokens from 00-design-system.css
    ======================================== */
+
+/* Base button — thin brutalist aesthetic */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2, 8px);
-  padding: var(--space-2, 8px) var(--space-6, 24px);
-  font-family: var(--font-mono);
+  gap: 8px;
+  padding: 8px 24px;
+  font-family: var(--font-ui);
   font-size: var(--type-sm);
   font-weight: 400;
   text-transform: lowercase;
   letter-spacing: 0.03em;
   text-decoration: none;
   border: none;
+  border-radius: 0; /* brutalist: no radius */
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all var(--duration-fast) var(--ease-out);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Primary — gray text on red, NOT white */
+/* Primary — uses design tokens */
 .btn-primary {
-  background: var(--accent-red, #8a3233);
-  color: var(--text-primary, #c2c2c2);
-  border: 1px solid var(--accent-red, #8a3233);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: 1px solid var(--btn-primary-border);
 }
 
 .btn-primary:hover {
-  background: var(--accent-red-hover, #9a4243);
-  border-color: var(--accent-red-hover, #9a4243);
+  background: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-border-hover);
 }
 
 .btn-primary:disabled {
-  background: var(--bg-elevated, #1a1a1a);
-  border-color: var(--border-primary, #2a2a2a);
-  color: var(--text-muted, #525252);
+  background: var(--bg-elevated);
+  border-color: var(--border-default);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
@@ -87,7 +91,7 @@
   width: 14px;
   height: 14px;
   border: 2px solid rgba(194, 194, 194, 0.3);
-  border-top-color: var(--text-primary, #c2c2c2);
+  border-top-color: var(--text-primary);
   border-radius: 50%;
   animation: unmask-spin 0.8s linear infinite;
 }
@@ -96,46 +100,59 @@
   to { transform: rotate(360deg); }
 }
 
-/* Secondary */
+/* Secondary — uses design tokens */
 .btn-secondary {
-  background: transparent;
-  border: 1px solid var(--border-secondary, #3a3a3a);
-  color: var(--text-secondary, #8e8e8e);
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--btn-secondary-border);
+  color: var(--btn-secondary-text);
 }
 
 .btn-secondary:hover {
-  border-color: var(--text-muted, #525252);
-  color: var(--text-primary, #c2c2c2);
+  background: var(--btn-secondary-bg-hover);
+  border-color: var(--btn-secondary-border-hover);
+  color: var(--btn-secondary-text-hover);
 }
 
 .btn-secondary:disabled {
-  border-color: var(--border-primary, #2a2a2a);
-  color: var(--text-muted, #525252);
+  border-color: var(--border-default);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
-/* Ghost */
+/* Ghost — uses design tokens */
 .btn-ghost {
   background: transparent;
   border: none;
-  color: var(--text-secondary, #8e8e8e);
-  padding: var(--space-2, 8px) var(--space-3, 12px);
+  color: var(--btn-ghost-text);
+  padding: 8px 12px;
 }
 
 .btn-ghost:hover {
-  color: var(--text-primary, #c2c2c2);
-  background: var(--bg-elevated, #1a1a1a);
+  color: var(--btn-ghost-text-hover);
+  background: var(--bg-elevated);
 }
 
 /* Sizes */
 .btn-sm {
-  padding: var(--space-1, 4px) var(--space-4, 16px);
+  padding: 4px 16px;
   font-size: var(--type-xs);
 }
 
 .btn-lg {
-  padding: var(--space-3, 12px) var(--space-8, 32px);
+  padding: 12px 32px;
   font-size: var(--type-sm);
+}
+
+/* Compact — 36px desktop, 44px mobile for tap targets */
+.btn--compact {
+  height: 36px;
+  padding: 0 24px;
+}
+
+@media (max-width: 767px) {
+  .btn--compact {
+    height: 44px; /* WCAG touch target */
+  }
 }
 
 /* Icon button */
@@ -143,6 +160,58 @@
   width: 32px;
   height: 32px;
   padding: 0;
+}
+
+/* Legacy aliases — map old class names to new system
+   These allow gradual migration from .unmask-btn-* to .btn-* */
+.unmask-btn,
+.btn {
+  /* Base styles defined above */
+}
+
+.unmask-btn-primary,
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: 1px solid var(--btn-primary-border);
+}
+
+.unmask-btn-primary:hover,
+.btn-primary:hover {
+  background: var(--btn-primary-bg-hover);
+  border-color: var(--btn-primary-border-hover);
+}
+
+.unmask-btn-secondary,
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  border: 1px solid var(--btn-secondary-border);
+  color: var(--btn-secondary-text);
+}
+
+.unmask-btn-secondary:hover,
+.btn-secondary:hover {
+  background: var(--btn-secondary-bg-hover);
+  border-color: var(--btn-secondary-border-hover);
+  color: var(--btn-secondary-text-hover);
+}
+
+.unmask-btn-tertiary,
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--btn-ghost-text);
+}
+
+.unmask-btn-tertiary:hover,
+.btn-ghost:hover {
+  color: var(--btn-ghost-text-hover);
+  background: var(--bg-elevated);
+}
+
+.unmask-btn-large,
+.btn-lg {
+  padding: 12px 32px;
 }
 
 /* ========================================
@@ -943,4 +1012,55 @@
     min-width: auto;
     max-width: calc(100% - 32px);
   }
+}
+
+/* ========================================
+   12. DESIGNATIONS
+   Visibility-based coloring for user designations (V-XXX, D-XXX)
+   ======================================== */
+
+.designation {
+  font-family: var(--font-mono);
+  font-size: var(--type-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Color variants based on viewer relationship */
+.designation--green {
+  color: var(--primitive-green);
+}
+
+.designation--yellow {
+  color: var(--primitive-yellow);
+}
+
+.designation--red {
+  color: var(--primitive-red);
+}
+
+.designation--gray {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* With border (for cards, badges) */
+.designation--bordered {
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  /* brutalist: no radius */
+}
+
+/* Drone highlight (paid member) */
+.designation--drone {
+  font-weight: 500;
+}
+
+.designation--drone.designation--green {
+  text-shadow: 0 0 8px rgba(var(--green-rgb, 34, 197, 94), 0.4);
+}
+
+.designation--drone.designation--red {
+  color: var(--primitive-red-light, #ff6b6b);
 }

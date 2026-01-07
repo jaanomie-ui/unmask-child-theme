@@ -254,18 +254,19 @@ body .elementor-page {
     font-family: 'Berkeley Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace !important;
 }
 
-/* DEPTH LAYERS (Visual Style Guide) */
+/* DEPTH LAYERS — Aliases to design system tokens
+   Source of truth: 00-design-system.css */
 :root {
-    --unmask-void: #181818;
-    --unmask-surface: #1c1c1c;
-    --unmask-elevated: #242424;
-    --unmask-border: #2e2e2e;
-    --unmask-text-primary: #c2c2c2;
-    --unmask-text-secondary: #636363;
-    --unmask-text-muted: #3d3d3d;
-    --unmask-red: #8a3233;
-    --unmask-red-hover: #a33d3e;
-    --unmask-drone-green: #4ade80;
+    --unmask-void: var(--primitive-void);
+    --unmask-surface: var(--primitive-surface);
+    --unmask-elevated: var(--primitive-elevated);
+    --unmask-border: var(--primitive-gray-800);
+    --unmask-text-primary: var(--text-primary);
+    --unmask-text-secondary: var(--text-secondary);
+    --unmask-text-muted: var(--text-muted);
+    --unmask-red: var(--primitive-red);
+    --unmask-red-hover: var(--primitive-red-light);
+    --unmask-drone-green: var(--primitive-green-glow);
 }
 
 /* KILL TOP SPACING */
@@ -317,89 +318,20 @@ body.elementor-page .elementor-section-wrap > .elementor-section:first-child {
     max-width: 600px !important;
 }
 
-/* UNIFIED BUTTON STYLES
-   All buttons: black text on red, invert on hover */
+/* ELEMENTOR BUTTON OVERRIDES
+   Button styles defined in unmask-components.css
+   Only override Elementor-specific properties here */
 
-/* Primary button - solid red */
-.unmask-btn-primary,
-.elementor-button.unmask-btn-primary,
-a.unmask-btn-primary,
-.unmask-dashboard .unmask-cta-link,
-.unmask-hero-section .elementor-button {
-    background: var(--unmask-red) !important;
-    color: #000000 !important;
-    border: 1px solid var(--unmask-red) !important;
-    padding: 12px 24px !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    text-transform: lowercase !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    transition: all 0.15s ease !important;
-    cursor: pointer !important;
-}
-
-.unmask-btn-primary:hover,
-.elementor-button.unmask-btn-primary:hover,
-a.unmask-btn-primary:hover,
-.unmask-dashboard .unmask-cta-link:hover,
-.unmask-hero-section .elementor-button:hover {
-    background: transparent !important;
-    color: var(--unmask-red) !important;
-    border-color: var(--unmask-red) !important;
-}
-
-/* Secondary button - outline red */
-.unmask-btn-secondary,
-.elementor-button.unmask-btn-secondary,
-a.unmask-btn-secondary {
-    background: transparent !important;
-    color: var(--unmask-red) !important;
-    border: 1px solid var(--unmask-red) !important;
-    padding: 12px 24px !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    text-transform: lowercase !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    transition: all 0.15s ease !important;
-}
-
-.unmask-btn-secondary:hover,
-.elementor-button.unmask-btn-secondary:hover,
-a.unmask-btn-secondary:hover {
-    background: var(--unmask-red) !important;
-    color: #000000 !important;
-}
-
-/* Tertiary button - outline gray */
-.unmask-btn-tertiary,
-.elementor-button.unmask-btn-tertiary,
-a.unmask-btn-tertiary {
-    background: transparent !important;
-    color: var(--unmask-text-secondary) !important;
-    border: 1px solid var(--unmask-border) !important;
-    padding: 12px 24px !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    text-transform: lowercase !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    transition: all 0.15s ease !important;
-}
-
-.unmask-btn-tertiary:hover,
-.elementor-button.unmask-btn-tertiary:hover,
-a.unmask-btn-tertiary:hover {
-    color: var(--unmask-text-primary) !important;
-    border-color: var(--unmask-text-secondary) !important;
-}
-
-/* Force all Elementor buttons to match */
 .elementor-button,
 .elementor-widget-button .elementor-button {
-    border-radius: 0 !important;
-    font-family: 'Berkeley Mono', monospace !important;
+    border-radius: 0; /* brutalist */
+    font-family: var(--font-ui);
+}
+
+/* Dashboard-specific CTA links */
+.unmask-dashboard .unmask-cta-link,
+.unmask-hero-section .elementor-button {
+    /* Inherits from .btn-primary via unmask-components.css */
 }
 
 /* DASHBOARD CONTAINER */

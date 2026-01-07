@@ -84,4 +84,16 @@ function unmask_enqueue_homepage_grid_styles() {
         array('unmask-cards'),
         $grid_version
     );
+
+    // Enqueue homepage rails JS (fixes swipe on mobile)
+    $rails_js_file = get_stylesheet_directory() . '/assets/js/homepage-rails.js';
+    $rails_js_version = file_exists($rails_js_file) ? filemtime($rails_js_file) : time();
+
+    wp_enqueue_script(
+        'unmask-homepage-rails',
+        get_stylesheet_directory_uri() . '/assets/js/homepage-rails.js',
+        array(),
+        $rails_js_version,
+        true // Load in footer
+    );
 }

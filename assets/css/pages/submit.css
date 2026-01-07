@@ -1,0 +1,260 @@
+/**
+ * Submit Page Styles
+ *
+ * Submission intake form matching mockup design.
+ * Uses design system tokens from 00-design-system.css
+ *
+ * @package UNMASK
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTAINER
+═══════════════════════════════════════════════════════════════ */
+
+.submit-page {
+    min-height: 100vh;
+    padding: 60px 24px;
+    background: var(--bg-page);
+}
+
+.submit-frame {
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════════════ */
+
+.submit-page .page-label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--primitive-red);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+}
+
+.submit-page h1 {
+    font-family: var(--font-ui);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 0 0 24px;
+    letter-spacing: -0.02em;
+}
+
+.submit-page .intro {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0 0 48px;
+}
+
+.submit-page .intro span {
+    display: block;
+    margin-top: 8px;
+    color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STATUS TOGGLE
+═══════════════════════════════════════════════════════════════ */
+
+.status-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.status-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-muted);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 400;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.status-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-secondary);
+}
+
+/* Create something = red */
+.status-btn[data-status="create"].active {
+    border-color: var(--primitive-red);
+    color: var(--text-primary);
+    background: rgba(138, 50, 51, 0.1);
+}
+
+/* Submit something = blue */
+.status-btn[data-status="submit"].active {
+    border-color: var(--primitive-blue);
+    color: var(--text-primary);
+    background: rgba(44, 61, 104, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════════════════════════ */
+
+.submit-form .form-group {
+    margin-bottom: 24px;
+}
+
+.submit-form label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.submit-form input[type="text"],
+.submit-form input[type="email"],
+.submit-form input[type="url"],
+.submit-form textarea {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px;
+    transition: border-color 0.15s ease;
+}
+
+.submit-form input:focus,
+.submit-form textarea:focus {
+    outline: none;
+    border-color: var(--primitive-red);
+}
+
+.submit-form input[readonly] {
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.submit-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.submit-form input::placeholder,
+.submit-form textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.submit-form .helper {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 6px;
+}
+
+/* Hide email field for logged-in users */
+.submit-page.user-logged-in .form-group-email {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUBMIT BUTTON
+═══════════════════════════════════════════════════════════════ */
+
+.btn-submit {
+    background: var(--primitive-red);
+    border: none;
+    color: var(--bg-page);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 400;
+    padding: 14px 28px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background 0.15s ease;
+}
+
+.btn-submit:hover {
+    background: var(--primitive-red-light, #a63d3e);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS STATE
+═══════════════════════════════════════════════════════════════ */
+
+.submit-success {
+    padding: 48px 0;
+    text-align: center;
+}
+
+.submit-success .success-message {
+    font-family: var(--font-ui);
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 0 0 12px;
+}
+
+.submit-success .success-detail {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ERROR STATE
+═══════════════════════════════════════════════════════════════ */
+
+.submit-error {
+    background: rgba(138, 50, 51, 0.15);
+    border: 1px solid var(--primitive-red);
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.submit-error p {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile adjustments
+═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 600px) {
+    .submit-page {
+        padding: 40px 20px;
+        /* Account for bottom nav */
+        padding-bottom: calc(40px + 56px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .submit-page h1 {
+        font-size: 28px;
+    }
+
+    .status-toggle {
+        flex-direction: column;
+    }
+
+    .status-btn {
+        text-align: center;
+    }
+}

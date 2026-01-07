@@ -217,9 +217,9 @@
 .archive-record-grid > .card:nth-child(1),
 .archive-record-grid > article,
 .archive-record-grid > article:first-child {
-    height: 320px !important;
-    min-height: 320px !important;
-    max-height: 320px !important;
+    height: 380px !important;
+    min-height: 380px !important;
+    max-height: 380px !important;
     overflow: hidden !important;
     margin: 0 !important;
     margin-top: 0 !important;
@@ -262,9 +262,9 @@
 .archive-submit-card {
     background: var(--bg-card);
     border: 1px dashed var(--border-default);
-    height: 320px !important;
-    min-height: 320px !important;
-    max-height: 320px !important;
+    height: 380px !important;
+    min-height: 380px !important;
+    max-height: 380px !important;
     transition: border-color var(--duration-fast) var(--ease-out), border-style var(--duration-fast) var(--ease-out);
 }
 
@@ -654,9 +654,22 @@
         font-size: 24px;
     }
 
-    /* Filter grid: single column */
+    /* Filter grid: single column, sticky on scroll */
     .archive-filters {
         grid-template-columns: 1fr;
+        position: sticky;
+        top: 44px; /* Below collapsed header */
+        z-index: 100;
+        background: var(--bg-page);
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Collapsed header state adjustments */
+    body.header-collapsed .archive-filters {
+        top: 44px;
     }
 
     .archive-filter-row--type,
@@ -664,11 +677,84 @@
     .archive-filter-row--shuffle {
         grid-column: 1;
     }
+
+    /* Horizontal scrollable filter chips */
+    .archive-filter-group {
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        gap: 8px;
+        padding-bottom: 8px;
+        margin-right: -20px;
+        padding-right: 20px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .archive-filter-group::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Prevent filter buttons from shrinking */
+    .archive-filter-btn,
+    .archive-tag-btn {
+        flex-shrink: 0;
+        padding: 10px 16px;
+        touch-action: manipulation;
+    }
+
+    /* Touch feedback */
+    .archive-filter-btn:active,
+    .archive-tag-btn:active {
+        transform: scale(0.95);
+    }
+
+    /* Hide pagination on mobile (infinite scroll) */
+    body.has-infinite-scroll .archive-pagination {
+        display: none;
+    }
+
+    /* Loading indicator for infinite scroll */
+    .archive-infinite-loader {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .archive-infinite-loader::after {
+        content: '';
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--border-default);
+        border-top-color: var(--primitive-red);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* End of records message */
+    .archive-end-message {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px 20px;
+        font-family: var(--font-ui);
+        font-size: var(--type-xs);
+        color: var(--text-muted);
+        text-transform: lowercase;
+        letter-spacing: 0.1em;
+    }
 }
 
 @media (max-width: 600px) {
     .archive-container {
         padding: 32px 20px;
+        /* Account for bottom nav */
+        padding-bottom: calc(32px + 56px + env(safe-area-inset-bottom, 0px));
     }
 
     .archive-record-grid {
@@ -685,5 +771,25 @@
 
     .archive-header-stats {
         flex-wrap: wrap;
+    }
+
+    /* Shuffle modal mobile optimization */
+    .archive-shuffle-modal-content {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .archive-shuffle-image-wrapper {
+        width: 100%;
+        height: 300px;
+    }
+
+    .archive-shuffle-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .archive-shuffle-actions .archive-btn {
+        width: 100%;
     }
 }

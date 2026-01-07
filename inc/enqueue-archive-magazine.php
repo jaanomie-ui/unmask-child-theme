@@ -127,11 +127,11 @@ function unmask_get_shuffle_records() {
         ob_end_clean();
     }
 
-    // Temporarily disabled nonce verification for debugging
-    // if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'archive_nonce')) {
-    //     wp_send_json_error('Invalid nonce');
-    //     return;
-    // }
+    // Verify nonce for CSRF protection
+    if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'archive_nonce')) {
+        wp_send_json_error('Invalid nonce');
+        return;
+    }
 
     $args = array(
         'post_type'      => 'post',
@@ -202,11 +202,11 @@ function unmask_filter_archive_records() {
         ob_end_clean();
     }
 
-    // Temporarily disabled nonce verification for debugging
-    // if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'archive_nonce')) {
-    //     wp_send_json_error('Invalid nonce');
-    //     return;
-    // }
+    // Verify nonce for CSRF protection
+    if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], 'archive_nonce')) {
+        wp_send_json_error('Invalid nonce');
+        return;
+    }
 
     $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
     $record_type = isset($_GET['record_type']) ? sanitize_text_field($_GET['record_type']) : 'all';

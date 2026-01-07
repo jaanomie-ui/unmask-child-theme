@@ -1,0 +1,615 @@
+/* ============================================================================
+   UNMASK LOGIN PAGE
+   Complete override of BuddyBoss split-page login
+   ============================================================================ */
+
+/* ============================================================================
+   GLOBAL RESET — Force consistent font everywhere
+   ============================================================================ */
+
+body.login,
+body.login *,
+body.login *::before,
+body.login *::after {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* ============================================================================
+   PAGE BACKGROUND
+   ============================================================================ */
+
+body.login {
+  background: #181818 !important;
+  background-color: #181818 !important;
+  color: #c2c2c2 !important;
+}
+
+/* ============================================================================
+   SPLIT PAGE LAYOUT — Left branding panel
+   ============================================================================ */
+
+body.login.login-split-page .login-split {
+  background: #1c1c1c !important;
+  border-right: 1px solid #2e2e2e !important;
+}
+
+body.login.login-split-page .login-split .split-overlay {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+body.login.login-split-page .login-split__entry,
+body.login.login-split-page .login-split__entry h1,
+body.login.login-split-page .login-split__entry p {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #c2c2c2 !important;
+}
+
+body.login.login-split-page .login-split__entry h1 {
+  font-size: 20px !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 16px !important;
+}
+
+/* ============================================================================
+   LOGIN CONTAINER — Grid layout, content at 1/6 from left
+   ============================================================================ */
+
+body.login #login,
+body.login.login-split-page #login {
+  width: 100% !important;
+  max-width: 400px !important;
+  padding: 40px 24px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* On desktop: 3-column grid, content starts halfway through first column (1/6) */
+@media (min-width: 992px) {
+  body.login.login-split-page #login {
+    position: absolute !important;
+    left: calc(100% / 6) !important;  /* 1/6 = halfway through first of 3 columns */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    -webkit-transform: translateY(-50%) !important;
+    width: 400px !important;
+    max-width: 30% !important;
+  }
+}
+
+/* Hide the split panel on desktop to give full width */
+@media (min-width: 992px) {
+  body.login.login-split-page .login-split {
+    display: none !important;
+  }
+
+  body.login.login-split-page .login-form-side {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 !important;
+  }
+}
+
+/* ============================================================================
+   LOGO / SITE TITLE
+   ============================================================================ */
+
+body.login #login h1,
+body.login #login h1 a,
+body.login h1.bs-cs-login-title,
+body.login .bs-cs-login-title {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #909090 !important;
+  background: none !important;
+  background-image: none !important;
+  width: auto !important;
+  height: auto !important;
+  text-indent: 0 !important;
+  margin: 0 0 32px 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  display: block !important;
+}
+
+body.login #login h1 a:hover {
+  color: #c2c2c2 !important;
+}
+
+/* Hide any logo image */
+body.login #login h1 a img,
+body.login .bs-cs-login-logo {
+  display: none !important;
+}
+
+/* ============================================================================
+   LOGIN HEADING ("Sign in" + "Create an Account")
+   ============================================================================ */
+
+body.login .login-heading {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  margin: 0 0 24px 0 !important;
+  padding: 0 !important;
+}
+
+body.login .login-heading h2,
+body.login .login-heading span,
+body.login .login-heading span a,
+body.login .login-heading a {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.login .login-heading h2 {
+  color: #c2c2c2 !important;
+}
+
+body.login .login-heading span,
+body.login .login-heading span a,
+body.login .login-heading a {
+  color: #6b2627 !important;
+}
+
+body.login .login-heading a:hover {
+  color: #a13d3e !important;
+}
+
+/* ============================================================================
+   LOGIN FORM BOX — Remove weird inner boxes
+   ============================================================================ */
+
+body.login form,
+body.login #loginform,
+body.login #registerform,
+body.login #lostpasswordform {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove any card/box styling */
+body.login .login form,
+body.login #login form {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ============================================================================
+   FORM LABELS
+   ============================================================================ */
+
+body.login label,
+body.login form label,
+body.login #loginform label {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #909090 !important;
+  display: block !important;
+  margin-bottom: 8px !important;
+}
+
+/* Hide BuddyBoss icon pseudo-elements (show as boxes without icon font) */
+body.login form#loginform label[for="user_login"]:before,
+body.login form#loginform label[for="user_pass"]:before,
+body.login form#loginform label:before,
+body.login form#registerform label:before,
+body.login form#lostpasswordform label:before,
+body.login label:before,
+body.login .wp-pwd label:before,
+body.login .user-pass-wrap label:before,
+body.login label[for="user_pass"]:before,
+body.login label[for="pwd"]:before,
+body.login .login-password label:before,
+body.login p.login-password label:before {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Also hide any ::before on password wrapper */
+body.login .wp-pwd::before,
+body.login .user-pass-wrap::before,
+body.login .login-password::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* ============================================================================
+   FORM INPUTS — Full width, consistent styling
+   ============================================================================ */
+
+body.login input[type="text"],
+body.login input[type="password"],
+body.login input[type="email"],
+body.login #user_login,
+body.login #user_pass,
+body.login #user_email {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #c2c2c2 !important;
+  background: #181818 !important;
+  border: 1px solid #2e2e2e !important;
+  border-radius: 0 !important;
+  padding: 12px 16px !important;
+  margin: 0 0 20px 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  height: auto !important;
+  min-height: 48px !important;
+}
+
+body.login input[type="text"]:hover,
+body.login input[type="password"]:hover,
+body.login input[type="email"]:hover {
+  border-color: #3d3d3d !important;
+}
+
+body.login input[type="text"]:focus,
+body.login input[type="password"]:focus,
+body.login input[type="email"]:focus {
+  border-color: #8a3233 !important;
+  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.2) !important;
+  outline: none !important;
+}
+
+body.login input::placeholder {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 16px !important;
+  color: #636363 !important;
+}
+
+/* Fix input wrapper/container if any */
+body.login .user-pass-wrap,
+body.login .user-login-wrap,
+body.login p.login-username,
+body.login p.login-password {
+  margin-bottom: 0 !important;
+}
+
+/* ============================================================================
+   PASSWORD WRAPPER — Fix password field with toggle
+   ============================================================================ */
+
+body.login .wp-pwd,
+body.login .user-pass-wrap {
+  position: relative !important;
+  margin-bottom: 20px !important;
+}
+
+body.login .wp-pwd input[type="password"],
+body.login .wp-pwd input[type="text"] {
+  padding-right: 50px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Password toggle button */
+body.login .wp-pwd .button.wp-hide-pw,
+body.login .button.wp-hide-pw {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: transparent !important;
+  border: none !important;
+  color: #636363 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+}
+
+body.login .wp-pwd .button.wp-hide-pw:hover {
+  color: #c2c2c2 !important;
+}
+
+/* ============================================================================
+   SUBMIT BUTTON — Full width
+   ============================================================================ */
+
+body.login .submit,
+body.login p.submit {
+  margin: 24px 0 0 0 !important;
+  padding: 0 !important;
+}
+
+body.login .button-primary,
+body.login #wp-submit {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #c2c2c2 !important;
+  background: #6b2627 !important;
+  border: 1px solid #6b2627 !important;
+  border-radius: 0 !important;
+  padding: 14px 24px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  cursor: pointer !important;
+  display: block !important;
+  text-align: center !important;
+}
+
+body.login .button-primary:hover,
+body.login #wp-submit:hover {
+  background: #a13d3e !important;
+  border-color: #a13d3e !important;
+  color: #c2c2c2 !important;
+}
+
+body.login .button-primary:focus,
+body.login #wp-submit:focus {
+  box-shadow: 0 0 0 2px rgba(138, 50, 51, 0.3) !important;
+  outline: none !important;
+}
+
+/* ============================================================================
+   REMEMBER ME & FORGOT PASSWORD ROW
+   ============================================================================ */
+
+body.login .forgetmenot,
+body.login p.forgetmenot {
+  float: none !important;
+  margin: 16px 0 !important;
+}
+
+body.login .forgetmenot label {
+  font-size: 12px !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: #909090 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+}
+
+/* Checkbox styling — force sharp corners */
+body.login input[type="checkbox"],
+body.login input#rememberme,
+body.login .forgetmenot input[type="checkbox"],
+body.login .login-remember input[type="checkbox"] {
+  width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  min-width: 16px !important;
+  margin: 0 !important;
+  border: 1px solid #3d3d3d !important;
+  border-radius: 0 !important;
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  background: #181818 !important;
+  cursor: pointer !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+body.login input[type="checkbox"]:checked,
+body.login input#rememberme:checked {
+  background: #6b2627 !important;
+  border-color: #6b2627 !important;
+}
+
+/* Forgot password link — move below sign in button */
+body.login .login-lost-password,
+body.login a.lost-password,
+body.login #login a[href*="lost"],
+body.login a[href*="lostpassword"] {
+  display: block !important;
+  margin-top: 16px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Use flexbox to reorder form elements: forgot password after submit */
+body.login #loginform,
+body.login form {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+body.login #loginform .user-login-wrap,
+body.login #loginform p.login-username {
+  order: 1 !important;
+}
+
+body.login #loginform .user-pass-wrap,
+body.login #loginform p.login-password,
+body.login #loginform .wp-pwd {
+  order: 2 !important;
+}
+
+body.login #loginform .forgetmenot,
+body.login #loginform p.forgetmenot,
+body.login #loginform .login-remember {
+  order: 3 !important;
+}
+
+body.login #loginform .submit,
+body.login #loginform p.submit {
+  order: 4 !important;
+}
+
+/* Forgot password link goes after submit button */
+body.login #loginform .login-lost-password,
+body.login #loginform a[href*="lostpassword"],
+body.login #nav {
+  order: 5 !important;
+}
+
+/* ============================================================================
+   NAVIGATION LINKS
+   ============================================================================ */
+
+body.login #nav,
+body.login #backtoblog,
+body.login p#nav,
+body.login p#backtoblog {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  text-align: left !important;
+  margin: 16px 0 0 0 !important;
+  padding: 0 !important;
+}
+
+body.login #nav a,
+body.login #backtoblog a,
+body.login a {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #6b2627 !important;
+  text-decoration: none !important;
+}
+
+body.login #nav a:hover,
+body.login #backtoblog a:hover,
+body.login a:hover {
+  color: #a13d3e !important;
+}
+
+/* Separator between links */
+body.login #nav {
+  color: #3d3d3d !important;
+}
+
+/* ============================================================================
+   ERROR / MESSAGE BOXES
+   ============================================================================ */
+
+body.login .message,
+body.login #login_error,
+body.login .notice {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  background: #1c1c1c !important;
+  border: 1px solid #2e2e2e !important;
+  border-left: 3px solid #8a3233 !important;
+  border-radius: 0 !important;
+  padding: 12px 16px !important;
+  margin: 0 0 20px 0 !important;
+  box-shadow: none !important;
+  color: #c2c2c2 !important;
+}
+
+body.login .message {
+  border-left-color: #3D6854 !important;
+}
+
+body.login #login_error a {
+  color: #a13d3e !important;
+}
+
+/* ============================================================================
+   LANGUAGE SWITCHER
+   ============================================================================ */
+
+body.login .language-switcher,
+body.login #language-switcher {
+  margin-top: 24px !important;
+}
+
+body.login .language-switcher label,
+body.login .language-switcher select {
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #909090 !important;
+}
+
+body.login .language-switcher select {
+  background: #181818 !important;
+  border: 1px solid #2e2e2e !important;
+  border-radius: 0 !important;
+  padding: 8px 12px !important;
+}
+
+/* ============================================================================
+   PRIVACY POLICY
+   ============================================================================ */
+
+body.login .privacy-policy-page-link {
+  font-size: 11px !important;
+  color: #636363 !important;
+  margin-top: 24px !important;
+}
+
+body.login .privacy-policy-page-link a {
+  color: #636363 !important;
+}
+
+body.login .privacy-policy-page-link a:hover {
+  color: #909090 !important;
+}
+
+/* ============================================================================
+   HIDE UNNECESSARY ELEMENTS
+   ============================================================================ */
+
+/* Hide any remaining weird boxes or decorative elements */
+body.login .login-action-login .login::before,
+body.login .login-action-login .login::after {
+  display: none !important;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 991px) {
+  body.login.login-split-page .login-split {
+    display: none !important;
+  }
+
+  body.login #login,
+  body.login.login-split-page #login {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 60px auto !important;
+    padding: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body.login #login {
+    padding: 20px 16px !important;
+    margin: 40px 16px !important;
+    width: auto !important;
+  }
+}

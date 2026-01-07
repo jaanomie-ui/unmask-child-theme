@@ -34,12 +34,9 @@ while (have_posts()) :
     $writer = get_post_meta($post_id, 'unmask_writer', true) ?: '';
     $issue = get_post_meta($post_id, 'unmask_issue', true) ?: '';
 
-    // Get gallery images for counter
-    $gallery_images = get_post_meta($post_id, 'unmask_gallery_images', true);
-    $image_count = is_array($gallery_images) ? count($gallery_images) : 0;
-    if ($image_count === 0 && $featured_image) {
-        $image_count = 1;
-    }
+    // Get gallery images for counter (uses dynamic extraction from content)
+    $gallery_images = unmask_get_gallery_images('', $post_id);
+    $image_count = count($gallery_images);
 ?>
 
 <div class="unmask-single-record">
@@ -64,75 +61,70 @@ while (have_posts()) :
                 <?php echo do_shortcode('[unmask_gallery_lead height="100%"]'); ?>
             </div>
 
-            <!-- Column 2: Title Area (RIGHT justified, tags at bottom LEFT) -->
-            <div class="record-hero__title-col">
-                <span class="record-hero__label">interview:</span>
+            <!-- Columns 2-3: Content Area (3x3 sub-grid) -->
+            <div class="record-hero__content-area">
 
-                <h1 class="record-hero__title"><?php echo esc_html($title); ?></h1>
-
-                <div class="record-hero__meta-grid">
-                    <?php if ($subject) : ?>
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">subject</div>
-                        <div class="record-hero__meta-value"><?php echo esc_html($subject); ?></div>
+                <!-- Row 1: Status + Label (col 2 only) -->
+                <div class="record-hero__row-1">
+                    <div class="record-hero__status">
+                        <span class="record-hero__status-dot"></span>
+                        <span>archived / public</span>
                     </div>
-                    <?php endif; ?>
+                    <span class="record-hero__label">interview:</span>
+                </div>
 
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">location</div>
-                        <div class="record-hero__meta-value"><?php echo esc_html($location); ?></div>
+                <!-- Row 2: Title (spans both columns) -->
+                <div class="record-hero__row-2">
+                    <h1 class="record-hero__title"><?php echo esc_html($title); ?></h1>
+                </div>
+
+                <!-- Row 3: Tags (left) + Metadata (right) -->
+                <div class="record-hero__row-3">
+                    <div class="record-hero__tags">
+                        <?php echo do_shortcode('[unmask_tags]'); ?>
                     </div>
 
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">filed</div>
-                        <div class="record-hero__meta-value"><?php echo esc_html($date); ?></div>
+                    <div class="record-hero__meta-col">
+                        <div class="record-hero__meta-grid">
+                            <div class="record-hero__meta-item">
+                                <div class="record-hero__meta-label">location</div>
+                                <div class="record-hero__meta-value record-hero__meta-value--sm"><?php echo esc_html($location); ?></div>
+                            </div>
+
+                            <div class="record-hero__meta-item">
+                                <div class="record-hero__meta-label">filed</div>
+                                <div class="record-hero__meta-value record-hero__meta-value--sm"><?php echo esc_html($date); ?></div>
+                            </div>
+
+                            <div class="record-hero__meta-item">
+                                <div class="record-hero__meta-label">words</div>
+                                <div class="record-hero__meta-value record-hero__meta-value--sm"><?php echo number_format($word_count); ?></div>
+                            </div>
+
+                            <?php if ($photographer) : ?>
+                            <div class="record-hero__meta-item">
+                                <div class="record-hero__meta-label">photographer</div>
+                                <div class="record-hero__meta-value record-hero__meta-value--sm"><?php echo esc_html($photographer); ?></div>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if ($writer) : ?>
+                            <div class="record-hero__meta-item">
+                                <div class="record-hero__meta-label">writer</div>
+                                <div class="record-hero__meta-value record-hero__meta-value--sm"><?php echo esc_html($writer); ?></div>
+                            </div>
+                            <?php endif; ?>
+
+                            <?php if ($issue) : ?>
+                            <div class="record-hero__meta-item">
+                                <div class="record-hero__meta-label">issue</div>
+                                <div class="record-hero__meta-value record-hero__meta-value--sm"><?php echo esc_html($issue); ?></div>
+                            </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tags anchored to bottom, LEFT justified -->
-                <div class="record-hero__tags">
-                    <?php echo do_shortcode('[unmask_tags]'); ?>
-                </div>
-            </div>
-
-            <!-- Column 3: Additional Meta (LEFT justified) -->
-            <div class="record-hero__meta-col">
-                <div class="record-hero__record-id"><?php echo esc_html($file_id); ?></div>
-
-                <?php echo do_shortcode('[unmask_type_badge]'); ?>
-
-                <div class="record-hero__meta-grid record-hero__meta-grid--secondary">
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">words</div>
-                        <div class="record-hero__meta-value"><?php echo number_format($word_count); ?></div>
-                    </div>
-
-                    <?php if ($issue) : ?>
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">issue</div>
-                        <div class="record-hero__meta-value"><?php echo esc_html($issue); ?></div>
-                    </div>
-                    <?php endif; ?>
-
-                    <?php if ($photographer) : ?>
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">photographer</div>
-                        <div class="record-hero__meta-value"><?php echo esc_html($photographer); ?></div>
-                    </div>
-                    <?php endif; ?>
-
-                    <?php if ($writer) : ?>
-                    <div class="record-hero__meta-item">
-                        <div class="record-hero__meta-label">writer</div>
-                        <div class="record-hero__meta-value"><?php echo esc_html($writer); ?></div>
-                    </div>
-                    <?php endif; ?>
-                </div>
-
-                <div class="record-hero__status">
-                    <span class="record-hero__status-dot"></span>
-                    <span>archived / public</span>
-                </div>
             </div>
 
         </div>
@@ -157,6 +149,57 @@ while (have_posts()) :
             </div>
         </div>
     </article>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         POST NAVIGATION - Prev/Next Loop (excludes d001 Training Logs)
+    ═══════════════════════════════════════════════════════════════ -->
+    <?php
+    // Exclude category 112 (d001-training-logs) from navigation
+    $excluded_cat = 112;
+
+    // Get adjacent posts
+    $prev_post = get_previous_post(false, $excluded_cat);
+    $next_post = get_next_post(false, $excluded_cat);
+
+    // If no previous, loop to newest post
+    if (!$prev_post) {
+        $newest = get_posts([
+            'numberposts' => 1,
+            'orderby' => 'date',
+            'order' => 'DESC',
+            'category__not_in' => [$excluded_cat],
+            'exclude' => [$post_id],
+        ]);
+        if ($newest) $prev_post = $newest[0];
+    }
+
+    // If no next, loop to oldest post
+    if (!$next_post) {
+        $oldest = get_posts([
+            'numberposts' => 1,
+            'orderby' => 'date',
+            'order' => 'ASC',
+            'category__not_in' => [$excluded_cat],
+            'exclude' => [$post_id],
+        ]);
+        if ($oldest) $next_post = $oldest[0];
+    }
+    ?>
+    <nav class="record-nav">
+        <?php if ($prev_post) : ?>
+            <a href="<?php echo get_permalink($prev_post); ?>" class="record-nav__link record-nav__link--prev">
+                <span class="record-nav__label">previous record</span>
+                <span class="record-nav__title"><?php echo get_the_title($prev_post); ?></span>
+            </a>
+        <?php endif; ?>
+
+        <?php if ($next_post) : ?>
+            <a href="<?php echo get_permalink($next_post); ?>" class="record-nav__link record-nav__link--next">
+                <span class="record-nav__label">next record</span>
+                <span class="record-nav__title"><?php echo get_the_title($next_post); ?></span>
+            </a>
+        <?php endif; ?>
+    </nav>
 
     <!-- ═══════════════════════════════════════════════════════════════
          COMMENTS SECTION - WordPress Native
@@ -244,26 +287,174 @@ while (have_posts()) :
     <?php endif; ?>
 
     <!-- ═══════════════════════════════════════════════════════════════
-         FOOTER - Navigation
+         STICKY SUBMIT CTA (Mobile)
     ═══════════════════════════════════════════════════════════════ -->
-    <footer class="record-footer">
-        <span class="record-footer__copyright">© <?php echo date('Y'); ?> UNMASK / the archive</span>
-        <nav class="record-footer__nav">
-            <?php
-            $prev_post = get_previous_post();
-            $next_post = get_next_post();
-            ?>
-            <?php if ($prev_post) : ?>
-                <a href="<?php echo get_permalink($prev_post); ?>" class="record-footer__link">← previous record</a>
-            <?php endif; ?>
-            <?php if ($next_post) : ?>
-                <a href="<?php echo get_permalink($next_post); ?>" class="record-footer__link">next record →</a>
-            <?php endif; ?>
-        </nav>
-        <span class="record-footer__share">share</span>
-    </footer>
+    <div class="record-submit-cta" id="record-submit-cta">
+        <div class="record-submit-cta__text">
+            <span class="record-submit-cta__label">open call</span>
+            <span class="record-submit-cta__title">tell your story</span>
+        </div>
+        <div class="record-submit-cta__actions">
+            <button type="button" class="record-submit-cta__btn record-submit-cta__btn--share" id="share-btn" aria-label="Share this record">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/>
+                </svg>
+            </button>
+            <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="record-submit-cta__btn record-submit-cta__btn--primary">submit</a>
+        </div>
+    </div>
+
+    <!-- Share Toast -->
+    <div class="record-share-toast" id="share-toast"></div>
 
 </div>
+
+<!-- Submit CTA & Share JavaScript -->
+<script>
+(function() {
+    'use strict';
+
+    var cta = document.getElementById('record-submit-cta');
+    var shareBtn = document.getElementById('share-btn');
+    var shareToast = document.getElementById('share-toast');
+    var recordBody = document.querySelector('.record-body');
+    var recordComments = document.querySelector('.record-comments');
+    var recordRelated = document.querySelector('.record-related');
+    var isVisible = false;
+
+    // Only on mobile
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    // Show CTA after scrolling past hero
+    function checkScroll() {
+        if (!isMobile() || !cta) return;
+
+        var scrollY = window.scrollY || window.pageYOffset;
+        var heroHeight = window.innerHeight;
+        var documentHeight = document.documentElement.scrollHeight;
+        var viewportHeight = window.innerHeight;
+
+        // Calculate footer area (comments + related)
+        var footerTop = documentHeight;
+        if (recordComments) {
+            footerTop = Math.min(footerTop, recordComments.offsetTop);
+        }
+        if (recordRelated) {
+            footerTop = Math.min(footerTop, recordRelated.offsetTop);
+        }
+
+        // Show after scrolling past hero
+        var shouldShow = scrollY > heroHeight * 0.7;
+
+        // Hide near footer
+        var nearFooter = scrollY + viewportHeight > footerTop - 100;
+
+        if (shouldShow && !nearFooter) {
+            if (!isVisible) {
+                cta.classList.add('visible');
+                cta.classList.remove('near-footer');
+                isVisible = true;
+            }
+        } else if (nearFooter) {
+            cta.classList.add('near-footer');
+            isVisible = false;
+        } else {
+            cta.classList.remove('visible');
+            isVisible = false;
+        }
+    }
+
+    // Share functionality
+    function shareRecord() {
+        var title = <?php echo json_encode(get_the_title()); ?>;
+        var url = <?php echo json_encode(get_permalink()); ?>;
+
+        // Try native share API first (mobile)
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                text: 'Check out this record on UNMASK',
+                url: url
+            }).catch(function() {
+                // Fallback to clipboard
+                copyToClipboard(url);
+            });
+        } else {
+            // Desktop fallback
+            copyToClipboard(url);
+        }
+    }
+
+    function copyToClipboard(text) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('link copied', true);
+            }).catch(function() {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function fallbackCopy(text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showToast('link copied', true);
+        } catch (err) {
+            showToast('copy failed', false);
+        }
+        document.body.removeChild(textarea);
+    }
+
+    function showToast(message, success) {
+        if (!shareToast) return;
+        shareToast.textContent = message;
+        shareToast.classList.toggle('success', success);
+        shareToast.classList.add('visible');
+
+        setTimeout(function() {
+            shareToast.classList.remove('visible');
+        }, 2000);
+    }
+
+    // Event listeners
+    if (shareBtn) {
+        shareBtn.addEventListener('click', shareRecord);
+    }
+
+    // Throttled scroll handler
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(function() {
+                checkScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // Handle resize
+    window.addEventListener('resize', function() {
+        if (!isMobile() && cta) {
+            cta.classList.remove('visible', 'near-footer');
+            isVisible = false;
+        }
+    });
+
+    // Initial check
+    checkScroll();
+})();
+</script>
 
 <?php
 endwhile;

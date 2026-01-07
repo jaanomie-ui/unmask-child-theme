@@ -44,7 +44,7 @@ $hero_data = [
 if ($hero_query->have_posts()) {
     $hero_query->the_post();
 
-    $hero_data['image']     = get_the_post_thumbnail_url(get_the_ID(), 'full');
+    $hero_data['image']     = get_the_post_thumbnail_url(get_the_ID(), 'large'); // Use 'large' instead of 'full' for performance
     $hero_data['file_id']   = get_post_meta(get_the_ID(), 'unmask_file_id', true) ?: sprintf('UM-%03d', get_the_ID());
     $hero_data['title']     = get_the_title();
     $hero_data['type']      = get_post_meta(get_the_ID(), 'unmask_type', true) ?: 'record';
@@ -96,6 +96,12 @@ if ($hero_query->have_posts()) {
                     <span><?php echo esc_html(strtolower($hero_data['date'])); ?></span>
                     <span><?php echo esc_html($hero_data['location']); ?></span>
                 </div>
+
+                <!-- Submit CTA -->
+                <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="unmask-hero__cta">
+                    <span class="unmask-hero__cta-label">open call</span>
+                    <span class="unmask-hero__cta-text">tell your story →</span>
+                </a>
             </div>
 
             <!-- Center line (visual grid guide) -->
