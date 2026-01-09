@@ -529,6 +529,36 @@ function unmask_registration_redirect($url, $txn) {
     return home_url('/welcome/');
 }
 
+/**
+ * Fix Sign Up button URL in BuddyBoss header
+ * Points to MemberPress registration page instead of default
+ */
+add_filter('wp_registration_url', 'unmask_custom_registration_url');
+function unmask_custom_registration_url($url) {
+    return home_url('/register-visitor/');
+}
+
+/**
+ * Fix BuddyBoss header Sign Up button via JavaScript (fallback)
+ * BuddyBoss doesn't always respect wp_registration_url filter
+ */
+add_action('wp_footer', 'unmask_fix_signup_button_url');
+function unmask_fix_signup_button_url() {
+    if (is_user_logged_in()) {
+        return;
+    }
+    ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var signupBtn = document.querySelector('.bb-header-buttons .button.signup, .bb-header-buttons a.signup');
+        if (signupBtn) {
+            signupBtn.href = '<?php echo esc_url(home_url('/register-visitor/')); ?>';
+        }
+    });
+    </script>
+    <?php
+}
+
 /* ==========================================================================
    DOSSIER/PROFILE HELPER FUNCTIONS
    ========================================================================== */
