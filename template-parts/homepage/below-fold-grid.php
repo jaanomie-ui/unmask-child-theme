@@ -98,78 +98,13 @@ $total_isos = $iso_query->found_posts;
         <div class="rail__track">
             <?php if ($iso_query->have_posts()) : ?>
                 <?php while ($iso_query->have_posts()) : $iso_query->the_post(); ?>
-                    <?php
-                    // Get ISO fields
-                    $iso_type = get_field('iso_type') ?: 'seeking';
-                    $iso_category = get_field('iso_category') ?: '';
-                    $iso_factory = get_field('iso_factory');
-                    $iso_expiration = get_field('iso_expiration');
-
-                    // Author info
-                    $author_id = get_the_author_meta('ID');
-                    $designation = function_exists('unmask_get_user_designation')
-                        ? unmask_get_user_designation($author_id)
-                        : 'V-' . str_pad($author_id, 3, '0', STR_PAD_LEFT);
-
-                    // Avatar
-                    $avatar_url = '';
-                    if (function_exists('bp_core_fetch_avatar')) {
-                        $avatar_url = bp_core_fetch_avatar([
-                            'item_id' => $author_id,
-                            'type'    => 'thumb',
-                            'html'    => false
-                        ]);
-                    } else {
-                        $avatar_url = get_avatar_url($author_id, ['size' => 96]);
-                    }
-
-                    // Days left
-                    $days_left = 0;
-                    if ($iso_expiration) {
-                        $exp_date = DateTime::createFromFormat('Ymd', $iso_expiration);
-                        if ($exp_date) {
-                            $diff = (new DateTime())->diff($exp_date);
-                            $days_left = $diff->invert ? 0 : $diff->days;
-                        }
-                    }
-
-                    // Factory preferred
-                    $is_factory = in_array($iso_factory, ['yes', 'preferred']);
-
-                    // Card classes
-                    $card_class = 'card card--iso';
-                    if ($is_factory) {
-                        $card_class .= ' card--preferred';
-                    }
-                    ?>
-                    <article class="<?php echo esc_attr($card_class); ?>">
-                        <div class="card__header">
-                            <div class="card__avatar">
-                                <?php if ($avatar_url) : ?>
-                                    <img src="<?php echo esc_url($avatar_url); ?>" alt="">
-                                <?php endif; ?>
-                            </div>
-                            <div class="card__author-info">
-                                <div class="card__author-name"><?php echo esc_html($designation); ?></div>
-                            </div>
-                        </div>
-                        <div class="card__body">
-                            <div class="card__badges">
-                                <span class="badge-intent badge-intent--<?php echo esc_attr($iso_type); ?>"><?php echo esc_html($iso_type); ?></span>
-                                <?php if ($iso_category) : ?>
-                                    <span class="badge-category"><?php echo esc_html($iso_category); ?></span>
-                                <?php endif; ?>
-                            </div>
-                            <h3 class="card__title"><?php the_title(); ?></h3>
-                            <p class="card__text card__text--truncate"><?php echo esc_html(get_the_excerpt()); ?></p>
-                        </div>
-                        <div class="card__footer">
-                            <span class="card__meta-item"><?php echo esc_html($days_left); ?> days left</span>
-                            <?php if ($is_factory) : ?>
-                                <span class="card__meta-item">@ factory</span>
-                            <?php endif; ?>
-                        </div>
-                    </article>
+                    <div class="rail__card rail__card--iso">
+                        <?php get_template_part('template-parts/components/iso-card-unified', null, [
+                            'post_id'   => get_the_ID(),
+                            'context'   => 'rail',
+                            'clickable' => false,
+                        ]); ?>
+                    </div>
                 <?php endwhile; ?>
                 <?php wp_reset_postdata(); ?>
             <?php else : ?>

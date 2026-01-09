@@ -85,7 +85,9 @@ function unmask_enqueue_homepage_grid_styles() {
         $grid_version
     );
 
-    // Enqueue homepage rails JS (fixes swipe on mobile)
+    // DISABLED: homepage-rails.js was cloning elements and interfering with native scroll
+    // Native CSS scroll with touch-action overrides in mobile-layout.php should work without JS
+    /*
     $rails_js_file = get_stylesheet_directory() . '/assets/js/homepage-rails.js';
     $rails_js_version = file_exists($rails_js_file) ? filemtime($rails_js_file) : time();
 
@@ -96,4 +98,5 @@ function unmask_enqueue_homepage_grid_styles() {
         $rails_js_version,
         true // Load in footer
     );
+    */
 }

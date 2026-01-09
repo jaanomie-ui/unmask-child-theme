@@ -99,17 +99,32 @@ function unmask_performance_dequeue() {
     // =========================================================================
     // VIDEO.JS / MEDIA PLAYER
     // Only load on pages with video content
+    // CRITICAL: VideoJS seek-buttons plugin causes JS error that breaks touch handlers
+    // Error: "TypeError: undefined is not an object (evaluating 'videojs__default["default"].getComponent')"
+    // This error prevents horizontal swipe from working on carousels
     // =========================================================================
     $needs_video = is_singular('post') ||
                    (function_exists('bp_is_activity_component') && bp_is_activity_component()) ||
                    (function_exists('bp_is_group') && bp_is_group());
 
     if (!$needs_video) {
-        wp_dequeue_script('bp-media-videojs');
-        wp_dequeue_script('bp-media-videojs-seek');
-        wp_dequeue_script('bp-media-flv');
-        wp_dequeue_script('bp-media-videojs-flash');
+        // All possible VideoJS handle variations
+        $videojs_scripts = [
+            'bp-media-videojs',
+            'bp-media-videojs-seek',
+            'bp-media-videojs-seek-buttons',
+            'bp-media-flv',
+            'bp-media-videojs-flash',
+            'bp-media-videojs-flv',
+            'video-js',
+            'videojs',
+        ];
+        foreach ($videojs_scripts as $handle) {
+            wp_dequeue_script($handle);
+            wp_deregister_script($handle);
+        }
         wp_dequeue_style('bp-media-videojs-css');
+        wp_dequeue_style('video-js');
     }
 
     // =========================================================================
@@ -160,6 +175,39 @@ function unmask_performance_dequeue() {
 
     if (!$needs_dropzone) {
         wp_dequeue_script('bp-dropzone');
+    }
+}
+
+/**
+ * Aggressive VideoJS removal for homepage
+ *
+ * BuddyBoss Platform enqueues VideoJS in footer scripts which can bypass
+ * the main wp_enqueue_scripts hook. This catches late-loaded scripts.
+ *
+ * The VideoJS seek-buttons plugin has a loading order bug that causes:
+ * "TypeError: undefined is not an object (evaluating 'videojs__default["default"].getComponent')"
+ * This JS error breaks ALL subsequent JavaScript including touch handlers.
+ */
+add_action('wp_print_footer_scripts', 'unmask_remove_videojs_footer', 1);
+function unmask_remove_videojs_footer() {
+    // Only on homepage where we don't need video
+    if (!is_page_template('page-templates/template-homepage.php')) {
+        return;
+    }
+
+    $videojs_scripts = [
+        'bp-media-videojs',
+        'bp-media-videojs-seek',
+        'bp-media-videojs-seek-buttons',
+        'bp-media-flv',
+        'bp-media-videojs-flash',
+        'bp-media-videojs-flv',
+        'video-js',
+        'videojs',
+    ];
+    foreach ($videojs_scripts as $handle) {
+        wp_dequeue_script($handle);
+        wp_deregister_script($handle);
     }
 }
 

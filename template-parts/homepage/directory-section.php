@@ -31,7 +31,7 @@ $directory_items = [
         'label' => 'events',
         'value' => 'pink panthers',
         'meta'  => 'next: tba',
-        'href'  => '/events/',
+        'href'  => '/pink-panthers/',
     ],
     [
         'label' => 'map',

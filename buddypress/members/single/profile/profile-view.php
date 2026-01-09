@@ -253,7 +253,7 @@ $dashboard = $is_own_profile ? unmask_get_dashboard_data($displayed_user_id) : n
                 <span class="dossier-view__metric-label">visitors</span>
             </a>
 
-            <a href="<?php echo esc_url(home_url('/magazine/')); ?>" class="dossier-view__metric">
+            <a href="<?php echo esc_url(home_url('/the-archive/')); ?>" class="dossier-view__metric">
                 <span class="dossier-view__metric-value"><?php echo esc_html($dashboard['articles_published'] ?? 0); ?></span>
                 <span class="dossier-view__metric-label">articles</span>
             </a>

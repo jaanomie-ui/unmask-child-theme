@@ -7,12 +7,44 @@
  *
  * @package UNMASK
  * @since 1.0.0
+ *
+ * ACF Fields (non-repeating - global/options when Pro available):
+ * - record_back_text: Text (default: "← back to archive")
+ * - record_system_title: Text (default: "UNMASK / the archive")
+ * - record_status_text: Text (default: "archived / public")
+ * - record_type_label: Text (default: "interview:")
+ * - record_default_location: Text (default: "Chicago")
+ * - record_gallery_hint: Text (default: "click thumbnail to view")
+ * - record_nav_prev: Text (default: "previous record")
+ * - record_nav_next: Text (default: "next record")
+ * - record_discussion_label: Text (default: "discussion")
+ * - record_related_label: Text (default: "related records")
+ * - record_related_count_suffix: Text (default: "in archive")
+ * - record_cta_label: Text (default: "open call")
+ * - record_cta_title: Text (default: "tell your story")
+ * - record_share_text: Text (default: "Check out this record on UNMASK")
  */
 
 // Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Get ACF field values with fallbacks (use 'option' for global fields when Pro is available)
+$record_back_text = unmask_get_field('record_back_text', '← back to archive');
+$record_system_title = unmask_get_field('record_system_title', 'UNMASK / the archive');
+$record_status_text = unmask_get_field('record_status_text', 'archived / public');
+$record_type_label = unmask_get_field('record_type_label', 'interview:');
+$record_default_location = unmask_get_field('record_default_location', 'Chicago');
+$record_gallery_hint = unmask_get_field('record_gallery_hint', 'click thumbnail to view');
+$record_nav_prev = unmask_get_field('record_nav_prev', 'previous record');
+$record_nav_next = unmask_get_field('record_nav_next', 'next record');
+$record_discussion_label = unmask_get_field('record_discussion_label', 'discussion');
+$record_related_label = unmask_get_field('record_related_label', 'related records');
+$record_related_count_suffix = unmask_get_field('record_related_count_suffix', 'in archive');
+$record_cta_label = unmask_get_field('record_cta_label', 'open call');
+$record_cta_title = unmask_get_field('record_cta_title', 'tell your story');
+$record_share_text = unmask_get_field('record_share_text', 'Check out this record on UNMASK');
 
 get_header();
 
@@ -29,7 +61,7 @@ while (have_posts()) :
     // Get custom meta
     $file_id = get_post_meta($post_id, 'unmask_file_id', true) ?: sprintf('REC-%s-%03d', date('Y'), $post_id);
     $subject = get_post_meta($post_id, 'unmask_subject', true) ?: '';
-    $location = get_post_meta($post_id, 'unmask_location', true) ?: 'Chicago';
+    $location = get_post_meta($post_id, 'unmask_location', true) ?: $record_default_location;
     $photographer = get_post_meta($post_id, 'unmask_photographer', true) ?: '';
     $writer = get_post_meta($post_id, 'unmask_writer', true) ?: '';
     $issue = get_post_meta($post_id, 'unmask_issue', true) ?: '';
@@ -48,8 +80,8 @@ while (have_posts()) :
 
         <!-- System Bar -->
         <div class="record-system-bar">
-            <a href="<?php echo esc_url(home_url('/archive/')); ?>" class="record-system-bar__back">← back to archive</a>
-            <span class="record-system-bar__center">UNMASK / the archive</span>
+            <a href="<?php echo esc_url(home_url('/archive/')); ?>" class="record-system-bar__back"><?php echo esc_html($record_back_text); ?></a>
+            <span class="record-system-bar__center"><?php echo esc_html($record_system_title); ?></span>
             <span class="record-system-bar__id"><?php echo esc_html($file_id); ?></span>
         </div>
 
@@ -68,9 +100,9 @@ while (have_posts()) :
                 <div class="record-hero__row-1">
                     <div class="record-hero__status">
                         <span class="record-hero__status-dot"></span>
-                        <span>archived / public</span>
+                        <span><?php echo esc_html($record_status_text); ?></span>
                     </div>
-                    <span class="record-hero__label">interview:</span>
+                    <span class="record-hero__label"><?php echo esc_html($record_type_label); ?></span>
                 </div>
 
                 <!-- Row 2: Title (spans both columns) -->
@@ -133,7 +165,7 @@ while (have_posts()) :
         <div class="record-gallery-strip-wrapper">
             <?php echo do_shortcode('[unmask_gallery_strip]'); ?>
             <div class="record-gallery-strip__hint">
-                click thumbnail to view • <?php echo esc_html($image_count); ?> images in this record
+                <?php echo esc_html($record_gallery_hint); ?> • <?php echo esc_html($image_count); ?> images in this record
             </div>
         </div>
 
@@ -188,14 +220,14 @@ while (have_posts()) :
     <nav class="record-nav">
         <?php if ($prev_post) : ?>
             <a href="<?php echo get_permalink($prev_post); ?>" class="record-nav__link record-nav__link--prev">
-                <span class="record-nav__label">previous record</span>
+                <span class="record-nav__label"><?php echo esc_html($record_nav_prev); ?></span>
                 <span class="record-nav__title"><?php echo get_the_title($prev_post); ?></span>
             </a>
         <?php endif; ?>
 
         <?php if ($next_post) : ?>
             <a href="<?php echo get_permalink($next_post); ?>" class="record-nav__link record-nav__link--next">
-                <span class="record-nav__label">next record</span>
+                <span class="record-nav__label"><?php echo esc_html($record_nav_next); ?></span>
                 <span class="record-nav__title"><?php echo get_the_title($next_post); ?></span>
             </a>
         <?php endif; ?>
@@ -208,7 +240,7 @@ while (have_posts()) :
     <section class="record-comments">
         <div class="record-comments__container">
             <header class="record-comments__header">
-                <span class="record-comments__label">discussion</span>
+                <span class="record-comments__label"><?php echo esc_html($record_discussion_label); ?></span>
                 <span class="record-comments__count"><?php echo get_comments_number(); ?> responses</span>
             </header>
             <?php comments_template(); ?>
@@ -249,8 +281,8 @@ while (have_posts()) :
     ?>
     <section class="record-related">
         <header class="record-related__header">
-            <span class="record-related__label">related records</span>
-            <span class="record-related__count"><?php echo $related_query->found_posts; ?> in archive</span>
+            <span class="record-related__label"><?php echo esc_html($record_related_label); ?></span>
+            <span class="record-related__count"><?php echo $related_query->found_posts; ?> <?php echo esc_html($record_related_count_suffix); ?></span>
         </header>
 
         <div class="record-related__grid">
@@ -291,8 +323,8 @@ while (have_posts()) :
     ═══════════════════════════════════════════════════════════════ -->
     <div class="record-submit-cta" id="record-submit-cta">
         <div class="record-submit-cta__text">
-            <span class="record-submit-cta__label">open call</span>
-            <span class="record-submit-cta__title">tell your story</span>
+            <span class="record-submit-cta__label"><?php echo esc_html($record_cta_label); ?></span>
+            <span class="record-submit-cta__title"><?php echo esc_html($record_cta_title); ?></span>
         </div>
         <div class="record-submit-cta__actions">
             <button type="button" class="record-submit-cta__btn record-submit-cta__btn--share" id="share-btn" aria-label="Share this record">
@@ -375,7 +407,7 @@ while (have_posts()) :
         if (navigator.share) {
             navigator.share({
                 title: title,
-                text: 'Check out this record on UNMASK',
+                text: <?php echo json_encode($record_share_text); ?>,
                 url: url
             }).catch(function() {
                 // Fallback to clipboard

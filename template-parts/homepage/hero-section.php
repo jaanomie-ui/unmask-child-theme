@@ -8,12 +8,26 @@
  *
  * @package UNMASK
  * @since 1.0.0
+ *
+ * ACF Fields (non-repeating):
+ * - hero_label: Text (default: "latest record")
+ * - hero_cta_label: Text (default: "open call")
+ * - hero_cta_text: Text (default: "tell your story →")
+ * - hero_fallback_issue: Text (default: "issue 001")
+ * - hero_fallback_location: Text (default: "chicago")
  */
 
 // Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Get ACF field values with fallbacks
+$hero_label = unmask_get_field('hero_label', 'latest record');
+$hero_cta_label = unmask_get_field('hero_cta_label', 'open call');
+$hero_cta_text = unmask_get_field('hero_cta_text', 'tell your story →');
+$hero_fallback_issue = unmask_get_field('hero_fallback_issue', 'issue 001');
+$hero_fallback_location = unmask_get_field('hero_fallback_location', 'chicago');
 
 // Get latest post excluding category 'd001'
 $hero_query = new WP_Query([
@@ -35,9 +49,9 @@ $hero_data = [
     'title'      => 'Latest Record',
     'type'       => 'interview',
     'desc'       => 'Documentation over news.',
-    'issue'      => 'issue 001',
+    'issue'      => $hero_fallback_issue,
     'date'       => 'january 2026',
-    'location'   => 'chicago',
+    'location'   => $hero_fallback_location,
     'permalink'  => '#',
 ];
 
@@ -76,7 +90,7 @@ if ($hero_query->have_posts()) {
         <!-- Columns 2-3: Content area -->
         <div class="unmask-hero__content-area">
             <div class="unmask-hero__content-box">
-                <div class="unmask-hero__label">latest record</div>
+                <div class="unmask-hero__label"><?php echo esc_html($hero_label); ?></div>
                 <div class="unmask-hero__file-id"><?php echo esc_html($hero_data['file_id']); ?></div>
 
                 <h1 class="unmask-hero__title">
@@ -99,8 +113,8 @@ if ($hero_query->have_posts()) {
 
                 <!-- Submit CTA -->
                 <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="unmask-hero__cta">
-                    <span class="unmask-hero__cta-label">open call</span>
-                    <span class="unmask-hero__cta-text">tell your story →</span>
+                    <span class="unmask-hero__cta-label"><?php echo esc_html($hero_cta_label); ?></span>
+                    <span class="unmask-hero__cta-text"><?php echo esc_html($hero_cta_text); ?></span>
                 </a>
             </div>
 

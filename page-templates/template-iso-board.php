@@ -7,7 +7,33 @@
  *
  * @package UNMASK
  * @since 1.0.0
+ *
+ * ACF Fields (non-repeating):
+ * - iso_page_title: Text (default: "iso board")
+ * - iso_page_subtitle: Text (default: "seeking / offering / connecting")
+ * - iso_submit_bar_text: Text (default: "have something to offer or need?")
+ * - iso_submit_btn_text: Text (default: "[post to board]")
+ * - iso_alert_text: Text (default: "sign in to see who is posting...")
+ * - iso_alert_cta: Text (default: "[sign in]")
+ * - iso_count_label: Text (default: "active listings")
+ * - iso_empty_message: Text (default: "No listings match your filters.")
+ * - iso_modal_title: Text (default: "post to iso board")
+ * - iso_loading_text: Text (default: "loading...")
+ * - iso_factory_label: Text (default: "hosting at the Factory")
  */
+
+// Get ACF field values with fallbacks
+$iso_page_title = unmask_get_field('iso_page_title', 'iso board');
+$iso_page_subtitle = unmask_get_field('iso_page_subtitle', 'seeking / offering / connecting');
+$iso_submit_bar_text = unmask_get_field('iso_submit_bar_text', 'have something to offer or need?');
+$iso_submit_btn_text = unmask_get_field('iso_submit_btn_text', '[post to board]');
+$iso_alert_text = unmask_get_field('iso_alert_text', 'sign in to see who is posting and respond to listings');
+$iso_alert_cta = unmask_get_field('iso_alert_cta', '[sign in]');
+$iso_count_label = unmask_get_field('iso_count_label', 'active listings');
+$iso_empty_message = unmask_get_field('iso_empty_message', 'No listings match your filters.');
+$iso_modal_title = unmask_get_field('iso_modal_title', 'post to iso board');
+$iso_loading_text = unmask_get_field('iso_loading_text', 'loading...');
+$iso_factory_label = unmask_get_field('iso_factory_label', 'hosting at the Factory');
 
 get_header();
 
@@ -47,25 +73,25 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
 <div class="page iso-board-page">
 
     <header class="page-header">
-        <h1 class="page-title">iso board</h1>
-        <p class="page-subtitle">seeking / offering / connecting</p>
+        <h1 class="page-title"><?php echo esc_html($iso_page_title); ?></h1>
+        <p class="page-subtitle"><?php echo esc_html($iso_page_subtitle); ?></p>
     </header>
 
     <?php if ($is_logged_in) : ?>
     <div class="iso-submit-bar">
-        <span class="iso-submit-bar-text">have something to offer or need?</span>
-        <button type="button" class="iso-submit-btn" onclick="unmaskIsoOpenSubmitModal()">[post to board]</button>
+        <span class="iso-submit-bar-text"><?php echo esc_html($iso_submit_bar_text); ?></span>
+        <button type="button" class="iso-submit-btn" onclick="unmaskIsoOpenSubmitModal()"><?php echo esc_html($iso_submit_btn_text); ?></button>
     </div>
     <?php else : ?>
     <div class="iso-alert-banner" id="isoAlertBanner">
-        <span class="iso-alert-text">sign in to see who is posting and respond to listings</span>
-        <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="iso-alert-cta">[sign in]</a>
+        <span class="iso-alert-text"><?php echo esc_html($iso_alert_text); ?></span>
+        <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>" class="iso-alert-cta"><?php echo esc_html($iso_alert_cta); ?></a>
     </div>
     <?php endif; ?>
 
     <?php get_template_part('template-parts/components/iso-filters'); ?>
 
-    <p class="iso-listing-count"><span id="isoCount"><?php echo esc_html($iso_count); ?></span> active listings</p>
+    <p class="iso-listing-count"><span id="isoCount"><?php echo esc_html($iso_count); ?></span> <?php echo esc_html($iso_count_label); ?></p>
 
     <div class="iso-grid" id="isoGrid">
         <?php if ($iso_query->have_posts()) : ?>
@@ -77,9 +103,11 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
                     get_template_part('template-parts/components/iso-factory-promo-card');
                 }
 
-                get_template_part('template-parts/components/iso-listing-card', null, [
-                    'post_id' => get_the_ID(),
-                    'is_blurred' => $show_blur
+                get_template_part('template-parts/components/iso-card-unified', null, [
+                    'post_id'    => get_the_ID(),
+                    'context'    => 'grid',
+                    'is_blurred' => $show_blur,
+                    'clickable'  => true,
                 ]);
                 $card_index++;
             endwhile;
@@ -92,7 +120,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
             <?php wp_reset_postdata(); ?>
         <?php else : ?>
             <?php get_template_part('template-parts/components/iso-factory-promo-card'); ?>
-            <div class="iso-empty">No listings match your filters.</div>
+            <div class="iso-empty"><?php echo esc_html($iso_empty_message); ?></div>
         <?php endif; ?>
     </div>
 
@@ -105,7 +133,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
 <div class="iso-submit-overlay" id="isoSubmitOverlay" onclick="unmaskIsoCloseSubmitModal(event)">
     <div class="iso-submit-modal" onclick="event.stopPropagation()">
         <div class="iso-submit-modal-header">
-            <span class="iso-submit-modal-title">post to iso board</span>
+            <span class="iso-submit-modal-title"><?php echo esc_html($iso_modal_title); ?></span>
             <button type="button" class="iso-submit-modal-close" onclick="unmaskIsoCloseSubmitModal()">&times;</button>
         </div>
         <div class="iso-submit-modal-body">
@@ -122,6 +150,9 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
     var ajaxUrl = '<?php echo esc_url(admin_url('admin-ajax.php')); ?>';
     var nonce = '<?php echo esc_js(wp_create_nonce('unmask_iso_board_nonce')); ?>';
     var isLoggedIn = <?php echo $is_logged_in ? 'true' : 'false'; ?>;
+    var loadingText = <?php echo json_encode($iso_loading_text); ?>;
+    var emptyMessage = <?php echo json_encode($iso_empty_message); ?>;
+    var factoryLabel = <?php echo json_encode($iso_factory_label); ?>;
 
     // Current filter state
     var filters = {
@@ -138,7 +169,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
      */
     function loadListings() {
         var container = document.getElementById('isoGrid');
-        container.innerHTML = '<div class="iso-loading">loading...</div>';
+        container.innerHTML = '<div class="iso-loading">' + loadingText + '</div>';
 
         var url = ajaxUrl + '?action=unmask_iso_filter' +
             '&nonce=' + encodeURIComponent(nonce) +
@@ -152,7 +183,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
             })
             .then(function(data) {
                 if (data.success && data.data) {
-                    container.innerHTML = data.data.html || '<div class="iso-empty">No listings match your filters.</div>';
+                    container.innerHTML = data.data.html || '<div class="iso-empty">' + emptyMessage + '</div>';
                     document.getElementById('isoCount').textContent = data.data.count || 0;
 
                     // Cache ISO data
@@ -160,7 +191,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
                         isoCache = data.data.cache;
                     }
                 } else {
-                    container.innerHTML = '<div class="iso-empty">No listings found.</div>';
+                    container.innerHTML = '<div class="iso-empty">' + emptyMessage + '</div>';
                     document.getElementById('isoCount').textContent = '0';
                 }
             })
@@ -259,7 +290,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
                     // Factory
                     var factoryEl = document.getElementById('isoDetailFactory');
                     if (iso.factory === 'yes' || iso.factory === 'preferred') {
-                        factoryEl.textContent = 'hosting at the Factory';
+                        factoryEl.textContent = factoryLabel;
                         factoryEl.className = 'iso-detail-meta-value factory';
                     } else {
                         factoryEl.textContent = iso.factory || 'open';

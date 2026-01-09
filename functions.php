@@ -59,6 +59,14 @@ function unmask_enqueue_styles() {
         $theme_version
     );
 
+    // Unified ISO card component - shared across homepage and ISO board
+    wp_enqueue_style(
+        'unmask-iso-card-unified',
+        $css_dir . 'components/iso-card-unified.css',
+        array('unmask-components'),
+        $theme_version
+    );
+
     // BuddyBoss bridge - integrates components with BuddyBoss
     wp_enqueue_style(
         'unmask-buddyboss-bridge',
@@ -1114,6 +1122,90 @@ function unmask_login_inline_styles() {
         }
     </style>
     <?php
+}
+
+/* ==========================================================================
+   ACF HELPER FUNCTIONS
+   ========================================================================== */
+
+/**
+ * Get ACF field value with fallback
+ * Works whether ACF is installed or not
+ *
+ * @param string $field_name ACF field name
+ * @param mixed  $fallback   Fallback value if field is empty or ACF not installed
+ * @param mixed  $post_id    Post ID, 'option' for options page, or null for current post
+ * @return mixed Field value or fallback
+ */
+function unmask_get_field($field_name, $fallback = '', $post_id = null) {
+    // If ACF isn't installed, return fallback
+    if (!function_exists('get_field')) {
+        return $fallback;
+    }
+
+    // Get the field value
+    $value = get_field($field_name, $post_id);
+
+    // Return fallback if empty
+    if (empty($value) && $value !== 0 && $value !== '0') {
+        return $fallback;
+    }
+
+    return $value;
+}
+
+/**
+ * Echo ACF field value with fallback (escaped)
+ *
+ * @param string $field_name ACF field name
+ * @param mixed  $fallback   Fallback value
+ * @param mixed  $post_id    Post ID or 'option'
+ */
+function unmask_the_field($field_name, $fallback = '', $post_id = null) {
+    echo esc_html(unmask_get_field($field_name, $fallback, $post_id));
+}
+
+/**
+ * Get ACF image field with fallback
+ * Returns image URL from ACF image field (handles array or URL return format)
+ *
+ * @param string $field_name ACF field name
+ * @param string $fallback   Fallback image URL
+ * @param string $size       Image size (thumbnail, medium, large, full)
+ * @param mixed  $post_id    Post ID or 'option'
+ * @return string Image URL
+ */
+function unmask_get_image_field($field_name, $fallback = '', $size = 'full', $post_id = null) {
+    if (!function_exists('get_field')) {
+        return $fallback;
+    }
+
+    $image = get_field($field_name, $post_id);
+
+    if (empty($image)) {
+        return $fallback;
+    }
+
+    // Handle array return format
+    if (is_array($image)) {
+        if (isset($image['sizes'][$size])) {
+            return $image['sizes'][$size];
+        }
+        return isset($image['url']) ? $image['url'] : $fallback;
+    }
+
+    // Handle URL return format
+    if (is_string($image)) {
+        return $image;
+    }
+
+    // Handle ID return format
+    if (is_numeric($image)) {
+        $url = wp_get_attachment_image_url($image, $size);
+        return $url ? $url : $fallback;
+    }
+
+    return $fallback;
 }
 
 /* ==========================================================================

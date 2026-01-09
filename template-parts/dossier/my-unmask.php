@@ -97,7 +97,7 @@ if ($data['factory_next']) {
                 <div class="dash-cell__meta"></div>
             </div>
 
-            <a href="<?php echo esc_url(home_url('/magazine/')); ?>" class="dash-cell">
+            <a href="<?php echo esc_url(home_url('/the-archive/')); ?>" class="dash-cell">
                 <div class="dash-cell__key">Records Read</div>
                 <div class="dash-cell__val"><?php echo esc_html($data['records_read']); ?></div>
                 <div class="dash-cell__meta">the archive</div>

@@ -1,0 +1,400 @@
+/* ============================================================================
+   UNIFIED ISO CARD COMPONENT
+   Version: 1.0.0
+
+   Shared card styles for ISO listings across homepage rails and ISO board grid.
+   Design source of truth: ISO Board page (iso-board.css)
+
+   Contexts:
+   - .iso-card--rail  : Compact version for horizontal scrolling rails
+   - .iso-card--grid  : Full version for ISO Board grid layout
+
+   Dependencies:
+   - 00-design-system.css (design tokens)
+   ============================================================================ */
+
+/* ============================================================================
+   1. BASE CARD
+   ============================================================================ */
+
+.iso-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    padding: 20px;
+    transition: all var(--duration-normal) var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.iso-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+}
+
+/* ============================================================================
+   2. CONTEXT: RAIL (Compact for horizontal scroll)
+   ============================================================================ */
+
+.iso-card--rail {
+    min-height: 200px;
+    /* Width controlled by parent .homepage-rail__card wrapper */
+}
+
+.iso-card--rail:hover {
+    transform: none; /* No lift in rail context - interferes with scroll */
+    box-shadow: none;
+}
+
+/* Tighter spacing in rail */
+.iso-card--rail {
+    padding: 16px;
+    gap: 10px;
+}
+
+/* Shorter description in rail */
+.iso-card--rail .iso-card__description {
+    -webkit-line-clamp: 2;
+}
+
+/* ============================================================================
+   3. CONTEXT: GRID (Full card for ISO Board)
+   ============================================================================ */
+
+.iso-card--grid {
+    min-height: 360px;
+    cursor: pointer;
+
+    /* CSS Grid for precise row control */
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto auto;
+    gap: 16px;
+}
+
+.iso-card--grid:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================================================
+   4. ROW 1: TAGS + EXPIRATION
+   ============================================================================ */
+
+.iso-card__top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.iso-card__tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Intent badge - SEEKING or OFFERING (glowy, alive) */
+.iso-card__tag {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    padding: 4px 10px;
+    border: 1px solid;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.iso-card__tag--seeking {
+    color: var(--primitive-red-light);
+    background: rgba(138, 50, 51, 0.2);
+    border-color: var(--primitive-red);
+    box-shadow: 0 0 8px rgba(138, 50, 51, 0.3);
+}
+
+.iso-card__tag--offering {
+    color: var(--primitive-green-light);
+    background: rgba(77, 168, 128, 0.15);
+    border-color: var(--primitive-green);
+    box-shadow: 0 0 8px rgba(77, 168, 128, 0.25);
+}
+
+/* Category - what they want (subtle) */
+.iso-card__tag--category {
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--border-hover);
+    box-shadow: none;
+}
+
+/* Expiration - pushed right */
+.iso-card__expires {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    margin-left: auto;
+    white-space: nowrap;
+    -webkit-font-smoothing: antialiased;
+}
+
+.iso-card__expires--soon {
+    color: var(--primitive-red);
+}
+
+/* ============================================================================
+   5. ROW 2: TITLE
+   ============================================================================ */
+
+.iso-card__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-lg);
+    font-weight: 400;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smaller title in rail context */
+.iso-card--rail .iso-card__title {
+    font-size: var(--type-base);
+}
+
+/* ============================================================================
+   6. ROW 3: DESCRIPTION
+   ============================================================================ */
+
+.iso-card__description {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================================
+   7. ROW 4: WHO (Avatar + Designation)
+   ============================================================================ */
+
+.iso-card__who {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.iso-card__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primitive-gray-700);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.iso-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.iso-card__designation {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    -webkit-font-smoothing: antialiased;
+}
+
+.iso-card__designation--drone {
+    color: var(--primitive-red);
+}
+
+/* ============================================================================
+   8. ROW 5: WHERE (Grid context only)
+   ============================================================================ */
+
+.iso-card__where {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.iso-card__location {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    -webkit-font-smoothing: antialiased;
+}
+
+.iso-card__factory-badge {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--primitive-amber);
+    border: 1px solid var(--primitive-amber);
+    background: var(--primitive-amber-glow);
+    padding: 2px 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.iso-card__factory-badge::before {
+    content: '\25c6'; /* Diamond */
+    font-size: 6px;
+}
+
+/* ============================================================================
+   9. ROW 6: MATCH INDICATORS (Grid context only)
+   ============================================================================ */
+
+.iso-card__matches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-subtle);
+    overflow: hidden;
+}
+
+.iso-card__match {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.iso-card__match--local {
+    color: var(--primitive-amber-light);
+}
+
+.iso-card__match--practice {
+    color: var(--primitive-green-glow);
+}
+
+.iso-card__match--mutual {
+    color: var(--primitive-blue-light);
+}
+
+/* ============================================================================
+   10. FOOTER (Rail context only)
+   ============================================================================ */
+
+.iso-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: auto;
+}
+
+.iso-card__meta {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: lowercase;
+}
+
+/* ============================================================================
+   11. MODIFIERS
+   ============================================================================ */
+
+/* Factory preferred - hover accent only */
+.iso-card--factory:hover {
+    border-color: var(--primitive-amber);
+}
+
+/* Has match - hover highlight only */
+.iso-card--has-match:hover {
+    border-color: var(--primitive-green);
+    box-shadow: 0 4px 12px rgba(77, 168, 128, 0.15);
+}
+
+/* Expiring soon */
+.iso-card--expiring .iso-card__expires {
+    color: var(--primitive-red);
+}
+
+/* ============================================================================
+   12. BLURRED STATE (Strangers)
+   ============================================================================ */
+
+.iso-card--blurred {
+    cursor: default;
+}
+
+.iso-card--blurred .iso-card__avatar,
+.iso-card--blurred .iso-card__designation,
+.iso-card--blurred .iso-card__description {
+    filter: blur(4px);
+    user-select: none;
+    pointer-events: none;
+}
+
+/* ============================================================================
+   13. RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 480px) {
+    .iso-card--grid {
+        padding: 16px;
+        min-height: 320px;
+    }
+
+    .iso-card__title {
+        font-size: var(--type-base);
+    }
+}
+
+/* ============================================================================
+   14. RAIL WRAPPER SUPPORT
+
+   When used inside homepage rails, the parent wrapper provides scroll styling.
+   These rules ensure the card fills the wrapper correctly.
+   ============================================================================ */
+
+/* Mobile homepage rail wrapper */
+.homepage-rail__card--iso {
+    width: 280px;
+    min-height: 200px;
+}
+
+.homepage-rail__card--iso .iso-card {
+    width: 100%;
+    height: 100%;
+}
+
+/* Desktop homepage rail wrapper */
+.rail__card--iso {
+    width: 280px;
+    min-height: 200px;
+    flex: 0 0 auto;
+}
+
+.rail__card--iso .iso-card {
+    width: 100%;
+    height: 100%;
+}

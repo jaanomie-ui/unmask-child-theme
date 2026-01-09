@@ -5,12 +5,38 @@
  *
  * @package UNMASK
  * @since 1.0.0
+ *
+ * ACF Fields (non-repeating):
+ * - submit_page_label: Text (default: "submit")
+ * - submit_page_title: Text (default: "work for the archive")
+ * - submit_intro_text: Textarea (default: "think pieces. photo essays...")
+ * - submit_response_time: Text (default: "expect a response within 2 weeks.")
+ * - submit_success_message: Text (default: "received.")
+ * - submit_error_message: Text (default: "something went wrong...")
+ * - submit_email_address: Email (default: "submissions@unmaskmagazine.com")
+ * - submit_btn_create: Text (default: "create something")
+ * - submit_btn_submit: Text (default: "submit something")
+ * - submit_placeholder_create: Text
+ * - submit_placeholder_submit: Text
  */
 
 // Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Get ACF field values with fallbacks
+$submit_page_label = unmask_get_field('submit_page_label', 'submit');
+$submit_page_title = unmask_get_field('submit_page_title', 'work for the archive');
+$submit_intro_text = unmask_get_field('submit_intro_text', "think pieces. photo essays. kink-adjacent things.<br>\nthe stuff you cannot post elsewhere.<br>\nthe stuff you want in print.");
+$submit_response_time = unmask_get_field('submit_response_time', 'expect a response within 2 weeks.');
+$submit_success_message = unmask_get_field('submit_success_message', 'received.');
+$submit_error_message = unmask_get_field('submit_error_message', 'something went wrong. try again or email us directly.');
+$submit_email_address = unmask_get_field('submit_email_address', 'submissions@unmaskmagazine.com');
+$submit_btn_create = unmask_get_field('submit_btn_create', 'create something');
+$submit_btn_submit = unmask_get_field('submit_btn_submit', 'submit something');
+$submit_placeholder_create = unmask_get_field('submit_placeholder_create', 'what are you working on. what do you need.');
+$submit_placeholder_submit = unmask_get_field('submit_placeholder_submit', 'describe the work. what is it, why does it belong in the archive.');
 
 // Handle form submission
 $form_submitted = false;
@@ -39,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['unmask_submit_nonce']
             // Build email
             $intent_label = ($intent === 'submit') ? 'Submit Something' : 'Create Something';
 
-            $to = 'submissions@unmaskmagazine.com';
+            $to = $submit_email_address;
             $subject = "[UNMASK] New Submission: {$intent_label}";
 
             $body = "New submission from the UNMASK website.\n\n";
@@ -85,28 +111,26 @@ get_header();
 <div class="submit-page<?php echo $is_logged_in ? ' user-logged-in' : ''; ?>">
     <div class="submit-frame">
 
-        <div class="page-label">submit</div>
-        <h1>work for the archive</h1>
+        <div class="page-label"><?php echo esc_html($submit_page_label); ?></div>
+        <h1><?php echo esc_html($submit_page_title); ?></h1>
 
         <?php if ($form_submitted) : ?>
 
             <div class="submit-success">
-                <p class="success-message">received.</p>
-                <p class="success-detail">expect a response within 2 weeks.</p>
+                <p class="success-message"><?php echo esc_html($submit_success_message); ?></p>
+                <p class="success-detail"><?php echo esc_html($submit_response_time); ?></p>
             </div>
 
         <?php else : ?>
 
             <p class="intro">
-                think pieces. photo essays. kink-adjacent things.<br>
-                the stuff you cannot post elsewhere.<br>
-                the stuff you want in print.
-                <span>expect a response within 2 weeks.</span>
+                <?php echo wp_kses_post($submit_intro_text); ?>
+                <span><?php echo esc_html($submit_response_time); ?></span>
             </p>
 
             <?php if ($form_error) : ?>
                 <div class="submit-error">
-                    <p>something went wrong. try again or email us directly.</p>
+                    <p><?php echo esc_html($submit_error_message); ?></p>
                 </div>
             <?php endif; ?>
 
@@ -115,8 +139,8 @@ get_header();
                 <input type="hidden" name="intent" id="intent-field" value="create">
 
                 <div class="status-toggle">
-                    <button type="button" class="status-btn active" data-status="create">create something</button>
-                    <button type="button" class="status-btn" data-status="submit">submit something</button>
+                    <button type="button" class="status-btn active" data-status="create"><?php echo esc_html($submit_btn_create); ?></button>
+                    <button type="button" class="status-btn" data-status="submit"><?php echo esc_html($submit_btn_submit); ?></button>
                 </div>
 
                 <div class="form-group">
@@ -135,7 +159,7 @@ get_header();
                 <div class="form-group">
                     <label for="description">tell me about it</label>
                     <textarea name="description" id="description" required
-                              placeholder="what are you working on. what do you need."></textarea>
+                              placeholder="<?php echo esc_attr($submit_placeholder_create); ?>"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -161,8 +185,8 @@ get_header();
     if (!textarea || !intentField) return;
 
     const placeholders = {
-        create: 'what are you working on. what do you need.',
-        submit: 'describe the work. what is it, why does it belong in the archive.'
+        create: <?php echo json_encode($submit_placeholder_create); ?>,
+        submit: <?php echo json_encode($submit_placeholder_submit); ?>
     };
 
     document.querySelectorAll('.status-btn').forEach(btn => {

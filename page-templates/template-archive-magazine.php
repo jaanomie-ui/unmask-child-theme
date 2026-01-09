@@ -4,7 +4,41 @@
  * Description: Archive page for UNMASK magazine records. Terminal energy. Platform presence. Erotic tension.
  *
  * @package unmask-child-theme
+ *
+ * ACF Fields (non-repeating):
+ * - archive_page_title: Text (default: "the archive")
+ * - archive_stat_records: Text (default: "RECORDS:")
+ * - archive_stat_profiles: Text (default: "PROFILES:")
+ * - archive_stat_events: Text (default: "EVENTS:")
+ * - archive_filter_type: Text (default: "type")
+ * - archive_filter_tags: Text (default: "tags")
+ * - archive_shuffle_btn: Text (default: "[shuffle]")
+ * - archive_default_location: Text (default: "Chicago")
+ * - archive_cta_label: Text (default: "open call")
+ * - archive_cta_title: Text (default: "The next record could be yours.")
+ * - archive_cta_text: Text (default: "Writers, photographers, and subjects. The archive is waiting.")
+ * - archive_empty_message: Text (default: "No records found.")
+ * - archive_prev_text: Text (default: "← previous")
+ * - archive_next_text: Text (default: "next →")
+ * - archive_open_record_btn: Text (default: "[open record]")
  */
+
+// Get ACF field values with fallbacks
+$archive_page_title = unmask_get_field('archive_page_title', 'the archive');
+$archive_stat_records = unmask_get_field('archive_stat_records', 'RECORDS:');
+$archive_stat_profiles = unmask_get_field('archive_stat_profiles', 'PROFILES:');
+$archive_stat_events = unmask_get_field('archive_stat_events', 'EVENTS:');
+$archive_filter_type = unmask_get_field('archive_filter_type', 'type');
+$archive_filter_tags = unmask_get_field('archive_filter_tags', 'tags');
+$archive_shuffle_btn = unmask_get_field('archive_shuffle_btn', '[shuffle]');
+$archive_default_location = unmask_get_field('archive_default_location', 'Chicago');
+$archive_cta_label = unmask_get_field('archive_cta_label', 'open call');
+$archive_cta_title = unmask_get_field('archive_cta_title', 'The next record could be yours.');
+$archive_cta_text = unmask_get_field('archive_cta_text', 'Writers, photographers, and subjects. The archive is waiting.');
+$archive_empty_message = unmask_get_field('archive_empty_message', 'No records found.');
+$archive_prev_text = unmask_get_field('archive_prev_text', '← previous');
+$archive_next_text = unmask_get_field('archive_next_text', 'next →');
+$archive_open_record_btn = unmask_get_field('archive_open_record_btn', '[open record]');
 
 get_header();
 
@@ -67,12 +101,12 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
 
         <!-- HEADER: 3 columns (title | empty | stats) -->
         <header class="archive-header">
-            <h1 class="archive-title">the archive</h1>
+            <h1 class="archive-title"><?php echo esc_html($archive_page_title); ?></h1>
             <div class="archive-header-empty"></div>
             <div class="archive-header-stats">
-                <span>RECORDS: <?php echo esc_html($total_records); ?></span>
-                <span>PROFILES: <?php echo esc_html($profiles_count); ?></span>
-                <span>EVENTS: <?php echo esc_html($events_count); ?></span>
+                <span><?php echo esc_html($archive_stat_records); ?> <?php echo esc_html($total_records); ?></span>
+                <span><?php echo esc_html($archive_stat_profiles); ?> <?php echo esc_html($profiles_count); ?></span>
+                <span><?php echo esc_html($archive_stat_events); ?> <?php echo esc_html($events_count); ?></span>
             </div>
         </header>
 
@@ -80,7 +114,7 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
         <div class="archive-filters">
             <!-- Row 1: Type -->
             <div class="archive-filter-row archive-filter-row--type">
-                <span class="archive-filter-label">type</span>
+                <span class="archive-filter-label"><?php echo esc_html($archive_filter_type); ?></span>
                 <div class="archive-filter-group" data-filter="type">
                     <button class="archive-filter-btn <?php echo (!isset($_GET['record_type']) || $_GET['record_type'] === 'all') ? 'active' : ''; ?>" data-value="all">all</button>
                     <button class="archive-filter-btn <?php echo (isset($_GET['record_type']) && $_GET['record_type'] === 'profiles') ? 'active' : ''; ?>" data-value="profiles">profiles</button>
@@ -90,7 +124,7 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
 
             <!-- Row 2: Tags (spans into column 2) -->
             <div class="archive-filter-row archive-filter-row--tags">
-                <span class="archive-filter-label">tags</span>
+                <span class="archive-filter-label"><?php echo esc_html($archive_filter_tags); ?></span>
                 <div class="archive-filter-group" data-filter="tags">
                     <?php
                     $active_tags = isset($_GET['record_tags']) ? explode(',', $_GET['record_tags']) : array();
@@ -106,7 +140,7 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
 
             <!-- Row 3: Shuffle -->
             <div class="archive-filter-row archive-filter-row--shuffle">
-                <button class="archive-btn archive-btn--shuffle" id="shuffle-btn">[shuffle]</button>
+                <button class="archive-btn archive-btn--shuffle" id="shuffle-btn"><?php echo esc_html($archive_shuffle_btn); ?></button>
             </div>
         </div>
 
@@ -138,7 +172,7 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
                     }
 
                     // Get custom fields if available
-                    $location = get_post_meta($post_id, 'record_location', true) ?: 'Chicago';
+                    $location = get_post_meta($post_id, 'record_location', true) ?: $archive_default_location;
                     $views = get_post_meta($post_id, 'post_views_count', true) ?: rand(50, 300);
 
                     // Get excerpt (truncated)
@@ -176,9 +210,9 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
                         <article class="archive-submit-card">
                             <a href="/submit" class="archive-submit-link">
                                 <span class="archive-submit-icon">◇</span>
-                                <span class="archive-submit-label">open call</span>
-                                <p class="archive-submit-title">The next record could be yours.</p>
-                                <p class="archive-submit-text">Writers, photographers, and subjects. The archive is waiting.</p>
+                                <span class="archive-submit-label"><?php echo esc_html($archive_cta_label); ?></span>
+                                <p class="archive-submit-title"><?php echo esc_html($archive_cta_title); ?></p>
+                                <p class="archive-submit-text"><?php echo esc_html($archive_cta_text); ?></p>
                             </a>
                         </article>
                     <?php
@@ -188,7 +222,7 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
             else :
             ?>
                 <div class="archive-no-records">
-                    <p>No records found.</p>
+                    <p><?php echo esc_html($archive_empty_message); ?></p>
                 </div>
             <?php endif; ?>
         </div>
@@ -200,8 +234,8 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
             echo paginate_links(array(
                 'total'     => $records_query->max_num_pages,
                 'current'   => $paged,
-                'prev_text' => '← previous',
-                'next_text' => 'next →',
+                'prev_text' => esc_html($archive_prev_text),
+                'next_text' => esc_html($archive_next_text),
                 'type'      => 'list',
             ));
             ?>
@@ -223,8 +257,8 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
             <h3 class="archive-shuffle-title" id="shuffle-title">Loading...</h3>
             <p class="archive-shuffle-excerpt" id="shuffle-excerpt"></p>
             <div class="archive-shuffle-actions">
-                <a href="#" class="archive-btn archive-btn--primary" id="shuffle-open">[open record]</a>
-                <button class="archive-btn" id="shuffle-again">[shuffle]</button>
+                <a href="#" class="archive-btn archive-btn--primary" id="shuffle-open"><?php echo esc_html($archive_open_record_btn); ?></a>
+                <button class="archive-btn" id="shuffle-again"><?php echo esc_html($archive_shuffle_btn); ?></button>
             </div>
         </div>
     </div>

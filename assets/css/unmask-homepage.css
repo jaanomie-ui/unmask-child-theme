@@ -3,6 +3,9 @@
    Generated: 2026-01-02
 
    Uses design system tokens from 00-design-system.css
+
+   NOTE: Mobile carousels use simple native CSS scroll (same as Factory page).
+   No touch-action overrides needed - just overflow-x: auto.
    ============================================================================ */
 
 /* ============================================================================
@@ -794,6 +797,28 @@
     display: none;
 }
 
+/* Desktop cards inside mobile carousel */
+.unmask-mobile__carousel > * {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+}
+
+.unmask-mobile__carousel .card--record {
+    width: 260px;
+    min-width: 260px;
+}
+
+.unmask-mobile__carousel .card--iso {
+    width: 280px;
+    min-width: 280px;
+}
+
+.unmask-mobile__carousel .factory-card {
+    width: 240px;
+    min-width: 240px;
+    aspect-ratio: 3 / 4;
+}
+
 .unmask-mobile__card {
     flex: 0 0 calc(100% - 48px);
     scroll-snap-align: start;
@@ -1054,4 +1079,149 @@
     .unmask-activity__item {
         border-right: none;
     }
+}
+
+
+/* ============================================================================
+   MOBILE — ISO Cards
+   ============================================================================ */
+
+.unmask-mobile__card--iso {
+    width: 280px;
+    min-width: 280px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    display: flex;
+    flex-direction: column;
+}
+
+.unmask-mobile__card--iso .unmask-mobile__card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--gap-tight);
+}
+
+.unmask-mobile__iso-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--gap-tight);
+}
+
+.unmask-mobile__iso-author {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.unmask-mobile__iso-badge {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 6px;
+    border: 1px solid var(--border-default);
+}
+
+.unmask-mobile__iso-badge--seeking {
+    color: var(--primitive-green);
+    border-color: var(--primitive-green);
+}
+
+.unmask-mobile__iso-badge--offering {
+    color: var(--primitive-blue);
+    border-color: var(--primitive-blue);
+}
+
+.unmask-mobile__iso-body {
+    flex: 1;
+}
+
+.unmask-mobile__iso-title {
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    margin-bottom: var(--gap-micro);
+    line-height: 1.3;
+}
+
+.unmask-mobile__iso-excerpt {
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.unmask-mobile__iso-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin-top: var(--gap-tight);
+    padding-top: var(--gap-tight);
+    border-top: 1px solid var(--border-default);
+}
+
+
+/* ============================================================================
+   MOBILE — Factory Cards
+   ============================================================================ */
+
+.unmask-mobile__factory-card {
+    width: 200px;
+    min-width: 200px;
+    padding: var(--gap-tight);
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.unmask-mobile__factory-card--studio:hover {
+    border-color: var(--primitive-red);
+}
+
+.unmask-mobile__factory-card--interview:hover {
+    border-color: var(--primitive-blue);
+}
+
+.unmask-mobile__factory-card--meeting:hover {
+    border-color: var(--primitive-green);
+}
+
+.unmask-mobile__factory-card--editing:hover {
+    border-color: var(--primitive-yellow);
+}
+
+.unmask-mobile__factory-title {
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    margin-bottom: var(--gap-micro);
+}
+
+.unmask-mobile__factory-desc {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+
+/* ============================================================================
+   MOBILE — Overlay Card Style (Records)
+   ============================================================================ */
+
+.unmask-mobile__card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--gap-tight);
+    background: linear-gradient(transparent, rgba(24, 24, 24, 0.9));
+}
+
+.unmask-mobile__card-title {
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    line-height: 1.3;
 }
