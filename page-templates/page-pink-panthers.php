@@ -14,6 +14,22 @@ get_header();
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main">
+
+        <?php if (isset($_GET['pp_submitted'])): ?>
+            <div class="pp-success-toast">
+                <div class="pp-success-toast__icon">✓</div>
+                <div class="pp-success-toast__content">
+                    <?php if ($_GET['pp_submitted'] === 'performer'): ?>
+                        <p class="pp-success-toast__title">act submitted</p>
+                        <p class="pp-success-toast__text">we'll be in touch if you're selected for the lineup.</p>
+                    <?php elseif ($_GET['pp_submitted'] === 'volunteer'): ?>
+                        <p class="pp-success-toast__title">thanks for volunteering</p>
+                        <p class="pp-success-toast__text">we'll reach out with next steps closer to the event.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <article class="pp-page">
 
             <!-- HERO - 3x3 GRID -->
@@ -73,10 +89,17 @@ get_header();
                             <p class="pp-cast-card__detail">Compete for $100. Get documented.</p>
                         </div>
                         <div class="pp-cast-card__footer">
-                            <form>
+                            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                                <?php wp_nonce_field('pp_performer_submit', 'pp_performer_nonce'); ?>
+                                <input type="hidden" name="action" value="pp_performer_submit">
+
                                 <div class="pp-form-group">
-                                    <label class="pp-form-label">act type</label>
-                                    <select class="pp-form-select">
+                                    <label class="pp-form-label" for="performer_name">name / stage name</label>
+                                    <input type="text" name="performer_name" id="performer_name" class="pp-form-input" placeholder="what do you go by">
+                                </div>
+                                <div class="pp-form-group">
+                                    <label class="pp-form-label" for="act_type">act type</label>
+                                    <select name="act_type" id="act_type" class="pp-form-select" required>
                                         <option value="" disabled selected>select one</option>
                                         <option value="drag">drag</option>
                                         <option value="burlesque">burlesque</option>
@@ -89,8 +112,8 @@ get_header();
                                     </select>
                                 </div>
                                 <div class="pp-form-group">
-                                    <label class="pp-form-label">describe your act</label>
-                                    <textarea class="pp-form-textarea" placeholder="what should we expect"></textarea>
+                                    <label class="pp-form-label" for="act_description">describe your act</label>
+                                    <textarea name="act_description" id="act_description" class="pp-form-textarea" placeholder="what should we expect"></textarea>
                                 </div>
                                 <button type="submit" class="pp-form-submit">submit act</button>
                                 <p class="pp-form-note">Response does not guarantee a slot.</p>
@@ -125,10 +148,13 @@ get_header();
                             <p class="pp-cast-card__detail">Door. Bar. Photo. Sound. MC.</p>
                         </div>
                         <div class="pp-cast-card__footer">
-                            <form>
+                            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                                <?php wp_nonce_field('pp_volunteer_submit', 'pp_volunteer_nonce'); ?>
+                                <input type="hidden" name="action" value="pp_volunteer_submit">
+
                                 <div class="pp-form-group">
-                                    <label class="pp-form-label">role interest</label>
-                                    <select class="pp-form-select">
+                                    <label class="pp-form-label" for="role_interest">role interest</label>
+                                    <select name="role_interest" id="role_interest" class="pp-form-select" required>
                                         <option value="" disabled selected>select one</option>
                                         <option value="door">door</option>
                                         <option value="bar">bar</option>

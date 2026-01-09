@@ -39,8 +39,9 @@
 
         // Option 2: Custom form (wire to your preferred handler)
         ?>
-        <form class="pp-performer-form" method="post" action="">
-          <?php wp_nonce_field('pp_performer_submit', 'pp_nonce'); ?>
+        <form class="pp-performer-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+          <?php wp_nonce_field('pp_performer_submit', 'pp_performer_nonce'); ?>
+          <input type="hidden" name="action" value="pp_performer_submit">
 
           <div class="pp-form-group">
             <label class="pp-form-label">name / stage name</label>

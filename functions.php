@@ -182,6 +182,9 @@ require_once get_stylesheet_directory() . '/inc/collapsing-header.php';
 // Performance Optimizations (dequeue unused assets)
 require_once get_stylesheet_directory() . '/inc/performance-optimizations.php';
 
+// Pink Panthers Submissions (CPT + form handlers)
+require_once get_stylesheet_directory() . '/inc/pink-panthers-submissions.php';
+
 /* ==========================================================================
    REGISTRATION PAGE STYLES
    ========================================================================== */

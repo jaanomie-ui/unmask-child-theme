@@ -443,3 +443,90 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ============================================================================
+   SUCCESS TOAST
+   ============================================================================ */
+
+.pp-success-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap-tight);
+  background: var(--bg-card);
+  border: 1px solid var(--status-success-border);
+  padding: var(--gap-element);
+  margin: 0 var(--gap-element) var(--gap-section) var(--gap-element);
+  animation: pp-toast-slide-in var(--duration-slow) var(--ease-out);
+}
+
+@keyframes pp-toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pp-success-toast__icon {
+  font-family: var(--font-ui);
+  font-size: var(--type-lg);
+  color: var(--status-success-text);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.pp-success-toast__content {
+  flex: 1;
+}
+
+.pp-success-toast__title {
+  font-family: var(--font-ui);
+  font-size: var(--type-md);
+  font-weight: 400;
+  color: var(--text-primary);
+  text-transform: lowercase;
+  margin: 0 0 var(--gap-micro) 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pp-success-toast__text {
+  font-family: var(--font-body);
+  font-size: var(--type-md);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+  margin: 0;
+}
+
+/* ============================================================================
+   FORM INPUT (text fields)
+   ============================================================================ */
+
+.pp-form-input {
+  font-family: var(--font-ui);
+  font-size: var(--type-md);
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  padding: 12px 14px;
+  width: 100%;
+  transition: border-color var(--duration-fast) var(--ease-out);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pp-form-input:hover {
+  border-color: var(--border-hover);
+}
+
+.pp-form-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.pp-form-input::placeholder {
+  color: var(--text-muted);
+}
