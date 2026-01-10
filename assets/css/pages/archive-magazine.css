@@ -320,6 +320,26 @@
 }
 
 /* =============================================================================
+   NEWSLETTER CARD (for non-logged-in users)
+   ============================================================================= */
+
+.archive-newsletter-card {
+    height: 380px !important;
+    min-height: 380px !important;
+    max-height: 380px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.archive-newsletter-card .newsletter-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* =============================================================================
    SIDEBAR
    ============================================================================= */
 
@@ -792,4 +812,54 @@
     .archive-shuffle-actions .archive-btn {
         width: 100%;
     }
+}
+
+/* ============================================================================
+   LOAD MORE CONTROLS
+   ============================================================================ */
+
+.archive-load-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 32px;
+}
+
+.archive-load-count {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    text-transform: lowercase;
+}
+
+.archive-load-count strong {
+    color: var(--text-primary);
+}
+
+.archive-load-more {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--primitive-red);
+    background: transparent;
+    border: 1px solid var(--primitive-red);
+    padding: 12px 32px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.archive-load-more:hover {
+    background: var(--primitive-red);
+    color: var(--text-primary);
+}
+
+.archive-load-more:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.archive-load-more.loading {
+    pointer-events: none;
 }

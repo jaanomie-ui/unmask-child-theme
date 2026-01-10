@@ -25,6 +25,9 @@ get_header();
                     <?php elseif ($_GET['pp_submitted'] === 'volunteer'): ?>
                         <p class="pp-success-toast__title">thanks for volunteering</p>
                         <p class="pp-success-toast__text">we'll reach out with next steps closer to the event.</p>
+                    <?php elseif ($_GET['pp_submitted'] === 'notify'): ?>
+                        <p class="pp-success-toast__title">you're on the list</p>
+                        <p class="pp-success-toast__text">we'll email you when tickets go on sale.</p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -133,7 +136,12 @@ get_header();
                         </div>
                         <div class="pp-cast-card__footer">
                             <p class="pp-cast-card__status">Tickets not yet on sale.</p>
-                            <button class="pp-notify-btn">notify me</button>
+                            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="pp-notify-form">
+                                <?php wp_nonce_field('pp_notify_submit', 'pp_notify_nonce'); ?>
+                                <input type="hidden" name="action" value="pp_notify_submit">
+                                <input type="email" name="notify_email" class="pp-notify-input" placeholder="your email" required <?php echo is_user_logged_in() ? 'value="' . esc_attr(wp_get_current_user()->user_email) . '"' : ''; ?>>
+                                <button type="submit" class="pp-notify-btn">notify me</button>
+                            </form>
                         </div>
                     </div>
 

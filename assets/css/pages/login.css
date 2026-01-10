@@ -613,3 +613,26 @@ body.login .login-action-login .login::after {
     width: auto !important;
   }
 }
+
+/* ============================================================================
+   LOGIN LABEL — Change "Username or Email Address" to "Email"
+   Users log in with email only, username is auto-generated
+   ============================================================================ */
+
+body.login label[for="user_login"] {
+  font-size: 0 !important;  /* Hide original text */
+  visibility: hidden !important;
+}
+
+body.login label[for="user_login"]::after {
+  content: "EMAIL" !important;
+  font-size: 12px !important;
+  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #909090 !important;
+  visibility: visible !important;
+  display: block !important;
+  margin-bottom: 8px !important;
+}

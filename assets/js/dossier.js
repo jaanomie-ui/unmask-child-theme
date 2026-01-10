@@ -82,11 +82,11 @@
                     }
                 });
             } else {
-                alert('Failed to expire ISO: ' + (response.data.message || 'Unknown error'));
+                unmaskToast('Failed to expire ISO: ' + (response.data.message || 'Unknown error'), 'error');
                 $btn.prop('disabled', false).text('expire');
             }
         }).fail(function() {
-            alert('Request failed. Please try again.');
+            unmaskToast('Request failed. Please try again.', 'error');
             $btn.prop('disabled', false).text('expire');
         });
     });

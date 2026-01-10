@@ -61,16 +61,16 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   STATUS TOGGLE
+   MODE SELECTOR (Toggle Tabs)
 ═══════════════════════════════════════════════════════════════ */
 
-.status-toggle {
+.submit-mode-selector {
     display: flex;
     gap: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
-.status-btn {
+.submit-mode-tab {
     flex: 1;
     background: transparent;
     border: 1px solid var(--border-default);
@@ -83,23 +83,54 @@
     transition: all 0.15s ease;
 }
 
-.status-btn:hover {
+.submit-mode-tab:hover {
     border-color: var(--border-hover);
     color: var(--text-secondary);
 }
 
-/* Create something = red */
-.status-btn[data-status="create"].active {
+/* Create mode = red */
+.submit-mode-tab[data-status="create"].active {
     border-color: var(--primitive-red);
     color: var(--text-primary);
     background: rgba(138, 50, 51, 0.1);
 }
 
-/* Submit something = blue */
-.status-btn[data-status="submit"].active {
+/* Submit mode = blue */
+.submit-mode-tab[data-status="submit"].active {
     border-color: var(--primitive-blue);
     color: var(--text-primary);
     background: rgba(44, 61, 104, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MODE DESCRIPTION
+═══════════════════════════════════════════════════════════════ */
+
+.submit-mode-description {
+    margin-bottom: 24px;
+}
+
+.submit-mode-description__text {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border-left: 2px solid var(--border-default);
+}
+
+.submit-mode-description__text strong {
+    color: var(--text-primary);
+}
+
+.submit-mode-description__text[data-mode="create"]:not([hidden]) {
+    border-left-color: var(--primitive-red);
+}
+
+.submit-mode-description__text[data-mode="submit"]:not([hidden]) {
+    border-left-color: var(--primitive-blue);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -250,11 +281,11 @@
         font-size: 28px;
     }
 
-    .status-toggle {
+    .submit-mode-selector {
         flex-direction: column;
     }
 
-    .status-btn {
+    .submit-mode-tab {
         text-align: center;
     }
 }

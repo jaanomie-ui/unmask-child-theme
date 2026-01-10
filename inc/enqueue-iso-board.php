@@ -119,9 +119,11 @@ function unmask_ajax_iso_filter() {
                 get_template_part('template-parts/components/iso-factory-promo-card');
             }
 
-            get_template_part('template-parts/components/iso-listing-card', null, [
-                'post_id' => get_the_ID(),
-                'is_blurred' => $show_blur
+            get_template_part('template-parts/components/iso-card-unified', null, [
+                'post_id'    => get_the_ID(),
+                'context'    => 'grid',
+                'is_blurred' => $show_blur,
+                'clickable'  => true,
             ]);
             $card_index++;
         }

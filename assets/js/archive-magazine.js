@@ -13,17 +13,8 @@
 (function() {
     'use strict';
 
-    // Debug logging
-    console.log('[Archive] Script loaded');
-    console.log('[Archive] unmaskArchive available:', typeof unmaskArchive !== 'undefined');
-    if (typeof unmaskArchive !== 'undefined') {
-        console.log('[Archive] AJAX URL:', unmaskArchive.ajaxUrl);
-        console.log('[Archive] Nonce:', unmaskArchive.nonce ? 'present' : 'missing');
-    }
-
     // Check for required global
     if (typeof unmaskArchive === 'undefined') {
-        console.error('[Archive] CRITICAL: unmaskArchive not defined! AJAX will not work.');
         // Create fallback to prevent script errors
         window.unmaskArchive = {
             ajaxUrl: '/wp-admin/admin-ajax.php',
@@ -48,12 +39,6 @@
     const tagFilters = document.querySelectorAll('[data-filter="tags"] .archive-tag-btn');
     const archiveGrid = document.getElementById('archive-grid');
     const filterBar = document.querySelector('.archive-filter-bar');
-
-    // Debug DOM elements
-    console.log('[Archive] Type filters found:', typeFilters.length);
-    console.log('[Archive] Tag filters found:', tagFilters.length);
-    console.log('[Archive] Archive grid found:', !!archiveGrid);
-    console.log('[Archive] Filter bar found:', !!filterBar);
 
     // =============================================================================
     // FILTER FUNCTIONALITY (AJAX)
@@ -117,17 +102,12 @@
 
     // Fetch filtered records via AJAX
     async function fetchFilteredRecords() {
-        console.log('[Archive] fetchFilteredRecords called');
-        if (isLoading) {
-            console.log('[Archive] Already loading, skipping');
-            return;
-        }
+        if (isLoading) return;
         isLoading = true;
 
         // Add loading state
         if (archiveGrid) {
             archiveGrid.classList.add('loading');
-            console.log('[Archive] Added loading class to grid');
         }
 
         try {
@@ -140,29 +120,10 @@
             });
 
             const url = unmaskArchive.ajaxUrl + '?' + params.toString();
-            console.log('[Archive] Fetching:', url);
-
             const response = await fetch(url);
-            console.log('[Archive] Response status:', response.status);
-            console.log('[Archive] Response headers:', response.headers.get('content-type'));
-
-            // Get raw text first to debug
-            const rawText = await response.text();
-            console.log('[Archive] Raw response (first 500 chars):', rawText.substring(0, 500));
-
-            // Try to parse as JSON
-            let data;
-            try {
-                data = JSON.parse(rawText);
-            } catch (parseError) {
-                console.error('[Archive] JSON parse error:', parseError);
-                console.error('[Archive] Full raw response:', rawText);
-                throw parseError;
-            }
-            console.log('[Archive] Response data:', data);
+            const data = await response.json();
 
             if (data.success && archiveGrid) {
-                console.log('[Archive] Updating grid with', data.data.found, 'records');
                 // Update grid content
                 archiveGrid.innerHTML = data.data.html;
 
@@ -185,7 +146,7 @@
                 archiveGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         } catch (error) {
-            console.error('Failed to fetch records:', error);
+            // Silent fail - grid stays in current state
         } finally {
             isLoading = false;
             if (archiveGrid) {
@@ -196,8 +157,6 @@
 
     // Apply filters
     function applyFilters() {
-        console.log('[Archive] applyFilters called');
-        console.log('[Archive] Current state - type:', currentType, 'tags:', currentTags);
         currentPage = 1; // Reset to first page
         updateURL();
         updateFilterButtonStates();
@@ -205,26 +164,19 @@
     }
 
     // Type filter click
-    console.log('[Archive] Attaching type filter listeners...');
-    typeFilters.forEach((btn, index) => {
-        console.log('[Archive] Attaching listener to type button:', btn.dataset.value);
+    typeFilters.forEach((btn) => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('[Archive] Type filter clicked:', this.dataset.value);
             currentType = this.dataset.value;
             applyFilters();
         });
     });
-    console.log('[Archive] Type filter listeners attached:', typeFilters.length);
 
     // Tag filter click (multi-select)
-    console.log('[Archive] Attaching tag filter listeners...');
-    tagFilters.forEach((btn, index) => {
-        console.log('[Archive] Attaching listener to tag button:', btn.dataset.value);
+    tagFilters.forEach((btn) => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             const tag = this.dataset.value;
-            console.log('[Archive] Tag filter clicked:', tag);
 
             if (currentTags.includes(tag)) {
                 currentTags = currentTags.filter(t => t !== tag);
@@ -235,7 +187,6 @@
             applyFilters();
         });
     });
-    console.log('[Archive] Tag filter listeners attached:', tagFilters.length);
 
     // Update/create reset button
     function updateResetButton() {
@@ -292,16 +243,62 @@
 
     // Pagination handlers
     function initPaginationHandlers() {
-        const paginationLinks = document.querySelectorAll('.archive-pagination a');
-        paginationLinks.forEach(link => {
+        var paginationLinks = document.querySelectorAll('.archive-pagination a');
+        paginationLinks.forEach(function(link) {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const url = new URL(this.href);
+                var url = new URL(this.href);
                 currentPage = parseInt(url.searchParams.get('paged')) || 1;
                 updateURL();
                 fetchFilteredRecords();
             });
         });
+
+        // Load More button handler
+        var loadMoreBtn = document.getElementById('load-more-btn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                var btn = this;
+                var currentPageNum = parseInt(btn.dataset.page) || 1;
+                var maxPages = parseInt(btn.dataset.max) || 1;
+
+                if (currentPageNum >= maxPages) return;
+
+                btn.classList.add('loading');
+                btn.textContent = '[loading...]';
+
+                currentPage = currentPageNum + 1;
+                updateURL();
+                fetchFilteredRecords().then(function() {
+                    // Update button state after fetch
+                    btn.dataset.page = currentPage;
+                    btn.classList.remove('loading');
+                    btn.textContent = '[load more]';
+
+                    if (currentPage >= maxPages) {
+                        btn.style.display = 'none';
+                    }
+
+                    // Update count display
+                    updateLoadCount();
+                });
+            });
+        }
+    }
+
+    // Update the "showing X of Y" count
+    function updateLoadCount() {
+        var countEl = document.querySelector('.archive-load-count');
+        if (!countEl) return;
+
+        var grid = document.getElementById('archive-grid');
+        var cards = grid ? grid.querySelectorAll('.card--record').length : 0;
+
+        // The count element structure: "showing <strong>X</strong> of <strong>Y</strong> records"
+        var strongs = countEl.querySelectorAll('strong');
+        if (strongs.length >= 1) {
+            strongs[0].textContent = cards;
+        }
     }
 
     // =============================================================================
@@ -319,40 +316,19 @@
 
     // Fetch all records for shuffle
     async function fetchShuffleRecords() {
-        console.log('[Archive] fetchShuffleRecords called, already loaded:', shuffleLoaded);
         if (shuffleLoaded) return;
 
         try {
             const url = unmaskArchive.ajaxUrl + '?action=get_shuffle_records&nonce=' + unmaskArchive.nonce;
-            console.log('[Archive] Fetching shuffle records from:', url);
             const response = await fetch(url);
-            console.log('[Archive] Shuffle response status:', response.status);
-            console.log('[Archive] Shuffle response headers:', response.headers.get('content-type'));
-
-            // Get raw text first to debug
-            const rawText = await response.text();
-            console.log('[Archive] Shuffle raw response (first 500 chars):', rawText.substring(0, 500));
-
-            // Try to parse as JSON
-            let data;
-            try {
-                data = JSON.parse(rawText);
-            } catch (parseError) {
-                console.error('[Archive] Shuffle JSON parse error:', parseError);
-                console.error('[Archive] Shuffle full raw response:', rawText);
-                throw parseError;
-            }
-            console.log('[Archive] Shuffle response data:', data);
+            const data = await response.json();
 
             if (data.success) {
                 allRecords = data.data;
                 shuffleLoaded = true;
-                console.log('[Archive] Loaded', allRecords.length, 'records for shuffle');
-            } else {
-                console.error('[Archive] Shuffle fetch failed:', data);
             }
         } catch (error) {
-            console.error('[Archive] Failed to fetch shuffle records:', error);
+            // Silent fail
         }
     }
 
@@ -386,23 +362,17 @@
 
     // Open modal
     async function openShuffleModal() {
-        console.log('[Archive] openShuffleModal called');
         // Fetch records if not loaded
         if (!shuffleLoaded) {
-            console.log('[Archive] Records not loaded, fetching...');
             await fetchShuffleRecords();
         }
 
         const record = getRandomRecord();
-        console.log('[Archive] Random record:', record);
 
         if (record && shuffleModal) {
             displayShuffleRecord(record);
             shuffleModal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            console.log('[Archive] Modal opened');
-        } else {
-            console.error('[Archive] Cannot open modal - record:', !!record, 'modal:', !!shuffleModal);
         }
     }
 
@@ -415,16 +385,11 @@
     }
 
     // Event listeners
-    console.log('[Archive] Shuffle button found:', !!shuffleBtn);
-    console.log('[Archive] Shuffle modal found:', !!shuffleModal);
-
     if (shuffleBtn) {
         shuffleBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('[Archive] Shuffle button clicked');
             openShuffleModal();
         });
-        console.log('[Archive] Shuffle button listener attached');
     }
 
     if (shuffleClose) {
@@ -683,8 +648,7 @@
 
             isLoading = true;
             const response = await fetch(unmaskArchive.ajaxUrl + '?' + params.toString());
-            const rawText = await response.text();
-            const data = JSON.parse(rawText);
+            const data = await response.json();
 
             // Remove loader
             const existingLoader = document.getElementById('infinite-loader');
@@ -731,7 +695,6 @@
             }
 
         } catch (error) {
-            console.error('[Archive] Infinite scroll error:', error);
             const existingLoader = document.getElementById('infinite-loader');
             if (existingLoader) existingLoader.remove();
         } finally {

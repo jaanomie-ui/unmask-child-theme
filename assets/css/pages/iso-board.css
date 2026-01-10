@@ -239,6 +239,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+  align-items: start !important; /* Force all cards to top-align, not stretch to row height */
 }
 
 @media (min-width: 540px) {
@@ -252,6 +253,24 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
+}
+
+/* Enforce uniform card heights - prevent content from expanding cards */
+.iso-grid > .iso-card,
+.iso-grid > .iso-card:first-child,
+.iso-grid > .iso-card:nth-child(1),
+.iso-grid > .iso-listing-card,
+.iso-grid > .iso-listing-card:first-child,
+.iso-grid > article,
+.iso-grid > article:first-child {
+  height: 360px !important;
+  min-height: 360px !important;
+  max-height: 360px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  margin-top: 0 !important;
+  align-self: start !important;
+  box-sizing: border-box !important;
 }
 
 /* ============================================================================
@@ -1347,6 +1366,56 @@
   text-align: center;
   padding: 48px 16px;
   grid-column: 1 / -1;
+}
+
+/* Enhanced Empty State with Reset Action */
+.iso-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.iso-empty-state__icon {
+  opacity: 0.4;
+  margin-bottom: 16px;
+}
+
+.iso-empty-state__title {
+  font-family: var(--font-ui);
+  font-size: var(--type-base);
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.iso-empty-state__hint {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.iso-empty-state__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.iso-reset-filters {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  color: var(--primitive-red);
+  background: transparent;
+  border: 1px solid var(--primitive-red);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.iso-reset-filters:hover {
+  background: var(--primitive-red);
+  color: var(--text-primary);
 }
 
 /* ============================================================================

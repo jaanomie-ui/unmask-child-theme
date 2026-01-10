@@ -1,0 +1,374 @@
+/* ============================================================================
+   NEWSLETTER CARD COMPONENT
+   Uses UNMASK design system tokens from 00-design-system.css
+   Terminal/brutalist aesthetic - left-aligned, inline form on desktop
+   ============================================================================ */
+
+/* ============================================================================
+   BASE CARD
+   ============================================================================ */
+
+.newsletter-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-tight);
+    padding: var(--gap-element);
+    background: var(--bg-card);
+    border: 1px dashed var(--border-default);
+    transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.newsletter-card:focus-within {
+    border-style: solid;
+    border-color: var(--border-focus);
+}
+
+/* ============================================================================
+   CONTENT AREA - LEFT ALIGNED
+   ============================================================================ */
+
+.newsletter-card__content {
+    text-align: left;
+}
+
+.newsletter-card__headline {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    font-weight: 400;
+    text-transform: lowercase;
+    color: var(--text-primary);
+    margin: 0 0 var(--gap-micro) 0;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+}
+
+.newsletter-card__subhead {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+    margin: 0;
+    line-height: var(--leading-normal);
+}
+
+/* ============================================================================
+   FORM - INLINE ON DESKTOP
+   ============================================================================ */
+
+.newsletter-card__form {
+    display: flex;
+    flex-direction: row;
+    gap: var(--gap-tight);
+    align-items: stretch;
+}
+
+/* Input following .input class pattern from design system */
+.newsletter-card__input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border: 1px solid var(--border-default);
+    transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.newsletter-card__input:hover {
+    border-color: var(--border-hover);
+}
+
+.newsletter-card__input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+}
+
+.newsletter-card__input::placeholder {
+    color: var(--text-muted);
+    text-transform: lowercase;
+}
+
+/* Button following .btn-secondary pattern with bracket notation */
+.newsletter-card__submit {
+    padding: 10px 16px;
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    text-transform: lowercase;
+    white-space: nowrap;
+    color: var(--btn-secondary-text);
+    background: var(--btn-secondary-bg);
+    border: 1px solid var(--btn-secondary-border);
+    cursor: pointer;
+    transition:
+        background-color var(--duration-fast) var(--ease-out),
+        color var(--duration-fast) var(--ease-out);
+}
+
+.newsletter-card__submit:hover {
+    background: var(--btn-secondary-bg-hover);
+    color: var(--btn-secondary-text-hover);
+}
+
+.newsletter-card__submit:active {
+    opacity: 0.9;
+}
+
+/* ============================================================================
+   SUCCESS STATE
+   ============================================================================ */
+
+.newsletter-card__success {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-tight);
+    padding: var(--gap-tight) 0;
+}
+
+.newsletter-card__success-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: var(--type-sm);
+    color: var(--text-success);
+}
+
+.newsletter-card__success-text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-primary);
+    text-transform: lowercase;
+}
+
+/* ============================================================================
+   ERROR STATE
+   ============================================================================ */
+
+.newsletter-card__error {
+    padding: var(--gap-tight);
+    margin-bottom: var(--gap-tight);
+    background: var(--bg-error);
+    border: 1px solid var(--border-error);
+}
+
+.newsletter-card__error-text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-error);
+    text-transform: lowercase;
+}
+
+/* ============================================================================
+   VARIANT: COMPACT
+   ============================================================================ */
+
+.newsletter-card.card--compact {
+    padding: var(--gap-tight);
+    gap: var(--gap-micro);
+}
+
+.newsletter-card.card--compact .newsletter-card__headline {
+    font-size: var(--type-sm);
+}
+
+.newsletter-card.card--compact .newsletter-card__subhead {
+    font-size: var(--type-xs);
+}
+
+.newsletter-card.card--compact .newsletter-card__input,
+.newsletter-card.card--compact .newsletter-card__submit {
+    padding: 8px 12px;
+    font-size: var(--type-sm);
+}
+
+/* ============================================================================
+   VARIANT: MINIMAL
+   ============================================================================ */
+
+.newsletter-card.card--minimal {
+    padding: var(--gap-tight);
+    gap: var(--gap-micro);
+    border-style: solid;
+    border-color: var(--border-subtle);
+}
+
+.newsletter-card.card--minimal .newsletter-card__headline {
+    font-size: var(--type-sm);
+    margin-bottom: 0;
+}
+
+.newsletter-card.card--minimal .newsletter-card__input,
+.newsletter-card.card--minimal .newsletter-card__submit {
+    padding: 6px 10px;
+    font-size: var(--type-xs);
+}
+
+/* ============================================================================
+   MODIFIER: STRANGER (logged-out users)
+   ============================================================================ */
+
+.newsletter-card.card--stranger {
+    background: var(--bg-elevated);
+    border-width: 2px;
+}
+
+/* ============================================================================
+   CONTEXT MODIFIERS
+   ============================================================================ */
+
+/* Homepage - fits in grid cell */
+.newsletter-card--homepage {
+    height: 100%;
+    justify-content: center;
+}
+
+/* Archive - fits in grid */
+.newsletter-card--archive {
+    height: 100%;
+}
+
+/* Footer - no box, just form elements as typography */
+.newsletter-card--footer {
+    background: transparent;
+    border: none;
+    padding: 0;
+    gap: 0;
+}
+
+.newsletter-card--footer.card--stranger {
+    background: transparent;
+    border: none;
+}
+
+.newsletter-card--footer .newsletter-card__content {
+    display: none;
+}
+
+.newsletter-card--footer .newsletter-card__form {
+    max-width: 320px;
+    gap: var(--gap-micro);
+}
+
+.newsletter-card--footer .newsletter-card__input,
+.newsletter-card--footer .newsletter-card__submit {
+    padding: 6px 10px;
+    font-size: var(--type-xs);
+}
+
+/* ============================================================================
+   RESPONSIVE - STACKED ON MOBILE
+   ============================================================================ */
+
+@media (max-width: 480px) {
+    .newsletter-card__form {
+        flex-direction: column;
+    }
+
+    .newsletter-card__submit {
+        width: 100%;
+    }
+
+    .unmask-site-footer__newsletter .newsletter-card__form {
+        flex-direction: row;
+        max-width: none;
+    }
+}
+
+/* ============================================================================
+   INTEGRATED SITE FOOTER - Single horizontal line
+   ============================================================================ */
+
+.unmask-site-footer {
+    background: var(--bg-page);
+    border-top: 1px solid var(--border-default);
+    padding: var(--gap-tight) var(--gap-element);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-tight);
+}
+
+/* Newsletter group - inline label + form */
+.unmask-site-footer__newsletter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-element);
+}
+
+.unmask-site-footer__newsletter::before {
+    content: 'NEWSLETTER';
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+}
+
+.unmask-site-footer__newsletter .newsletter-card {
+    display: contents;
+}
+
+.unmask-site-footer__newsletter .newsletter-card__form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-micro);
+}
+
+/* Meta group - pushed to right */
+.unmask-site-footer__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: lowercase;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.unmask-site-footer__copyright {
+    color: var(--text-muted);
+}
+
+.unmask-site-footer__separator {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.unmask-site-footer__link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.unmask-site-footer__link:hover {
+    color: var(--text-primary);
+}
+
+/* Mobile: two rows */
+@media (max-width: 700px) {
+    .unmask-site-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--gap-tight);
+        gap: var(--gap-tight);
+    }
+
+    .unmask-site-footer__newsletter {
+        width: 100%;
+    }
+
+    .unmask-site-footer__newsletter .newsletter-card__form {
+        flex: 1;
+    }
+
+    .unmask-site-footer__meta {
+        margin-left: 0;
+        flex-wrap: wrap;
+    }
+}

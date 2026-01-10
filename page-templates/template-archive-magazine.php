@@ -217,6 +217,19 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
                         </article>
                     <?php
                     endif;
+
+                    // Insert newsletter card after 8th item for non-logged-in users
+                    if ($counter === 8 && !is_user_logged_in()) :
+                    ?>
+                        <article class="archive-newsletter-card">
+                            <?php get_template_part('template-parts/components/newsletter-card', null, [
+                                'context'  => 'archive',
+                                'variant'  => 'compact',
+                                'tags'     => ['archive', 'records'],
+                            ]); ?>
+                        </article>
+                    <?php
+                    endif;
                 endwhile;
                 wp_reset_postdata();
             else :
@@ -228,6 +241,23 @@ $all_tags = get_tags(array('hide_empty' => true, 'number' => 10));
         </div>
 
         <!-- PAGINATION -->
+        <?php
+        $current_showing = min($paged * 12, $records_query->found_posts);
+        $has_more = $paged < $records_query->max_num_pages;
+        ?>
+        <div class="archive-load-controls">
+            <p class="archive-load-count">
+                showing <strong><?php echo esc_html($current_showing); ?></strong> of <strong><?php echo esc_html($records_query->found_posts); ?></strong> records
+            </p>
+            <?php if ($has_more) :
+                $next_page_url = get_pagenum_link($paged + 1);
+            ?>
+            <button type="button" class="archive-load-more" id="load-more-btn" data-page="<?php echo esc_attr($paged); ?>" data-max="<?php echo esc_attr($records_query->max_num_pages); ?>">
+                [load more]
+            </button>
+            <?php endif; ?>
+        </div>
+
         <?php if ($records_query->max_num_pages > 1) : ?>
         <nav class="archive-pagination">
             <?php

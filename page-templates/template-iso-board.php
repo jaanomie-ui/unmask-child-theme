@@ -120,7 +120,17 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
             <?php wp_reset_postdata(); ?>
         <?php else : ?>
             <?php get_template_part('template-parts/components/iso-factory-promo-card'); ?>
-            <div class="iso-empty"><?php echo esc_html($iso_empty_message); ?></div>
+            <div class="iso-empty-state">
+                <svg class="iso-empty-state__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <p class="iso-empty-state__title"><?php echo esc_html($iso_empty_message); ?></p>
+                <p class="iso-empty-state__hint">Try broadening your search or exploring all listings.</p>
+                <div class="iso-empty-state__actions">
+                    <button type="button" class="iso-reset-filters" onclick="unmaskIsoResetFilters()">[reset filters]</button>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -165,6 +175,54 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
     var isoCache = {};
 
     /**
+     * Generate empty state HTML with optional custom message
+     */
+    function getEmptyStateHtml(msg) {
+        var message = msg || emptyMessage;
+        return '<div class="iso-empty-state">' +
+            '<svg class="iso-empty-state__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
+            '<circle cx="11" cy="11" r="8"></circle>' +
+            '<path d="m21 21-4.35-4.35"></path>' +
+            '</svg>' +
+            '<p class="iso-empty-state__title">' + message + '</p>' +
+            '<p class="iso-empty-state__hint">Try broadening your search or exploring all listings.</p>' +
+            '<div class="iso-empty-state__actions">' +
+            '<button type="button" class="iso-reset-filters" onclick="unmaskIsoResetFilters()">[reset filters]</button>' +
+            '</div>' +
+            '</div>';
+    }
+
+    /**
+     * Reset all filters and reload
+     */
+    window.unmaskIsoResetFilters = function() {
+        filters.type = '';
+        filters.category = '';
+        filters.factory = 'yes'; // Reset to default (Factory ON)
+
+        // Update UI - remove active from all category buttons
+        document.querySelectorAll('[data-filter="category"]').forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+
+        // Reset type buttons - activate "all"
+        document.querySelectorAll('[data-filter="type"]').forEach(function(btn) {
+            btn.classList.remove('active');
+            if (btn.dataset.value === '') {
+                btn.classList.add('active');
+            }
+        });
+
+        // Keep factory active (default on)
+        var factoryBtn = document.querySelector('[data-filter="factory"]');
+        if (factoryBtn) {
+            factoryBtn.classList.add('active');
+        }
+
+        loadListings();
+    };
+
+    /**
      * Load listings via AJAX
      */
     function loadListings() {
@@ -183,7 +241,7 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
             })
             .then(function(data) {
                 if (data.success && data.data) {
-                    container.innerHTML = data.data.html || '<div class="iso-empty">' + emptyMessage + '</div>';
+                    container.innerHTML = data.data.html || getEmptyStateHtml();
                     document.getElementById('isoCount').textContent = data.data.count || 0;
 
                     // Cache ISO data
@@ -191,13 +249,12 @@ $promo_position = $iso_count > 2 ? rand(2, min($iso_count, 8)) : 1;
                         isoCache = data.data.cache;
                     }
                 } else {
-                    container.innerHTML = '<div class="iso-empty">' + emptyMessage + '</div>';
+                    container.innerHTML = getEmptyStateHtml();
                     document.getElementById('isoCount').textContent = '0';
                 }
             })
             .catch(function(err) {
-                console.error('ISO Board error:', err);
-                container.innerHTML = '<div class="iso-empty">Error loading listings.</div>';
+                container.innerHTML = getEmptyStateHtml('Error loading listings.');
             });
     }
 

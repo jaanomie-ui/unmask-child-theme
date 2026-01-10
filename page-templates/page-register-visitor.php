@@ -50,34 +50,6 @@ get_header('fullbleed');
             </div>
 
             <div class="registration-form">
-                <!-- Function Select (Custom - handled via JS/PHP) -->
-                <div class="form-group">
-                    <label class="form-label">select function(s)</label>
-                    <div class="function-grid">
-                        <label class="function-option">
-                            <input type="checkbox" name="unmask_function[]" value="subject">
-                            <span class="function-box">
-                                <span class="function-code">SUBJECT</span>
-                                <span class="function-desc">to be documented</span>
-                            </span>
-                        </label>
-                        <label class="function-option">
-                            <input type="checkbox" name="unmask_function[]" value="operator">
-                            <span class="function-box">
-                                <span class="function-code">OPERATOR</span>
-                                <span class="function-desc">to document others</span>
-                            </span>
-                        </label>
-                        <label class="function-option">
-                            <input type="checkbox" name="unmask_function[]" value="performer">
-                            <span class="function-box">
-                                <span class="function-code">PERFORMER</span>
-                                <span class="function-desc">to move</span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
-
                 <?php
                 /**
                  * MemberPress Registration Form
@@ -127,5 +99,173 @@ get_header('fullbleed');
     </main>
 
 </div>
+
+<script>
+(function() {
+    'use strict';
+
+    var form = document.querySelector('.mepr-signup-form');
+    if (!form) return;
+
+    // ==========================================================================
+    // HIDE FIELDS COLLECTED LATER (Scene Name, Pronouns)
+    // These are collected on the welcome/dossier page, not registration
+    // ==========================================================================
+
+    // Hide by checking input name, id, label text, and row classes
+    // NOTE: MemberPress uses mp_form_row (underscore) not mp-form-row (hyphen)
+    document.querySelectorAll('.mp_form_row, .form-group, .mepr-field, [class*="form-row"]').forEach(function(row) {
+        var shouldHide = false;
+        var reason = '';
+
+        // Check input name/id
+        var input = row.querySelector('input, select, textarea');
+        if (input) {
+            var name = (input.name || '').toLowerCase();
+            var id = (input.id || '').toLowerCase();
+            if (name.indexOf('scene') !== -1 || id.indexOf('scene') !== -1) {
+                shouldHide = true;
+                reason = 'scene in name/id';
+            }
+            if (name.indexOf('pronoun') !== -1 || id.indexOf('pronoun') !== -1) {
+                shouldHide = true;
+                reason = 'pronoun in name/id';
+            }
+        }
+
+        // Check label text
+        var label = row.querySelector('label');
+        if (label) {
+            var labelText = (label.textContent || '').toLowerCase();
+            if (labelText.indexOf('scene') !== -1) {
+                shouldHide = true;
+                reason = 'scene in label';
+            }
+            if (labelText.indexOf('pronoun') !== -1) {
+                shouldHide = true;
+                reason = 'pronoun in label';
+            }
+        }
+
+        // Check row class
+        var rowClass = (row.className || '').toLowerCase();
+        if (rowClass.indexOf('scene') !== -1 || rowClass.indexOf('pronoun') !== -1) {
+            shouldHide = true;
+            reason = 'class contains scene/pronoun';
+        }
+
+        if (shouldHide) {
+            row.style.display = 'none';
+            console.log('[UNMASK] Hiding field:', reason);
+        }
+    });
+
+    // ==========================================================================
+    // AUTO-GENERATE USERNAME FROM EMAIL
+    // Users never see username - they log in with email
+    // ==========================================================================
+
+    var emailInput = form.querySelector('input[name="user_email"], input[name="mepr_user[user_email]"], input#user_email');
+    var usernameInput = form.querySelector('input[name="user_login"], input#user_login');
+    var sceneNameInput = form.querySelector('input[name*="scene_name"]');
+    var firstNameInput = form.querySelector('input[name="mepr_user[first_name]"]');
+    var lastNameInput = form.querySelector('input[name="mepr_user[last_name]"]');
+
+    // Generate username from email prefix + short random suffix
+    function generateUsername(email) {
+        var suffix = Math.random().toString(36).substring(2, 6); // 4 chars
+        if (!email || email.indexOf('@') === -1) {
+            return 'user_' + suffix;
+        }
+        var prefix = email.split('@')[0];
+        // Clean: lowercase, only letters/numbers/underscores, limit to 15 chars
+        prefix = prefix.toLowerCase().replace(/[^a-z0-9_]/g, '').substring(0, 15);
+        if (!prefix) prefix = 'user';
+        return prefix + '_' + suffix;
+    }
+
+    // Fill username immediately on page load
+    if (usernameInput) {
+        usernameInput.value = generateUsername('');
+        console.log('[UNMASK] Username pre-filled:', usernameInput.value);
+    }
+
+    // Update username as user types email
+    if (emailInput && usernameInput) {
+        emailInput.addEventListener('input', function() {
+            usernameInput.value = generateUsername(emailInput.value);
+        });
+        emailInput.addEventListener('blur', function() {
+            usernameInput.value = generateUsername(emailInput.value);
+        });
+    }
+
+    // Auto-fill First/Last Name with placeholders (hidden fields)
+    if (firstNameInput && !firstNameInput.value) {
+        firstNameInput.value = 'Member';
+    }
+    if (lastNameInput && !lastNameInput.value) {
+        lastNameInput.value = 'UNMASK';
+    }
+
+    // Before form submit, ensure all hidden fields are filled
+    form.addEventListener('submit', function(e) {
+        // Ensure username is set
+        if (usernameInput && (!usernameInput.value || usernameInput.value.length < 3)) {
+            usernameInput.value = generateUsername(emailInput ? emailInput.value : '');
+        }
+
+        // Auto-fill Scene Name if empty
+        if (sceneNameInput && !sceneNameInput.value) {
+            sceneNameInput.value = 'Visitor';
+        }
+
+        // Ensure first/last name are filled
+        if (firstNameInput && !firstNameInput.value) {
+            firstNameInput.value = 'Member';
+        }
+        if (lastNameInput && !lastNameInput.value) {
+            lastNameInput.value = 'UNMASK';
+        }
+    });
+
+    // ==========================================================================
+    // HIDE ERROR MESSAGES UNTIL INTERACTION
+    // ==========================================================================
+
+    var errors = document.querySelectorAll('.cc-error, .mepr-form-has-errors');
+
+    if (errors.length) {
+        form.classList.add('unmask-form-pristine');
+
+        // Hide all errors initially
+        errors.forEach(function(el) {
+            el.style.display = 'none';
+        });
+
+        // On form submit, show errors
+        form.addEventListener('submit', function() {
+            form.classList.remove('unmask-form-pristine');
+            errors.forEach(function(el) {
+                el.style.display = '';
+            });
+        });
+
+        // Show errors on field blur
+        form.querySelectorAll('input, select, textarea').forEach(function(input) {
+            input.addEventListener('blur', function() {
+                if (!form.classList.contains('unmask-form-pristine')) return;
+                var row = input.closest('.mp-form-row');
+                if (row) {
+                    var error = row.querySelector('.cc-error');
+                    if (error && input.value === '' && input.hasAttribute('required')) {
+                        error.style.display = 'block';
+                    }
+                }
+            });
+        });
+    }
+})();
+</script>
 
 <?php get_footer('fullbleed'); ?>

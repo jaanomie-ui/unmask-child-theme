@@ -91,6 +91,21 @@ function unmask_enqueue_styles() {
         $theme_version
     );
 
+    // Toast notification component (global - used for error/success messages)
+    wp_enqueue_style(
+        'unmask-toast',
+        $css_dir . 'components/toast.css',
+        array('unmask-00-design-system'),
+        $theme_version
+    );
+    wp_enqueue_script(
+        'unmask-toast',
+        get_stylesheet_directory_uri() . '/assets/js/unmask-toast.js',
+        array(),
+        $theme_version,
+        true
+    );
+
     // Homepage styles - only on homepage template
     if (is_page_template('page-templates/template-homepage.php')) {
         wp_enqueue_style(
@@ -185,6 +200,13 @@ require_once get_stylesheet_directory() . '/inc/performance-optimizations.php';
 // Pink Panthers Submissions (CPT + form handlers)
 require_once get_stylesheet_directory() . '/inc/pink-panthers-submissions.php';
 
+// Newsletter System (card component + form handler)
+require_once get_stylesheet_directory() . '/inc/newsletter-handler.php';
+require_once get_stylesheet_directory() . '/inc/enqueue-newsletter.php';
+
+// Onboarding System (4-screen flow, profile completion, hooks)
+require_once get_stylesheet_directory() . '/inc/enqueue-onboarding.php';
+
 /* ==========================================================================
    REGISTRATION PAGE STYLES
    ========================================================================== */
@@ -193,19 +215,26 @@ require_once get_stylesheet_directory() . '/inc/pink-panthers-submissions.php';
  * Helper function to check if current page uses registration/welcome templates
  */
 function unmask_is_registration_page() {
-    // Multiple detection methods for reliability
+    // All onboarding/registration templates
+    $onboarding_templates = array(
+        'page-templates/page-register-visitor.php',
+        'page-templates/page-welcome.php',
+        'page-templates/page-welcome-orientation.php',
+        'page-templates/page-welcome-start.php',
+        'page-templates/page-welcome-complete.php',
+    );
 
     // Method 1: Check page template slug
     $template_slug = get_page_template_slug();
-    if ($template_slug === 'page-templates/page-register-visitor.php' ||
-        $template_slug === 'page-templates/page-welcome.php') {
+    if (in_array($template_slug, $onboarding_templates, true)) {
         return true;
     }
 
     // Method 2: Check is_page_template (backup)
-    if (is_page_template('page-templates/page-register-visitor.php') ||
-        is_page_template('page-templates/page-welcome.php')) {
-        return true;
+    foreach ($onboarding_templates as $template) {
+        if (is_page_template($template)) {
+            return true;
+        }
     }
 
     // Method 3: Check body class (most reliable at body_class filter time)
@@ -213,8 +242,7 @@ function unmask_is_registration_page() {
     global $post;
     if ($post && is_page()) {
         $stored_template = get_post_meta($post->ID, '_wp_page_template', true);
-        if ($stored_template === 'page-templates/page-register-visitor.php' ||
-            $stored_template === 'page-templates/page-welcome.php') {
+        if (in_array($stored_template, $onboarding_templates, true)) {
             return true;
         }
     }
@@ -327,7 +355,7 @@ function unmask_registration_styles() {
         'unmask-registration',
         get_stylesheet_directory_uri() . '/assets/css/unmask-registration.css',
         $deps,
-        wp_get_theme()->get('Version')
+        filemtime(get_stylesheet_directory() . '/assets/css/unmask-registration.css')
     );
 }
 
@@ -437,6 +465,17 @@ function unmask_add_signup_fields($membership) {
             <option value="ask" <?php selected($_POST['unmask_pronouns'] ?? '', 'ask'); ?>>ask me</option>
         </select>
     </div>
+
+    <div class="form-group mp_form_row unmask-newsletter-opt-in">
+        <label class="unmask-checkbox-label">
+            <input type="checkbox"
+                   name="newsletter_opt_in"
+                   value="1"
+                   class="unmask-checkbox"
+                   <?php checked(!empty($_POST['newsletter_opt_in']) || !isset($_POST['newsletter_opt_in'])); ?>>
+            <span class="unmask-checkbox-text">send me the weekly UNMASK newsletter</span>
+        </label>
+    </div>
     <?php
 }
 
@@ -482,39 +521,155 @@ function unmask_save_signup_fields($txn) {
         $pronouns = sanitize_text_field($_POST['unmask_pronouns']);
         update_user_meta($user_id, 'unmask_pronouns', $pronouns);
     }
+
+    // Handle newsletter opt-in
+    if (!empty($_POST['newsletter_opt_in'])) {
+        update_user_meta($user_id, 'newsletter_opt_in', '1');
+
+        // Add to Mailchimp via MC4WP if available
+        $user = get_userdata($user_id);
+        if ($user && function_exists('mc4wp_get_api_v3')) {
+            try {
+                $api = mc4wp_get_api_v3();
+                $lists = mc4wp_get_option('general', 'lists', array());
+                $list_id = !empty($lists) ? $lists[0] : '';
+
+                if ($list_id) {
+                    $merge_fields = array();
+                    if (!empty($user->first_name)) {
+                        $merge_fields['FNAME'] = $user->first_name;
+                    }
+                    if (!empty($scene_name)) {
+                        $merge_fields['FNAME'] = $scene_name;
+                    }
+
+                    $api->add_list_member($list_id, array(
+                        'email_address' => $user->user_email,
+                        'status' => 'subscribed',
+                        'merge_fields' => $merge_fields,
+                        'tags' => array('registration', 'member')
+                    ));
+                }
+            } catch (Exception $e) {
+                error_log('UNMASK Registration Newsletter Error: ' . $e->getMessage());
+            }
+        }
+    }
 }
 
 /* ==========================================================================
    MEMBERPRESS TO BUDDYBOSS SYNC
+
+   XProfile field names (from qvq_bp_xprofile_fields):
+   - id 1:  "Name" (textbox)
+   - id 2:  "Last Name" (textbox)
+   - id 3:  "Scene Name" (textbox)
+   - id 84: "ID" (number) - auto-generated designation
+   - id 85: "Pronouns" (textbox)
+
+   See: docs/session-log-onboarding-debug.md for full field list
    ========================================================================== */
 
 /**
- * Sync MemberPress custom fields to BuddyBoss xprofile on registration
- * Runs after mepr-signup with priority 20 to ensure fields are saved first
+ * Sync MemberPress registration data to BuddyBoss xprofile fields
+ * Runs after mepr-signup with priority 20 to ensure WP user data is saved first
  */
 add_action('mepr-signup', 'unmask_sync_to_buddyboss', 20);
 function unmask_sync_to_buddyboss($txn) {
     $user_id = $txn->user_id;
 
-    // Get saved meta values
-    $functions   = get_user_meta($user_id, 'unmask_function', true);
-    $scene_name  = get_user_meta($user_id, 'scene_name', true);
-    $pronouns    = get_user_meta($user_id, 'unmask_pronouns', true);
-
-    // Sync to BuddyBoss xprofile fields
-    // Note: Field names must match exactly what's configured in BuddyBoss
-    if (!empty($functions) && function_exists('xprofile_set_field_data')) {
-        // For multi-select, pass as array or comma-separated depending on field type
-        xprofile_set_field_data('Function', $user_id, $functions);
+    // Bail if xprofile functions not available
+    if (!function_exists('xprofile_set_field_data')) {
+        error_log('UNMASK Sync: xprofile_set_field_data not available for user ' . $user_id);
+        return;
     }
 
-    if (!empty($scene_name) && function_exists('xprofile_set_field_data')) {
+    // Get WordPress user data
+    $user = get_userdata($user_id);
+    if (!$user) {
+        error_log('UNMASK Sync: Could not get user data for user ' . $user_id);
+        return;
+    }
+
+    // Get custom meta values saved during registration
+    $scene_name = get_user_meta($user_id, 'scene_name', true);
+    $pronouns   = get_user_meta($user_id, 'unmask_pronouns', true);
+
+    // 1. Sync first name to xprofile "Name" (field id: 1)
+    if (!empty($user->first_name)) {
+        xprofile_set_field_data('Name', $user_id, $user->first_name);
+        error_log('UNMASK Sync: Set Name = ' . $user->first_name . ' for user ' . $user_id);
+    }
+
+    // 2. Sync last name to xprofile "Last Name" (field id: 2)
+    if (!empty($user->last_name)) {
+        xprofile_set_field_data('Last Name', $user_id, $user->last_name);
+        error_log('UNMASK Sync: Set Last Name = ' . $user->last_name . ' for user ' . $user_id);
+    }
+
+    // 3. Sync scene name to xprofile "Scene Name" (field id: 3)
+    if (!empty($scene_name)) {
         xprofile_set_field_data('Scene Name', $user_id, $scene_name);
+        error_log('UNMASK Sync: Set Scene Name = ' . $scene_name . ' for user ' . $user_id);
     }
 
-    if (!empty($pronouns) && function_exists('xprofile_set_field_data')) {
+    // 4. Sync pronouns to xprofile "Pronouns" (field id: 85)
+    if (!empty($pronouns)) {
         xprofile_set_field_data('Pronouns', $user_id, $pronouns);
+        error_log('UNMASK Sync: Set Pronouns = ' . $pronouns . ' for user ' . $user_id);
     }
+
+    // 5. Auto-generate and sync designation to xprofile "ID" (field id: 84)
+    // Format: just the number (e.g., "047") - the V-/D- prefix is added in display
+    $designation_num = str_pad($user_id, 3, '0', STR_PAD_LEFT);
+    xprofile_set_field_data('ID', $user_id, $designation_num);
+    // Also store in user_meta for unmask_get_designation() function
+    update_user_meta($user_id, 'unmask_designation_number', $designation_num);
+    error_log('UNMASK Sync: Set ID = ' . $designation_num . ' for user ' . $user_id);
+
+    error_log('UNMASK Sync: Completed sync for user ' . $user_id);
+}
+
+/**
+ * Make the "ID" xprofile field read-only
+ * Users should not be able to change their designation number
+ * Field ID 84 = "ID" (the designation number like 047)
+ */
+add_filter('bp_xprofile_is_field_edit_allowed', 'unmask_make_id_field_readonly', 10, 2);
+function unmask_make_id_field_readonly($allow, $field) {
+    // Field ID 84 is the "ID" field (designation number)
+    if (isset($field->id) && (int) $field->id === 84) {
+        return false;
+    }
+    return $allow;
+}
+
+/**
+ * Also add CSS to visually disable the ID field in case filter doesn't fully hide it
+ */
+add_action('bp_before_profile_edit_content', 'unmask_id_field_readonly_css');
+function unmask_id_field_readonly_css() {
+    ?>
+    <style>
+        /* Make ID field appear read-only */
+        #field_84,
+        .editfield.field_84 input,
+        .editfield.field_84 textarea {
+            pointer-events: none;
+            opacity: 0.6;
+            background: var(--bg-inset, #0a0a0a);
+            cursor: not-allowed;
+        }
+        .editfield.field_84::after {
+            content: "auto-assigned";
+            font-size: 10px;
+            color: var(--text-muted, #666);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: 8px;
+        }
+    </style>
+    <?php
 }
 
 /* ==========================================================================
@@ -631,6 +786,19 @@ function unmask_get_designation($user_id = null) {
     }
 
     return $prefix . '-' . $designation_num;
+}
+
+/**
+ * Alias for unmask_get_designation() for backwards compatibility
+ * Some templates reference unmask_get_user_designation()
+ *
+ * @param int $user_id User ID (defaults to displayed user)
+ * @return string Formatted designation
+ */
+if (!function_exists('unmask_get_user_designation')) {
+    function unmask_get_user_designation($user_id = null) {
+        return unmask_get_designation($user_id);
+    }
 }
 
 /**
@@ -1239,6 +1407,171 @@ function unmask_get_image_field($field_name, $fallback = '', $size = 'full', $po
     }
 
     return $fallback;
+}
+
+/* ==========================================================================
+   GUIDED PROFILE SETUP AJAX HANDLERS
+   ========================================================================== */
+
+/**
+ * AJAX handler: Save profile data from guided setup flow
+ * Saves Scene Name, Pronouns, Practice, and Availability to BuddyBoss xprofile
+ */
+add_action('wp_ajax_unmask_save_profile_setup', 'unmask_save_profile_setup_ajax');
+function unmask_save_profile_setup_ajax() {
+    // Verify nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'unmask_profile_setup')) {
+        wp_send_json_error('Invalid security token');
+        return;
+    }
+
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in');
+        return;
+    }
+
+    $user_id = get_current_user_id();
+
+    // Check if xprofile functions exist
+    if (!function_exists('xprofile_set_field_data')) {
+        wp_send_json_error('BuddyBoss not active');
+        return;
+    }
+
+    // Sanitize inputs
+    $scene_name = isset($_POST['scene_name']) ? sanitize_text_field($_POST['scene_name']) : '';
+    $pronouns = isset($_POST['pronouns']) ? sanitize_text_field($_POST['pronouns']) : '';
+    $practice = isset($_POST['practice']) ? json_decode(stripslashes($_POST['practice']), true) : array();
+    $available_photographed = isset($_POST['available_photographed']) && $_POST['available_photographed'] === '1';
+    $available_photograph = isset($_POST['available_photograph']) && $_POST['available_photograph'] === '1';
+    $open_bookings = isset($_POST['open_bookings']) && $_POST['open_bookings'] === '1';
+
+    // Save to xprofile fields
+    $errors = array();
+
+    // Scene Name (field 3) - required
+    if (!empty($scene_name)) {
+        $result = xprofile_set_field_data('Scene Name', $user_id, $scene_name);
+        if (!$result) {
+            $errors[] = 'Failed to save scene name';
+        }
+    } else {
+        wp_send_json_error('Scene name is required');
+        return;
+    }
+
+    // Pronouns (field 85) - optional
+    if (!empty($pronouns)) {
+        xprofile_set_field_data('Pronouns', $user_id, $pronouns);
+    }
+
+    // Practice (field 21) - multiselect, expects array or serialized
+    if (!empty($practice) && is_array($practice)) {
+        xprofile_set_field_data('What do you practice?', $user_id, $practice);
+    }
+
+    // Available to be photographed (field 104) - checkbox
+    xprofile_set_field_data('Available to be photographed', $user_id, $available_photographed ? 'Yes' : '');
+
+    // Available to photograph (field 108) - checkbox
+    xprofile_set_field_data('Available to photograph', $user_id, $available_photograph ? 'Yes' : '');
+
+    // Open to bookings (field 111) - checkbox
+    xprofile_set_field_data('Open to bookings', $user_id, $open_bookings ? 'Yes' : '');
+
+    // Mark onboarding as complete
+    update_user_meta($user_id, 'unmask_onboarding_complete', 1);
+    update_user_meta($user_id, 'unmask_onboarding_step', 'complete');
+
+    // Log for debugging
+    error_log('UNMASK Profile Setup: Saved for user ' . $user_id . ' - Scene Name: ' . $scene_name);
+
+    wp_send_json_success(array(
+        'message' => 'Profile saved successfully',
+        'redirect' => home_url('/'),
+    ));
+}
+
+/**
+ * AJAX handler: Mark onboarding as complete (for skip action)
+ */
+add_action('wp_ajax_unmask_complete_onboarding', 'unmask_complete_onboarding_ajax');
+function unmask_complete_onboarding_ajax() {
+    // Verify nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'unmask_profile_setup')) {
+        wp_send_json_error('Invalid security token');
+        return;
+    }
+
+    // Check if user is logged in
+    if (!is_user_logged_in()) {
+        wp_send_json_error('Not logged in');
+        return;
+    }
+
+    $user_id = get_current_user_id();
+    $skipped = isset($_POST['skipped']) && $_POST['skipped'] === '1';
+
+    // Mark onboarding as complete (or skipped)
+    update_user_meta($user_id, 'unmask_onboarding_complete', 1);
+    update_user_meta($user_id, 'unmask_onboarding_step', $skipped ? 'skipped' : 'complete');
+
+    error_log('UNMASK Onboarding: ' . ($skipped ? 'Skipped' : 'Completed') . ' for user ' . $user_id);
+
+    wp_send_json_success(array(
+        'message' => 'Onboarding ' . ($skipped ? 'skipped' : 'completed'),
+        'redirect' => home_url('/'),
+    ));
+}
+
+/**
+ * Get practice options for profile setup
+ * Returns array of options from the xprofile multiselectbox field
+ */
+function unmask_get_practice_options() {
+    $options = array();
+
+    if (!function_exists('xprofile_get_field')) {
+        // Fallback options if BuddyBoss not available
+        return array(
+            'Photography',
+            'Modeling',
+            'Styling',
+            'Makeup',
+            'Hair',
+            'Creative Direction',
+            'Set Design',
+            'Casting',
+            'Production',
+        );
+    }
+
+    // Get field 21 (What do you practice?)
+    $field = xprofile_get_field(21);
+    if ($field && !empty($field->type_obj) && method_exists($field->type_obj, 'get_children')) {
+        $children = $field->get_children();
+        foreach ($children as $child) {
+            $options[] = $child->name;
+        }
+    }
+
+    // Fallback if no options found
+    if (empty($options)) {
+        $options = array(
+            'Photography',
+            'Modeling',
+            'Styling',
+            'Makeup',
+            'Hair',
+            'Creative Direction',
+            'Set Design',
+            'Casting',
+            'Production',
+        );
+    }
+
+    return $options;
 }
 
 /* ==========================================================================

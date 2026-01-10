@@ -138,9 +138,18 @@ get_header();
                 <?php wp_nonce_field('unmask_submit_form', 'unmask_submit_nonce'); ?>
                 <input type="hidden" name="intent" id="intent-field" value="create">
 
-                <div class="status-toggle">
-                    <button type="button" class="status-btn active" data-status="create"><?php echo esc_html($submit_btn_create); ?></button>
-                    <button type="button" class="status-btn" data-status="submit"><?php echo esc_html($submit_btn_submit); ?></button>
+                <div class="submit-mode-selector" role="tablist" aria-label="Submission type">
+                    <button type="button" role="tab" class="submit-mode-tab active" data-status="create" aria-selected="true"><?php echo esc_html($submit_btn_create); ?></button>
+                    <button type="button" role="tab" class="submit-mode-tab" data-status="submit" aria-selected="false"><?php echo esc_html($submit_btn_submit); ?></button>
+                </div>
+
+                <div class="submit-mode-description" aria-live="polite">
+                    <p class="submit-mode-description__text" data-mode="create">
+                        <strong>Create</strong> — Start a new project from scratch. We'll help shape your idea into something publishable.
+                    </p>
+                    <p class="submit-mode-description__text" data-mode="submit" hidden>
+                        <strong>Submit</strong> — You already have finished work ready for publication. Send it our way.
+                    </p>
                 </div>
 
                 <div class="form-group">
@@ -179,21 +188,41 @@ get_header();
 
 <script>
 (function() {
-    const textarea = document.getElementById('description');
-    const intentField = document.getElementById('intent-field');
+    var textarea = document.getElementById('description');
+    var intentField = document.getElementById('intent-field');
 
     if (!textarea || !intentField) return;
 
-    const placeholders = {
+    var placeholders = {
         create: <?php echo json_encode($submit_placeholder_create); ?>,
         submit: <?php echo json_encode($submit_placeholder_submit); ?>
     };
 
-    document.querySelectorAll('.status-btn').forEach(btn => {
+    var tabs = document.querySelectorAll('.submit-mode-tab');
+    var descriptions = document.querySelectorAll('.submit-mode-description__text');
+
+    tabs.forEach(function(btn) {
         btn.addEventListener('click', function() {
-            document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+            var status = this.dataset.status;
+
+            // Update tab states
+            tabs.forEach(function(b) {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
             this.classList.add('active');
-            const status = this.dataset.status;
+            this.setAttribute('aria-selected', 'true');
+
+            // Update descriptions visibility
+            descriptions.forEach(function(desc) {
+                if (desc.dataset.mode === status) {
+                    desc.hidden = false;
+                } else {
+                    desc.hidden = true;
+                }
+            });
+
+            // Update form state
             textarea.placeholder = placeholders[status];
             intentField.value = status;
         });

@@ -339,8 +339,9 @@ body.unmask-registration-mode .welcome-page {
 }
 
 .registration-intro {
-    font-family: var(--font-body);
-    font-size: var(--type-base);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
     line-height: 1.6;
     color: var(--text-secondary);
 }
@@ -479,6 +480,43 @@ body.unmask-registration-mode .welcome-page {
 .function-option input:checked + .function-box .function-code,
 .function-option input:checked + .function-box .function-desc {
     color: var(--primitive-surface);
+}
+
+/* ============================================================================
+   NEWSLETTER OPT-IN CHECKBOX
+   ============================================================================ */
+
+.unmask-newsletter-opt-in {
+    margin-top: var(--gap-element);
+    padding-top: var(--gap-element);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.unmask-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-tight);
+    cursor: pointer;
+}
+
+.unmask-checkbox {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: var(--primitive-red);
+    cursor: pointer;
+}
+
+.unmask-checkbox-text {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.unmask-checkbox:checked + .unmask-checkbox-text {
+    color: var(--text-primary);
 }
 
 /* ============================================================================
@@ -660,8 +698,9 @@ body.unmask-registration-mode .welcome-page {
 }
 
 .welcome-label {
-    font-family: var(--font-body);
-    font-size: var(--type-base);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
     color: var(--text-secondary);
     margin-bottom: var(--gap-tight);
 }
@@ -750,8 +789,9 @@ body.unmask-registration-mode .welcome-page {
 }
 
 .onboarding-card .card-text {
-    font-family: var(--font-body);
-    font-size: var(--type-base);
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
     line-height: 1.5;
     color: var(--text-secondary);
 }
@@ -846,4 +886,222 @@ body.unmask-registration-mode .welcome-page {
         width: 100%;
         justify-content: center;
     }
+}
+
+/* ============================================================================
+   MEMBERPRESS VALIDATION FIXES
+   Hide premature validation messages until user interacts with form
+
+   MemberPress actual classes:
+   - .mp-form-row (hyphen, not underscore)
+   - .mp-form-label (contains label element)
+   - .cc-error (error messages, NOT .mepr_error)
+   - .mepr-form-has-errors (form-level error message)
+   ============================================================================ */
+
+/* -----------------------------------------------------------------------
+   Error messages are hidden via JavaScript on page load (see template).
+   This CSS styles them when they ARE shown (after form submit/validation).
+   We do NOT use display:none here - JS handles the initial hide.
+   ----------------------------------------------------------------------- */
+
+/* Style error messages when visible */
+.registration-form .cc-error,
+.registration-form .mepr-form-has-errors {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--primitive-red-light);
+    margin-top: 6px;
+    margin-bottom: 0;
+    display: block;
+}
+
+/* Hide the price row - it shows "Price: Free" which is unnecessary */
+.registration-form .mepr_price,
+.registration-form .mp-form-row.mepr_bold.mepr_price {
+    display: none;
+}
+
+/* ============================================================================
+   FORM ROW GROUPING (Gestalt Proximity)
+   Each row: Label → Input → Error (visually grouped together)
+   ============================================================================ */
+
+/* Each form row is a flex column to stack label/input/error */
+.registration-form .mp-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: var(--gap-element);
+    padding-bottom: var(--gap-tight);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Label container - sits above input */
+.registration-form .mp-form-row .mp-form-label {
+    order: 1;
+    margin-bottom: 8px;
+}
+
+.registration-form .mp-form-row .mp-form-label label {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+}
+
+/* Required asterisk styling */
+.registration-form .mp-form-row .mp-form-label .mepr-req {
+    color: var(--primitive-red);
+    margin-left: 2px;
+}
+
+/* Input field - sits below label */
+.registration-form .mp-form-row input.mepr-form-input,
+.registration-form .mp-form-row select.mepr-form-input,
+.registration-form .mp-form-row textarea.mepr-form-input {
+    order: 2;
+    width: 100%;
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    background: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    padding: 12px 16px;
+    transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.registration-form .mp-form-row input.mepr-form-input:focus,
+.registration-form .mp-form-row select.mepr-form-input:focus {
+    border-color: var(--primitive-red);
+    outline: none;
+}
+
+/* Error message - sits below input (only visible after submit) */
+.registration-form .mp-form-row .cc-error {
+    order: 3;
+}
+
+/* Form-level error at bottom */
+.registration-form .mepr-form-has-errors {
+    margin-top: var(--gap-element);
+    padding: var(--gap-tight);
+    background: rgba(138, 50, 51, 0.1);
+    border: 1px solid var(--primitive-red);
+}
+
+/* ============================================================================
+   JOIN BUTTON — User-Requested Styling
+   All caps, no background, red border only, Berkeley Mono, more spacing
+   ============================================================================ */
+
+.registration-form input[type="submit"],
+.registration-form button[type="submit"],
+.registration-form .mepr-submit,
+.registration-form .mepr-signup-button {
+    font-family: var(--font-ui);
+    font-size: var(--type-sm);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--primitive-red);
+    border: 1px solid var(--primitive-red);
+    border-radius: 0;
+    padding: 14px 32px;
+    margin-top: var(--gap-section);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.registration-form input[type="submit"]:hover,
+.registration-form button[type="submit"]:hover,
+.registration-form .mepr-submit:hover,
+.registration-form .mepr-signup-button:hover {
+    background: var(--primitive-red);
+    color: var(--primitive-surface);
+    border-color: var(--primitive-red);
+}
+
+/* "Please fix errors" message styling */
+.registration-form .mepr-form-has-errors-message,
+.registration-form .mp_validation_message {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    letter-spacing: 0.02em;
+    color: var(--primitive-red-light);
+    margin-top: var(--gap-tight);
+    margin-bottom: var(--gap-element);
+}
+
+/* ============================================================================
+   SIMPLIFIED REGISTRATION
+   Hide extra fields - keep only email + username + password for streamlined signup
+   Profile details are collected via guided flow on welcome page
+   ============================================================================ */
+
+/* Hide address-related fields */
+.registration-form .mp-form-row.mepr_address,
+.registration-form .mp-form-row.mepr_city,
+.registration-form .mp-form-row.mepr_state,
+.registration-form .mp-form-row.mepr_zip,
+.registration-form .mp-form-row.mepr_country,
+.registration-form .mepr-address-fields,
+.registration-form [class*="mepr_address"],
+.registration-form [class*="mepr_city"],
+.registration-form [class*="mepr_state"],
+.registration-form [class*="mepr_zip"],
+.registration-form [class*="mepr_country"] {
+    display: none;
+}
+
+/* Hide First Name and Last Name - not needed for anonymous community */
+/* Using direct class selectors for browser compatibility (no :has() needed) */
+.registration-form .mp-form-row.mepr_first_name,
+.registration-form .mp-form-row.mepr_last_name,
+.registration-form .mepr_first_name,
+.registration-form .mepr_last_name {
+    display: none !important;
+}
+
+/* Hide Username - auto-generated from email, users log in with email */
+.registration-form .mp-form-row.mepr_username,
+.registration-form .mepr_username {
+    display: none !important;
+}
+
+/* Hide Scene Name - collected later on welcome/dossier page */
+.registration-form .mp-form-row[class*="scene_name"],
+.registration-form .mp-form-row[class*="scene-name"],
+.registration-form [class*="scene_name"],
+.registration-form [class*="scene-name"],
+.registration-form .mp-form-row:has(input[name*="scene_name"]),
+.registration-form .mp-form-row:has(input[name*="scene-name"]) {
+    display: none !important;
+}
+
+/* Hide Pronouns - collected later on welcome/dossier page */
+.registration-form .mp-form-row[class*="pronouns"],
+.registration-form [class*="pronouns"],
+.registration-form .form-group[class*="pronouns"],
+.registration-form .mp-form-row:has(input[name*="pronouns"]) {
+    display: none !important;
+}
+
+/* Hide any custom fields MemberPress might add */
+.registration-form .mepr-custom-fields-wrapper,
+.registration-form .mp_form_custom_fields {
+    display: none !important;
+}
+
+/* Helper text styling for field hints */
+.registration-form .mp-form-hint {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: var(--space-1);
+    letter-spacing: 0.02em;
 }

@@ -1,0 +1,502 @@
+/* ============================================================================
+   UNMASK PROFILE SETUP SHEET
+
+   Guided profile setup flow for new users.
+   Uses bottom sheet pattern for mobile-first UX.
+
+   Sections:
+   1. Identity (Scene Name, Pronouns)
+   2. Practice (What do you practice?)
+   3. Status (Availability toggles)
+   ============================================================================ */
+
+/* ============================================================================
+   PROGRESS INDICATOR
+   ============================================================================ */
+
+.profile-setup__progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-micro);
+  padding: var(--gap-tight) 0;
+}
+
+.profile-setup__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-default);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.profile-setup__dot--active {
+  background: var(--primitive-green);
+  box-shadow: 0 0 8px var(--primitive-green-glow);
+}
+
+.profile-setup__dot--complete {
+  background: var(--primitive-green);
+}
+
+/* ============================================================================
+   SECTION HEADERS
+   ============================================================================ */
+
+.profile-setup__section-header {
+  text-align: center;
+  margin-bottom: var(--gap-element);
+}
+
+.profile-setup__section-number {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: var(--gap-micro);
+}
+
+.profile-setup__section-title {
+  font-family: var(--font-ui);
+  font-size: var(--type-base);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.profile-setup__section-hint {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: var(--gap-micro);
+}
+
+/* ============================================================================
+   FORM FIELDS
+   ============================================================================ */
+
+.profile-setup__field {
+  margin-bottom: var(--gap-element);
+}
+
+.profile-setup__label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  letter-spacing: var(--tracking-labels);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--gap-micro);
+}
+
+.profile-setup__label--required::after {
+  content: ' *';
+  color: var(--primitive-red);
+}
+
+.profile-setup__input {
+  width: 100%;
+  padding: 14px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 0;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--input-min-font); /* 16px - prevents iOS zoom */
+  line-height: var(--leading-normal);
+  transition: border-color var(--duration-fast) var(--ease-out);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.profile-setup__input:focus {
+  outline: none;
+  border-color: var(--primitive-red);
+}
+
+.profile-setup__input::placeholder {
+  color: var(--text-muted);
+}
+
+.profile-setup__input--error {
+  border-color: var(--primitive-red);
+}
+
+.profile-setup__error {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  color: var(--primitive-red-light);
+  margin-top: var(--gap-micro);
+}
+
+/* ============================================================================
+   MULTI-SELECT GRID (Practice Types)
+   ============================================================================ */
+
+.profile-setup__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-micro);
+  margin-bottom: var(--gap-element);
+}
+
+.profile-setup__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  min-height: var(--tap-min);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profile-setup__option:hover {
+  background: rgba(138, 50, 51, 0.08);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.profile-setup__option.is-selected {
+  background: rgba(138, 50, 51, 0.15);
+  border-color: var(--primitive-red);
+  color: var(--text-primary);
+}
+
+.profile-setup__option-check {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--duration-fast);
+}
+
+.profile-setup__option.is-selected .profile-setup__option-check {
+  border-color: var(--primitive-red);
+  background: transparent;
+  box-shadow: 0 0 8px rgba(138, 50, 51, 0.4);
+}
+
+.profile-setup__option.is-selected .profile-setup__option-check::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primitive-red);
+}
+
+/* ============================================================================
+   TOGGLE SWITCHES (Availability) — Terminal Circle Style
+   ○ = OFF, ● = ON (with red glow)
+   ============================================================================ */
+
+.profile-setup__toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-micro);
+}
+
+.profile-setup__toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profile-setup__toggle:hover {
+  background: rgba(138, 50, 51, 0.08);
+  border-color: var(--border-hover);
+}
+
+.profile-setup__toggle.is-on {
+  background: rgba(138, 50, 51, 0.12);
+  border-color: var(--primitive-red);
+}
+
+/* Circle indicator — replaces pill switch */
+.profile-setup__switch {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+/* Hollow circle when OFF */
+.profile-setup__switch::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  background: var(--primitive-red);
+  border-radius: 50%;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+/* Filled circle when ON */
+.profile-setup__toggle.is-on .profile-setup__switch {
+  border-color: var(--primitive-red);
+  box-shadow: 0 0 10px rgba(138, 50, 51, 0.5);
+}
+
+.profile-setup__toggle.is-on .profile-setup__switch::after {
+  width: 10px;
+  height: 10px;
+}
+
+/* Toggle info — now after the circle */
+.profile-setup__toggle-info {
+  flex: 1;
+}
+
+.profile-setup__toggle-label {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  display: block;
+  transition: color var(--duration-fast);
+}
+
+.profile-setup__toggle.is-on .profile-setup__toggle-label {
+  color: var(--text-primary);
+}
+
+.profile-setup__toggle-hint {
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ============================================================================
+   ACTION BUTTONS
+   ============================================================================ */
+
+.profile-setup__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+  padding-top: var(--gap-element);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.profile-setup__next {
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 14px 16px;
+  background: var(--primitive-red-dark);
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profile-setup__next:hover {
+  background: var(--primitive-red);
+}
+
+.profile-setup__next:disabled {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.profile-setup__skip {
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: var(--type-xs);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.profile-setup__skip:hover {
+  color: var(--text-secondary);
+}
+
+/* ============================================================================
+   COMPLETION STATE
+   ============================================================================ */
+
+.profile-setup__complete {
+  text-align: center;
+  padding: var(--gap-section) var(--gap-element);
+}
+
+.profile-setup__complete-icon {
+  font-size: 48px;
+  color: var(--primitive-green);
+  margin-bottom: var(--gap-element);
+}
+
+.profile-setup__complete-title {
+  font-family: var(--font-ui);
+  font-size: var(--type-base);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: var(--gap-micro);
+}
+
+.profile-setup__complete-text {
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.profile-setup__complete-cta {
+  display: inline-block;
+  margin-top: var(--gap-element);
+  padding: 14px 32px;
+  background: var(--primitive-red-dark);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.profile-setup__complete-cta:hover {
+  background: var(--primitive-red);
+}
+
+/* ============================================================================
+   LOADING STATE
+   ============================================================================ */
+
+.profile-setup__next--loading {
+  color: transparent;
+  position: relative;
+  pointer-events: none;
+}
+
+.profile-setup__next--loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid var(--border-default);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: profile-spin 0.8s linear infinite;
+}
+
+@keyframes profile-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================================
+   RESPONSIVE — Small screens
+   Adjust grid to single column on very small devices
+   ============================================================================ */
+
+@media (max-width: 360px) {
+  .profile-setup__options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE — Desktop
+   Show side-by-side layout on larger screens
+   ============================================================================ */
+
+@media (min-width: 768px) {
+  .profile-setup__options {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ============================================================================
+   DESKTOP OVERRIDE
+   Profile setup sheet should work on desktop too (overrides bottom-sheet.css)
+   ============================================================================ */
+
+@media (min-width: 768px) {
+  /* Scrim: invisible until active */
+  .profile-setup__scrim.unmask-sheet__scrim {
+    display: block !important;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .profile-setup__scrim.unmask-sheet__scrim.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Panel: completely off-screen until active */
+  .profile-setup__panel.unmask-sheet__panel {
+    display: block !important;
+    max-width: 480px;
+    left: 50%;
+    /* Push completely off bottom of viewport */
+    bottom: 0;
+    transform: translateX(-50%) translateY(100%);
+    border-radius: var(--radius-lg);
+    margin-bottom: 0;
+    /* Ensure it's not visible */
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 250ms ease-out, opacity 150ms ease-out, visibility 0ms 250ms;
+  }
+
+  .profile-setup__panel.unmask-sheet__panel.is-active {
+    transform: translateX(-50%) translateY(0);
+    visibility: visible;
+    opacity: 1;
+    transition: transform 250ms ease-out, opacity 150ms ease-out, visibility 0ms;
+  }
+}

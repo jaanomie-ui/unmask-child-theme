@@ -52,6 +52,15 @@ function unmask_render_bottom_nav() {
         return;
     }
 
+    // Don't render on onboarding/registration pages
+    if (is_page_template('page-templates/page-register-visitor.php') ||
+        is_page_template('page-templates/page-welcome.php') ||
+        is_page_template('page-templates/page-welcome-orientation.php') ||
+        is_page_template('page-templates/page-welcome-start.php') ||
+        is_page_template('page-templates/page-welcome-complete.php')) {
+        return;
+    }
+
     get_template_part('template-parts/global/bottom-nav');
 }
 add_action('wp_footer', 'unmask_render_bottom_nav', 100);

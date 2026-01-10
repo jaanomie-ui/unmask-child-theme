@@ -336,6 +336,60 @@ function unmask_handle_pp_volunteer() {
 }
 
 /* ============================================================================
+   FORM HANDLER: TICKET NOTIFY SUBMISSIONS
+   ============================================================================ */
+
+add_action('admin_post_pp_notify_submit', 'unmask_handle_pp_notify');
+add_action('admin_post_nopriv_pp_notify_submit', 'unmask_handle_pp_notify');
+
+function unmask_handle_pp_notify() {
+    // Verify nonce
+    if (!isset($_POST['pp_notify_nonce']) || !wp_verify_nonce($_POST['pp_notify_nonce'], 'pp_notify_submit')) {
+        wp_die('Security check failed. Please go back and try again.', 'Error', array('back_link' => true));
+    }
+
+    // Sanitize email
+    $email = sanitize_email($_POST['notify_email'] ?? '');
+
+    // Validate email
+    if (!is_email($email)) {
+        wp_die('Please enter a valid email address.', 'Invalid Email', array('back_link' => true));
+    }
+
+    // Store in notify list option
+    $notify_list = get_option('unmask_pp_notify_list', array());
+    if (!in_array($email, $notify_list)) {
+        $notify_list[] = $email;
+        update_option('unmask_pp_notify_list', $notify_list);
+    }
+
+    // Add to Mailchimp if MC4WP is available
+    if (function_exists('mc4wp_get_api_v3')) {
+        try {
+            $api = mc4wp_get_api_v3();
+            $lists = mc4wp_get_option('general', 'lists', array());
+            $list_id = !empty($lists) ? $lists[0] : '';
+
+            if ($list_id) {
+                $api->add_list_member($list_id, array(
+                    'email_address' => $email,
+                    'status' => 'subscribed',
+                    'tags' => array('pp-ticket-interest', 'event-interest')
+                ));
+            }
+        } catch (Exception $e) {
+            // Log error but don't fail - we still saved to local option
+            error_log('UNMASK PP Notify Mailchimp Error: ' . $e->getMessage());
+        }
+    }
+
+    // Redirect with success
+    $redirect_url = add_query_arg('pp_submitted', 'notify', wp_get_referer() ?: home_url('/pink-panthers/'));
+    wp_safe_redirect($redirect_url);
+    exit;
+}
+
+/* ============================================================================
    ADMIN EMAIL NOTIFICATION
    ============================================================================ */
 

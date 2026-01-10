@@ -16,9 +16,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Check if this is a registration/welcome page (these have their own header)
+// Check if this is a registration/onboarding page (these have their own header)
 $is_registration_page = is_page_template('page-templates/page-register-visitor.php') ||
-                        is_page_template('page-templates/page-welcome.php');
+                        is_page_template('page-templates/page-welcome.php') ||
+                        is_page_template('page-templates/page-welcome-orientation.php') ||
+                        is_page_template('page-templates/page-welcome-start.php') ||
+                        is_page_template('page-templates/page-welcome-complete.php');
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
