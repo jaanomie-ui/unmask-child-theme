@@ -251,7 +251,7 @@
 .elementor-widget-heading,
 .elementor-widget-button,
 body .elementor-page {
-    font-family: 'Berkeley Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace !important;
+    font-family: var(--font-ui) !important;
 }
 
 /* DEPTH LAYERS — Aliases to design system tokens

@@ -151,25 +151,21 @@ $total_isos = $iso_query->found_posts;
     </section>
 
     <!-- =====================================================================
-         WIDGET-SQ: PLACEHOLDERS
+         WIDGET-SQ: CTAs (flex row, matches factory card sizing)
          ===================================================================== -->
-    <div class="widget-sq">
-        <span class="widget-sq__label">Widget</span>
-        <div class="widget-sq__placeholder">Coming soon</div>
-    </div>
-    <div class="widget-sq">
-        <span class="widget-sq__label">Widget</span>
-        <div class="widget-sq__placeholder">Coming soon</div>
-    </div>
-
-    <!-- =====================================================================
-         SECTION-STATIC: THE WEB (PLACEHOLDER)
-         ===================================================================== -->
-    <section class="section-static">
-        <span class="section-static__label">The Web</span>
-        <div class="section-static__placeholder">
-            Network visualization coming soon
+    <div class="widget-row">
+        <div class="widget-sq widget-sq--cta widget-sq--submit">
+            <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="widget-sq__link">
+                <h3 class="widget-sq__title">Tell Your Story</h3>
+                <p class="widget-sq__desc">Submit your record</p>
+            </a>
         </div>
-    </section>
+        <div class="widget-sq widget-sq--cta widget-sq--panthers">
+            <a href="<?php echo esc_url(home_url('/pink-panthers/')); ?>" class="widget-sq__link">
+                <h3 class="widget-sq__title">ALL DREAMS COME TRUE AT THE PINK PANTHERS NIGHT CLUB</h3>
+                <p class="widget-sq__desc">Pink Panthers</p>
+            </a>
+        </div>
+    </div>
 
 </div>

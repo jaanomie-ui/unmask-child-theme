@@ -20,8 +20,8 @@ if (!defined('ABSPATH')) {
 
 // Get ACF field values with fallbacks
 $hero_label = function_exists('unmask_get_field') ? unmask_get_field('hero_label', 'latest record') : 'latest record';
-$hero_cta_label = function_exists('unmask_get_field') ? unmask_get_field('hero_cta_label', 'open call') : 'open call';
-$hero_cta_text = function_exists('unmask_get_field') ? unmask_get_field('hero_cta_text', 'tell your story →') : 'tell your story →';
+$hero_cta_label = function_exists('unmask_get_field') ? unmask_get_field('hero_cta_label', 'Open call:') : 'Open call:';
+$hero_cta_text = function_exists('unmask_get_field') ? unmask_get_field('hero_cta_text', 'tell your story') : 'tell your story';
 $hero_fallback_issue = function_exists('unmask_get_field') ? unmask_get_field('hero_fallback_issue', 'issue 001') : 'issue 001';
 $hero_fallback_location = function_exists('unmask_get_field') ? unmask_get_field('hero_fallback_location', 'chicago') : 'chicago';
 
@@ -252,12 +252,30 @@ $total_isos = $iso_query->found_posts;
             </div>
         </section>
 
+        <!-- CTA CARDS -->
+        <section class="homepage-rail homepage-rail--cta" aria-label="Get Involved">
+            <div class="homepage-rail__track">
+                <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="homepage-rail__card homepage-rail__card--cta" style="background-image: url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/images/cta-submit.png');">
+                    <div class="homepage-rail__cta-overlay">
+                        <h3 class="homepage-rail__cta-title">Tell Your Story</h3>
+                        <p class="homepage-rail__cta-desc">Submit your record</p>
+                    </div>
+                </a>
+                <a href="<?php echo esc_url(home_url('/pink-panthers/')); ?>" class="homepage-rail__card homepage-rail__card--cta" style="background-image: url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/images/cta-panthers.png');">
+                    <div class="homepage-rail__cta-overlay">
+                        <h3 class="homepage-rail__cta-title">ALL DREAMS COME TRUE AT THE PINK PANTHERS NIGHT CLUB</h3>
+                        <p class="homepage-rail__cta-desc">Pink Panthers</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
     </div>
 
     <!-- Footer -->
     <footer class="unmask-footer unmask-footer--mobile">
         <div class="unmask-footer__left">
-            unmask is a queer documentation project · chicago, illinois · est. 2024
+            unmask keeps the record · chicago, illinois · est. 2024
         </div>
         <div class="unmask-footer__right">
             <a href="<?php echo esc_url(home_url('/about/')); ?>">about</a> ·
@@ -442,6 +460,15 @@ $total_isos = $iso_query->found_posts;
     height: 100%;
 }
 
+/* ISO Card internal spacing adjustments */
+.homepage-rail__card--iso .iso-card__title {
+    margin-top: 40px !important; /* Extra space after tags row */
+}
+
+.homepage-rail__card--iso .iso-card__who {
+    padding-top: 40px !important; /* Increased from 12px */
+}
+
 /* Factory Card */
 .homepage-rail__card--factory {
     width: 240px;
@@ -455,21 +482,6 @@ $total_isos = $iso_query->found_posts;
     justify-content: flex-end;
 }
 
-.homepage-rail__card--photo-studio {
-    border-left: 2px solid var(--primitive-red);
-}
-
-.homepage-rail__card--interview {
-    border-left: 2px solid var(--primitive-blue);
-}
-
-.homepage-rail__card--meeting {
-    border-left: 2px solid var(--primitive-green);
-}
-
-.homepage-rail__card--editing {
-    border-left: 2px solid var(--primitive-amber);
-}
 
 .homepage-rail__factory-title {
     font-family: var(--font-ui);
@@ -486,6 +498,41 @@ $total_isos = $iso_query->found_posts;
     color: var(--text-muted);
     margin: 0;
     line-height: 1.4;
+}
+
+/* CTA Cards */
+.homepage-rail__card--cta {
+    width: 220px;
+    height: 280px;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--border-default);
+}
+
+.homepage-rail__cta-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 100%);
+}
+
+.homepage-rail__cta-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.homepage-rail__cta-desc {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin: 4px 0 0 0;
 }
 
 /* Placeholder */

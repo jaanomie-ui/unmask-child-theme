@@ -188,7 +188,7 @@ if ($is_expiring_soon) {
     <div class="iso-card__who">
         <div class="iso-card__avatar">
             <?php if ($avatar_url) : ?>
-                <img src="<?php echo esc_url($avatar_url); ?>" alt="" loading="lazy">
+                <img src="<?php echo esc_url($avatar_url); ?>" alt="<?php echo esc_attr($designation); ?>" loading="lazy">
             <?php endif; ?>
         </div>
         <span class="iso-card__designation <?php echo esc_attr($designation_color); ?> <?php echo $is_drone ? 'iso-card__designation--drone' : ''; ?>">

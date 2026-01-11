@@ -53,7 +53,7 @@ $nodes = array(
     'factory' => array(
         'title' => 'THE FACTORY',
         'sublabel' => 'THE STUDIO',
-        'desc' => 'The studio. $75/hour. Professional lighting. Create work. Be documented.',
+        'desc' => 'The studio. $40/hour. Professional lighting. Create work. Be documented.',
         'icon' => '▢',
         'position' => array('top' => 120, 'left' => 450),
     ),
@@ -232,7 +232,7 @@ get_header('fullbleed');
         },
         factory: {
             title: 'THE FACTORY',
-            desc: 'The studio. $75/hour. Professional lighting. Create work. Be documented.'
+            desc: 'The studio. $40/hour. Professional lighting. Create work. Be documented.'
         },
         panthers: {
             title: 'PINK PANTHERS',

@@ -11,7 +11,7 @@ body.login,
 body.login *,
 body.login *::before,
 body.login *::after {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-weight: 400 !important;
   font-style: normal !important;
   -webkit-font-smoothing: antialiased !important;
@@ -44,7 +44,7 @@ body.login.login-split-page .login-split .split-overlay {
 body.login.login-split-page .login-split__entry,
 body.login.login-split-page .login-split__entry h1,
 body.login.login-split-page .login-split__entry p {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-weight: 400 !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
@@ -104,7 +104,7 @@ body.login #login h1,
 body.login #login h1 a,
 body.login h1.bs-cs-login-title,
 body.login .bs-cs-login-title {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 14px !important;
   font-weight: 400 !important;
   letter-spacing: 0.05em !important;
@@ -147,7 +147,7 @@ body.login .login-heading h2,
 body.login .login-heading span,
 body.login .login-heading span a,
 body.login .login-heading a {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 14px !important;
   font-weight: 400 !important;
   letter-spacing: 0.05em !important;
@@ -201,7 +201,7 @@ body.login #login form {
 body.login label,
 body.login form label,
 body.login #loginform label {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   letter-spacing: 0.05em !important;
@@ -249,7 +249,7 @@ body.login input[type="email"],
 body.login #user_login,
 body.login #user_pass,
 body.login #user_email {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 16px !important;
   font-weight: 400 !important;
   line-height: 1.5 !important;
@@ -281,7 +281,7 @@ body.login input[type="email"]:focus {
 }
 
 body.login input::placeholder {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 16px !important;
   color: #636363 !important;
 }
@@ -342,7 +342,7 @@ body.login p.submit {
 
 body.login .button-primary,
 body.login #wp-submit {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   letter-spacing: 0.05em !important;
@@ -476,7 +476,7 @@ body.login #nav,
 body.login #backtoblog,
 body.login p#nav,
 body.login p#backtoblog {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   text-align: left !important;
@@ -487,7 +487,7 @@ body.login p#backtoblog {
 body.login #nav a,
 body.login #backtoblog a,
 body.login a {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   color: #6b2627 !important;
@@ -512,7 +512,7 @@ body.login #nav {
 body.login .message,
 body.login #login_error,
 body.login .notice {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   line-height: 1.5 !important;
@@ -545,7 +545,7 @@ body.login #language-switcher {
 
 body.login .language-switcher label,
 body.login .language-switcher select {
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-size: 12px !important;
   font-weight: 400 !important;
   color: #909090 !important;
@@ -627,7 +627,7 @@ body.login label[for="user_login"] {
 body.login label[for="user_login"]::after {
   content: "EMAIL" !important;
   font-size: 12px !important;
-  font-family: "Berkeley mono", "Berkeley Mono", "SF Mono", monospace !important;
+  font-family: "Berkeley Mono", "SF Mono", monospace !important;
   font-weight: 400 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;

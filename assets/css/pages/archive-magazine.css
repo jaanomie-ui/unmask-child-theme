@@ -608,7 +608,7 @@
 .archive-shuffle-title {
     font-family: var(--font-ui);
     font-size: var(--type-xl);
-    font-weight: 500;
+    font-weight: 400;
     color: var(--text-primary);
     margin-bottom: 8px;
 }

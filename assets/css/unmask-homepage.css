@@ -1225,3 +1225,13 @@
     color: var(--text-primary);
     line-height: 1.3;
 }
+
+/* ============================================================================
+   HIDE THEME FOOTER ON HOMEPAGE
+   Homepage has its own custom footer in both mobile and desktop layouts.
+   The footer.php also outputs .unmask-footer - hide that one (direct child of #page).
+   ============================================================================ */
+
+.page-template-page-templatestemplate-homepage-php #page > footer.unmask-footer {
+    display: none !important;
+}

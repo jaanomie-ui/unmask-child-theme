@@ -152,6 +152,9 @@ require_once get_stylesheet_directory() . '/inc/enqueue-factory.php';
 // Magazine Archive page styles and scripts
 require_once get_stylesheet_directory() . '/inc/enqueue-archive-magazine.php';
 
+// Tag Archive page styles (reuses archive-magazine base)
+require_once get_stylesheet_directory() . '/inc/enqueue-tag-archive.php';
+
 // Profile/Dossier page styles
 require_once get_stylesheet_directory() . '/inc/enqueue-profile.php';
 
@@ -1577,3 +1580,14 @@ function unmask_get_practice_options() {
 /* ==========================================================================
    CUSTOM SNIPPETS GO BELOW
    ========================================================================== */
+
+/**
+ * Temporarily redirect Members directory until BuddyBoss search fields are configured
+ * Remove this once directory is set up in WP Admin → BuddyBoss → Settings → Profiles
+ */
+add_action('template_redirect', function() {
+    if (function_exists('bp_is_members_directory') && bp_is_members_directory()) {
+        wp_redirect(home_url('/'), 302);
+        exit;
+    }
+});

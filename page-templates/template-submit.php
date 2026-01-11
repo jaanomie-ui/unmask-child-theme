@@ -31,7 +31,7 @@ $submit_page_title = unmask_get_field('submit_page_title', 'work for the archive
 $submit_intro_text = unmask_get_field('submit_intro_text', "think pieces. photo essays. kink-adjacent things.<br>\nthe stuff you cannot post elsewhere.<br>\nthe stuff you want in print.");
 $submit_response_time = unmask_get_field('submit_response_time', 'expect a response within 2 weeks.');
 $submit_success_message = unmask_get_field('submit_success_message', 'received.');
-$submit_error_message = unmask_get_field('submit_error_message', 'something went wrong. try again or email us directly.');
+$submit_error_message = unmask_get_field('submit_error_message', 'something went wrong. try again or email directly.');
 $submit_email_address = unmask_get_field('submit_email_address', 'submissions@unmaskmagazine.com');
 $submit_btn_create = unmask_get_field('submit_btn_create', 'create something');
 $submit_btn_submit = unmask_get_field('submit_btn_submit', 'submit something');
@@ -145,10 +145,10 @@ get_header();
 
                 <div class="submit-mode-description" aria-live="polite">
                     <p class="submit-mode-description__text" data-mode="create">
-                        <strong>Create</strong> — Start a new project from scratch. We'll help shape your idea into something publishable.
+                        <strong>Create</strong> — Start a new project from scratch. Editorial support available to shape your idea into something publishable.
                     </p>
                     <p class="submit-mode-description__text" data-mode="submit" hidden>
-                        <strong>Submit</strong> — You already have finished work ready for publication. Send it our way.
+                        <strong>Submit</strong> — You already have finished work ready for publication. Send it in.
                     </p>
                 </div>
 

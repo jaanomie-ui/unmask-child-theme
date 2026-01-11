@@ -197,7 +197,7 @@ get_header('fullbleed');
         <!-- Completion -->
         <div class="profile-setup__complete" style="display: none;">
             <div class="profile-setup__complete-icon">&#10003;</div>
-            <h3 class="profile-setup__complete-title">You're all set</h3>
+            <h3 class="profile-setup__complete-title">Dossier complete</h3>
             <p class="profile-setup__complete-text">Your dossier is ready. You can update it anytime from your profile.</p>
             <a href="<?php echo esc_url(home_url('/')); ?>" class="profile-setup__complete-cta">enter unmask</a>
         </div>

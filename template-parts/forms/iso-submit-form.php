@@ -156,7 +156,7 @@ $nonce = wp_create_nonce('unmask_iso_submit');
                     <div class="iso-factory-radio"></div>
                     <div class="iso-factory-option-content">
                         <div class="iso-factory-option-label">yes</div>
-                        <div class="iso-factory-option-hint">studio in Back of the Yards. $75/hr (Drones: $60/hr)</div>
+                        <div class="iso-factory-option-hint">studio in Back of the Yards. $40/hr (Drones: $32/hr)</div>
                     </div>
                 </div>
                 <div class="iso-factory-option" data-factory="preferred">

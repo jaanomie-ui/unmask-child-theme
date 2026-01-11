@@ -22,14 +22,14 @@
 /* Display name - lowercase, clean font */
 .bp-user #item-header-content .user-nicename,
 .bp-user #item-header-content h2 {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   text-transform: lowercase;
   letter-spacing: 0.02em;
 }
 
 /* Member meta info */
 .bp-user #item-header-content .item-meta {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: 14px;
   color: var(--text-muted, #888);
 }
@@ -40,7 +40,7 @@
 
 .bp-user .unmask-badge {
   display: inline-block;
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -66,7 +66,7 @@
 /* Section headers */
 .bp-user .profile-loop-header h2,
 .bp-user .profile-header h2 {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: 14px;
   font-weight: 400;
   text-transform: lowercase;
@@ -75,7 +75,7 @@
 
 /* Field labels */
 .bp-user .bp-profile-field .label {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: 13px;
   color: var(--text-muted, #888);
   text-transform: lowercase;
@@ -83,7 +83,7 @@
 
 /* Field values */
 .bp-user .bp-profile-field .data {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: 14px;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .bp-user .profile-fields.bp-tables-user td.label {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: 13px;
   color: var(--text-muted, #888);
   width: 150px;
@@ -174,7 +174,7 @@ body.bp-user.profile-edit .bp-wrap {
 /* Edit form heading */
 body.bp-user.profile-edit .screen-heading,
 body.bp-user.profile-edit h2.screen-heading {
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: var(--type-base, 16px);
   font-weight: 400;
   text-transform: lowercase;
@@ -208,7 +208,7 @@ body.bp-user.profile-edit .button-tabs li {
 body.bp-user.profile-edit .button-tabs a {
   display: block;
   padding: 8px 12px;
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: var(--type-xs, 12px);
   text-transform: lowercase;
   color: var(--text-muted, #888);
@@ -252,7 +252,7 @@ body.bp-user.profile-edit .editfield fieldset {
 body.bp-user.profile-edit .editfield label,
 body.bp-user.profile-edit .editfield .field-name {
   display: block;
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: var(--type-xs, 12px);
   font-weight: 400;
   text-transform: lowercase;
@@ -276,7 +276,7 @@ body.bp-user.profile-edit .editfield textarea,
 body.bp-user.profile-edit .editfield select {
   width: 100%;
   padding: 10px 12px;
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: var(--type-sm, 14px);
   color: var(--text-primary, #fff);
   background: var(--bg-input, #111);
@@ -373,7 +373,7 @@ body.bp-user.profile-edit .submit {
 body.bp-user.profile-edit .submit input[type="submit"],
 body.bp-user.profile-edit .submit button {
   padding: 12px 24px;
-  font-family: var(--font-ui, 'IBM Plex Mono', monospace);
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace);
   font-size: var(--type-sm, 14px);
   text-transform: lowercase;
   color: var(--bg-base, #000);

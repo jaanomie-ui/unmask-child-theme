@@ -38,7 +38,7 @@ get_header();
     <!-- Footer -->
     <footer class="unmask-footer">
         <div class="unmask-footer__left">
-            unmask is a queer documentation project · chicago, illinois · est. 2024
+            unmask keeps the record · chicago, illinois · est. 2024
         </div>
         <div class="unmask-footer__right">
             <a href="<?php echo esc_url(home_url('/about/')); ?>">about</a> ·

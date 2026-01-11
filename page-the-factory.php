@@ -13,8 +13,8 @@
  * ACF Fields (non-repeating):
  * - factory_label: Text (default: "the Factory")
  * - factory_title: Text (default: "the factory")
- * - factory_tagline: Text (default: "Industrial third space for creatives.")
- * - factory_price: Number (default: 75)
+ * - factory_tagline: Text (default: "Industrial third space for creation.")
+ * - factory_price: Number (default: 40)
  * - factory_capacity: Number (default: 6)
  * - factory_sqft: Number (default: 700)
  * - factory_award: Text (default: "BOTY")
@@ -39,8 +39,8 @@ if (!defined('ABSPATH')) {
 // Get ACF field values with fallbacks
 $factory_label = unmask_get_field('factory_label', 'the Factory');
 $factory_title = unmask_get_field('factory_title', 'the factory');
-$factory_tagline = unmask_get_field('factory_tagline', 'Industrial third space for creatives.');
-$factory_price = unmask_get_field('factory_price', 75);
+$factory_tagline = unmask_get_field('factory_tagline', 'Industrial third space for creation.');
+$factory_price = unmask_get_field('factory_price', 40);
 $factory_capacity = unmask_get_field('factory_capacity', 6);
 $factory_sqft = unmask_get_field('factory_sqft', 700);
 $factory_award = unmask_get_field('factory_award', 'BOTY');

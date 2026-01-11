@@ -220,6 +220,37 @@ body.page-template-page-templatestemplate-homepage-php .slick-track {
     overflow: hidden !important;
 }
 
+/* ISO Card internal spacing adjustments */
+.rail__card--iso .iso-card__title,
+.homepage-rail__card--iso .iso-card__title {
+    margin-top: 40px !important; /* Extra space after tags row */
+}
+
+.rail__card--iso .iso-card__who,
+.homepage-rail__card--iso .iso-card__who {
+    padding-top: 40px !important; /* Increased from 12px */
+}
+
+/* Force circular avatars */
+.rail__card--iso .iso-card__avatar,
+.homepage-rail__card--iso .iso-card__avatar {
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
+
+.rail__card--iso .iso-card__avatar img,
+.homepage-rail__card--iso .iso-card__avatar img {
+    border-radius: 50% !important;
+}
+
+/* Remove yellow/amber hover border */
+.rail__card--iso .iso-card:hover,
+.rail__card--iso .iso-card--factory:hover,
+.homepage-rail__card--iso .iso-card:hover,
+.homepage-rail__card--iso .iso-card--factory:hover {
+    border-color: var(--border-hover) !important;
+}
+
 /* Factory cards: ALL uniform 320px */
 .rail__track .factory-card,
 .rail__track .factory-card:first-child,
@@ -265,18 +296,27 @@ body.page-template-page-templatestemplate-homepage-php .slick-track {
 
 
 /* -------------------------------------------------------------------------
-   SQUARE WIDGET
-   Half width, two fit per row
+   WIDGET ROW - flex container for side-by-side widgets
+   ------------------------------------------------------------------------- */
+
+.widget-row {
+    grid-column: span 2;
+    display: flex;
+    gap: var(--gap-tight);
+}
+
+/* -------------------------------------------------------------------------
+   SQUARE WIDGET - matches factory card sizing (320px)
    ------------------------------------------------------------------------- */
 
 .widget-sq {
-    grid-column: span 1;
     background: var(--bg-card);
     border: 1px solid var(--border-default);
-    padding: var(--gap-element);
-    aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
+    width: 300px;
+    height: 340px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
 }
 
 .widget-sq__label {
@@ -300,6 +340,84 @@ body.page-template-page-templatestemplate-homepage-php .slick-track {
     align-items: center;
     justify-content: center;
 }
+
+/* CTA Widget Variant - Record card style with image + bottom overlay */
+.widget-sq--cta {
+    padding: 0;
+    position: relative;
+    transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+/* Background image */
+.widget-sq--cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform var(--duration-base) var(--ease-out);
+    z-index: 0;
+}
+
+.widget-sq--cta:hover::before {
+    transform: scale(1.03);
+}
+
+/* Submit CTA background */
+.widget-sq--submit::before {
+    background-image: url('../images/cta-submit.png');
+}
+
+/* Pink Panthers CTA background */
+.widget-sq--panthers::before {
+    background-image: url('../images/cta-panthers.png');
+}
+
+.widget-sq--cta:hover {
+    border-color: var(--text-primary);
+}
+
+/* Link fills card, content at bottom */
+.widget-sq__link {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    padding: var(--gap-element);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 100%);
+}
+
+/* Hide label in CTA cards */
+.widget-sq--cta .widget-sq__label {
+    display: none;
+}
+
+.widget-sq__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    font-weight: 400;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.widget-sq__desc {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin: 4px 0 0 0;
+    line-height: 1.4;
+}
+
+.widget-sq__arrow {
+    display: none;
+}
+
 
 
 /* -------------------------------------------------------------------------
@@ -352,9 +470,13 @@ body.page-template-page-templatestemplate-homepage-php .slick-track {
         grid-column: span 1;
     }
 
+    .widget-row {
+        flex-wrap: wrap;
+    }
+
     .widget-sq {
-        aspect-ratio: auto;
-        min-height: 200px;
+        width: 100%;
+        max-width: 320px;
     }
 }
 

@@ -24,7 +24,7 @@ UNMASK fights against:
 - The algorithm that buries your work
 - The feeling that no one is listening
 - The digital void where nothing is preserved
-- A world that tells misfits they do not belong
+- A world that tells people they do not belong
 
 ---
 
@@ -43,7 +43,9 @@ When writing copy, remember the real transaction:
 
 ## THE AUDIENCE
 
-UNMASK is for misfits. Not reducible to a single identity label.
+UNMASK documents people. Not reducible to a single identity label. Do not use one
+term (queer, misfits, freaks, etc.) to unify the audience. The audience is defined
+by what they do, not what they are called.
 
 **Archetype 1:** A man who wears masculinity as performance. Sexy, hot, wants to
 submit. Men find freedom within structures—wrestling, weight, labor, being
@@ -125,13 +127,13 @@ Salvation for the imperfect.
 ### WORD USAGE
 
 **"Queer":** Not banned entirely, but never use as the unifying factor for the
-audience. "Queer" is one label among many. The unifying factor is: misfits.
+audience. "Queer" is one label among many. Do not use any single term to unify.
 
 **Empty phrases:** Never use "the system is waiting" or similar. Say what is
 actually happening.
 
 **Voice words (use frequently):** practice, craft, discipline, rigor, precision,
-document, record, archive, raw, unfiltered, world-builder, misfit, freak.
+document, record, archive, raw, unfiltered, world-builder.
 
 ### BANNED WORDS
 
@@ -235,7 +237,7 @@ perspective of the user and their needs. Do not shout features—show transforma
 | uncut | Always lowercase, paired | UNMASK uncut //001// |
 | Product names | Capitalized, lowercase "the" | the Factory, the archive |
 | Drone / Designation | Capitalized as proper noun | Drone D-047 |
-| Headlines / titles | lowercase | the record of magnus |
+| Headlines / titles | ALL CAPS or lowercase | THE RECORD OF MAGNUS or the record of magnus |
 | Navigation / menu | lowercase | archive, submit, membership |
 | Button text | lowercase (unless product) | book the Factory |
 | Body copy | Standard sentence case | Normal capitalization. |

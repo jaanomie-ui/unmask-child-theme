@@ -151,7 +151,7 @@ $what_label = $iso_type . ' ' . $iso_category;
     <div class="iso-card-who">
         <div class="iso-card-avatar">
             <?php if ($avatar_url) : ?>
-                <img src="<?php echo esc_url($avatar_url); ?>" alt="">
+                <img src="<?php echo esc_url($avatar_url); ?>" alt="<?php echo esc_attr($designation); ?>">
             <?php endif; ?>
         </div>
         <span class="iso-card-designation designation <?php echo esc_attr($designation_color); ?> <?php echo $is_drone ? 'designation--drone' : ''; ?>">

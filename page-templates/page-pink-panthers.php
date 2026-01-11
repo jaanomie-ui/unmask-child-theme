@@ -21,13 +21,13 @@ get_header();
                 <div class="pp-success-toast__content">
                     <?php if ($_GET['pp_submitted'] === 'performer'): ?>
                         <p class="pp-success-toast__title">act submitted</p>
-                        <p class="pp-success-toast__text">we'll be in touch if you're selected for the lineup.</p>
+                        <p class="pp-success-toast__text">selected acts will be notified.</p>
                     <?php elseif ($_GET['pp_submitted'] === 'volunteer'): ?>
-                        <p class="pp-success-toast__title">thanks for volunteering</p>
-                        <p class="pp-success-toast__text">we'll reach out with next steps closer to the event.</p>
+                        <p class="pp-success-toast__title">thank you for your service</p>
+                        <p class="pp-success-toast__text">next steps sent closer to the event.</p>
                     <?php elseif ($_GET['pp_submitted'] === 'notify'): ?>
-                        <p class="pp-success-toast__title">you're on the list</p>
-                        <p class="pp-success-toast__text">we'll email you when tickets go on sale.</p>
+                        <p class="pp-success-toast__title">added to the list</p>
+                        <p class="pp-success-toast__text">notification sent when tickets drop.</p>
                     <?php endif; ?>
                 </div>
             </div>

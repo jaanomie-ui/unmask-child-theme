@@ -41,7 +41,7 @@ $next_event = 'TBD';
 $unlocked_actions = array(
     array(
         'name' => 'THE FACTORY',
-        'desc' => 'Book studio time. $75/hour.',
+        'desc' => 'Book studio time. $40/hour.',
         'url' => home_url('/the-factory/'),
         'cta' => '[book]',
     ),

@@ -28,7 +28,7 @@
 
 .iso-post-page .page-title {
     font-size: var(--type-3xl);
-    font-weight: var(--font-bold);
+    font-weight: 400;
     color: var(--text-primary);
 }
 

@@ -1,0 +1,52 @@
+/**
+ * Tag Archive Styles
+ * Minimal additions to archive-magazine.css
+ *
+ * @package unmask-child-theme
+ */
+
+/* =============================================================================
+   TAG ARCHIVE HEADER
+   ============================================================================= */
+
+.tag-archive__header {
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.tag-archive__nav {
+    margin-bottom: 8px;
+}
+
+.tag-archive__back {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+
+.tag-archive__back:hover {
+    color: var(--text-primary);
+}
+
+.tag-archive .archive-title {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.tag-archive .archive-header-stats {
+    flex-direction: row;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    .tag-archive .archive-title {
+        font-size: 28px;
+    }
+}

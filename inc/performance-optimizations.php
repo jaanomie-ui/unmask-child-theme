@@ -33,7 +33,7 @@ function unmask_performance_dequeue() {
                    has_shortcode($post_content, 'MEC_calendar');
 
     if (!$is_mec_page) {
-        // MEC Scripts
+        // MEC Scripts (including BuddyBoss integration)
         $mec_scripts = [
             'mec-frontend-script',
             'mec-general-calendar-script',
@@ -44,6 +44,13 @@ function unmask_performance_dequeue() {
             'mec-owl-carousel-script',
             'mec-events-script',
             'mec-colorbrightness-script',
+            // MEC BuddyBoss Integration handles
+            'mec-bp-js-script',
+            'mec-bp-js',
+            'mec-bp-js-blockui-js',
+            'mec-bp-blockui',
+            'mec-buddyboss',
+            'mec-buddyboss-js',
         ];
         foreach ($mec_scripts as $handle) {
             wp_dequeue_script($handle);

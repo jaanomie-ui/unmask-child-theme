@@ -11,8 +11,8 @@
  *
  * ACF Fields (non-repeating):
  * - hero_label: Text (default: "latest record")
- * - hero_cta_label: Text (default: "open call")
- * - hero_cta_text: Text (default: "tell your story →")
+ * - hero_cta_label: Text (default: "Open call:")
+ * - hero_cta_text: Text (default: "tell your story")
  * - hero_fallback_issue: Text (default: "issue 001")
  * - hero_fallback_location: Text (default: "chicago")
  */
@@ -24,8 +24,8 @@ if (!defined('ABSPATH')) {
 
 // Get ACF field values with fallbacks
 $hero_label = unmask_get_field('hero_label', 'latest record');
-$hero_cta_label = unmask_get_field('hero_cta_label', 'open call');
-$hero_cta_text = unmask_get_field('hero_cta_text', 'tell your story →');
+$hero_cta_label = unmask_get_field('hero_cta_label', 'Open call:');
+$hero_cta_text = unmask_get_field('hero_cta_text', 'tell your story');
 $hero_fallback_issue = unmask_get_field('hero_fallback_issue', 'issue 001');
 $hero_fallback_location = unmask_get_field('hero_fallback_location', 'chicago');
 
