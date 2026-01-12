@@ -1,0 +1,94 @@
+/* ============================================================================
+   SINGLE POST STYLES
+   Magnus article and general post typography
+   ============================================================================ */
+
+/* Body text — ensure 400 weight */
+.single-post .record-body__content p,
+.single-post .record-body__content {
+  font-weight: 400;
+  font-family: var(--font-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* === ARTICLE HIERARCHY === */
+
+/* Part Markers (PART ONE, PART TWO) — Small, letter-spaced, muted, Berkeley Mono */
+.part-marker,
+.single-post .record-body__content .part-marker {
+  color: var(--text-muted);
+  display: block;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: var(--type-sm);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: var(--gap-section) 0 var(--gap-sm);
+}
+
+/* H2 — Thematic subtitles — Berkeley Mono, ALL CAPS, gray */
+.single-post .record-body__content h2 {
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  font-size: var(--type-lg);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: var(--gap-sm) 0 var(--gap-element);
+}
+
+/* H3 — Section headers — Berkeley Mono, ALL CAPS, blue */
+.single-post .record-body__content h3 {
+  color: var(--primitive-blue);
+  font-family: var(--font-ui);
+  font-size: var(--type-lg);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: var(--gap-element) 0 var(--gap-element);
+}
+
+/* Tighten H3 when it directly follows H2 */
+.single-post .record-body__content h2 + h3 {
+  margin-top: var(--gap-sm);
+}
+
+/* Bylines / italic-only paragraphs */
+.single-post .record-body__content p > em:only-child,
+.single-post .record-body__content p:has(> em:only-child) em {
+  color: var(--text-muted);
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: var(--type-base);
+  margin: var(--gap-element) 0;
+}
+
+/* Magnus Quotes — Unmask Red */
+.magnus-quote {
+  color: var(--primitive-red-light);
+}
+
+/* Blockquotes (if used) */
+.single-post .record-body__content blockquote {
+  border-left: 3px solid var(--primitive-blue);
+  padding-left: var(--gap-element);
+  margin: var(--gap-element) 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* Horizontal rules */
+.single-post .record-body__content hr {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: var(--gap-section) 0;
+}
+
+/* Gallery spacing */
+.single-post .record-body__content .wp-block-gallery {
+  margin: var(--gap-section) 0;
+}

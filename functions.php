@@ -155,6 +155,9 @@ require_once get_stylesheet_directory() . '/inc/enqueue-archive-magazine.php';
 // Tag Archive page styles (reuses archive-magazine base)
 require_once get_stylesheet_directory() . '/inc/enqueue-tag-archive.php';
 
+// Single Post styles (article typography)
+require_once get_stylesheet_directory() . '/inc/enqueue-single-post.php';
+
 // Profile/Dossier page styles
 require_once get_stylesheet_directory() . '/inc/enqueue-profile.php';
 

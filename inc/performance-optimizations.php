@@ -267,18 +267,42 @@ function unmask_preload_fonts() {
 
 /**
  * Add resource hints for external domains
+ * Preconnect is faster than dns-prefetch (includes TCP + TLS handshake)
  */
 add_action('wp_head', 'unmask_resource_hints', 2);
 function unmask_resource_hints() {
-    // DNS prefetch for external resources
-    $domains = [
+    // Preconnect for resources we'll definitely use
+    $preconnect = [
+        'https://fonts.googleapis.com',
+        'https://fonts.gstatic.com',
+    ];
+
+    foreach ($preconnect as $origin) {
+        echo '<link rel="preconnect" href="' . esc_url($origin) . '" crossorigin>' . "\n";
+    }
+
+    // DNS prefetch for resources we might use
+    $dns_prefetch = [
         '//cloud.umami.is',  // Analytics
         '//stats.wp.com',    // Jetpack stats
     ];
 
-    foreach ($domains as $domain) {
+    foreach ($dns_prefetch as $domain) {
         echo '<link rel="dns-prefetch" href="' . esc_url($domain) . '">' . "\n";
     }
+}
+
+/**
+ * Remove query strings from static resources
+ * Improves caching by CDNs and browsers
+ */
+add_filter('script_loader_src', 'unmask_remove_query_strings', 15);
+add_filter('style_loader_src', 'unmask_remove_query_strings', 15);
+function unmask_remove_query_strings($src) {
+    if (!is_admin() && strpos($src, '?ver=')) {
+        $src = remove_query_arg('ver', $src);
+    }
+    return $src;
 }
 
 /**

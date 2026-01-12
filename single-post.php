@@ -80,7 +80,7 @@ while (have_posts()) :
 
         <!-- System Bar -->
         <div class="record-system-bar">
-            <a href="<?php echo esc_url(home_url('/archive/')); ?>" class="record-system-bar__back"><?php echo esc_html($record_back_text); ?></a>
+            <a href="<?php echo esc_url(home_url('/the-archive/')); ?>" class="record-system-bar__back"><?php echo esc_html($record_back_text); ?></a>
             <span class="record-system-bar__center"><?php echo esc_html($record_system_title); ?></span>
             <span class="record-system-bar__id"><?php echo esc_html($file_id); ?></span>
         </div>
