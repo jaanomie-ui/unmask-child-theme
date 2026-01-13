@@ -1,9 +1,49 @@
 <?php
 /**
  * UNMASK Child Theme Functions
- * 
+ *
  * All custom PHP snippets consolidated here
  */
+
+// ============================================================================
+// GOOGLE TAG MANAGER
+// ============================================================================
+
+/**
+ * Google Tag Manager - Head Script
+ * Must be as high in <head> as possible
+ * Container ID: GTM-5NJKFDSX
+ */
+function unmask_gtm_head() {
+    ?>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5NJKFDSX');</script>
+    <!-- End Google Tag Manager -->
+    <?php
+}
+add_action('wp_head', 'unmask_gtm_head', 1);
+
+/**
+ * Google Tag Manager - NoScript Fallback
+ * Must be immediately after opening <body> tag
+ */
+function unmask_gtm_body() {
+    ?>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NJKFDSX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <?php
+}
+add_action('wp_body_open', 'unmask_gtm_body', 1);
+
+// ============================================================================
+// STYLES & SCRIPTS
+// ============================================================================
 
 // Enqueue parent theme styles and CSS partials
 add_action('wp_enqueue_scripts', 'unmask_enqueue_styles');
@@ -143,6 +183,9 @@ function unmask_enqueue_styles() {
 // Shortcodes v1 - Component shortcodes with template parts
 require_once get_stylesheet_directory() . '/includes/unmask-shortcodes-v1.php';
 
+// A/B Testing - Cookie-based variant assignment (runs early for cookie handling)
+require_once get_stylesheet_directory() . '/inc/ab-testing.php';
+
 // Unified Card System - global card architecture (loads before page-specific CSS)
 require_once get_stylesheet_directory() . '/inc/enqueue-cards.php';
 
@@ -212,6 +255,15 @@ require_once get_stylesheet_directory() . '/inc/enqueue-newsletter.php';
 
 // Onboarding System (4-screen flow, profile completion, hooks)
 require_once get_stylesheet_directory() . '/inc/enqueue-onboarding.php';
+
+// Analytics - GA4 behavioral tracking via GTM
+require_once get_stylesheet_directory() . '/inc/enqueue-analytics.php';
+
+// Analytics Dashboard - Terminal-style metrics cockpit
+require_once get_stylesheet_directory() . '/inc/enqueue-dashboard-analytics.php';
+
+// Analytics REST API - Endpoint for n8n to push GA4 data
+require_once get_stylesheet_directory() . '/inc/analytics-data-endpoint.php';
 
 /* ==========================================================================
    REGISTRATION PAGE STYLES
