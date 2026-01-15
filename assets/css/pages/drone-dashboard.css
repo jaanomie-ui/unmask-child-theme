@@ -1,0 +1,1473 @@
+/* ============================================================================
+   DRONE DASHBOARD — CSS IMPLEMENTATION GUIDE
+   UNMASK Conditioning Console
+
+   Version: 4.0
+   Last Updated: 2026-01-14
+
+   This stylesheet defines all styles for the Drone Dashboard.
+   Embed in unmask-child-theme/style.css or create as separate file:
+   unmask-child-theme/css/drone-dashboard.css
+
+   DEPENDENCIES:
+   - unmask-design-system.css (design tokens)
+   - Berkeley Mono font
+   ============================================================================ */
+
+
+/* ============================================================================
+   TABLE OF CONTENTS
+
+   1. DASHBOARD TOKENS (local overrides)
+   2. PAGE LAYOUT
+   3. HEADER
+   4. PRIMARY CTA (Hive Mistress Access)
+   5. HERO STATS ROW
+   6. GRID BOXES (containers)
+   7. INSTALLATION PROGRESS
+   8. DEPLOYMENT READINESS
+   9. SYSTEM TOLERANCES
+   10. LIMITS FILING
+   11. INTEGRATION STATUS
+   12. CONDITIONING LOG
+   13. FOOTER CTA
+   14. FOOTER
+   15. RESPONSIVE — TABLET
+   16. RESPONSIVE — MOBILE
+   17. UTILITY CLASSES
+   18. STATES & ANIMATIONS
+   19. ACCESS DENIED
+   ============================================================================ */
+
+
+/* ============================================================================
+   1. DASHBOARD TOKENS
+   Local semantic tokens specific to the dashboard.
+   These reference primitives from unmask-design-system.css
+   ============================================================================ */
+
+.drone-dashboard {
+  /* Semantic Colors for Dashboard */
+  --dd-accent-red: var(--primitive-red);           /* #8a3233 - Primary actions, designation */
+  --dd-accent-blue: var(--primitive-blue);         /* #2C3D68 - Progress, secondary info */
+  --dd-accent-green: var(--primitive-green);       /* #3D6854 - Readiness, success states */
+  --dd-accent-green-glow: var(--primitive-green-glow); /* #4ade80 - Completed items */
+  --dd-accent-yellow: #8B7355;                     /* Pending, in-progress, warnings */
+  --dd-accent-yellow-light: #A68B5B;
+
+  /* Backgrounds */
+  --dd-bg-page: var(--primitive-void);             /* #181818 */
+  --dd-bg-card: var(--primitive-surface);          /* #1c1c1c */
+  --dd-bg-elevated: var(--primitive-elevated);     /* #242424 */
+
+  /* Borders */
+  --dd-border: var(--primitive-gray-800);          /* #2e2e2e */
+  --dd-border-subtle: var(--primitive-elevated);   /* #242424 */
+
+  /* Text Hierarchy */
+  --dd-text-primary: var(--primitive-gray-100);    /* #c2c2c2 */
+  --dd-text-secondary: var(--primitive-gray-300);  /* #8e8e8e */
+  --dd-text-muted: var(--primitive-gray-500);      /* #636363 */
+  --dd-text-dim: var(--primitive-gray-600);        /* #4f4f4f */
+
+  /* Typography Scale */
+  --dd-type-hero: 32px;      /* Hero stat values */
+  --dd-type-large: 28px;     /* Designation, scores */
+  --dd-type-medium: 24px;    /* Tolerance values */
+  --dd-type-body: 14px;      /* CTA text */
+  --dd-type-small: 12px;     /* Progress counts */
+  --dd-type-label: 11px;     /* Section titles, list items */
+  --dd-type-micro: 10px;     /* Subtitles, suffixes */
+  --dd-type-nano: 9px;       /* Smallest labels */
+
+  /* Spacing Scale */
+  --dd-space-page: 32px;     /* Page padding */
+  --dd-space-section: 24px;  /* Between major sections */
+  --dd-space-box: 24px;      /* Inside grid boxes */
+  --dd-space-grid: 16px;     /* Grid gaps */
+  --dd-space-element: 12px;  /* Between list items */
+  --dd-space-tight: 8px;     /* Compact spacing */
+  --dd-space-micro: 4px;     /* Minimal spacing */
+
+  /* Letter Spacing */
+  --dd-tracking-wide: 0.2em;   /* Section headers */
+  --dd-tracking-medium: 0.15em; /* Labels */
+  --dd-tracking-normal: 0.1em;  /* Status text */
+  --dd-tracking-tight: 0.05em;  /* List items */
+  --dd-tracking-body: 0.02em;   /* Body text */
+}
+
+
+/* ============================================================================
+   2. PAGE LAYOUT
+   ============================================================================ */
+
+.drone-dashboard {
+  min-height: 100vh;
+  background-color: var(--dd-bg-page);
+  color: var(--dd-text-primary);
+  font-family: var(--font-ui);
+  padding: var(--dd-space-page);
+  box-sizing: border-box;
+}
+
+/* Main content wrapper - optional max-width */
+.drone-dashboard__content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Force full width, completely hide all sidebars */
+.page-template-template-drone-dashboard #primary {
+  width: 100%;
+  max-width: 100%;
+  float: none;
+  margin: 0 auto;
+}
+
+.page-template-template-drone-dashboard .site-content {
+  display: block;
+}
+
+.page-template-template-drone-dashboard #secondary,
+.page-template-template-drone-dashboard .bb-sticky-sidebar,
+.page-template-template-drone-dashboard aside.widget-area,
+.page-template-template-drone-dashboard .bp-sidebar,
+.page-template-template-drone-dashboard .activity-sidebar,
+.page-template-template-drone-dashboard .forums-sidebar,
+.page-template-template-drone-dashboard .right-sidebar,
+.page-template-template-drone-dashboard .sidebar-right,
+.page-template-template-drone-dashboard [class*="sidebar"],
+.page-template-template-drone-dashboard .bb-grid aside,
+.page-template-template-drone-dashboard .bb-template-sidebar {
+  display: none !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  flex: 0 !important;
+}
+
+.page-template-template-drone-dashboard .bb-grid {
+  display: block !important;
+}
+
+.page-template-template-drone-dashboard .bb-grid > main {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+
+/* ============================================================================
+   3. HEADER
+   ============================================================================ */
+
+.drone-dashboard__header {
+  margin-bottom: var(--dd-space-page);
+}
+
+.drone-dashboard__header-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--dd-space-grid);
+  margin-bottom: var(--dd-space-element);
+}
+
+.drone-dashboard__header-left {
+  display: flex;
+  align-items: baseline;
+  gap: var(--dd-space-grid);
+}
+
+.drone-dashboard__designation {
+  font-size: var(--dd-type-large);
+  color: var(--dd-accent-red);
+  letter-spacing: var(--dd-tracking-tight);
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.drone-dashboard__console-label {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-wide);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__state {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-dim);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+}
+
+/* Status Badge */
+.drone-dashboard__status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dd-space-tight);
+  padding: var(--dd-space-tight) var(--dd-space-element);
+  font-size: var(--dd-type-micro);
+  color: var(--dd-accent-yellow);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+  background-color: var(--dd-bg-card);
+  border: 1px solid var(--dd-accent-yellow);
+}
+
+.drone-dashboard__status-badge::before {
+  content: '◆';
+}
+
+
+/* ============================================================================
+   4. PRIMARY CTA (Hive Mistress Access)
+   ============================================================================ */
+
+/* CTA Row - two identical boxes side by side */
+.drone-dashboard__cta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--dd-space-grid);
+  margin-bottom: var(--dd-space-section);
+}
+
+/* Shared box style for both CTAs */
+.drone-dashboard__cta-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--dd-space-box);
+  border: 1px solid var(--dd-border);
+  background-color: var(--dd-bg-page);
+  text-decoration: none;
+  transition: background-color 200ms ease-out;
+}
+
+.drone-dashboard__cta-box:hover {
+  background-color: var(--dd-bg-card);
+}
+
+.drone-dashboard__cta-box--link {
+  cursor: pointer;
+  background-color: rgba(138, 50, 51, 0.08);
+}
+
+.drone-dashboard__cta-box--link:hover {
+  background-color: rgba(138, 50, 51, 0.15);
+}
+
+/* Label - small tag at top */
+.drone-dashboard__cta-label {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-wide);
+  text-transform: uppercase;
+  margin-bottom: var(--dd-space-tight);
+}
+
+.drone-dashboard__cta-label--red {
+  color: var(--dd-accent-red);
+}
+
+.drone-dashboard__cta-label--green {
+  color: var(--dd-accent-green);
+}
+
+/* Title */
+.drone-dashboard__cta-title {
+  font-size: var(--dd-type-body);
+  color: var(--dd-text-primary);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+  margin-bottom: var(--dd-space-tight);
+}
+
+/* Description */
+.drone-dashboard__cta-desc {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-secondary);
+  letter-spacing: var(--dd-tracking-body);
+  line-height: 1.5;
+  margin-bottom: var(--dd-space-element);
+}
+
+/* Action link */
+.drone-dashboard__cta-action {
+  font-size: var(--dd-type-small);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 200ms ease-out;
+  margin-top: auto;
+}
+
+.drone-dashboard__cta-action--red:hover {
+  color: var(--dd-accent-red);
+}
+
+.drone-dashboard__cta-action--green:hover {
+  color: var(--dd-accent-green-glow);
+}
+
+@media (max-width: 767px) {
+  .drone-dashboard__cta-row {
+    grid-template-columns: 1fr;
+  }
+
+  .drone-dashboard__cta-box {
+    padding: var(--dd-space-grid);
+  }
+}
+
+
+/* ============================================================================
+   5. HERO STATS ROW
+   ============================================================================ */
+
+.drone-dashboard__hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--dd-space-grid);
+  margin-bottom: var(--dd-space-section);
+}
+
+.drone-dashboard__hero-stat {
+  border: 1px solid var(--dd-border);
+  padding: 20px;
+  background-color: var(--dd-bg-page);
+}
+
+.drone-dashboard__hero-stat-label {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+  margin-bottom: var(--dd-space-element);
+}
+
+.drone-dashboard__hero-stat-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.drone-dashboard__hero-stat-number {
+  font-size: var(--dd-type-hero);
+  line-height: 1;
+  font-weight: 400;
+}
+
+.drone-dashboard__hero-stat-suffix {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-dim);
+  text-transform: uppercase;
+}
+
+/* Color variants for hero stats */
+.drone-dashboard__hero-stat--red .drone-dashboard__hero-stat-number {
+  color: var(--dd-accent-red);
+}
+
+.drone-dashboard__hero-stat--blue .drone-dashboard__hero-stat-number {
+  color: var(--dd-accent-blue);
+}
+
+.drone-dashboard__hero-stat--green .drone-dashboard__hero-stat-number {
+  color: var(--dd-accent-green-glow);
+}
+
+.drone-dashboard__hero-stat--muted .drone-dashboard__hero-stat-number {
+  color: var(--dd-text-muted);
+}
+
+
+/* ============================================================================
+   6. GRID BOXES (containers)
+   ============================================================================ */
+
+.drone-dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--dd-space-grid);
+  margin-bottom: var(--dd-space-section);
+}
+
+.drone-dashboard__grid--two-col {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.drone-dashboard__box {
+  border: 1px solid var(--dd-border);
+  background-color: var(--dd-bg-page);
+  padding: var(--dd-space-box);
+}
+
+/* Box Header with colored accent bar */
+.drone-dashboard__box-header {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-space-tight);
+  margin-bottom: var(--dd-space-micro);
+}
+
+.drone-dashboard__box-accent {
+  width: 4px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.drone-dashboard__box-accent--red { background-color: var(--dd-accent-red); }
+.drone-dashboard__box-accent--blue { background-color: var(--dd-accent-blue); }
+.drone-dashboard__box-accent--green { background-color: var(--dd-accent-green); }
+.drone-dashboard__box-accent--yellow { background-color: var(--dd-accent-yellow); }
+
+.drone-dashboard__box-title {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-secondary);
+  letter-spacing: var(--dd-tracking-wide);
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.drone-dashboard__box-subtitle {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-dim);
+  letter-spacing: var(--dd-tracking-tight);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-left: 12px; /* Align with title when accent bar present */
+}
+
+.drone-dashboard__box-subtitle--no-indent {
+  padding-left: 0;
+}
+
+
+/* ============================================================================
+   7. INSTALLATION PROGRESS
+   ============================================================================ */
+
+.drone-dashboard__progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dd-space-element);
+}
+
+.drone-dashboard__progress-item {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-space-element);
+  padding: var(--dd-space-element) 0;
+  border-bottom: 1px solid var(--dd-border-subtle);
+}
+
+.drone-dashboard__progress-item:last-child {
+  border-bottom: none;
+}
+
+.drone-dashboard__progress-seq {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-dim);
+  width: 48px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+/* Sequence state colors */
+.drone-dashboard__progress-seq--complete { color: var(--dd-accent-green-glow); }
+.drone-dashboard__progress-seq--active { color: var(--dd-accent-yellow); }
+
+.drone-dashboard__progress-name {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-secondary);
+  letter-spacing: var(--dd-tracking-body);
+  flex: 1;
+  text-transform: uppercase;
+}
+
+.drone-dashboard__progress-bar {
+  width: 80px;
+  height: 4px;
+  background-color: var(--dd-border);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.drone-dashboard__progress-fill {
+  height: 100%;
+  background-color: var(--dd-text-dim);
+  transition: width 300ms ease-out;
+}
+
+.drone-dashboard__progress-fill--complete { background-color: var(--dd-accent-green-glow); }
+.drone-dashboard__progress-fill--active { background-color: var(--dd-accent-yellow); }
+
+.drone-dashboard__progress-count {
+  font-size: var(--dd-type-small);
+  color: var(--dd-text-secondary);
+  width: 40px;
+  text-align: right;
+}
+
+.drone-dashboard__progress-count--complete {
+  color: var(--dd-accent-green-glow);
+  font-weight: 500;
+}
+
+/* Loops Summary */
+.drone-dashboard__progress-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--dd-space-element);
+  padding-top: var(--dd-space-element);
+  border-top: 1px solid var(--dd-border);
+}
+
+.drone-dashboard__progress-summary-label {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__progress-summary-value {
+  font-size: var(--dd-type-body);
+  color: var(--dd-text-primary);
+}
+
+.drone-dashboard__progress-summary-value span {
+  color: var(--dd-text-muted);
+}
+
+
+/* ============================================================================
+   8. DEPLOYMENT READINESS
+   ============================================================================ */
+
+.drone-dashboard__readiness-list {
+  margin-bottom: 20px;
+}
+
+.drone-dashboard__readiness-item {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-space-element);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--dd-border-subtle);
+}
+
+.drone-dashboard__readiness-item:last-child {
+  border-bottom: none;
+}
+
+.drone-dashboard__readiness-indicator {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  background-color: var(--dd-text-dim);
+}
+
+.drone-dashboard__readiness-indicator--complete {
+  background-color: var(--dd-accent-green-glow);
+}
+
+.drone-dashboard__readiness-label {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-tight);
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.drone-dashboard__readiness-label--complete {
+  color: var(--dd-text-primary);
+}
+
+.drone-dashboard__readiness-status {
+  font-size: var(--dd-type-nano);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__readiness-status--confirmed {
+  color: var(--dd-accent-green-glow);
+}
+
+.drone-dashboard__readiness-status--pending {
+  color: var(--dd-accent-yellow);
+}
+
+/* Readiness Score Card */
+.drone-dashboard__readiness-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--dd-space-grid);
+  background-color: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+}
+
+.drone-dashboard__readiness-score-label {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__readiness-score-value {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.drone-dashboard__readiness-score-number {
+  font-size: var(--dd-type-large);
+}
+
+.drone-dashboard__readiness-score-number--low {
+  color: var(--dd-accent-yellow);
+}
+
+.drone-dashboard__readiness-score-number--high {
+  color: var(--dd-accent-green-glow);
+}
+
+.drone-dashboard__readiness-score-total {
+  font-size: var(--dd-type-body);
+  color: var(--dd-text-dim);
+}
+
+
+/* ============================================================================
+   9. SYSTEM TOLERANCES
+   ============================================================================ */
+
+.drone-dashboard__tolerances-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--dd-space-element);
+}
+
+.drone-dashboard__tolerance-cell {
+  border: 1px solid var(--dd-border);
+  padding: var(--dd-space-grid);
+  background-color: var(--dd-bg-card);
+  text-align: center;
+}
+
+.drone-dashboard__tolerance-label {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+  margin-bottom: var(--dd-space-element);
+}
+
+.drone-dashboard__tolerance-value {
+  font-size: var(--dd-type-hero);
+  color: var(--dd-text-primary);
+  line-height: 1;
+}
+
+.drone-dashboard__tolerance-max {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-dim);
+  text-transform: uppercase;
+  margin-top: var(--dd-space-micro);
+}
+
+
+/* ============================================================================
+   10. LIMITS FILING
+   ============================================================================ */
+
+.drone-dashboard__limits-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--dd-space-element);
+  margin-bottom: 20px;
+}
+
+.drone-dashboard__limit-badge {
+  flex: 1;
+  border: 1px solid var(--dd-border);
+  padding: var(--dd-space-grid);
+  background-color: var(--dd-bg-card);
+  text-align: center;
+}
+
+.drone-dashboard__limit-count {
+  font-size: var(--dd-type-large);
+  margin-bottom: var(--dd-space-tight);
+}
+
+.drone-dashboard__limit-count--green { color: var(--dd-accent-green-glow); }
+.drone-dashboard__limit-count--yellow { color: var(--dd-accent-yellow-light); }
+.drone-dashboard__limit-count--red { color: var(--dd-accent-red); }
+
+.drone-dashboard__limit-label {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+}
+
+/* Limits Footer */
+.drone-dashboard__limits-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--dd-space-element) var(--dd-space-grid);
+  background-color: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+}
+
+.drone-dashboard__limits-updated {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__limits-edit {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-accent-blue);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  text-decoration: none;
+}
+
+.drone-dashboard__limits-edit:hover {
+  color: var(--primitive-blue-light, #4a6aa8);
+}
+
+
+/* ============================================================================
+   11. INTEGRATION STATUS
+   ============================================================================ */
+
+.drone-dashboard__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--dd-space-element);
+}
+
+.drone-dashboard__stat-cell {
+  border: 1px solid var(--dd-border);
+  padding: var(--dd-space-grid);
+  background-color: var(--dd-bg-card);
+}
+
+.drone-dashboard__stat-label {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+  margin-bottom: var(--dd-space-tight);
+}
+
+.drone-dashboard__stat-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.drone-dashboard__stat-number {
+  font-size: var(--dd-type-medium);
+  color: var(--dd-text-primary);
+}
+
+.drone-dashboard__stat-number--blue { color: var(--dd-accent-blue); }
+.drone-dashboard__stat-number--green { color: var(--dd-accent-green-glow); }
+
+.drone-dashboard__stat-suffix {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  text-transform: uppercase;
+}
+
+
+/* ============================================================================
+   12. CONDITIONING LOG
+   ============================================================================ */
+
+.drone-dashboard__log-empty {
+  padding: var(--dd-space-box);
+  background-color: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-dim);
+  font-style: italic;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: var(--dd-space-grid);
+}
+
+.drone-dashboard__log-link {
+  display: block;
+  font-size: var(--dd-type-micro);
+  color: var(--dd-accent-red);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  text-decoration: none;
+}
+
+.drone-dashboard__log-link:hover {
+  color: var(--primitive-red-light, #a84042);
+}
+
+/* Log Entry (when populated) */
+.drone-dashboard__log-entry {
+  padding: var(--dd-space-grid);
+  border-bottom: 1px solid var(--dd-border-subtle);
+}
+
+.drone-dashboard__log-entry:last-child {
+  border-bottom: none;
+}
+
+.drone-dashboard__log-entry-date {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  margin-bottom: var(--dd-space-micro);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__log-entry-title {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-primary);
+  text-transform: uppercase;
+}
+
+
+/* ============================================================================
+   13. FOOTER CTA
+   ============================================================================ */
+
+.drone-dashboard__footer-cta {
+  display: block;
+  border: 1px solid var(--dd-accent-red);
+  background-color: var(--dd-accent-red);
+  padding: 20px var(--dd-space-box);
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: var(--dd-space-page);
+  transition: background-color 200ms ease-out;
+  text-decoration: none;
+}
+
+.drone-dashboard__footer-cta:hover {
+  background-color: var(--primitive-red-light, #a84042);
+}
+
+.drone-dashboard__footer-cta-text {
+  font-size: var(--dd-type-small);
+  color: var(--dd-bg-page);
+  letter-spacing: var(--dd-tracking-wide);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+
+/* ============================================================================
+   14. FOOTER
+   ============================================================================ */
+
+.drone-dashboard__footer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--dd-space-grid);
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+}
+
+.drone-dashboard__footer-link {
+  cursor: pointer;
+  transition: color 200ms ease-out;
+  text-decoration: none;
+  color: var(--dd-text-dim);
+}
+
+.drone-dashboard__footer-link:hover {
+  color: var(--dd-text-muted);
+}
+
+
+/* ============================================================================
+   15. RESPONSIVE — TABLET (max-width: 1023px)
+   ============================================================================ */
+
+@media (max-width: 1023px) {
+  .drone-dashboard {
+    --dd-space-page: 24px;
+    --dd-space-section: 20px;
+    --dd-space-box: 20px;
+    --dd-type-hero: 28px;
+    --dd-type-large: 24px;
+  }
+
+  .drone-dashboard__hero-stats {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .drone-dashboard__grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .drone-dashboard__progress-bar {
+    width: 60px;
+  }
+
+  .drone-dashboard__limits-grid {
+    flex-wrap: wrap;
+  }
+
+  .drone-dashboard__limit-badge {
+    min-width: calc(33% - var(--dd-space-element));
+  }
+}
+
+
+/* ============================================================================
+   16. RESPONSIVE — MOBILE (max-width: 767px)
+   ============================================================================ */
+
+@media (max-width: 767px) {
+  .drone-dashboard {
+    --dd-space-page: 16px;
+    --dd-space-section: 16px;
+    --dd-space-box: 16px;
+    --dd-space-grid: 12px;
+    --dd-type-hero: 24px;
+    --dd-type-large: 20px;
+    --dd-type-medium: 18px;
+  }
+
+  /* Header stacks */
+  .drone-dashboard__header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .drone-dashboard__designation {
+    font-size: var(--dd-type-large);
+  }
+
+  /* Hero stats: 2 columns on mobile */
+  .drone-dashboard__hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* CTA row stacks on mobile */
+  .drone-dashboard__cta-row {
+    flex-direction: column;
+  }
+
+  /* Grid boxes: single column */
+  .drone-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Progress items stack label above bar */
+  .drone-dashboard__progress-item {
+    flex-wrap: wrap;
+  }
+
+  .drone-dashboard__progress-name {
+    width: 100%;
+    order: 1;
+    margin-bottom: var(--dd-space-tight);
+  }
+
+  .drone-dashboard__progress-seq {
+    order: 2;
+  }
+
+  .drone-dashboard__progress-bar {
+    order: 3;
+    flex: 1;
+    width: auto;
+  }
+
+  .drone-dashboard__progress-count {
+    order: 4;
+  }
+
+  /* Tolerances: keep 2x2 but smaller */
+  .drone-dashboard__tolerance-cell {
+    padding: var(--dd-space-element);
+  }
+
+  .drone-dashboard__tolerance-value {
+    font-size: var(--dd-type-large);
+  }
+
+  /* Limits: stack vertically */
+  .drone-dashboard__limits-grid {
+    flex-direction: column;
+  }
+
+  .drone-dashboard__limit-badge {
+    width: 100%;
+  }
+
+  /* Stats: keep 2x2 */
+  .drone-dashboard__stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Footer CTA */
+  .drone-dashboard__footer-cta {
+    padding: var(--dd-space-grid);
+  }
+
+  .drone-dashboard__footer-cta-text {
+    font-size: var(--dd-type-label);
+  }
+}
+
+
+/* ============================================================================
+   17. UTILITY CLASSES
+   ============================================================================ */
+
+/* Text colors */
+.drone-dashboard .text-red { color: var(--dd-accent-red); }
+.drone-dashboard .text-blue { color: var(--dd-accent-blue); }
+.drone-dashboard .text-green { color: var(--dd-accent-green-glow); }
+.drone-dashboard .text-yellow { color: var(--dd-accent-yellow); }
+.drone-dashboard .text-muted { color: var(--dd-text-muted); }
+.drone-dashboard .text-dim { color: var(--dd-text-dim); }
+
+/* Background colors */
+.drone-dashboard .bg-surface { background-color: var(--dd-bg-card); }
+.drone-dashboard .bg-elevated { background-color: var(--dd-bg-elevated); }
+
+/* Border accents */
+.drone-dashboard .border-red { border-color: var(--dd-accent-red); }
+.drone-dashboard .border-blue { border-color: var(--dd-accent-blue); }
+.drone-dashboard .border-green { border-color: var(--dd-accent-green); }
+.drone-dashboard .border-yellow { border-color: var(--dd-accent-yellow); }
+
+/* Display */
+.drone-dashboard .hidden { display: none; }
+.drone-dashboard .flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Spacing overrides */
+.drone-dashboard .mb-0 { margin-bottom: 0; }
+.drone-dashboard .mt-section { margin-top: var(--dd-space-section); }
+
+
+/* ============================================================================
+   18. STATES & ANIMATIONS
+   ============================================================================ */
+
+/* Focus states */
+.drone-dashboard a:focus-visible,
+.drone-dashboard button:focus-visible,
+.drone-dashboard [role="button"]:focus-visible {
+  outline: 2px solid var(--dd-accent-red);
+  outline-offset: 2px;
+}
+
+/* Loading state for progress bars */
+.drone-dashboard__progress-fill--loading {
+  animation: progress-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Hover states for interactive elements */
+.drone-dashboard__box--interactive {
+  cursor: pointer;
+  transition: border-color 200ms ease-out;
+}
+
+.drone-dashboard__box--interactive:hover {
+  border-color: var(--dd-border);
+}
+
+/* Active/pressed states */
+.drone-dashboard__primary-cta:active,
+.drone-dashboard__footer-cta:active {
+  transform: translateY(1px);
+}
+
+
+/* ============================================================================
+   19. ACCESS DENIED
+   ============================================================================ */
+
+.drone-access-denied {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: var(--dd-space-page);
+}
+
+.drone-access-denied__content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.drone-access-denied__header {
+  font-family: var(--font-ui);
+  font-size: var(--dd-type-large);
+  font-weight: 400;
+  letter-spacing: var(--dd-tracking-wide);
+  color: var(--dd-accent-red);
+  margin-bottom: var(--dd-space-element);
+  text-transform: uppercase;
+}
+
+.drone-access-denied p {
+  font-family: var(--font-ui);
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-secondary);
+  margin-bottom: var(--dd-space-tight);
+}
+
+.drone-access-denied .drone-dashboard__footer-cta {
+  margin-top: var(--dd-space-section);
+  display: inline-block;
+}
+
+
+/* ============================================================================
+   20. PIPELINE TRACKER
+   Visual progression tracker for dronification journey
+   ============================================================================ */
+
+.pipeline-tracker {
+  border: 1px solid var(--dd-border);
+  background-color: var(--dd-bg-page);
+  padding: var(--dd-space-box);
+  grid-column: 1 / -1; /* Span full width of grid */
+  margin-top: var(--dd-space-tight); /* Extra separation from boxes above */
+}
+
+/* Header */
+.pipeline-tracker__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--dd-space-section);
+}
+
+.pipeline-tracker__title {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-space-tight);
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-secondary);
+  letter-spacing: var(--dd-tracking-wide);
+  text-transform: uppercase;
+}
+
+.pipeline-tracker__accent {
+  width: 4px;
+  height: 12px;
+  background-color: var(--dd-accent-red);
+  flex-shrink: 0;
+}
+
+.pipeline-tracker__loop-count {
+  font-size: var(--dd-type-micro);
+  color: var(--dd-text-muted);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+}
+
+/* Node Track Container */
+.pipeline-tracker__track {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: var(--dd-space-grid);
+}
+
+/* Background line */
+.pipeline-tracker__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background-color: var(--dd-border);
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Progress fill line */
+.pipeline-tracker__progress {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 2px;
+  background-color: var(--dd-accent-green-glow);
+  transform: translateY(-50%);
+  z-index: 2;
+  transition: width 500ms ease-out;
+}
+
+/* Individual nodes */
+.pipeline-tracker__node {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--dd-bg-card);
+  border: 2px solid var(--dd-border);
+  z-index: 3;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Complete node */
+.pipeline-tracker__node--complete {
+  background-color: var(--dd-accent-green);
+  border-color: var(--dd-accent-green-glow);
+}
+
+.pipeline-tracker__checkmark {
+  font-size: 10px;
+  color: var(--dd-accent-green-glow);
+  line-height: 1;
+}
+
+/* Pending node (unlocked but not started) */
+.pipeline-tracker__node--pending {
+  border-color: var(--dd-text-muted);
+  background-color: var(--dd-bg-elevated);
+}
+
+/* Active node - LARGER and PULSING */
+.pipeline-tracker__node--active {
+  width: 28px;
+  height: 28px;
+  border-color: var(--dd-accent-yellow);
+  background-color: var(--dd-accent-yellow);
+  animation: pipeline-pulse 2s ease-in-out infinite;
+}
+
+.pipeline-tracker__node-count {
+  font-size: 11px;
+  color: var(--dd-bg-page);
+  font-weight: 500;
+}
+
+/* Locked node */
+.pipeline-tracker__node--locked {
+  border-color: var(--dd-text-dim);
+  background-color: var(--dd-bg-page);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Pulse animation for active node */
+@keyframes pipeline-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(139, 115, 85, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(139, 115, 85, 0);
+  }
+}
+
+/* Hover tooltip */
+.pipeline-tracker__node:hover::after {
+  content: attr(data-phase);
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+  padding: 4px 8px;
+  font-size: 9px;
+  color: var(--dd-text-primary);
+  letter-spacing: var(--dd-tracking-normal);
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.pipeline-tracker__node--locked:hover::after {
+  content: attr(data-phase) " [LOCKED]";
+}
+
+/* Current phase detail box */
+.pipeline-tracker__current {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--dd-space-grid);
+  background-color: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+  border-left: 3px solid var(--dd-accent-yellow);
+}
+
+.pipeline-tracker__current-info {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-space-grid);
+}
+
+.pipeline-tracker__current-label {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+}
+
+.pipeline-tracker__current-name {
+  font-size: var(--dd-type-body);
+  color: var(--dd-accent-yellow);
+  letter-spacing: var(--dd-tracking-medium);
+  text-transform: uppercase;
+}
+
+.pipeline-tracker__current-progress {
+  display: flex;
+  align-items: baseline;
+}
+
+.pipeline-tracker__current-number {
+  font-size: var(--dd-type-large);
+  color: var(--dd-text-primary);
+}
+
+.pipeline-tracker__current-total {
+  font-size: var(--dd-type-body);
+  color: var(--dd-text-dim);
+}
+
+/* Empty/Not Started State */
+.pipeline-tracker__empty {
+  text-align: center;
+  padding: var(--dd-space-box);
+  color: var(--dd-text-dim);
+  font-size: var(--dd-type-label);
+  letter-spacing: var(--dd-tracking-tight);
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+/* Responsive — Tablet */
+@media (max-width: 1023px) {
+  .pipeline-tracker {
+    grid-column: span 2;
+  }
+
+  .pipeline-tracker__node {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pipeline-tracker__node--active {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pipeline-tracker__checkmark {
+    font-size: 8px;
+  }
+
+  .pipeline-tracker__node-count {
+    font-size: 10px;
+  }
+}
+
+/* Responsive — Mobile */
+@media (max-width: 767px) {
+  .pipeline-tracker {
+    grid-column: span 1;
+  }
+
+  .pipeline-tracker__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--dd-space-tight);
+  }
+
+  .pipeline-tracker__track {
+    padding: 16px 8px;
+  }
+
+  .pipeline-tracker__node {
+    width: 14px;
+    height: 14px;
+  }
+
+  .pipeline-tracker__node--active {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pipeline-tracker__checkmark {
+    font-size: 7px;
+  }
+
+  .pipeline-tracker__node-count {
+    font-size: 9px;
+  }
+
+  /* Hide tooltips on mobile - rely on current box */
+  .pipeline-tracker__node:hover::after {
+    display: none;
+  }
+
+  .pipeline-tracker__current {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--dd-space-tight);
+  }
+
+  .pipeline-tracker__current-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--dd-space-micro);
+  }
+}
+
+
+/* ============================================================================
+   21. HIDE THEME FOOTER
+   Dashboard has its own footer, hide the BuddyBoss theme footer
+   ============================================================================ */
+
+.drone-dashboard ~ .site-footer,
+.drone-dashboard ~ #colophon,
+body.page-template-template-drone-dashboard .site-footer,
+body.page-template-template-drone-dashboard #colophon,
+body.page-template-template-drone-dashboard footer.footer-wrap {
+  display: none !important;
+}
+
+
+/* ============================================================================
+   END OF DRONE DASHBOARD STYLES
+   ============================================================================ */

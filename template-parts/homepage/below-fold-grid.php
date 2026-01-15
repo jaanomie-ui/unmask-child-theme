@@ -87,8 +87,9 @@ $total_isos = $iso_query->found_posts;
         </div>
     </section>
 
+    <?php if (is_user_logged_in()) : ?>
     <!-- =====================================================================
-         RAIL: ACTIVE ISOS
+         RAIL: ACTIVE ISOS (Members only)
          ===================================================================== -->
     <section class="rail">
         <header class="rail__header">
@@ -114,15 +115,17 @@ $total_isos = $iso_query->found_posts;
     </section>
 
     <!-- =====================================================================
-         WIDGET-H: ACTIVITY FEED (PLACEHOLDER)
+         WIDGET-H: ACTIVITY FEED (Members only)
          ===================================================================== -->
     <div class="widget-h">
         <span class="widget-h__label">Activity</span>
         <p class="widget-h__placeholder">Activity feed coming soon</p>
     </div>
+    <?php endif; ?>
 
+    <?php if (is_user_logged_in()) : ?>
     <!-- =====================================================================
-         RAIL: THE FACTORY
+         RAIL: THE FACTORY (Members only)
          ===================================================================== -->
     <section class="rail">
         <header class="rail__header">
@@ -149,11 +152,21 @@ $total_isos = $iso_query->found_posts;
             </a>
         </div>
     </section>
+    <?php endif; ?>
 
     <!-- =====================================================================
          WIDGET-SQ: CTAs (flex row, matches factory card sizing)
          ===================================================================== -->
-    <div class="widget-row">
+    <div class="widget-row<?php echo !is_user_logged_in() ? ' widget-row--three-col' : ''; ?>">
+        <?php if (!is_user_logged_in()) : ?>
+        <!-- Dig Deeper CTA (Strangers only) -->
+        <div class="widget-sq widget-sq--cta widget-sq--amber">
+            <a href="<?php echo esc_url(home_url('/register/')); ?>" class="widget-sq__link">
+                <h3 class="widget-sq__title">dig deeper</h3>
+                <p class="widget-sq__desc">log in to see more.</p>
+            </a>
+        </div>
+        <?php endif; ?>
         <div class="widget-sq widget-sq--cta widget-sq--submit">
             <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="widget-sq__link">
                 <h3 class="widget-sq__title">Tell Your Story</h3>

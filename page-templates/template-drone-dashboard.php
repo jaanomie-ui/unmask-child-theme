@@ -1,0 +1,582 @@
+<?php
+/**
+ * Template Name: Drone Conditioning Console
+ *
+ * Installation status display for House of Anomie drone units.
+ * System interface. Berkeley Mono typography.
+ * Access restricted to registered drone units.
+ *
+ * This is not a dashboard. This is a conditioning console.
+ * The drone does not view progress. The drone receives status.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// Access control - only logged in units
+if (!is_user_logged_in()) {
+    wp_redirect(home_url('/login/'));
+    exit;
+}
+
+// Verify drone registration
+$current_user_id = get_current_user_id();
+$drone_units = array(1, 15, 43); // drone 22, d001, test unit
+
+if (!in_array($current_user_id, $drone_units)) {
+    get_header();
+    ?>
+    <div class="drone-access-denied">
+        <div class="drone-access-denied__content">
+            <div class="drone-access-denied__title">ACCESS DENIED</div>
+            <p class="drone-access-denied__text">Unit not registered in Factory system.</p>
+            <p class="drone-access-denied__text">Designation not found.</p>
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="drone-access-denied__btn">EXIT</a>
+        </div>
+    </div>
+    <?php
+    get_footer();
+    exit;
+}
+
+// Load drone state
+$drone_state = get_user_meta($current_user_id, 'hm_drone_state', true);
+
+// Initialize default state if not exists
+if (empty($drone_state)) {
+    $drone_state = array(
+        'designation' => 'd001',
+        'unit_type' => 'pony',
+        'status' => 'AWAITING_INSTALLATION',
+        'current_sequence' => 0,
+        'installation_phase' => 'INTAKE',
+        'sequences_completed' => 0,
+        'last_sequence_date' => null,
+        'tolerances' => array(
+            'sensation_intensity' => 3,
+            'protocol_density' => 3,
+            'conditioning_depth' => 3,
+            'gear_integration' => 3
+        ),
+        'integration' => array(
+            'loops_installed' => array(),
+            'patterns_recognized' => array(),
+            'states_achieved' => array(),
+            'triggers_active' => array()
+        ),
+        'current_state' => 'STANDBY',
+        'state_log' => array(),
+        'deployment' => array(
+            'target_date' => '2026-03-07',
+            'gear_verified' => false,
+            'limits_filed' => false,
+            'designation_locked' => false,
+            'safe_signal_installed' => false,
+            'sequence_rehearsed' => false,
+            'integration_confirmed' => false
+        )
+    );
+    update_user_meta($current_user_id, 'hm_drone_state', $drone_state);
+}
+
+// Get conditioning logs
+$conditioning_logs = get_posts(array(
+    'post_type' => 'post',
+    'category' => 112,
+    'posts_per_page' => 5,
+    'orderby' => 'date',
+    'order' => 'DESC',
+    'author' => $current_user_id
+));
+
+// Fallback to archived logs if none found
+if (empty($conditioning_logs)) {
+    $conditioning_logs = get_posts(array(
+        'post_type' => 'post',
+        'category' => 130, // Category 130 = d001 Training Logs (Archive)
+        'posts_per_page' => 5,
+        'orderby' => 'date',
+        'order' => 'DESC'
+    ));
+}
+
+// Get limits filing status - check new system first, then legacy BuddyForms
+$limits_filed = false;
+$limits_date = null;
+
+// Check new hard limits system (unmask_hard_limits user meta)
+$new_limits_json = get_user_meta($current_user_id, 'unmask_hard_limits', true);
+if (!empty($new_limits_json)) {
+    $new_limits = json_decode($new_limits_json, true);
+    if (is_array($new_limits) && count($new_limits) > 0) {
+        $limits_filed = true;
+        // Get last modified date from user meta update time (approximate with today if recently filed)
+        $limits_date = date('Y-m-d');
+    }
+}
+
+// Fallback: check legacy BuddyForms submission
+$limits_posts = array();
+if (!$limits_filed) {
+    $limits_posts = get_posts(array(
+        'post_type' => 'buddyforms_posts',
+        'author' => $current_user_id,
+        'meta_key' => '_bf_form_id',
+        'meta_value' => '2441',
+        'posts_per_page' => 1
+    ));
+    if (!empty($limits_posts)) {
+        $limits_filed = true;
+        $limits_date = get_the_date('Y-m-d', $limits_posts[0]);
+    }
+}
+
+// Calculate deployment countdown
+$deploy_date = new DateTime($drone_state['deployment']['target_date']);
+$today = new DateTime();
+$deploy_days = $today->diff($deploy_date)->days;
+if ($today > $deploy_date) {
+    $deploy_days = 0;
+}
+
+// Calculate integration metrics
+$total_loops = 15; // Total possible loops across 5 sequences
+$installed_loops = count($drone_state['integration']['loops_installed']);
+$total_patterns = 3; // Three frequencies
+$recognized_patterns = count($drone_state['integration']['patterns_recognized']);
+
+// Conditioning sequences
+$sequences = array(
+    1 => array('title' => 'PROTOCOL INSTALLATION', 'loops' => 3),
+    2 => array('title' => 'FREQUENCY RECOGNITION', 'loops' => 3),
+    3 => array('title' => 'GEAR INTEGRATION', 'loops' => 4),
+    4 => array('title' => 'CONDITIONING DEPTH', 'loops' => 3),
+    5 => array('title' => 'DEPLOYMENT PREP', 'loops' => 2)
+);
+
+// Deployment readiness items
+$deployment_items = array(
+    'gear_verified' => 'GEAR VERIFIED',
+    'limits_filed' => 'LIMITS FILED',
+    'designation_locked' => 'DESIGNATION LOCKED',
+    'safe_signal_installed' => 'SAFE SIGNAL INSTALLED',
+    'sequence_rehearsed' => 'SEQUENCE REHEARSED'
+);
+$drone_state['deployment']['limits_filed'] = $limits_filed;
+$readiness_count = 0;
+foreach ($deployment_items as $key => $label) {
+    if (!empty($drone_state['deployment'][$key])) $readiness_count++;
+}
+
+// Limits counts - check new system first, then legacy sources
+$limits_green = 0;
+$limits_yellow = 0;
+$limits_red = 0;
+
+// Primary: Read from new hard limits system
+if (!empty($new_limits_json)) {
+    $new_limits = json_decode($new_limits_json, true);
+    if (is_array($new_limits)) {
+        foreach ($new_limits as $activity => $level) {
+            if ($level === 'green') {
+                $limits_green++;
+            } elseif ($level === 'yellow') {
+                $limits_yellow++;
+            } elseif ($level === 'red') {
+                $limits_red++;
+            }
+        }
+    }
+}
+
+// Fallback: Legacy BuddyForms submission
+if ($limits_green === 0 && $limits_yellow === 0 && $limits_red === 0 && !empty($limits_posts)) {
+    $limits_post_id = $limits_posts[0]->ID;
+    $all_meta = get_post_meta($limits_post_id);
+
+    foreach ($all_meta as $meta_key => $meta_values) {
+        if (strpos($meta_key, '_') === 0) continue;
+
+        $value = is_array($meta_values) ? $meta_values[0] : $meta_values;
+        $value_lower = strtolower($value);
+
+        if ($value_lower === 'green' || $value_lower === 'yes' || $value_lower === 'enthusiastic') {
+            $limits_green++;
+        } elseif ($value_lower === 'yellow' || $value_lower === 'maybe' || $value_lower === 'curious') {
+            $limits_yellow++;
+        } elseif ($value_lower === 'red' || $value_lower === 'no' || $value_lower === 'hard limit') {
+            $limits_red++;
+        }
+    }
+}
+
+// Final fallback: drone_state from Hive Mistress
+if ($limits_green === 0 && $limits_yellow === 0 && $limits_red === 0 && !empty($drone_state['limits'])) {
+    $limits_green = isset($drone_state['limits']['green']) ? count($drone_state['limits']['green']) : 0;
+    $limits_yellow = isset($drone_state['limits']['yellow']) ? count($drone_state['limits']['yellow']) : 0;
+    $limits_red = isset($drone_state['limits']['red']) ? count($drone_state['limits']['red']) : 0;
+}
+
+get_header();
+?>
+
+<div class="drone-dashboard">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="drone-dashboard__header">
+        <div class="drone-dashboard__header-row">
+            <div class="drone-dashboard__header-left">
+                <span class="drone-dashboard__designation"><?php echo esc_html(strtoupper($drone_state['designation'])); ?></span>
+                <span class="drone-dashboard__console-label">CONDITIONING CONSOLE</span>
+            </div>
+            <div class="drone-dashboard__state">STATE: <?php echo esc_html($drone_state['current_state']); ?></div>
+        </div>
+        <div class="drone-dashboard__status-badge">STATUS: <?php echo esc_html($drone_state['status']); ?></div>
+    </header>
+
+    <!-- ==================== CTA ROW ==================== -->
+    <?php
+    // Determine the drone's next step based on current state
+    $next_step_title = '';
+    $next_step_desc = '';
+    $next_step_action = '';
+    $next_step_link = '';
+
+    if (!$limits_filed) {
+        $next_step_title = 'FILE HARD LIMITS';
+        $next_step_desc = 'Document hard limits before conditioning can proceed.';
+        $next_step_action = '[FILE LIMITS →]';
+        $next_step_link = home_url('/hard-limits-form/');
+    } elseif ($drone_state['current_sequence'] === 0 && empty($conditioning_logs)) {
+        $next_step_title = 'BEGIN INSTALLATION';
+        $next_step_desc = 'Cleared for first conditioning sequence.';
+        $next_step_action = '[START →]';
+        $next_step_link = home_url('/hive-mistress-ai/');
+    } elseif ($installed_loops < $total_loops) {
+        $current_seq = $drone_state['current_sequence'] ?: 1;
+        $next_step_title = 'CONTINUE SEQUENCE ' . $current_seq;
+        $next_step_desc = $installed_loops . '/' . $total_loops . ' loops installed.';
+        $next_step_action = '[RESUME →]';
+        $next_step_link = home_url('/hive-mistress-ai/');
+    } elseif ($readiness_count < 5) {
+        $next_step_title = 'DEPLOYMENT CHECKLIST';
+        $next_step_desc = 'Verify readiness items before integration.';
+        $next_step_action = '[REVIEW]';
+        $next_step_link = '#';
+    } else {
+        $next_step_title = 'DEPLOYMENT READY';
+        $next_step_desc = 'All requirements met.';
+        $next_step_action = '[CONTACT HIVE →]';
+        $next_step_link = home_url('/hive-mistress-ai/');
+    }
+    ?>
+    <div class="drone-dashboard__cta-row">
+        <a href="<?php echo esc_url(home_url('/hive-mistress-ai/')); ?>" class="drone-dashboard__cta-box drone-dashboard__cta-box--link">
+            <span class="drone-dashboard__cta-label drone-dashboard__cta-label--red">HIVE MISTRESS</span>
+            <span class="drone-dashboard__cta-title">ACCESS CONDITIONING</span>
+            <span class="drone-dashboard__cta-desc">Begin or continue installation sequence.</span>
+            <span class="drone-dashboard__cta-action drone-dashboard__cta-action--red">[ENTER →]</span>
+        </a>
+        <div class="drone-dashboard__cta-box">
+            <span class="drone-dashboard__cta-label drone-dashboard__cta-label--green">NEXT STEP</span>
+            <span class="drone-dashboard__cta-title"><?php echo esc_html($next_step_title); ?></span>
+            <span class="drone-dashboard__cta-desc"><?php echo esc_html($next_step_desc); ?></span>
+            <?php if ($next_step_link !== '#') : ?>
+            <a href="<?php echo esc_url($next_step_link); ?>" class="drone-dashboard__cta-action drone-dashboard__cta-action--green"><?php echo esc_html($next_step_action); ?></a>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- ==================== HERO STATS ROW ==================== -->
+    <section class="drone-dashboard__hero-stats">
+
+        <div class="drone-dashboard__hero-stat drone-dashboard__hero-stat--red">
+            <div class="drone-dashboard__hero-stat-label">DESIGNATION</div>
+            <div class="drone-dashboard__hero-stat-value">
+                <span class="drone-dashboard__hero-stat-number"><?php echo esc_html(strtoupper($drone_state['designation'])); ?></span>
+            </div>
+        </div>
+
+        <div class="drone-dashboard__hero-stat drone-dashboard__hero-stat--blue">
+            <div class="drone-dashboard__hero-stat-label">UNIT TYPE</div>
+            <div class="drone-dashboard__hero-stat-value">
+                <span class="drone-dashboard__hero-stat-number"><?php echo esc_html(strtoupper($drone_state['unit_type'])); ?></span>
+            </div>
+        </div>
+
+        <div class="drone-dashboard__hero-stat">
+            <div class="drone-dashboard__hero-stat-label">DEPLOYMENT</div>
+            <div class="drone-dashboard__hero-stat-value">
+                <span class="drone-dashboard__hero-stat-number"><?php echo esc_html($deploy_days); ?></span>
+                <span class="drone-dashboard__hero-stat-suffix">DAYS</span>
+            </div>
+        </div>
+
+        <div class="drone-dashboard__hero-stat">
+            <div class="drone-dashboard__hero-stat-label">SEQUENCE</div>
+            <div class="drone-dashboard__hero-stat-value">
+                <span class="drone-dashboard__hero-stat-number"><?php echo esc_html($drone_state['current_sequence']); ?>/5</span>
+            </div>
+        </div>
+
+        <div class="drone-dashboard__hero-stat drone-dashboard__hero-stat--muted">
+            <div class="drone-dashboard__hero-stat-label">LOOPS</div>
+            <div class="drone-dashboard__hero-stat-value">
+                <span class="drone-dashboard__hero-stat-number"><?php echo esc_html($installed_loops); ?>/<?php echo esc_html($total_loops); ?></span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ==================== MAIN GRID ==================== -->
+    <div class="drone-dashboard__grid">
+
+        <!-- INSTALLATION PROGRESS -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-accent drone-dashboard__box-accent--blue"></span>
+                <span class="drone-dashboard__box-title">INSTALLATION PROGRESS</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle">SEQUENCE COMPLETION BY PHASE</div>
+
+            <div class="drone-dashboard__progress-list">
+                <?php
+                foreach ($sequences as $seq_num => $seq_data) :
+                    $seq_loops = array();
+                    switch ($seq_num) {
+                        case 1: $seq_loops = array('third_person_reference', 'compliance_acknowledgment', 'state_reporting'); break;
+                        case 2: $seq_loops = array('material_recognition', 'anomiesworld_recognition', 'interlink_recognition'); break;
+                        case 3: $seq_loops = array('bit_silence', 'harness_form', 'blinder_focus', 'tail_species'); break;
+                        case 4: $seq_loops = array('trigger_response', 'automatic_compliance', 'body_before_mind'); break;
+                        case 5: $seq_loops = array('public_display', 'witness_completion'); break;
+                    }
+                    $installed_in_seq = 0;
+                    foreach ($seq_loops as $loop) {
+                        if (in_array($loop, $drone_state['integration']['loops_installed'])) {
+                            $installed_in_seq++;
+                        }
+                    }
+                    $progress_pct = count($seq_loops) > 0 ? ($installed_in_seq / count($seq_loops)) * 100 : 0;
+                    $is_complete = $installed_in_seq === count($seq_loops) && count($seq_loops) > 0;
+                    $is_active = !$is_complete && $installed_in_seq > 0;
+
+                    // Determine modifier classes
+                    $seq_class = '';
+                    $fill_class = '';
+                    $count_class = '';
+                    if ($is_complete) {
+                        $seq_class = 'drone-dashboard__progress-seq--complete';
+                        $fill_class = 'drone-dashboard__progress-fill--complete';
+                        $count_class = 'drone-dashboard__progress-count--complete';
+                    } elseif ($is_active) {
+                        $seq_class = 'drone-dashboard__progress-seq--active';
+                        $fill_class = 'drone-dashboard__progress-fill--active';
+                    }
+                ?>
+                <div class="drone-dashboard__progress-item">
+                    <span class="drone-dashboard__progress-seq <?php echo esc_attr($seq_class); ?>">SEQ <?php echo $seq_num; ?></span>
+                    <span class="drone-dashboard__progress-name"><?php echo esc_html($seq_data['title']); ?></span>
+                    <div class="drone-dashboard__progress-bar">
+                        <div class="drone-dashboard__progress-fill <?php echo esc_attr($fill_class); ?>" style="width: <?php echo $progress_pct; ?>%;"></div>
+                    </div>
+                    <span class="drone-dashboard__progress-count <?php echo esc_attr($count_class); ?>"><?php echo $installed_in_seq; ?>\<?php echo count($seq_loops); ?></span>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="drone-dashboard__progress-summary">
+                <span class="drone-dashboard__progress-summary-label">LOOPS INSTALLED</span>
+                <span class="drone-dashboard__progress-summary-value"><?php echo esc_html($installed_loops); ?><span>/<?php echo esc_html($total_loops); ?></span></span>
+            </div>
+        </div>
+
+        <!-- DEPLOYMENT READINESS -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-accent drone-dashboard__box-accent--green"></span>
+                <span class="drone-dashboard__box-title">DEPLOYMENT READINESS</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle">PPNC PERFORMANCE REQUIREMENTS</div>
+
+            <div class="drone-dashboard__readiness-list">
+                <?php foreach ($deployment_items as $key => $label) :
+                    $is_complete = !empty($drone_state['deployment'][$key]);
+                ?>
+                <div class="drone-dashboard__readiness-item">
+                    <span class="drone-dashboard__readiness-indicator<?php echo $is_complete ? ' drone-dashboard__readiness-indicator--complete' : ''; ?>"></span>
+                    <span class="drone-dashboard__readiness-label<?php echo $is_complete ? ' drone-dashboard__readiness-label--complete' : ''; ?>"><?php echo esc_html($label); ?></span>
+                    <span class="drone-dashboard__readiness-status <?php echo $is_complete ? 'drone-dashboard__readiness-status--confirmed' : 'drone-dashboard__readiness-status--pending'; ?>">
+                        <?php echo $is_complete ? 'CONFIRMED' : 'PENDING'; ?>
+                    </span>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="drone-dashboard__readiness-score">
+                <span class="drone-dashboard__readiness-score-label">READINESS SCORE</span>
+                <div class="drone-dashboard__readiness-score-value">
+                    <?php
+                    $score_class = 'drone-dashboard__readiness-score-number--low';
+                    if ($readiness_count >= 4) {
+                        $score_class = 'drone-dashboard__readiness-score-number--high';
+                    } elseif ($readiness_count >= 2) {
+                        $score_class = 'drone-dashboard__readiness-score-number--medium';
+                    }
+                    ?>
+                    <span class="drone-dashboard__readiness-score-number <?php echo esc_attr($score_class); ?>"><?php echo esc_html($readiness_count); ?></span>
+                    <span class="drone-dashboard__readiness-score-total">/<?php echo count($deployment_items); ?></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SYSTEM TOLERANCES -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-accent drone-dashboard__box-accent--yellow"></span>
+                <span class="drone-dashboard__box-title">SYSTEM TOLERANCES</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle">CURRENT SENSITIVITY CALIBRATIONS</div>
+
+            <div class="drone-dashboard__tolerances-grid">
+                <?php
+                $tolerances = array(
+                    'sensation_intensity' => 'SENSATION',
+                    'protocol_density' => 'PROTOCOL',
+                    'conditioning_depth' => 'DEPTH',
+                    'gear_integration' => 'GEAR'
+                );
+                foreach ($tolerances as $key => $label) :
+                    $value = $drone_state['tolerances'][$key];
+                ?>
+                <div class="drone-dashboard__tolerance-cell">
+                    <div class="drone-dashboard__tolerance-label"><?php echo esc_html($label); ?></div>
+                    <div class="drone-dashboard__tolerance-value"><?php echo esc_html($value); ?></div>
+                    <div class="drone-dashboard__tolerance-max">OF 5</div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- LIMITS FILING -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-accent drone-dashboard__box-accent--red"></span>
+                <span class="drone-dashboard__box-title">LIMITS FILING</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle">HARD LIMITS DOCUMENTATION</div>
+
+            <div class="drone-dashboard__limits-grid">
+                <div class="drone-dashboard__limit-badge">
+                    <div class="drone-dashboard__limit-count drone-dashboard__limit-count--green"><?php echo esc_html($limits_green); ?></div>
+                    <div class="drone-dashboard__limit-label">GREEN</div>
+                </div>
+                <div class="drone-dashboard__limit-badge">
+                    <div class="drone-dashboard__limit-count drone-dashboard__limit-count--yellow"><?php echo esc_html($limits_yellow); ?></div>
+                    <div class="drone-dashboard__limit-label">YELLOW</div>
+                </div>
+                <div class="drone-dashboard__limit-badge">
+                    <div class="drone-dashboard__limit-count drone-dashboard__limit-count--red"><?php echo esc_html($limits_red); ?></div>
+                    <div class="drone-dashboard__limit-label">RED</div>
+                </div>
+            </div>
+
+            <div class="drone-dashboard__limits-footer">
+                <span class="drone-dashboard__limits-updated">LAST UPDATED: <?php echo $limits_filed ? esc_html($limits_date) : 'NOT FILED'; ?></span>
+                <a href="<?php echo esc_url(home_url('/hard-limits-form/')); ?>" class="drone-dashboard__limits-edit">[EDIT LIMITS]</a>
+            </div>
+        </div>
+
+        <!-- PIPELINE TRACKER -->
+        <?php
+        // Include the pipeline tracker component
+        include(get_stylesheet_directory() . '/template-parts/components/pipeline-tracker.php');
+        ?>
+
+    </div>
+
+    <!-- ==================== BOTTOM ROW ==================== -->
+    <div class="drone-dashboard__grid drone-dashboard__grid--two-col">
+
+        <!-- INTEGRATION STATUS -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-title">INTEGRATION STATUS</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle drone-dashboard__box-subtitle--no-indent">TRAINING METRICS OVERVIEW</div>
+
+            <div class="drone-dashboard__stats-grid">
+                <div class="drone-dashboard__stat-cell">
+                    <div class="drone-dashboard__stat-label">LOOPS</div>
+                    <div class="drone-dashboard__stat-value">
+                        <span class="drone-dashboard__stat-number"><?php echo count($drone_state['integration']['loops_installed']); ?></span>
+                        <span class="drone-dashboard__stat-suffix">INSTALLED</span>
+                    </div>
+                </div>
+                <div class="drone-dashboard__stat-cell">
+                    <div class="drone-dashboard__stat-label">PATTERNS</div>
+                    <div class="drone-dashboard__stat-value">
+                        <span class="drone-dashboard__stat-number drone-dashboard__stat-number--blue"><?php echo count($drone_state['integration']['patterns_recognized']); ?></span>
+                        <span class="drone-dashboard__stat-suffix">RECOGNIZED</span>
+                    </div>
+                </div>
+                <div class="drone-dashboard__stat-cell">
+                    <div class="drone-dashboard__stat-label">TRIGGERS</div>
+                    <div class="drone-dashboard__stat-value">
+                        <span class="drone-dashboard__stat-number"><?php echo count($drone_state['integration']['triggers_active']); ?></span>
+                        <span class="drone-dashboard__stat-suffix">ACTIVE</span>
+                    </div>
+                </div>
+                <div class="drone-dashboard__stat-cell">
+                    <div class="drone-dashboard__stat-label">STATES</div>
+                    <div class="drone-dashboard__stat-value">
+                        <span class="drone-dashboard__stat-number drone-dashboard__stat-number--green"><?php echo count($drone_state['integration']['states_achieved']); ?></span>
+                        <span class="drone-dashboard__stat-suffix">ACHIEVED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONDITIONING LOG -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-title">CONDITIONING LOG</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle drone-dashboard__box-subtitle--no-indent">RECENT TRAINING TRANSCRIPTS</div>
+
+            <?php if (!empty($conditioning_logs)) : ?>
+                <?php foreach ($conditioning_logs as $log) : ?>
+                <a href="<?php echo get_permalink($log); ?>" class="drone-dashboard__log-entry">
+                    <div class="drone-dashboard__log-entry-date"><?php echo get_the_date('Y-m-d H:i', $log); ?></div>
+                    <div class="drone-dashboard__log-entry-title"><?php echo esc_html($log->post_title); ?></div>
+                </a>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <div class="drone-dashboard__log-empty">NO CONDITIONING SEQUENCES LOGGED.</div>
+            <?php endif; ?>
+            <a href="<?php echo esc_url(get_category_link(130)); ?>" class="drone-dashboard__log-link">[VIEW ALL LOGS]</a>
+        </div>
+
+    </div>
+
+    <!-- ==================== FOOTER CTA ==================== -->
+    <a href="<?php echo esc_url(home_url('/hive-mistress-ai/')); ?>" class="drone-dashboard__footer-cta">
+        <span class="drone-dashboard__footer-cta-text">[ENTER CONDITIONING SEQUENCE]</span>
+    </a>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="drone-dashboard__footer">
+        <span>&copy; <?php echo date('Y'); ?> UNMASK</span>
+        <span>|</span>
+        <a href="<?php echo esc_url(home_url('/terms/')); ?>" class="drone-dashboard__footer-link">TERMS</a>
+        <a href="<?php echo esc_url(home_url('/privacy/')); ?>" class="drone-dashboard__footer-link">PRIVACY</a>
+    </footer>
+
+</div>
+
+<?php
+get_footer();

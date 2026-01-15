@@ -1,0 +1,241 @@
+/**
+ * UNMASK Analytics Dashboard
+ *
+ * Terminal/cockpit aesthetic for system metrics display.
+ * Matches existing system-bar visual language.
+ *
+ * @package UNMASK
+ */
+
+/* ==========================================================================
+   LAYOUT
+   ========================================================================== */
+
+.dashboard-analytics {
+    min-height: 100vh;
+    background: var(--primitive-void);
+    color: var(--text-primary);
+    padding: var(--gap-lg);
+    font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.dash__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: var(--gap-base);
+    border-bottom: 1px solid var(--primitive-gray-800);
+    margin-bottom: var(--gap-lg);
+}
+
+.dash__title-text {
+    font-size: var(--type-lg);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.dash__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-base);
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+}
+
+.dash__status {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xxs);
+}
+
+.dash__status--live {
+    color: var(--primitive-green);
+}
+
+.dash__date {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   MAIN GRID (3 columns)
+   ========================================================================== */
+
+.dash__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap-lg);
+    margin-bottom: var(--gap-xl);
+}
+
+@media (max-width: 768px) {
+    .dash__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   PANELS
+   ========================================================================== */
+
+.dash__panel {
+    padding: var(--gap-base);
+    border: 1px solid var(--primitive-gray-800);
+    background: var(--primitive-gray-950);
+}
+
+.dash__panel-title {
+    font-size: var(--type-xs);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--gap-base);
+    padding-bottom: var(--gap-xs);
+    border-bottom: 1px solid var(--primitive-gray-800);
+}
+
+/* ==========================================================================
+   METRICS
+   ========================================================================== */
+
+.dash__metrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+}
+
+.dash__metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.dash__metric-label {
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+}
+
+.dash__metric-value {
+    font-size: var(--type-lg);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Change indicators */
+.dash__change {
+    font-size: var(--type-base);
+    font-weight: 500;
+}
+
+.dash__change--up {
+    color: var(--primitive-green);
+}
+
+.dash__change--down {
+    color: var(--primitive-red);
+}
+
+/* ==========================================================================
+   SECTIONS (A/B Status, Trends)
+   ========================================================================== */
+
+.dash__section {
+    padding: var(--gap-base);
+    border: 1px solid var(--primitive-gray-800);
+    background: var(--primitive-gray-950);
+    margin-bottom: var(--gap-lg);
+}
+
+.dash__section-title {
+    font-size: var(--type-xs);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--gap-base);
+    padding-bottom: var(--gap-xs);
+    border-bottom: 1px solid var(--primitive-gray-800);
+}
+
+/* ==========================================================================
+   A/B TESTS
+   ========================================================================== */
+
+.dash__ab-tests {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.dash__ab-test {
+    display: flex;
+    gap: var(--gap-sm);
+    font-size: var(--type-sm);
+}
+
+.dash__ab-name {
+    color: var(--text-muted);
+}
+
+.dash__ab-result {
+    color: var(--text-primary);
+}
+
+.dash__ab-result.winning {
+    color: var(--primitive-green);
+}
+
+.dash__ab-result.losing {
+    color: var(--primitive-red);
+}
+
+.dash__ab-result.inconclusive {
+    color: var(--primitive-amber);
+}
+
+/* ==========================================================================
+   TRENDS (ASCII Charts)
+   ========================================================================== */
+
+.dash__trends {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+}
+
+.dash__trend {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-base);
+}
+
+.dash__trend-bars {
+    font-size: var(--type-xl);
+    letter-spacing: 0.1em;
+    color: var(--primitive-green);
+    line-height: 1;
+}
+
+.dash__trend-label {
+    font-size: var(--type-sm);
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.dash__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--gap-base);
+    border-top: 1px solid var(--primitive-gray-800);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+}

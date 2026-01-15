@@ -1,0 +1,600 @@
+/**
+ * Hard Limits Checklist — Traffic Light UI
+ * Matches mockup: outline circles, left accent bars, minimal containers
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+@layer pages {
+
+/* ==========================================================================
+   Base Typography — Using Design Tokens
+   ========================================================================== */
+
+.hard-limits-page,
+.hard-limits-page * {
+    font-family: var(--font-ui);
+}
+
+.hard-limits-page {
+    background: var(--bg-page);
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Breadcrumb
+   ========================================================================== */
+
+.hard-limits-breadcrumb {
+    margin-bottom: 48px;
+}
+
+.hard-limits-breadcrumb a {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.hard-limits-breadcrumb a:hover {
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Container & Layout
+   ========================================================================== */
+
+.hard-limits-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 24px 160px;
+    padding-top: 80px !important;
+}
+
+.hard-limits-header {
+    margin-bottom: 48px;
+}
+
+.hard-limits-header h1 {
+    font-size: var(--type-2xl);
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+.hard-limits-intro {
+    color: var(--text-muted);
+    font-size: var(--type-xs);
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Legend
+   ========================================================================== */
+
+.hard-limits-legend {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #636363;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.legend-dot {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0;
+}
+
+.legend-dot.green { background: #4ade80; }
+.legend-dot.yellow { background: #D4A84B; }
+.legend-dot.red { background: #C94A4A; }
+
+/* ==========================================================================
+   Categories
+   ========================================================================== */
+
+.hard-limits-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.limits-category {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 0 16px 0;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #252525;
+    margin-bottom: 8px;
+}
+
+.category-header:hover {
+    background: transparent;
+}
+
+.category-toggle {
+    display: none;
+}
+
+.category-header h2 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #636363;
+    margin: 0;
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.category-count {
+    font-size: 11px;
+    color: #636363;
+    background: transparent;
+    padding: 0;
+}
+
+.category-body {
+    max-height: 2000px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.limits-category.collapsed .category-body {
+    max-height: 0;
+}
+
+/* ==========================================================================
+   Activities List
+   ========================================================================== */
+
+.activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.activity-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #252525;
+}
+
+.activity-row:last-child {
+    border-bottom: none;
+}
+
+.activity-label {
+    flex: 1;
+    font-size: 12px;
+    color: #636363;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Traffic Light Circles — OUTLINE ONLY until selected
+   ========================================================================== */
+
+.traffic-light-group {
+    display: flex;
+    gap: 4px !important;
+    flex-shrink: 0;
+}
+
+.traffic-btn {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    border: 1px solid #3a3a3a !important;
+    background: transparent !important;
+    cursor: pointer;
+    padding: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+}
+
+.traffic-btn:focus {
+    outline: none;
+}
+
+/* Active state - FILLED */
+.traffic-btn.btn-green.active {
+    background: #4ade80 !important;
+    border-color: #4ade80 !important;
+}
+
+.traffic-btn.btn-yellow.active {
+    background: #D4A84B !important;
+    border-color: #D4A84B !important;
+}
+
+.traffic-btn.btn-red.active {
+    background: #C94A4A !important;
+    border-color: #C94A4A !important;
+}
+
+/* ==========================================================================
+   Actions Bar — Fixed at Bottom
+   ========================================================================== */
+
+.hard-limits-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding: 16px 24px;
+    background: #181818;
+    border-top: 1px solid #252525;
+    z-index: 100;
+}
+
+.hard-limits-actions-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    max-width: 800px;
+    width: 100%;
+}
+
+.limits-summary {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #636363;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.summary-count {
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+}
+
+.summary-count.green { color: #4ade80; }
+.summary-count.yellow { color: #D4A84B; }
+.summary-count.red { color: #C94A4A; }
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-save-limits,
+.btn-share-limits,
+.btn-clear-limits {
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.btn-clear-limits {
+    background: transparent;
+    color: #636363;
+    border-color: #3d3d3d;
+}
+
+.btn-clear-limits:hover {
+    color: #8e8e8e;
+    border-color: #4d4d4d;
+}
+
+.btn-share-limits {
+    background: transparent;
+    color: #636363;
+    border-color: #3d3d3d;
+}
+
+.btn-share-limits:hover {
+    color: #8e8e8e;
+    border-color: #4d4d4d;
+}
+
+.btn-save-limits {
+    background: #C94A4A;
+    color: #e5e5e5;
+    border-color: #C94A4A;
+}
+
+.btn-save-limits:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Expand/Collapse All
+   ========================================================================== */
+
+.expand-collapse-all {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.btn-toggle-all {
+    font-size: 11px;
+    color: #636363;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    text-transform: lowercase;
+    font-family: inherit;
+}
+
+.btn-toggle-all:hover {
+    color: #8e8e8e;
+}
+
+/* ==========================================================================
+   Toast Notifications
+   ========================================================================== */
+
+.limits-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #242424;
+    border: 1px solid #3d3d3d;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #a6a6a6;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    font-family: 'Berkeley Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.limits-toast.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.limits-toast.success {
+    border-color: #4ade80;
+    color: #4ade80;
+}
+
+.limits-toast.error {
+    border-color: #C94A4A;
+    color: #C94A4A;
+}
+
+/* ==========================================================================
+   Share Modal
+   ========================================================================== */
+
+.share-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+}
+
+.share-modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.share-modal {
+    background: #1c1c1c;
+    border-radius: 4px;
+    padding: 32px;
+    max-width: 480px;
+    width: 90%;
+    border: 1px solid #2e2e2e;
+}
+
+.share-modal h3 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #e5e5e5;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.share-modal p {
+    color: #636363;
+    font-size: 11px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.share-url-input {
+    width: 100%;
+    padding: 12px;
+    background: #181818;
+    border: 1px solid #2e2e2e;
+    border-radius: 4px;
+    color: #c2c2c2;
+    font-size: 11px;
+    font-family: 'Berkeley Mono', monospace;
+    margin-bottom: 20px;
+}
+
+.share-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-copy-url {
+    padding: 12px 24px;
+    background: #C94A4A;
+    color: #e5e5e5;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.btn-close-modal {
+    padding: 12px 24px;
+    background: transparent;
+    color: #636363;
+    border: 1px solid #3d3d3d;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* ==========================================================================
+   Loading State
+   ========================================================================== */
+
+.hard-limits-wrapper.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.btn-save-limits.saving::after {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left: 8px;
+    border: 1px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 640px) {
+    .hard-limits-wrapper {
+        padding: 32px 16px 140px;
+    }
+
+    .hard-limits-header h1 {
+        font-size: 24px;
+        letter-spacing: 0.2em;
+    }
+
+    .hard-limits-legend {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .activity-row {
+        padding: 14px 0;
+    }
+
+    .traffic-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .hard-limits-actions-inner {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .limits-summary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .action-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+    .hard-limits-actions,
+    .expand-collapse-all {
+        display: none;
+    }
+
+    .limits-category.collapsed .category-body {
+        max-height: none;
+    }
+
+    .traffic-btn {
+        width: 12px;
+        height: 12px;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .traffic-btn.active.btn-green { background: #4ade80 !important; }
+    .traffic-btn.active.btn-yellow { background: #D4A84B !important; }
+    .traffic-btn.active.btn-red { background: #C94A4A !important; }
+}
+
+} /* end @layer pages */

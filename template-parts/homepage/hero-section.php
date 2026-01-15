@@ -90,7 +90,7 @@ if ($hero_query->have_posts()) {
         <!-- Columns 2-3: Content area -->
         <div class="unmask-hero__content-area">
             <div class="unmask-hero__content-box">
-                <div class="unmask-hero__label"><?php echo esc_html($hero_label); ?></div>
+<div class="unmask-hero__label"><?php echo esc_html($hero_label); ?></div>
                 <div class="unmask-hero__file-id"><?php echo esc_html($hero_data['file_id']); ?></div>
 
                 <h1 class="unmask-hero__title">

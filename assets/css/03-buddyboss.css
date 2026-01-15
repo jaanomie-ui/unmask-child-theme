@@ -526,6 +526,55 @@ body.groups.single-item #buddypress .groups-header * {
 }
 
 /* ==========================================================================
+   BUDDYPANEL TOGGLE BUTTON
+   Replace rounded grid icon with angular arrow
+   ========================================================================== */
+
+/* Toggle button container — remove rounded corners */
+.bb-toggle-panel {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 8px !important;
+}
+
+/* Hide the default grid/hamburger icon */
+.bb-toggle-panel i,
+.bb-toggle-panel .bb-icon,
+.bb-toggle-panel svg {
+    display: none !important;
+}
+
+/* Replace with angular arrow using pseudo-element */
+.bb-toggle-panel::after {
+    content: '' !important;
+    display: block !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-right: 1.5px solid var(--text-muted, #666) !important;
+    border-bottom: 1.5px solid var(--text-muted, #666) !important;
+    transform: rotate(-45deg) !important;
+    transition: transform 0.15s ease-out, border-color 0.15s ease-out !important;
+}
+
+/* Arrow points right when panel is closed */
+.buddypanel-open .bb-toggle-panel::after,
+.bb-toggle-panel.is-active::after {
+    transform: rotate(135deg) !important;
+}
+
+.bb-toggle-panel:hover::after {
+    border-color: var(--text-primary, #e8e8e8) !important;
+}
+
+/* Remove gray background from sidebar area */
+.buddypanel-wrap,
+#buddypanel,
+.panel-head {
+    background: var(--bg-page, #0d0d0d) !important;
+}
+
+/* ==========================================================================
    BUDDYPANEL SIDEBAR STYLING
    ========================================================================== */
 

@@ -24,8 +24,10 @@ get_header();
 
 <!-- Desktop Layout (shown via CSS on large screens) -->
 <div class="unmask-homepage-desktop">
-    <!-- System Bar -->
-    <?php get_template_part('template-parts/global/system-bar'); ?>
+    <!-- System Bar (members only) -->
+    <?php if (is_user_logged_in()) : ?>
+        <?php get_template_part('template-parts/global/system-bar'); ?>
+    <?php endif; ?>
 
     <!-- Hero: 3-Column Grid -->
     <?php get_template_part('template-parts/homepage/hero-section'); ?>

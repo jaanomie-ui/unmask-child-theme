@@ -177,7 +177,12 @@ while (have_posts()) :
     <article class="record-body">
         <div class="record-body__container">
             <div class="record-body__content">
-                <?php the_content(); ?>
+                <?php
+                // Strip images from content - they're shown in the gallery strip instead
+                $content = get_the_content();
+                $content = apply_filters('the_content', unmask_strip_images_from_content($content));
+                echo $content;
+                ?>
             </div>
         </div>
     </article>
@@ -322,6 +327,11 @@ while (have_posts()) :
          STICKY SUBMIT CTA (Mobile)
     ═══════════════════════════════════════════════════════════════ -->
     <div class="record-submit-cta" id="record-submit-cta">
+        <button type="button" class="record-submit-cta__dismiss" id="cta-dismiss" aria-label="Dismiss">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </button>
         <div class="record-submit-cta__text">
             <span class="record-submit-cta__label"><?php echo esc_html($record_cta_label); ?></span>
             <span class="record-submit-cta__title"><?php echo esc_html($record_cta_title); ?></span>
@@ -349,24 +359,39 @@ while (have_posts()) :
     var cta = document.getElementById('record-submit-cta');
     var shareBtn = document.getElementById('share-btn');
     var shareToast = document.getElementById('share-toast');
+    var dismissBtn = document.getElementById('cta-dismiss');
     var recordBody = document.querySelector('.record-body');
     var recordComments = document.querySelector('.record-comments');
     var recordRelated = document.querySelector('.record-related');
     var isVisible = false;
+    var isDismissed = sessionStorage.getItem('unmask_cta_dismissed') === 'true';
 
     // Only on mobile
     function isMobile() {
         return window.innerWidth <= 768;
     }
 
-    // Show CTA after scrolling past hero
+    // Dismiss handler
+    function dismissCta() {
+        sessionStorage.setItem('unmask_cta_dismissed', 'true');
+        isDismissed = true;
+        if (cta) {
+            cta.classList.remove('visible');
+            cta.classList.add('dismissed');
+        }
+    }
+
+    // Show CTA after 50% of article content read
     function checkScroll() {
-        if (!isMobile() || !cta) return;
+        if (!isMobile() || !cta || isDismissed) return;
 
         var scrollY = window.scrollY || window.pageYOffset;
-        var heroHeight = window.innerHeight;
-        var documentHeight = document.documentElement.scrollHeight;
         var viewportHeight = window.innerHeight;
+        var documentHeight = document.documentElement.scrollHeight;
+
+        // Calculate article body position and height
+        var articleTop = recordBody ? recordBody.offsetTop : window.innerHeight;
+        var articleHeight = recordBody ? recordBody.offsetHeight : 0;
 
         // Calculate footer area (comments + related)
         var footerTop = documentHeight;
@@ -377,8 +402,16 @@ while (have_posts()) :
             footerTop = Math.min(footerTop, recordRelated.offsetTop);
         }
 
-        // Show after scrolling past hero
-        var shouldShow = scrollY > heroHeight * 0.7;
+        // Calculate reading progress through article (0-100%)
+        var articleScrollStart = articleTop - viewportHeight;
+        var articleScrollEnd = articleTop + articleHeight - viewportHeight;
+        var readingProgress = 0;
+        if (scrollY > articleScrollStart && articleScrollEnd > articleScrollStart) {
+            readingProgress = (scrollY - articleScrollStart) / (articleScrollEnd - articleScrollStart);
+        }
+
+        // Show after reading 50% of article
+        var shouldShow = readingProgress >= 0.5;
 
         // Hide near footer
         var nearFooter = scrollY + viewportHeight > footerTop - 100;
@@ -461,6 +494,10 @@ while (have_posts()) :
     // Event listeners
     if (shareBtn) {
         shareBtn.addEventListener('click', shareRecord);
+    }
+
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', dismissCta);
     }
 
     // Throttled scroll handler

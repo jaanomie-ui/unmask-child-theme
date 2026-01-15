@@ -418,6 +418,63 @@ body.page-template-page-templatestemplate-homepage-php .slick-track {
     display: none;
 }
 
+/* -------------------------------------------------------------------------
+   WIDGET ROW - 3 column variant for logged-out users
+   Keeps fixed card widths, justified left
+   ------------------------------------------------------------------------- */
+
+.widget-row--three-col {
+    display: flex;
+    justify-content: flex-start;
+    gap: var(--gap-tight);
+}
+
+@media (max-width: 768px) {
+    .widget-row--three-col {
+        flex-wrap: wrap;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   AMBER CTA VARIANT - Dig Deeper / Sign Up card
+   Low opacity amber background, Berkeley Mono text
+   ------------------------------------------------------------------------- */
+
+.widget-sq--amber {
+    background: var(--primitive-amber-glow);
+    border-color: var(--primitive-amber);
+}
+
+.widget-sq--amber::before {
+    display: none; /* No background image */
+}
+
+.widget-sq--amber .widget-sq__link {
+    background: none;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.widget-sq--amber .widget-sq__title {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.widget-sq--amber .widget-sq__desc {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.widget-sq--amber:hover {
+    border-color: var(--primitive-amber-light);
+    background: rgba(212, 160, 25, 0.2);
+}
 
 
 /* -------------------------------------------------------------------------

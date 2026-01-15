@@ -194,7 +194,8 @@ $total_isos = $iso_query->found_posts;
             </div>
         </section>
 
-        <!-- RAIL: ACTIVE ISOS -->
+        <?php if (is_user_logged_in()) : ?>
+        <!-- RAIL: ACTIVE ISOS (Members only) -->
         <section class="homepage-rail" aria-label="Active ISOs">
             <div class="homepage-rail__header">
                 <span class="homepage-rail__title">Active ISOs</span>
@@ -218,7 +219,7 @@ $total_isos = $iso_query->found_posts;
             </div>
         </section>
 
-        <!-- WIDGET: ACTIVITY -->
+        <!-- WIDGET: ACTIVITY (Members only) -->
         <section class="homepage-rail" aria-label="Activity">
             <div class="homepage-rail__header">
                 <span class="homepage-rail__title">Activity</span>
@@ -226,7 +227,7 @@ $total_isos = $iso_query->found_posts;
             <div class="homepage-rail__placeholder">Activity feed coming soon</div>
         </section>
 
-        <!-- RAIL: THE FACTORY -->
+        <!-- RAIL: THE FACTORY (Members only) -->
         <section class="homepage-rail" aria-label="The Factory">
             <div class="homepage-rail__header">
                 <span class="homepage-rail__title">The Factory</span>
@@ -251,10 +252,20 @@ $total_isos = $iso_query->found_posts;
                 </a>
             </div>
         </section>
+        <?php endif; ?>
 
         <!-- CTA CARDS -->
         <section class="homepage-rail homepage-rail--cta" aria-label="Get Involved">
             <div class="homepage-rail__track">
+                <?php if (!is_user_logged_in()) : ?>
+                <!-- Dig Deeper CTA (Strangers only) -->
+                <a href="<?php echo esc_url(home_url('/register/')); ?>" class="homepage-rail__card homepage-rail__card--cta homepage-rail__card--amber">
+                    <div class="homepage-rail__cta-content">
+                        <h3 class="homepage-rail__cta-title">dig deeper</h3>
+                        <p class="homepage-rail__cta-desc">log in to see more.</p>
+                    </div>
+                </a>
+                <?php endif; ?>
                 <a href="<?php echo esc_url(home_url('/submit/')); ?>" class="homepage-rail__card homepage-rail__card--cta" style="background-image: url('<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/images/cta-submit.png');">
                     <div class="homepage-rail__cta-overlay">
                         <h3 class="homepage-rail__cta-title">Tell Your Story</h3>
@@ -533,6 +544,42 @@ $total_isos = $iso_query->found_posts;
     font-size: var(--type-xs);
     color: var(--text-muted);
     margin: 4px 0 0 0;
+}
+
+/* Amber CTA Card - Dig Deeper (Strangers only) */
+.homepage-rail__card--amber {
+    background: var(--primitive-amber-glow) !important;
+    border-color: var(--primitive-amber) !important;
+}
+
+.homepage-rail__card--amber .homepage-rail__cta-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+    height: 100%;
+    padding: 16px;
+}
+
+.homepage-rail__card--amber .homepage-rail__cta-title {
+    font-family: var(--font-ui);
+    font-size: var(--type-base);
+    color: var(--text-primary);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+.homepage-rail__card--amber .homepage-rail__cta-desc {
+    font-family: var(--font-ui);
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.homepage-rail__card--amber:hover {
+    border-color: var(--primitive-amber-light) !important;
+    background: rgba(212, 160, 25, 0.2) !important;
 }
 
 /* Placeholder */

@@ -1,0 +1,622 @@
+/**
+ * Hive Mistress Chat Interface
+ *
+ * Clean, minimal chat UI inspired by Claude/Perplexity.
+ * Best practices: 16px base, comfortable reading, consistent sizing.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+/* ==========================================================================
+   PAGE LAYOUT — FULL WIDTH, NO SIDEBAR
+   ========================================================================== */
+
+/* Hide sidebar completely */
+.page-id-2496 #secondary,
+.page-id-2496 .bb-sticky-sidebar,
+.page-id-2496 aside.widget-area,
+.page-id-2496 .bp-sidebar,
+.page-id-2496 .right-sidebar,
+.page-id-2496 .sidebar-right,
+.page-id-2496 .bb-grid aside,
+.page-id-2496 .bb-template-sidebar,
+body.page-id-2496 [class*="sidebar"]:not(.hm-chat-wrapper *) {
+    display: none;
+    width: 0;
+    min-width: 0;
+    flex: 0;
+}
+
+/* Hide page title */
+.page-id-2496 .entry-title,
+.page-id-2496 .page-title,
+.page-id-2496 header.entry-header,
+.page-id-2496 .bb-page-title {
+    display: none;
+}
+
+/* Full-width main content */
+.page-id-2496 #primary,
+.page-id-2496 .bb-grid > main,
+.page-id-2496 main.site-main {
+    width: 100%;
+    max-width: 100%;
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+.page-id-2496 .bb-grid {
+    display: block;
+}
+
+/* Kill BuddyPress borders */
+body.page-id-2496 #buddypress,
+body.page-id-2496 #buddypress .buddypress-wrap,
+body.page-id-2496 .buddypress-wrap {
+    border: none;
+    box-shadow: none;
+}
+
+/* Page container */
+.page-id-2496 .site-content {
+    padding: var(--gap-element);
+    max-width: var(--content-wide);
+    margin: 0 auto;
+}
+
+/* Hide stray access log link in page content */
+.page-id-2496 .hm-chat-content > a,
+.page-id-2496 .hm-chat-content > p:empty,
+.page-id-2496 .hm-chat-content > p:has(> a[href*="page_id"]) {
+    display: none;
+}
+
+/* ==========================================================================
+   WRAPPER — CENTERED CONTAINER (WIDER)
+   ========================================================================== */
+
+.hm-chat-wrapper {
+    max-width: 768px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-tight);
+}
+
+/* ==========================================================================
+   HEADER BAR — BACK + STATUS
+   ========================================================================== */
+
+.hm-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--gap-tight) 0;
+    border-bottom: 1px solid var(--primitive-gray-800);
+}
+
+.hm-nav__back {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-500);
+    text-decoration: none;
+    transition: color var(--duration-normal) var(--ease-out);
+}
+
+.hm-nav__back:hover {
+    color: var(--primitive-gray-300);
+}
+
+.hm-nav__status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-500);
+}
+
+.hm-nav__status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primitive-green-glow);
+    box-shadow: 0 0 8px var(--primitive-green-glow);
+}
+
+/* ==========================================================================
+   CONTEXT ROW — SEQUENCE / OBJECTIVE / LOOPS / COUNTDOWN
+   ========================================================================== */
+
+.hm-context {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--gap-element);
+    background: var(--primitive-elevated);
+    border: 1px solid var(--primitive-gray-800);
+}
+
+.hm-context__item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hm-context__label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-500);
+}
+
+.hm-context__value {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-300);
+}
+
+.hm-context__value--highlight {
+    color: rgba(138, 50, 51, 0.8);
+}
+
+/* ==========================================================================
+   CHAT CONTAINER — THE BOX
+   ========================================================================== */
+
+.hm-chat-content {
+    background: var(--primitive-surface);
+    border: 1px solid var(--primitive-gray-800);
+}
+
+#hm-chat {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-ui);
+    font-weight: 400;
+    color: var(--primitive-gray-100);
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================================================================
+   CHAT HEADER — STATUS INDICATOR
+   ========================================================================== */
+
+.hm-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--gap-tight) var(--gap-element);
+    background: transparent;
+    border-bottom: 1px solid var(--primitive-gray-800);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-500);
+}
+
+.hm-header::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primitive-green-glow);
+    box-shadow: 0 0 8px var(--primitive-green-glow);
+}
+
+/* ==========================================================================
+   MESSAGES AREA — CONSISTENT HEIGHT
+   ========================================================================== */
+
+.hm-messages {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-element);
+    padding: var(--gap-section);
+    background: var(--primitive-void);
+    height: 480px;
+    min-height: 480px;
+    overflow-y: auto;
+    border: none;
+}
+
+/* Scrollbar styling */
+.hm-messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+.hm-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.hm-messages::-webkit-scrollbar-thumb {
+    background: var(--primitive-gray-700);
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   MESSAGE BUBBLES — READABLE TEXT SIZE
+   ========================================================================== */
+
+.hm-msg {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 85%;
+}
+
+.hm-msg-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.hm-msg-content {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    padding: 14px 18px;
+    margin: 0;
+    border-radius: 2px;
+}
+
+/* Assistant Messages (Hive Mistress) — Left aligned */
+.hm-msg.hm-msg-assistant {
+    align-self: flex-start;
+}
+
+.hm-msg.hm-msg-assistant .hm-msg-label {
+    color: rgba(138, 50, 51, 0.8);
+}
+
+.hm-msg.hm-msg-assistant .hm-msg-content {
+    background: var(--primitive-gray-900);
+    border: 1px solid var(--primitive-gray-800);
+    color: var(--primitive-gray-200);
+}
+
+/* User Messages (Drone) — Right aligned */
+.hm-msg.hm-msg-user {
+    align-self: flex-end;
+}
+
+.hm-msg.hm-msg-user .hm-msg-label {
+    text-align: right;
+    color: var(--primitive-gray-500);
+}
+
+.hm-msg.hm-msg-user .hm-msg-content {
+    background: rgba(138, 50, 51, 0.15);
+    border: 1px solid rgba(138, 50, 51, 0.3);
+    color: var(--primitive-gray-100);
+}
+
+/* ==========================================================================
+   LOADING STATE — SPINNER + TEXT
+   ========================================================================== */
+
+.hm-loading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--primitive-gray-400);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+}
+
+.hm-loading::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--primitive-gray-700);
+    border-top-color: rgba(138, 50, 51, 0.7);
+    border-radius: 50%;
+    animation: hm-spin 0.8s linear infinite;
+}
+
+@keyframes hm-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Breathing dots fallback */
+.hm-typing {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: var(--gap-tight) var(--gap-element);
+    background: var(--primitive-gray-900);
+    border: 1px solid var(--primitive-gray-800);
+    align-self: flex-start;
+}
+
+.hm-typing span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--primitive-gray-500);
+    animation: hm-breathe 1.4s infinite ease-in-out;
+}
+
+.hm-typing span:nth-child(1) { animation-delay: 0s; }
+.hm-typing span:nth-child(2) { animation-delay: 0.2s; }
+.hm-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes hm-breathe {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+}
+
+/* ==========================================================================
+   INPUT AREA — ELEVATED BACKGROUND
+   ========================================================================== */
+
+.hm-input-area {
+    display: flex;
+    gap: var(--gap-tight);
+    padding: var(--gap-element);
+    background: var(--primitive-elevated);
+    border-top: 1px solid var(--primitive-gray-800);
+}
+
+.hm-input-area textarea {
+    flex: 1;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+    color: var(--primitive-gray-100);
+    background: var(--primitive-void);
+    border: 1px solid var(--primitive-gray-800);
+    padding: 14px 16px;
+    border-radius: 2px;
+    resize: none;
+    overflow-y: hidden;
+    min-height: 48px;
+    max-height: 200px;
+    transition: border-color var(--duration-normal) var(--ease-out);
+}
+
+.hm-input-area textarea::placeholder {
+    color: var(--primitive-gray-500);
+}
+
+.hm-input-area textarea:hover {
+    border-color: var(--primitive-gray-700);
+}
+
+.hm-input-area textarea:focus {
+    outline: none;
+    border-color: rgba(138, 50, 51, 0.5);
+}
+
+.hm-input-area button {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-400);
+    background: transparent;
+    border: 1px solid var(--primitive-gray-800);
+    padding: 14px 24px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.hm-input-area button:hover {
+    color: var(--primitive-gray-100);
+    border-color: rgba(138, 50, 51, 0.5);
+    background: rgba(138, 50, 51, 0.1);
+}
+
+.hm-input-area button:disabled {
+    color: var(--primitive-gray-600);
+    border-color: var(--primitive-gray-800);
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   FOOTER — SESSION COUNTER + SAVE REMINDER
+   ========================================================================== */
+
+.hm-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--gap-tight) var(--gap-element);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-500);
+    background: transparent;
+    border-top: 1px solid var(--primitive-gray-800);
+}
+
+.hm-footer-left {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-element);
+}
+
+.hm-footer .hm-log-btn {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primitive-gray-500);
+    background: transparent;
+    border: 1px solid var(--primitive-gray-800);
+    padding: 8px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.hm-footer .hm-log-btn:hover {
+    color: var(--primitive-gray-300);
+    border-color: var(--primitive-gray-700);
+}
+
+/* Session reminder hint */
+.hm-session-hint {
+    font-size: 10px;
+    color: var(--primitive-gray-600);
+    letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+
+.hm-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: var(--primitive-gray-500);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE — 16PX MINIMUM FOR iOS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .page-id-2496 .site-content {
+        padding: var(--gap-tight);
+    }
+
+    .hm-chat-wrapper {
+        gap: var(--gap-micro);
+    }
+
+    .hm-context {
+        flex-wrap: wrap;
+        gap: var(--gap-element);
+        padding: var(--gap-tight);
+    }
+
+    .hm-context__item {
+        width: calc(50% - var(--gap-micro));
+    }
+
+    .hm-context__label {
+        font-size: 9px;
+    }
+
+    .hm-context__value {
+        font-size: 10px;
+    }
+
+    .hm-messages {
+        height: 400px;
+        min-height: 400px;
+        padding: var(--gap-element);
+    }
+
+    .hm-msg {
+        max-width: 92%;
+    }
+
+    /* iOS minimum 16px to prevent zoom on focus */
+    .hm-msg-content {
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 12px 14px;
+    }
+
+    .hm-msg-label {
+        font-size: 9px;
+    }
+
+    .hm-input-area {
+        flex-direction: column;
+        padding: var(--gap-tight);
+        gap: var(--gap-micro);
+    }
+
+    .hm-input-area textarea {
+        font-size: 16px; /* Prevents iOS zoom */
+        padding: 14px;
+    }
+
+    .hm-input-area button {
+        width: 100%;
+        padding: 14px;
+        font-size: 11px;
+    }
+
+    .hm-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--gap-micro);
+    }
+
+    .hm-nav__back,
+    .hm-nav__status {
+        font-size: 10px;
+    }
+
+    .hm-header {
+        font-size: 10px;
+    }
+
+    .hm-footer {
+        flex-direction: column;
+        gap: var(--gap-micro);
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .hm-footer .hm-log-btn {
+        width: 100%;
+    }
+
+    .hm-loading {
+        font-size: 14px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+    .hm-context__item {
+        width: 100%;
+    }
+
+    .hm-messages {
+        height: 320px;
+        min-height: 320px;
+    }
+}

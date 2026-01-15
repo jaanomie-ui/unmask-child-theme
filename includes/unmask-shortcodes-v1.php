@@ -271,26 +271,29 @@ add_shortcode('unmask_iso_card', 'unmask_iso_card_shortcode');
  * @param array $atts Shortcode attributes
  * @return string Badge HTML
  */
-function unmask_type_badge_shortcode($atts) {
-    $categories = get_the_category();
+// V2 may be defined in WPCode snippet 2823 - defer to that if present
+if (!function_exists('unmask_type_badge_shortcode')) {
+    function unmask_type_badge_shortcode($atts) {
+        $categories = get_the_category();
 
-    if (empty($categories)) {
-        return '';
+        if (empty($categories)) {
+            return '';
+        }
+
+        $category = $categories[0];
+        $name = strtoupper($category->name);
+        $slug = $category->slug;
+
+        // Red for profiles/interviews, Blue for events/photoshoots
+        $color_class = 'profile';
+        if ($slug === 'photoshoots' || $slug === 'events' || $slug === 'event') {
+            $color_class = 'event';
+        }
+
+        return '<span class="unmask-type-badge unmask-type-badge--' . esc_attr($color_class) . '">' . esc_html($name) . '</span>';
     }
-
-    $category = $categories[0];
-    $name = strtoupper($category->name);
-    $slug = $category->slug;
-
-    // Red for profiles/interviews, Blue for events/photoshoots
-    $color_class = 'profile';
-    if ($slug === 'photoshoots' || $slug === 'events' || $slug === 'event') {
-        $color_class = 'event';
-    }
-
-    return '<span class="unmask-type-badge unmask-type-badge--' . esc_attr($color_class) . '">' . esc_html($name) . '</span>';
+    add_shortcode('unmask_type_badge', 'unmask_type_badge_shortcode');
 }
-add_shortcode('unmask_type_badge', 'unmask_type_badge_shortcode');
 
 /* ==========================================================================
    SHORTCODE: [unmask_tags]
@@ -367,6 +370,47 @@ function unmask_extract_images_from_content($content) {
     $image_ids = array_unique($image_ids);
 
     return $image_ids;
+}
+
+/**
+ * Strip image and gallery blocks from post content
+ *
+ * Used to prevent images from appearing twice (in gallery strip AND in article body).
+ * Images are extracted for the gallery strip, then removed from the main content.
+ *
+ * @param string $content Post content
+ * @return string Filtered content without image/gallery blocks
+ */
+function unmask_strip_images_from_content($content) {
+    if (empty($content)) {
+        return $content;
+    }
+
+    // Remove Gutenberg image blocks: <!-- wp:image --> ... <!-- /wp:image -->
+    $content = preg_replace(
+        '/<!--\s*wp:image.*?-->.*?<!--\s*\/wp:image\s*-->/s',
+        '',
+        $content
+    );
+
+    // Remove Gutenberg gallery blocks: <!-- wp:gallery --> ... <!-- /wp:gallery -->
+    $content = preg_replace(
+        '/<!--\s*wp:gallery.*?-->.*?<!--\s*\/wp:gallery\s*-->/s',
+        '',
+        $content
+    );
+
+    // Remove classic editor images (standalone img tags with wp-image class)
+    $content = preg_replace(
+        '/<figure[^>]*class="[^"]*wp-block-image[^"]*"[^>]*>.*?<\/figure>/s',
+        '',
+        $content
+    );
+
+    // Clean up any resulting double whitespace
+    $content = preg_replace('/\n{3,}/', "\n\n", $content);
+
+    return trim($content);
 }
 
 /**

@@ -237,9 +237,6 @@ require_once get_stylesheet_directory() . '/inc/widgets/class-visitor-grid-widge
 // Mobile Bottom Navigation
 require_once get_stylesheet_directory() . '/inc/enqueue-bottom-nav.php';
 
-// Sidebar Submit CTA
-require_once get_stylesheet_directory() . '/inc/sidebar-submit-cta.php';
-
 // Collapsing Header (mobile)
 require_once get_stylesheet_directory() . '/inc/collapsing-header.php';
 
@@ -264,6 +261,24 @@ require_once get_stylesheet_directory() . '/inc/enqueue-dashboard-analytics.php'
 
 // Analytics REST API - Endpoint for n8n to push GA4 data
 require_once get_stylesheet_directory() . '/inc/analytics-data-endpoint.php';
+
+// Drone Dashboard - Training console for House of Anomie drones
+require_once get_stylesheet_directory() . '/inc/enqueue-drone-dashboard.php';
+
+// Hive Mistress State Management - Drone conditioning state, tolerances, and logging
+require_once get_stylesheet_directory() . '/inc/hive-mistress-state.php';
+
+// Hive Mistress Prompts - System voice, lore context, and AI prompt construction
+require_once get_stylesheet_directory() . '/inc/hive-mistress-prompts.php';
+
+// Hive Mistress Chat Shortcode - [hive_mistress_chat] shortcode and AJAX handlers
+require_once get_stylesheet_directory() . '/inc/hive-mistress-shortcode.php';
+
+// Hive Mistress Chat - AI chatbot interface styles (page ID 2496)
+require_once get_stylesheet_directory() . '/inc/enqueue-hive-mistress-chat.php';
+
+// Hard Limits Checklist - Traffic light BDSM preferences form for drones
+require_once get_stylesheet_directory() . '/inc/enqueue-hard-limits.php';
 
 /* ==========================================================================
    REGISTRATION PAGE STYLES
@@ -1283,6 +1298,72 @@ function unmask_login_logo_url() {
 add_filter('login_headertext', 'unmask_login_logo_title');
 function unmask_login_logo_title() {
     return get_bloginfo('name');
+}
+
+/**
+ * Add drone access alert above MemberPress login form for unauthorized access
+ * Shows yellow glow warning when user is redirected to login from protected content
+ */
+add_filter('mepr-login-form-before-form', 'unmask_drone_access_alert');
+function unmask_drone_access_alert($content) {
+    // Check if user was redirected from a protected page
+    $redirect = isset($_GET['redirect_to']) ? $_GET['redirect_to'] : '';
+    $action = isset($_GET['action']) ? $_GET['action'] : '';
+
+    // Show alert if redirected from protected content or accessing restricted area
+    if (!empty($redirect) || $action === 'unauthorized') {
+        $alert = '<div class="unmask-drone-alert">';
+        $alert .= '<span class="unmask-drone-alert-message">This area is reserved for drones. Sign in to continue.</span>';
+        $alert .= '</div>';
+        return $alert . $content;
+    }
+
+    return $content;
+}
+
+/**
+ * Enqueue login styles on front-end MemberPress login pages
+ * (login_enqueue_scripts only fires on wp-login.php, not front-end)
+ */
+add_action('wp_enqueue_scripts', 'unmask_frontend_login_styles', 999);
+function unmask_frontend_login_styles() {
+    // Check if we're on a MemberPress login page (body class check happens too late,
+    // so we check the page slug/template or MemberPress conditions)
+    global $post;
+
+    // Check for /login/ page or MemberPress login shortcode
+    $is_login_page = false;
+
+    if (is_page('login') || is_page('sign-in')) {
+        $is_login_page = true;
+    }
+
+    // Also check if page has MemberPress login shortcode
+    if ($post && (has_shortcode($post->post_content, 'mepr-login-form') ||
+                  has_shortcode($post->post_content, 'mepr-account-form'))) {
+        $is_login_page = true;
+    }
+
+    if (!$is_login_page) {
+        return;
+    }
+
+    $theme_version = wp_get_theme()->get('Version');
+    $css_dir = get_stylesheet_directory_uri() . '/assets/css/';
+
+    // Dependency on design system for CSS variables
+    $deps = array('unmask-00-design-system');
+    if (wp_style_is('buddyboss-theme-template-css', 'registered') ||
+        wp_style_is('buddyboss-theme-template-css', 'enqueued')) {
+        $deps[] = 'buddyboss-theme-template-css';
+    }
+
+    wp_enqueue_style(
+        'unmask-login-frontend',
+        $css_dir . 'pages/login.css',
+        $deps,
+        $theme_version
+    );
 }
 
 /**
