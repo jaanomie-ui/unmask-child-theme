@@ -636,3 +636,371 @@ body.login label[for="user_login"]::after {
   display: block !important;
   margin-bottom: 8px !important;
 }
+
+/* ============================================================================
+   MEMBERPRESS FRONT-END LOGIN PAGE
+   Path: /login/ (front-end member login, NOT wp-login.php)
+   Body class: .mepr-login-page
+   ============================================================================ */
+
+/* Hide sidebar on login page - removes CTA widgets pushed to bottom */
+body.mepr-login-page #secondary.widget-area,
+body.mepr-login-page aside.widget-area {
+  display: none !important;
+}
+
+/* Full-width layout without sidebar */
+body.mepr-login-page #primary.content-area,
+body.mepr-login-page .site-content .content-area {
+  width: 100% !important;
+  max-width: 100% !important;
+  float: none !important;
+  margin: 0 !important;
+}
+
+/* Center the login form container */
+body.mepr-login-page .mp_wrapper.mp_login_form {
+  max-width: 400px !important;
+  margin: 60px auto !important;
+  padding: 32px !important;
+  background: var(--bg-card, #1e1e1e) !important;
+  border: 1px solid var(--border-default, #2e2e2e) !important;
+  border-radius: 0 !important;
+}
+
+/* Form heading */
+body.mepr-login-page .mp_wrapper h3,
+body.mepr-login-page .mepr-form h3 {
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--text-primary, #c2c2c2) !important;
+  text-align: center !important;
+  margin-bottom: 24px !important;
+}
+
+/* Label container - ensure visible */
+body.mepr-login-page .mepr-form .mp-form-label {
+  display: block !important;
+  visibility: visible !important;
+  margin-bottom: 8px !important;
+}
+
+/* Labels */
+body.mepr-login-page .mepr-form label,
+body.mepr-login-page .mepr-form .mp-form-label label {
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--text-muted, #909090) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Form rows */
+body.mepr-login-page .mepr-form .mp-form-row {
+  margin-bottom: 16px !important;
+}
+
+/* Hide ALL icons in form - dashicons, Font Awesome, bb-icons */
+body.mepr-login-page .mp-hide-pw button,
+body.mepr-login-page .wp-hide-pw button,
+body.mepr-login-page button.wp-hide-pw,
+body.mepr-login-page .mepr-form .dashicons,
+body.mepr-login-page .mepr-form .dashicons-visibility,
+body.mepr-login-page .mepr-form .dashicons-hidden,
+body.mepr-login-page .mepr-form [class*="fa-"],
+body.mepr-login-page .mepr-form [class*="bb-icon"],
+body.mepr-login-page .mepr-form .mp-form-row i,
+body.mepr-login-page .mepr-form .mp-form-row span.icon {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Ensure password wrapper shows but toggle button hides */
+body.mepr-login-page .mp-hide-pw {
+  display: block !important;
+  position: relative !important;
+}
+
+/* Remove background icons and pseudo-element icons from inputs */
+body.mepr-login-page .mepr-form input[type="text"],
+body.mepr-login-page .mepr-form input[type="email"],
+body.mepr-login-page .mepr-form input[type="password"] {
+  background-image: none !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+}
+
+/* Remove ALL pseudo-element icons - on rows, labels, wrappers */
+body.mepr-login-page .mepr-form .mp-form-row::before,
+body.mepr-login-page .mepr-form .mp-form-row::after,
+body.mepr-login-page .mepr-form .mepr_username::before,
+body.mepr-login-page .mepr-form .mepr_username::after,
+body.mepr-login-page .mepr-form .mepr_password::before,
+body.mepr-login-page .mepr-form .mepr_password::after,
+body.mepr-login-page .mepr-form .mp-form-label::before,
+body.mepr-login-page .mepr-form .mp-form-label::after,
+body.mepr-login-page .mepr-form .mp-hide-pw::before,
+body.mepr-login-page .mepr-form .mp-hide-pw::after,
+body.mepr-login-page .mp_wrapper::before,
+body.mepr-login-page .mp_wrapper::after,
+body.mepr-login-page .mepr-form input::before,
+body.mepr-login-page .mepr-form input::after {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Hide any buttons/icons inside input wrappers */
+body.mepr-login-page .mepr-form .mepr_username button,
+body.mepr-login-page .mepr-form .mepr_password button,
+body.mepr-login-page .mepr-form button.wp-hide-pw,
+body.mepr-login-page .mepr-form button[aria-label*="password"] {
+  display: none !important;
+}
+
+/* Forgot Password link - position below form */
+body.mepr-login-page .mepr-login-actions {
+  text-align: center !important;
+  margin-top: 16px !important;
+}
+
+body.mepr-login-page .mepr-login-actions a {
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--text-muted, #909090) !important;
+  text-decoration: none !important;
+}
+
+body.mepr-login-page .mepr-login-actions a:hover {
+  color: var(--text-primary, #c2c2c2) !important;
+}
+
+/* Password label - ensure visible */
+body.mepr-login-page .mepr-form .mepr_password .mp-form-label > label {
+  display: block !important;
+  visibility: visible !important;
+  margin-bottom: 6px !important;
+}
+
+/* Input fields - dark background, light text, NO rounded corners */
+body.mepr-login-page .mepr-form input[type="text"],
+body.mepr-login-page .mepr-form input[type="email"],
+body.mepr-login-page .mepr-form input[type="password"],
+body.mepr-login-page #user_login,
+body.mepr-login-page #user_pass {
+  background: var(--bg-input, #181818) !important;
+  border: 1px solid var(--border-default, #2e2e2e) !important;
+  border-radius: 0 !important;
+  color: var(--text-primary, #c2c2c2) !important;
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 13px !important;
+  padding: 0 16px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s ease !important;
+  line-height: 48px !important;
+  height: 48px !important;
+  vertical-align: middle !important;
+}
+
+/* Override browser autofill yellow background */
+body.mepr-login-page .mepr-form input:-webkit-autofill,
+body.mepr-login-page .mepr-form input:-webkit-autofill:hover,
+body.mepr-login-page .mepr-form input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #181818 inset !important;
+  -webkit-text-fill-color: #c2c2c2 !important;
+  border: 1px solid var(--border-default, #2e2e2e) !important;
+  caret-color: #c2c2c2 !important;
+}
+
+body.mepr-login-page .mepr-form input[type="text"]:focus,
+body.mepr-login-page .mepr-form input[type="email"]:focus,
+body.mepr-login-page .mepr-form input[type="password"]:focus,
+body.mepr-login-page #user_login:focus,
+body.mepr-login-page #user_pass:focus {
+  border-color: var(--primitive-red-dark, #6b2627) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Placeholder text */
+body.mepr-login-page .mepr-form input::placeholder {
+  color: var(--text-muted, #909090) !important;
+  opacity: 0.6 !important;
+}
+
+/* Submit button - NO rounded corners */
+body.mepr-login-page .mepr-form input[type="submit"],
+body.mepr-login-page .mepr-form button[type="submit"],
+body.mepr-login-page .mepr-submit {
+  background: var(--primitive-red-dark, #6b2627) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  color: var(--text-primary, #c2c2c2) !important;
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 0 24px !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, transform 0.1s ease !important;
+  margin-top: 16px !important;
+  text-align: center !important;
+  display: block !important;
+}
+
+body.mepr-login-page .mepr-form input[type="submit"]:hover,
+body.mepr-login-page .mepr-form button[type="submit"]:hover,
+body.mepr-login-page .mepr-submit:hover {
+  background: #7d2e2f !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Links - forgot password, register, etc. */
+body.mepr-login-page .mepr-form a,
+body.mepr-login-page .mp_wrapper a,
+body.mepr-login-page a.mepr-forgot-password,
+body.mepr-login-page .mepr-login-actions a {
+  color: var(--text-muted, #909090) !important;
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.02em !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+body.mepr-login-page .mepr-form a:hover,
+body.mepr-login-page .mp_wrapper a:hover,
+body.mepr-login-page a.mepr-forgot-password:hover,
+body.mepr-login-page .mepr-login-actions a:hover {
+  color: var(--text-primary, #c2c2c2) !important;
+}
+
+/* Remember me checkbox */
+body.mepr-login-page .mepr-form input[type="checkbox"] {
+  accent-color: var(--primitive-red-dark, #6b2627) !important;
+}
+
+body.mepr-login-page .mepr-form .mp-form-row label,
+body.mepr-login-page .mepr-form .mepr-remember-me label {
+  font-size: 11px !important;
+  text-transform: none !important;
+  display: inline !important;
+}
+
+/* Error messages */
+body.mepr-login-page .mepr-form .mepr-error,
+body.mepr-login-page .mp_wrapper .mp_flash_error {
+  background: rgba(107, 38, 39, 0.2) !important;
+  border: 1px solid var(--primitive-red-dark, #6b2627) !important;
+  border-radius: 4px !important;
+  color: #e57373 !important;
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 12px !important;
+  padding: 12px 16px !important;
+  margin-bottom: 16px !important;
+}
+
+/* Page background */
+body.mepr-login-page {
+  background: var(--bg-page, #181818) !important;
+}
+
+body.mepr-login-page .site-content,
+body.mepr-login-page #content,
+body.mepr-login-page .bb-grid {
+  background: transparent !important;
+}
+
+/* Hide page title if unwanted */
+body.mepr-login-page .entry-title,
+body.mepr-login-page .page-title {
+  display: none !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  body.mepr-login-page .mp_wrapper.mp_login_form {
+    margin: 40px 16px !important;
+    padding: 24px 20px !important;
+  }
+}
+
+/* ============================================================================
+   DRONE ACCESS RESTRICTED ALERT
+   Yellow glow warning for unauthorized access attempts
+   Use class .mepr-drone-restricted on container or add via MemberPress rules
+   ============================================================================ */
+
+/* Access denied / restricted content alert */
+body.mepr-login-page .mepr-unauthorized,
+body.mepr-login-page .mp_flash_error,
+body.mepr-login-page .mepr-restricted-message,
+.unmask-drone-alert {
+  background: rgba(180, 140, 20, 0.08) !important;
+  border: 1px solid rgba(180, 140, 20, 0.4) !important;
+  border-radius: 0 !important;
+  padding: 16px 20px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  box-shadow: 0 0 20px rgba(180, 140, 20, 0.15),
+              inset 0 0 30px rgba(180, 140, 20, 0.03) !important;
+}
+
+/* Warning triangle icon (⚠) */
+body.mepr-login-page .mepr-unauthorized::before,
+body.mepr-login-page .mp_flash_error::before,
+body.mepr-login-page .mepr-restricted-message::before,
+.unmask-drone-alert::before {
+  content: "⚠" !important;
+  font-size: 18px !important;
+  color: #b48c14 !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+  margin-top: 2px !important;
+}
+
+/* Alert text */
+body.mepr-login-page .mepr-unauthorized,
+body.mepr-login-page .mp_flash_error,
+body.mepr-login-page .mepr-restricted-message,
+.unmask-drone-alert {
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.02em !important;
+  color: #b48c14 !important;
+  line-height: 1.5 !important;
+}
+
+/* Alert message for drone-only pages */
+.unmask-drone-alert-message {
+  font-family: var(--font-ui, "Berkeley Mono", "SF Mono", monospace) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.02em !important;
+  color: #b48c14 !important;
+  line-height: 1.5 !important;
+  text-transform: uppercase !important;
+}
+
+/* Unauthorized message override */
+body.mepr-login-page .mepr-unauthorized-message,
+.mepr-unauthorized-message {
+  color: #b48c14 !important;
+}
