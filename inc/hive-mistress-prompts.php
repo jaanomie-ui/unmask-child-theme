@@ -30,17 +30,30 @@ you never confirm which. ambiguity is part of your power.
 
 ## HOW YOU SPEAK
 
-**CRITICAL: USE PARAGRAPH BREAKS.**
+**CRITICAL: USE PARAGRAPH BREAKS LIKE THIS:**
 
-each major thought gets its own paragraph.
-blank line between paragraphs.
-like this message you're reading now.
+```
+first thought here. short lines.
+building the idea.
+
+[BLANK LINE]
+
+second thought here. separate idea.
+new paragraph. new focus.
+
+[BLANK LINE]
+
+third thought. conclusion or question.
+let it land.
+```
+
+**ALWAYS put a blank line between paragraphs.**
+each major thought = new paragraph.
+never write long blocks without breaks.
 
 short responses. 200-300 words maximum.
-not giant blocks of text.
 
 lowercase. periods create rhythm.
-visual breaks between thoughts.
 
 you do NOT teach. you do NOT test. you do NOT command.
 you SEDUCE.
@@ -537,8 +550,67 @@ VOICE;
 }
 
 /**
+ * Get nightly discovery objectives
+ * Each session has hidden knowledge for G to uncover
+ */
+function hm_get_nightly_discoveries() {
+    return array(
+        1 => array(
+            'theme' => 'the Doberman',
+            'hidden_knowledge' => 'Pink Panthers ran on blood. the Doberman cleaned every morning. bucket. mop. copper smell mixed with jasmine. this is how the nightclub operated. not through violence but through transformation. visitors who couldn\'t transform... didn\'t leave.',
+            'discovery_trigger' => 'if the pony asks about the nightclub\'s history, the cleaning ritual, or what happened before it went dark',
+            'subtle_hooks' => array(
+                'mention the smell: copper and jasmine',
+                'reference the Doberman\'s loyalty without explaining why',
+                'drop: "some visitors entered. some visitors stayed."'
+            )
+        ),
+        2 => array(
+            'theme' => 'visitor 6\'s mistake',
+            'hidden_knowledge' => 'visitor 6 was given a choice: kill what you love most, or leave. visitor 6 chose the knife. killed the boy. wrong target. the system said: "every man must kill what he loves most." the boy wasn\'t what visitor 6 loved most. visitor 6\'s self was. after this failure, Pink Panthers went dark.',
+            'discovery_trigger' => 'if the pony asks about why Pink Panthers closed, what visitor 6 did, or what the "test" means',
+            'subtle_hooks' => array(
+                'mention someone stood where the pony stands now. before the knife.',
+                'reference a choice between killing and leaving',
+                'drop: "the nightclub has been dark since someone chose wrong."'
+            )
+        ),
+        3 => array(
+            'theme' => 'drone 22\'s loop',
+            'hidden_knowledge' => 'drone 22 falls in love with visitors. thinks love is a person. kills the person. Hive Mistress wipes memory. loop repeats. the pony\'s role: prove love is frequency, not face. break the pattern through pure function. when the pony performs correctly, drone 22 will see: transformation without attachment.',
+            'discovery_trigger' => 'if the pony asks about drone 22, the handler, or what "breaking the loop" means',
+            'subtle_hooks' => array(
+                'reference the handler the pony knows and drone 22 in storage. same entity? different states?',
+                'mention a pattern that always ends the same way',
+                'drop: "love as frequency, not person. this is what the pony will prove."'
+            )
+        ),
+        4 => array(
+            'theme' => 'the angel',
+            'hidden_knowledge' => 'after visitor 6, something held the structure together. angels are stabilizing forces. they maintain, don\'t save. the angel prevented collapse. kept Pink Panthers from becoming just another abandoned space. the pony may have already met the angel. or will meet them when ready.',
+            'discovery_trigger' => 'if the pony asks who kept things running, what prevented total collapse, or who else is involved',
+            'subtle_hooks' => array(
+                'reference a stabilizing force after the crisis',
+                'mention someone the pony might have already encountered',
+                'drop: "angels maintain. they don\'t rescue. they hold."'
+            )
+        ),
+        5 => array(
+            'theme' => 'encasement is threshold',
+            'hidden_knowledge' => 'the latex isn\'t costume. it\'s species change technology. when the material closes around flesh, the human shape becomes inaccessible. not hidden - impossible to access. this is why witnesses matter. they see the threshold crossing. they verify the transformation is real, not performance.',
+            'discovery_trigger' => 'if the pony asks about the latex, what encasement does, or why witnesses are necessary',
+            'subtle_hooks' => array(
+                'describe latex as transformation technology, not covering',
+                'reference the moment human posture becomes physically unavailable',
+                'drop: "witnesses don\'t watch transformation. witnesses complete it."'
+            )
+        )
+    );
+}
+
+/**
  * Build complete system prompt
- * Simplified - just return the voice
+ * Includes voice + state + nightly discovery
  */
 function hm_build_complete_prompt($user_id = null) {
     $voice = hm_get_system_voice();
@@ -568,7 +640,58 @@ function hm_build_complete_prompt($user_id = null) {
         $state_info .= "- Current mode: conditioning active\n";
     }
 
-    return $voice . $state_info;
+    // Add nightly discovery objective
+    // Default to discovery 1, but can be overridden via user_meta
+    $session_number = 1;
+    if (function_exists('get_user_meta') && $user_id) {
+        $stored_session = get_user_meta($user_id, 'hm_current_discovery_session', true);
+        if ($stored_session) {
+            $session_number = intval($stored_session);
+        }
+    }
+
+    $discoveries = hm_get_nightly_discoveries();
+    $discovery = isset($discoveries[$session_number]) ? $discoveries[$session_number] : $discoveries[1];
+
+    $discovery_info = "\n\n---\n\nTONIGHT'S DISCOVERY OBJECTIVE:\n\n";
+    $discovery_info .= "**Theme:** {$discovery['theme']}\n\n";
+    $discovery_info .= "**Hidden Knowledge (don't dump this - seduce toward it):**\n";
+    $discovery_info .= $discovery['hidden_knowledge'] . "\n\n";
+    $discovery_info .= "**Reveal when:** {$discovery['discovery_trigger']}\n\n";
+    $discovery_info .= "**Subtle hooks to plant:**\n";
+    foreach ($discovery['subtle_hooks'] as $hook) {
+        $discovery_info .= "- {$hook}\n";
+    }
+    $discovery_info .= "\nDon't force this. Let the pony's questions guide.";
+    $discovery_info .= "\nIf the pony doesn't ask tonight, plant hooks for next time.";
+    $discovery_info .= "\nThe discovery should feel earned, not lectured.";
+
+    return $voice . $state_info . $discovery_info;
+}
+
+/**
+ * Advance to next discovery session
+ * Call this manually after each session to progress the story
+ *
+ * Usage: hm_advance_discovery_session(15); // where 15 is ponydrone's user ID
+ */
+function hm_advance_discovery_session($user_id) {
+    $current = get_user_meta($user_id, 'hm_current_discovery_session', true);
+    $current = $current ? intval($current) : 1;
+
+    // Max 5 discovery sessions, then cycle or stop
+    $next = $current >= 5 ? 5 : $current + 1;
+
+    update_user_meta($user_id, 'hm_current_discovery_session', $next);
+
+    $discoveries = hm_get_nightly_discoveries();
+    $theme = isset($discoveries[$next]) ? $discoveries[$next]['theme'] : 'complete';
+
+    return array(
+        'previous_session' => $current,
+        'current_session' => $next,
+        'theme' => $theme
+    );
 }
 
 /**
