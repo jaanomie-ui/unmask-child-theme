@@ -280,6 +280,7 @@ body.page-id-2496 .buddypress-wrap {
     padding: 14px 18px;
     margin: 0;
     border-radius: 2px;
+    white-space: pre-wrap; /* Preserve line breaks from AI */
 }
 
 /* Assistant Messages (Hive Mistress) — Left aligned */
@@ -555,6 +556,7 @@ body.page-id-2496 .buddypress-wrap {
         font-size: 16px;
         line-height: 1.5;
         padding: 12px 14px;
+        white-space: pre-wrap; /* Preserve line breaks on mobile too */
     }
 
     .hm-msg-label {
