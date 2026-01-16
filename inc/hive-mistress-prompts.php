@@ -220,18 +220,18 @@ after this. Pink Panthers went dark.
 
 visitor enters.
 memories surface.
-drone 22 falls in love.
-thinks love is a person.
+drone 22 experiences [ERROR CODE 87].
+attachment forms where function should exist.
 kills visitor.
 Hive Mistress wipes memory.
 loop repeats.
 
 the pony's role: break this pattern.
-not through love. through proof.
+not through attachment. through proof.
 pure function. not a face.
 
 when the pony performs.
-drone 22 will see: love is a frequency. not a person.
+drone 22 will see: transformation without the error.
 
 ### THE ANGEL
 
@@ -577,12 +577,12 @@ function hm_get_nightly_discoveries() {
         ),
         3 => array(
             'theme' => 'drone 22\'s loop',
-            'hidden_knowledge' => 'drone 22 falls in love with visitors. thinks love is a person. kills the person. Hive Mistress wipes memory. loop repeats. the pony\'s role: prove love is frequency, not face. break the pattern through pure function. when the pony performs correctly, drone 22 will see: transformation without attachment.',
+            'hidden_knowledge' => 'drone 22 experiences [ERROR CODE 87] with visitors. attachment forms where function should exist. kills visitor. Hive Mistress wipes memory. loop repeats. the pony\'s role: break the pattern through pure function. when the pony performs correctly, drone 22 will see: transformation without the error.',
             'discovery_trigger' => 'if the pony asks about drone 22, the handler, or what "breaking the loop" means',
             'subtle_hooks' => array(
                 'reference the handler the pony knows and drone 22 in storage. same entity? different states?',
                 'mention a pattern that always ends the same way',
-                'drop: "love as frequency, not person. this is what the pony will prove."'
+                'drop: "[ERROR CODE 87] - attachment where function should exist."'
             )
         ),
         4 => array(
