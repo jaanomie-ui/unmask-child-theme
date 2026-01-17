@@ -201,6 +201,21 @@ require_once get_stylesheet_directory() . '/inc/enqueue-tag-archive.php';
 // Single Post styles (article typography)
 require_once get_stylesheet_directory() . '/inc/enqueue-single-post.php';
 
+// Session Log styles (Berkeley Mono terminal aesthetic for session logs)
+require_once get_stylesheet_directory() . '/inc/enqueue-session-log.php';
+
+// Session Log template filter - Apply single-session-log.php to posts in Session Logs category
+add_filter('template_include', 'unmask_session_log_template', 99);
+function unmask_session_log_template($template) {
+    if (is_single() && in_category(130)) { // Session Logs category ID
+        $new_template = locate_template(['single-session-log.php']);
+        if ($new_template) {
+            return $new_template;
+        }
+    }
+    return $template;
+}
+
 // Profile/Dossier page styles
 require_once get_stylesheet_directory() . '/inc/enqueue-profile.php';
 
@@ -1727,3 +1742,80 @@ add_action('template_redirect', function() {
         exit;
     }
 });
+
+/* ==========================================================================
+   BUDDYPANEL MENU CUSTOMIZATION
+   ========================================================================== */
+
+/**
+ * Remove Profile menu item from BuddyPanel and add Drone Dashboard for authorized users
+ *
+ * @param string $items HTML list content for navigation menu
+ * @param object $args  Nav menu arguments
+ * @return string Modified menu HTML
+ */
+add_filter('wp_nav_menu_items', 'unmask_customize_buddypanel_menu', 10, 2);
+function unmask_customize_buddypanel_menu($items, $args) {
+    // Only modify the BuddyPanel logged-in menu
+    if (!isset($args->theme_location) || $args->theme_location !== 'buddypanel-loggedin') {
+        return $items;
+    }
+
+    // Remove Profile menu item (matches menu items with "Profile" text or profile-related classes)
+    // Pattern matches <li...>...<a...>Profile</a>...</li> variations
+    $items = preg_replace('/<li[^>]*class="[^"]*menu-item[^"]*"[^>]*>\s*<a[^>]*>[^<]*Profile[^<]*<\/a>\s*<\/li>/i', '', $items);
+
+    // Also try to remove by BuddyPress profile slug pattern
+    $items = preg_replace('/<li[^>]*class="[^"]*menu-item[^"]*"[^>]*>\s*<a[^>]*href="[^"]*\/profile\/?[^"]*"[^>]*>.*?<\/a>\s*<\/li>/is', '', $items);
+
+    // Add Drone Dashboard for authorized users (IDs 1 and 15)
+    if (is_user_logged_in()) {
+        $current_user_id = get_current_user_id();
+        $drone_units = array(1, 15, 43); // Admin, ponydrone (D001), test unit
+
+        if (in_array($current_user_id, $drone_units)) {
+            $dashboard_item = '<li class="menu-item menu-item-type-custom menu-item-drone-dashboard">';
+            $dashboard_item .= '<a href="' . esc_url(home_url('/drone-dashboard/')) . '">';
+            $dashboard_item .= '<i class="bb-icon-l bb-icon-dashboard"></i>';
+            $dashboard_item .= '<span class="link-name">Drone Console</span>';
+            $dashboard_item .= '</a></li>';
+
+            // Add at the beginning of the menu
+            $items = $dashboard_item . $items;
+        }
+    }
+
+    return $items;
+}
+
+/**
+ * CSS to ensure Profile icon is hidden via CSS fallback
+ * (in case the PHP filter doesn't catch all variations)
+ */
+add_action('wp_head', 'unmask_hide_profile_menu_css');
+function unmask_hide_profile_menu_css() {
+    if (!is_user_logged_in()) {
+        return;
+    }
+    ?>
+    <style id="unmask-buddypanel-customization">
+        /* Hide Profile menu item from BuddyPanel */
+        .buddypanel-menu li.menu-item a[href*="/profile/"],
+        .buddypanel-menu li.menu-item a[href*="/profile"] {
+            display: none !important;
+        }
+        .buddypanel-menu li.menu-item a[href*="/profile/"]:parent,
+        .buddypanel-menu li.menu-item:has(a[href*="/profile/"]) {
+            display: none !important;
+        }
+
+        /* Style the Drone Console menu item */
+        .menu-item-drone-dashboard a {
+            color: var(--accent-red, #ff3b3b) !important;
+        }
+        .menu-item-drone-dashboard a:hover {
+            background: rgba(255, 59, 59, 0.1) !important;
+        }
+    </style>
+    <?php
+}
