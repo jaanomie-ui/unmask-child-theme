@@ -26,9 +26,9 @@ if (!is_user_logged_in()) {
 
 // Verify drone registration
 $current_user_id = get_current_user_id();
-$drone_units = array(1, 15, 43); // drone 22, d001, test unit
+$is_drone = get_user_meta($current_user_id, 'hm_drone_enabled', true);
 
-if (!in_array($current_user_id, $drone_units)) {
+if (!$is_drone) {
     get_header();
     ?>
     <div class="drone-access-denied">
@@ -36,6 +36,7 @@ if (!in_array($current_user_id, $drone_units)) {
             <div class="drone-access-denied__title">ACCESS DENIED</div>
             <p class="drone-access-denied__text">Unit not registered in Factory system.</p>
             <p class="drone-access-denied__text">Designation not found.</p>
+            <p class="drone-access-denied__text">Contact Hive Mistress for drone registration.</p>
             <a href="<?php echo esc_url(home_url('/')); ?>" class="drone-access-denied__btn">EXIT</a>
         </div>
     </div>
@@ -84,26 +85,14 @@ if (empty($drone_state)) {
     update_user_meta($current_user_id, 'hm_drone_state', $drone_state);
 }
 
-// Get conditioning logs
+// Get conditioning logs from Session Logs (Category 130)
 $conditioning_logs = get_posts(array(
     'post_type' => 'post',
-    'category' => 112,
+    'category' => 130, // Session Logs
     'posts_per_page' => 5,
     'orderby' => 'date',
-    'order' => 'DESC',
-    'author' => $current_user_id
+    'order' => 'DESC'
 ));
-
-// Fallback to archived logs if none found
-if (empty($conditioning_logs)) {
-    $conditioning_logs = get_posts(array(
-        'post_type' => 'post',
-        'category' => 130, // Category 130 = d001 Training Logs (Archive)
-        'posts_per_page' => 5,
-        'orderby' => 'date',
-        'order' => 'DESC'
-    ));
-}
 
 // Get limits filing status - check new system first, then legacy BuddyForms
 $limits_filed = false;
@@ -309,7 +298,7 @@ get_header();
             </div>
         </div>
 
-        <div class="drone-dashboard__hero-stat">
+        <div class="drone-dashboard__hero-stat" data-tooltip="Days until March 7, 2026 Pink Panthers commissioning">
             <div class="drone-dashboard__hero-stat-label">DEPLOYMENT</div>
             <div class="drone-dashboard__hero-stat-value">
                 <span class="drone-dashboard__hero-stat-number"><?php echo esc_html($deploy_days); ?></span>
@@ -317,17 +306,31 @@ get_header();
             </div>
         </div>
 
-        <div class="drone-dashboard__hero-stat">
+        <div class="drone-dashboard__hero-stat" data-tooltip="Training progression: Protocol → Frequency → Gear → Depth → Deploy">
             <div class="drone-dashboard__hero-stat-label">SEQUENCE</div>
             <div class="drone-dashboard__hero-stat-value">
                 <span class="drone-dashboard__hero-stat-number"><?php echo esc_html($drone_state['current_sequence']); ?>/5</span>
             </div>
         </div>
 
-        <div class="drone-dashboard__hero-stat drone-dashboard__hero-stat--muted">
+        <div class="drone-dashboard__hero-stat drone-dashboard__hero-stat--muted" data-tooltip="Trained response patterns installed during Hive Mistress sessions. Each loop creates an automatic response to specific triggers.">
             <div class="drone-dashboard__hero-stat-label">LOOPS</div>
             <div class="drone-dashboard__hero-stat-value">
                 <span class="drone-dashboard__hero-stat-number"><?php echo esc_html($installed_loops); ?>/<?php echo esc_html($total_loops); ?></span>
+            </div>
+        </div>
+
+        <div class="drone-dashboard__hero-stat drone-dashboard__hero-stat--green">
+            <div class="drone-dashboard__hero-stat-label">PROFILE</div>
+            <div class="drone-dashboard__hero-stat-value">
+                <?php
+                $profile_complete = false;
+                if (function_exists('hm_get_user_profile')) {
+                    $profile = hm_get_user_profile($current_user_id);
+                    $profile_complete = !empty($profile['gear']) && !empty($profile['safeword']);
+                }
+                ?>
+                <span class="drone-dashboard__hero-stat-number"><?php echo $profile_complete ? 'SET' : 'PENDING'; ?></span>
             </div>
         </div>
 
@@ -445,16 +448,28 @@ get_header();
             <div class="drone-dashboard__tolerances-grid">
                 <?php
                 $tolerances = array(
-                    'sensation_intensity' => 'SENSATION',
-                    'protocol_density' => 'PROTOCOL',
-                    'conditioning_depth' => 'DEPTH',
-                    'gear_integration' => 'GEAR'
+                    'sensation_intensity' => array(
+                        'label' => 'SENSATION',
+                        'tooltip' => 'Tolerance for sensory restriction/enhancement (1=beginner, 5=extreme)'
+                    ),
+                    'protocol_density' => array(
+                        'label' => 'PROTOCOL',
+                        'tooltip' => 'Obedience and command compliance (1=learning, 5=perfect)'
+                    ),
+                    'conditioning_depth' => array(
+                        'label' => 'DEPTH',
+                        'tooltip' => 'Conditioning depth and identity shift (1=surface, 5=reclassified)'
+                    ),
+                    'gear_integration' => array(
+                        'label' => 'GEAR',
+                        'tooltip' => 'Latex/equipment response and integration (1=exploring, 5=transformation)'
+                    )
                 );
-                foreach ($tolerances as $key => $label) :
+                foreach ($tolerances as $key => $data) :
                     $value = $drone_state['tolerances'][$key];
                 ?>
-                <div class="drone-dashboard__tolerance-cell">
-                    <div class="drone-dashboard__tolerance-label"><?php echo esc_html($label); ?></div>
+                <div class="drone-dashboard__tolerance-cell" data-tooltip="<?php echo esc_attr($data['tooltip']); ?>">
+                    <div class="drone-dashboard__tolerance-label"><?php echo esc_html($data['label']); ?></div>
                     <div class="drone-dashboard__tolerance-value"><?php echo esc_html($value); ?></div>
                     <div class="drone-dashboard__tolerance-max">OF 5</div>
                 </div>
@@ -488,6 +503,55 @@ get_header();
             <div class="drone-dashboard__limits-footer">
                 <span class="drone-dashboard__limits-updated">LAST UPDATED: <?php echo $limits_filed ? esc_html($limits_date) : 'NOT FILED'; ?></span>
                 <a href="<?php echo esc_url(home_url('/hard-limits-form/')); ?>" class="drone-dashboard__limits-edit">[EDIT LIMITS]</a>
+            </div>
+        </div>
+
+        <!-- PROFILE MANAGEMENT -->
+        <div class="drone-dashboard__box">
+            <div class="drone-dashboard__box-header">
+                <span class="drone-dashboard__box-accent drone-dashboard__box-accent--blue"></span>
+                <span class="drone-dashboard__box-title">PROFILE MANAGEMENT</span>
+            </div>
+            <div class="drone-dashboard__box-subtitle">DESIGNATION | HARD LIMITS</div>
+
+            <?php
+            // Load profile data
+            if (function_exists('hm_get_user_profile')) {
+                $profile = hm_get_user_profile($current_user_id);
+            }
+
+            // Get hard limits
+            $hard_limits_text = 'None filed';
+            $new_limits_json = get_user_meta($current_user_id, 'unmask_hard_limits', true);
+            if (!empty($new_limits_json)) {
+                $new_limits = json_decode($new_limits_json, true);
+                if (is_array($new_limits)) {
+                    $red_limits = array();
+                    foreach ($new_limits as $activity => $level) {
+                        if ($level === 'red') {
+                            $red_limits[] = ucfirst(str_replace('_', ' ', $activity));
+                        }
+                    }
+                    if (!empty($red_limits)) {
+                        $hard_limits_text = implode(', ', $red_limits);
+                    }
+                }
+            }
+            ?>
+
+            <div class="drone-dashboard__profile-display">
+                <div class="drone-dashboard__profile-field">
+                    <span class="drone-dashboard__profile-label">DESIGNATION:</span>
+                    <span class="drone-dashboard__profile-value"><?php echo esc_html(strtoupper($drone_state['designation'])); ?></span>
+                </div>
+                <div class="drone-dashboard__profile-field">
+                    <span class="drone-dashboard__profile-label">HARD LIMITS:</span>
+                    <span class="drone-dashboard__profile-value"><?php echo esc_html($hard_limits_text); ?></span>
+                </div>
+            </div>
+
+            <div class="drone-dashboard__limits-footer" style="margin-top: 1rem;">
+                <a href="<?php echo esc_url(home_url('/hard-limits-form/')); ?>" class="drone-dashboard__limits-edit">[EDIT PROFILE]</a>
             </div>
         </div>
 
@@ -549,11 +613,22 @@ get_header();
             <div class="drone-dashboard__box-subtitle drone-dashboard__box-subtitle--no-indent">RECENT TRAINING TRANSCRIPTS</div>
 
             <?php if (!empty($conditioning_logs)) : ?>
-                <?php foreach ($conditioning_logs as $log) : ?>
-                <a href="<?php echo get_permalink($log); ?>" class="drone-dashboard__log-entry">
-                    <div class="drone-dashboard__log-entry-date"><?php echo get_the_date('Y-m-d H:i', $log); ?></div>
-                    <div class="drone-dashboard__log-entry-title"><?php echo esc_html($log->post_title); ?></div>
-                </a>
+                <?php
+                foreach ($conditioning_logs as $log) :
+                    // Get session summary from post meta
+                    $summary = get_post_meta($log->ID, '_hm_session_summary', true);
+                ?>
+                <div class="drone-dashboard__log-entry-wrapper">
+                    <a href="<?php echo get_permalink($log); ?>" class="drone-dashboard__log-entry">
+                        <div class="drone-dashboard__log-entry-date"><?php echo get_the_date('Y-m-d H:i', $log); ?></div>
+                        <div class="drone-dashboard__log-entry-title"><?php echo esc_html($log->post_title); ?></div>
+                    </a>
+                    <?php if ($summary && $summary !== 'Summary unavailable (API error)' && $summary !== 'Summary unavailable (configuration error)') : ?>
+                    <div class="drone-dashboard__log-summary">
+                        <?php echo esc_html($summary); ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
                 <?php endforeach; ?>
             <?php else : ?>
                 <div class="drone-dashboard__log-empty">NO CONDITIONING SEQUENCES LOGGED.</div>
@@ -575,6 +650,45 @@ get_header();
         <a href="<?php echo esc_url(home_url('/terms/')); ?>" class="drone-dashboard__footer-link">TERMS</a>
         <a href="<?php echo esc_url(home_url('/privacy/')); ?>" class="drone-dashboard__footer-link">PRIVACY</a>
     </footer>
+
+    <!-- ==================== PROFILE TOGGLE SCRIPT ==================== -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.querySelector('.drone-dashboard__profile-edit-toggle');
+        const formContainer = document.querySelector('.drone-dashboard__profile-form');
+        const displayContainer = document.querySelector('.drone-dashboard__profile-display');
+
+        if (toggleBtn && formContainer) {
+            toggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (formContainer.style.display === 'none') {
+                    formContainer.style.display = 'block';
+                    if (displayContainer) displayContainer.style.display = 'none';
+                    toggleBtn.textContent = '[CANCEL]';
+                } else {
+                    formContainer.style.display = 'none';
+                    if (displayContainer) displayContainer.style.display = 'block';
+                    toggleBtn.textContent = '[EDIT PROFILE]';
+                }
+            });
+
+            // Listen for successful save
+            document.addEventListener('click', function(e) {
+                if (e.target && e.target.closest('.hm-btn-primary')) {
+                    setTimeout(function() {
+                        // Reload page after successful save to show updated data
+                        if (document.querySelector('.hm-message.success')) {
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
+                        }
+                    }, 500);
+                }
+            });
+        }
+    });
+    </script>
 
 </div>
 

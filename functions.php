@@ -284,16 +284,32 @@ require_once get_stylesheet_directory() . '/inc/enqueue-drone-dashboard.php';
 require_once get_stylesheet_directory() . '/inc/hive-mistress-state.php';
 
 // Hive Mistress Prompts - System voice, lore context, and AI prompt construction
-require_once get_stylesheet_directory() . '/inc/hive-mistress-prompts.php';
+// V6: Performance training focus (based on Session Log 002 - 4-part ritual)
+require_once get_stylesheet_directory() . '/inc/hive-mistress-prompts-v6.php';
 
 // Hive Mistress Chat Shortcode - [hive_mistress_chat] shortcode and AJAX handlers
 require_once get_stylesheet_directory() . '/inc/hive-mistress-shortcode.php';
+
+// Hive Mistress RAG System - Semantic lore search using OpenAI + Supabase pgvector
+require_once get_stylesheet_directory() . '/inc/hive-mistress-rag.php';
+
+// Hive Mistress Chunker - Document processing, metadata extraction, and lore uploads
+require_once get_stylesheet_directory() . '/inc/hive-mistress-chunker.php';
+
+// Hive Mistress Profile Form - [hive_mistress_profile] shortcode for gear/safeword/availability
+require_once get_stylesheet_directory() . '/inc/hive-mistress-profile-form.php';
+
+// Hive Mistress Backfill Script - Generate summaries for existing sessions (WP-CLI + admin)
+require_once get_stylesheet_directory() . '/inc/hive-mistress-backfill.php';
 
 // Hive Mistress Chat - AI chatbot interface styles (page ID 2496)
 require_once get_stylesheet_directory() . '/inc/enqueue-hive-mistress-chat.php';
 
 // Hard Limits Checklist - Traffic light BDSM preferences form for drones
 require_once get_stylesheet_directory() . '/inc/enqueue-hard-limits.php';
+
+// Hard Limits Admin Viewer - WordPress admin page to view all filed limits
+require_once get_stylesheet_directory() . '/inc/admin-hard-limits-viewer.php';
 
 /* ==========================================================================
    REGISTRATION PAGE STYLES
@@ -1740,6 +1756,68 @@ add_action('template_redirect', function() {
     if (function_exists('bp_is_members_directory') && bp_is_members_directory()) {
         wp_redirect(home_url('/'), 302);
         exit;
+    }
+});
+
+/* ==========================================================================
+   DRONE ACCESS INITIALIZATION
+   ========================================================================== */
+
+/**
+ * Initialize drone access for core users
+ * Sets hm_drone_enabled meta flag for users 1, 15, 43
+ *
+ * Runs once on theme activation OR can be triggered manually via /?init_drones=1
+ */
+add_action('after_switch_theme', 'unmask_initialize_drone_access');
+function unmask_initialize_drone_access() {
+    // Check if already initialized
+    if (get_option('unmask_drone_access_initialized')) {
+        return;
+    }
+
+    // Core drone users
+    $drone_users = array(
+        1  => 'Admin',
+        15 => 'Pony Drone (DRONE-001)',
+        43 => 'Test Drone (V-025)'
+    );
+
+    // Enable drone access for each user
+    foreach ($drone_users as $user_id => $label) {
+        update_user_meta($user_id, 'hm_drone_enabled', true);
+        error_log('UNMASK Drone Init: Enabled access for user ' . $user_id . ' (' . $label . ')');
+
+        // Initialize drone state if doesn't exist
+        $state = get_user_meta($user_id, 'hm_drone_state', true);
+        if (empty($state) && function_exists('hm_get_default_state')) {
+            update_user_meta($user_id, 'hm_drone_state', hm_get_default_state());
+            error_log('UNMASK Drone Init: Created default state for user ' . $user_id);
+        }
+    }
+
+    // Mark as initialized so this doesn't run again
+    update_option('unmask_drone_access_initialized', true);
+    error_log('UNMASK Drone Init: Completed initialization');
+}
+
+/**
+ * Manual trigger for drone access initialization
+ * Visit /?init_drones=1 as admin to run initialization
+ */
+add_action('init', function() {
+    if (isset($_GET['init_drones']) && current_user_can('administrator')) {
+        // Force re-initialization
+        delete_option('unmask_drone_access_initialized');
+        unmask_initialize_drone_access();
+
+        $drone_users = array(1, 15, 43);
+        wp_die(
+            'Drone access initialized for users: ' . implode(', ', $drone_users) .
+            '<br><br><a href="' . home_url('/drone-dashboard/') . '">Go to Drone Dashboard</a>',
+            'Drone Access Initialized',
+            array('response' => 200)
+        );
     }
 });
 
