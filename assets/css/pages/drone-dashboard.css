@@ -392,6 +392,7 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--dd-space-grid);
   margin-bottom: var(--dd-space-section);
+  align-items: start;
 }
 
 .drone-dashboard__grid--two-col {
@@ -402,6 +403,7 @@
   border: 1px solid var(--dd-border);
   background-color: var(--dd-bg-page);
   padding: var(--dd-space-box);
+  margin-bottom: var(--dd-space-section);
 }
 
 /* Box Header with colored accent bar */
@@ -422,6 +424,7 @@
 .drone-dashboard__box-accent--blue { background-color: var(--dd-accent-blue); }
 .drone-dashboard__box-accent--green { background-color: var(--dd-accent-green); }
 .drone-dashboard__box-accent--yellow { background-color: var(--dd-accent-yellow); }
+.drone-dashboard__box-accent--orange { background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); }
 
 .drone-dashboard__box-title {
   font-size: var(--dd-type-label);
@@ -513,7 +516,7 @@
 
 .drone-dashboard__progress-count--complete {
   color: var(--dd-accent-green-glow);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Loops Summary */
@@ -557,10 +560,40 @@
   gap: var(--dd-space-element);
   padding: 14px 0;
   border-bottom: 1px solid var(--dd-border-subtle);
+  position: relative;
+  cursor: default;
 }
 
 .drone-dashboard__readiness-item:last-child {
   border-bottom: none;
+}
+
+/* Custom tooltip styling */
+.drone-dashboard__readiness-item[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: var(--dd-space-tight);
+  padding: var(--dd-space-tight) var(--dd-space-element);
+  background: rgba(138, 50, 51, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--dd-accent-red);
+  box-shadow: 0 0 8px rgba(138, 50, 51, 0.4);
+  color: var(--dd-text-primary);
+  font-size: var(--dd-type-micro);
+  line-height: 1.4;
+  white-space: normal;
+  max-width: 280px;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.drone-dashboard__readiness-item[data-tooltip]:hover::before {
+  opacity: 1;
 }
 
 .drone-dashboard__readiness-indicator {
@@ -825,7 +858,7 @@
 
 /* Log Entry (when populated) */
 .drone-dashboard__log-entry {
-  padding: var(--dd-space-grid);
+  padding: var(--dd-space-tight) 0;
   border-bottom: 1px solid var(--dd-border-subtle);
 }
 
@@ -836,7 +869,7 @@
 .drone-dashboard__log-entry-date {
   font-size: var(--dd-type-nano);
   color: var(--dd-text-dim);
-  margin-bottom: var(--dd-space-micro);
+  margin-bottom: 4px;
   text-transform: uppercase;
 }
 
@@ -844,6 +877,51 @@
   font-size: var(--dd-type-label);
   color: var(--dd-text-primary);
   text-transform: uppercase;
+}
+
+/* Recent Installations */
+.drone-dashboard__installation-entry {
+  padding: var(--dd-space-tight) 0;
+  border-bottom: 1px solid var(--dd-border-subtle);
+}
+
+.drone-dashboard__installation-entry:last-child {
+  border-bottom: none;
+}
+
+.drone-dashboard__installation-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--dd-space-element);
+}
+
+.drone-dashboard__installation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drone-dashboard__installation-date {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  text-transform: uppercase;
+  letter-spacing: var(--dd-tracking-tight);
+}
+
+.drone-dashboard__installation-item {
+  font-size: var(--dd-type-label);
+  color: var(--dd-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: var(--dd-tracking-tight);
+}
+
+.drone-dashboard__installation-seq {
+  font-size: var(--dd-type-nano);
+  color: var(--dd-text-dim);
+  text-transform: uppercase;
+  letter-spacing: var(--dd-tracking-tight);
+  flex-shrink: 0;
 }
 
 
@@ -855,10 +933,11 @@
   display: block;
   border: 1px solid var(--dd-accent-red);
   background-color: var(--dd-accent-red);
-  padding: 20px var(--dd-space-box);
+  padding: 16px 32px;
   text-align: center;
   cursor: pointer;
-  margin-bottom: var(--dd-space-page);
+  margin: 0 auto var(--dd-space-page);
+  max-width: 400px;
   transition: background-color 200ms ease-out;
   text-decoration: none;
 }
@@ -872,7 +951,7 @@
   color: var(--dd-bg-page);
   letter-spacing: var(--dd-tracking-wide);
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 
@@ -1276,7 +1355,7 @@
 .pipeline-tracker__node-count {
   font-size: 11px;
   color: var(--dd-bg-page);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* Locked node */
@@ -1465,6 +1544,436 @@ body.page-template-template-drone-dashboard .site-footer,
 body.page-template-template-drone-dashboard #colophon,
 body.page-template-template-drone-dashboard footer.footer-wrap {
   display: none !important;
+}
+
+
+/* ============================================================================
+   22. PROFILE MANAGEMENT
+   Display and edit user profile (gear, safeword, availability)
+   ============================================================================ */
+
+.drone-dashboard__profile-display {
+  margin-top: 1.5rem;
+}
+
+.drone-dashboard__profile-field {
+  display: flex;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.drone-dashboard__profile-label {
+  color: var(--dd-text-muted);
+  min-width: 140px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.drone-dashboard__profile-value {
+  color: var(--dd-text-primary);
+  flex: 1;
+}
+
+.drone-dashboard__profile-form {
+  border-top: 1px solid var(--dd-border-subtle);
+  padding-top: 1rem;
+}
+
+/* Override the hive-mistress-profile form container styles when embedded */
+.drone-dashboard__profile-form .hm-profile-form-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+.drone-dashboard__profile-form .hm-profile-form-container h3 {
+  display: none; /* Hide duplicate title */
+}
+
+
+/* ============================================================================
+   23. SESSION SUMMARIES
+   AI-generated summaries displayed under conditioning log entries
+   ============================================================================ */
+
+.drone-dashboard__log-entry-wrapper {
+  margin-bottom: 0.5rem;
+}
+
+.drone-dashboard__log-entry-wrapper:last-of-type {
+  margin-bottom: 0;
+}
+
+.drone-dashboard__log-summary {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--dd-accent-blue);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--dd-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .drone-dashboard__log-summary {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .drone-dashboard__profile-label {
+    min-width: 100px;
+    font-size: 0.75rem;
+  }
+
+  .drone-dashboard__profile-value {
+    font-size: 0.8125rem;
+  }
+}
+
+
+/* Hide theme footer on drone dashboard page (custom footer used instead) */
+.page-template-template-drone-dashboard #site-footer,
+.page-template-template-drone-dashboard .site-footer,
+.page-template-template-drone-dashboard footer:not(.drone-dashboard__footer) {
+  display: none !important;
+}
+
+/* ============================================================================
+   24. TOOLTIPS
+   CSS-only tooltips using data-tooltip attribute
+   ============================================================================ */
+
+[data-tooltip] {
+  position: relative;
+  cursor: default;
+}
+
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(138, 50, 51, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--dd-accent-red);
+  box-shadow: 0 0 8px rgba(138, 50, 51, 0.4);
+  color: var(--dd-text-primary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: var(--dd-type-micro);
+  font-family: var(--font-mono);
+  white-space: normal;
+  width: 240px;
+  z-index: 1000;
+  margin-bottom: 8px;
+  pointer-events: none;
+}
+
+[data-tooltip]:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--dd-accent-red);
+  z-index: 1000;
+  margin-bottom: 2px;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  [data-tooltip]:hover::after {
+    width: 200px;
+    font-size: 0.7rem;
+    padding: 6px 10px;
+  }
+}
+
+
+/* ============================================================================
+   20. TRAINING GUIDE
+   Shows current sequence loop completion criteria for drones
+   ============================================================================ */
+
+.drone-dashboard__box--full-width {
+  grid-column: 1 / -1;
+  margin-bottom: var(--dd-space-section);
+}
+
+.drone-dashboard__box-accent--purple {
+  background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+}
+
+/* Training Guide Preview (Dashboard) */
+.training-guide-preview {
+  padding: 0;
+}
+
+.training-guide-preview__current {
+  margin-bottom: var(--dd-space-element);
+  padding: var(--dd-space-element);
+  background: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+  border-radius: 4px;
+}
+
+.training-guide-preview__seq-title {
+  font-family: var(--font-mono);
+  font-size: var(--dd-type-small);
+  font-weight: 400;
+  letter-spacing: var(--dd-tracking-tight);
+  color: var(--dd-text-primary);
+  margin-bottom: var(--dd-space-tight);
+  text-transform: uppercase;
+}
+
+.training-guide-preview__purpose {
+  font-family: var(--font-mono);
+  font-size: var(--dd-type-micro);
+  font-weight: 400;
+  color: var(--dd-text-secondary);
+  line-height: 1.6;
+}
+
+.training-guide-preview__link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--dd-type-micro);
+  font-weight: 400;
+  letter-spacing: var(--dd-tracking-wide);
+  color: var(--dd-text-primary);
+  text-decoration: none;
+  padding: var(--dd-space-tight) var(--dd-space-element);
+  border: 1px solid var(--dd-border);
+  border-radius: 4px;
+  background: var(--dd-bg-card);
+  transition: all 0.2s ease;
+}
+
+.training-guide-preview__link:hover {
+  background: var(--dd-bg-hover);
+  border-color: var(--dd-accent-purple-glow);
+  color: var(--dd-accent-purple-glow);
+}
+
+/* Dashboard Link Box (for external links like Rehearsal Planning) */
+.dashboard-link-box {
+  padding: 0;
+}
+
+.link-box-intro {
+  font-family: var(--font-mono);
+  font-size: var(--dd-type-micro);
+  font-weight: 400;
+  color: var(--dd-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--dd-space-element);
+  padding: var(--dd-space-element);
+  background: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+  border-radius: 4px;
+}
+
+.dashboard-link-button {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--dd-type-micro);
+  font-weight: 400;
+  letter-spacing: var(--dd-tracking-wide);
+  color: var(--dd-text-primary);
+  text-decoration: none;
+  padding: var(--dd-space-tight) var(--dd-space-element);
+  border: 1px solid var(--dd-border);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  background: var(--dd-bg-card);
+}
+
+.dashboard-link-button:hover {
+  background: var(--dd-bg-hover);
+  border-color: var(--dd-accent-orange);
+  color: var(--dd-accent-orange);
+}
+
+/* Original training guide styles (for legacy/full page) */
+.training-guide {
+  padding: var(--dd-space-box) 0;
+}
+
+.training-guide__header {
+  display: flex;
+  align-items: center;
+  gap: var(--dd-space-element);
+  margin-bottom: var(--dd-space-element);
+  padding-bottom: var(--dd-space-element);
+  border-bottom: 1px solid var(--dd-border);
+}
+
+.training-guide__seq-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+
+.training-guide__seq-title {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: var(--dd-text-secondary);
+}
+
+.training-guide__purpose {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--dd-text-secondary);
+  margin-bottom: var(--dd-space-section);
+  line-height: 1.6;
+}
+
+.training-guide__loops {
+  display: grid;
+  gap: var(--dd-space-element);
+  margin-bottom: var(--dd-space-section);
+}
+
+.training-guide__loop {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: var(--dd-space-element);
+  padding: var(--dd-space-tight) var(--dd-space-element);
+  background: var(--dd-bg-card);
+  border: 1px solid var(--dd-border);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.training-guide__loop:hover {
+  border-color: var(--dd-border);
+  background: var(--dd-bg-hover);
+}
+
+.training-guide__loop--installed {
+  border-color: var(--dd-accent-green-glow);
+  background: linear-gradient(135deg, var(--dd-bg-card) 0%, rgba(34, 197, 94, 0.05) 100%);
+}
+
+.training-guide__loop--pending {
+  border-color: var(--dd-border);
+}
+
+.training-guide__loop-status {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.training-guide__loop--installed .training-guide__loop-status {
+  color: var(--dd-accent-green-glow);
+}
+
+.training-guide__loop--pending .training-guide__loop-status {
+  color: var(--text-muted);
+}
+
+.training-guide__loop-name {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--dd-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.training-guide__loop-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.training-guide__loop--installed .training-guide__loop-badge {
+  background: var(--dd-accent-green-glow);
+  color: white;
+}
+
+.training-guide__loop--pending .training-guide__loop-badge {
+  background: var(--dd-bg-subtle);
+  color: var(--text-muted);
+}
+
+.training-guide__verification {
+  padding: var(--dd-space-element);
+  background: var(--dd-bg-subtle);
+  border-left: 3px solid var(--dd-accent-purple-glow);
+  border-radius: 4px;
+}
+
+.training-guide__verification-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: var(--dd-space-tight);
+}
+
+.training-guide__verification-text {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--dd-text-secondary);
+  line-height: 1.6;
+}
+
+.training-guide__empty {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--dd-space-section);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .training-guide__loop {
+    grid-template-columns: 25px 1fr auto;
+    gap: var(--dd-space-tight);
+    padding: var(--dd-space-tight) var(--dd-space-element);
+  }
+
+  .training-guide__loop-status {
+    font-size: 1rem;
+  }
+
+  .training-guide__loop-name {
+    font-size: 0.8rem;
+  }
+
+  .training-guide__loop-badge {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
 }
 
 
