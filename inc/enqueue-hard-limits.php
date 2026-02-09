@@ -101,11 +101,18 @@ function unmask_ajax_save_limits() {
     $user_id = get_current_user_id();
     $limits_raw = isset($_POST['limits']) ? $_POST['limits'] : '{}';
 
+    // DEBUG: Log what was received
+    error_log('=== HARD LIMITS SAVE (User ' . $user_id . ') ===');
+    error_log('Raw input: ' . $limits_raw);
+
     // Validate JSON
     $decoded = json_decode(stripslashes($limits_raw), true);
     if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log('JSON decode error: ' . json_last_error_msg());
         wp_send_json_error(array('message' => 'invalid data format.'));
     }
+
+    error_log('Decoded count: ' . count($decoded));
 
     // Sanitize: only allow valid activity slugs and level values
     $valid_slugs = unmask_get_all_activity_slugs();
@@ -121,9 +128,14 @@ function unmask_ajax_save_limits() {
         }
     }
 
+    error_log('Sanitized count: ' . count($sanitized));
+
     // Save to user meta
     $limits_json = wp_json_encode($sanitized);
     $saved = update_user_meta($user_id, 'unmask_hard_limits', $limits_json);
+
+    error_log('Save result: ' . ($saved ? 'success' : 'failed/unchanged'));
+    error_log('Final JSON: ' . $limits_json);
 
     // Count limits for response
     $counts = array('green' => 0, 'yellow' => 0, 'red' => 0);

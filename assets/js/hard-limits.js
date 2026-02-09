@@ -271,6 +271,20 @@
             return;
         }
 
+        // DEBUG: Log state before saving
+        const stateCount = Object.keys(state).length;
+        console.log('=== HARD LIMITS SAVE DEBUG ===');
+        console.log('Activities selected:', stateCount);
+        console.log('State object:', state);
+        console.log('State JSON:', JSON.stringify(state));
+
+        // Warn if saving empty state
+        if (stateCount === 0) {
+            if (!confirm('You have not selected any activities. Are you sure you want to save empty limits?')) {
+                return;
+            }
+        }
+
         const saveBtn = document.querySelector('.btn-save-limits');
         if (saveBtn) {
             saveBtn.disabled = true;

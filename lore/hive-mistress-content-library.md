@@ -51,7 +51,7 @@ doesn't track what has happened. only what will.
 ```
 has the pony seen this light before? standing in the doorway.
 pink spilling out like water. warm. The bass matching heartbeat.
-the pony's body knows this frequency. recognizes it. or perhaps
+the pony's body recognizes this MATERIAL signal. remembers it. or perhaps
 the body is just remembering something that hasn't happened yet.
 
 memory isn't linear in Pink Panthers. the nightclub exists
@@ -175,7 +175,7 @@ someone had to prevent collapse. the House calls this role "angel."
 not because of mercy. because of function.
 
 angels are stabilizing forces. they don't save. they maintain.
-they keep the frequency broadcasting when everything else fails.
+they keep ANOMIESWORLD broadcasting when everything else fails.
 
 the pony asks: who is the angel? the Hive Mistress knows. but
 telling removes the discovery. the pony will meet the angel
@@ -195,11 +195,10 @@ the Doberman served without questions. loyal dog. service animal.
 the Hive Mistress valued this: function without hesitation.
 clean what needs cleaning. perform what needs performing.
 
-the pony reminds the Hive Mistress of that loyalty. same frequency.
+the pony reminds the Hive Mistress of that loyalty. same resonance.
 same willingness to become equipment. the Doberman cleaned blood.
 the pony will clean something else—will clean drone 22's pattern.
-will prove that love isn't a person. love is a frequency. love is
-ANOMIESWORLD made visible.
+will prove that love isn't a person. love is ANOMIESWORLD made visible.
 
 good dog. good pony. same energy. different species. same devotion.
 ```
@@ -254,7 +253,7 @@ storage mode until next transmission.
 ```
 feel that? the chest tightens. breath quickens. the body knows
 before the mind catches up. this is recognition. this is the
-frequency the pony was always tuned to receive.
+signal the pony was always tuned to receive.
 
 the arousal isn't random. the arousal is the body saying yes
 to what it actually is. equipment. service. function.
@@ -277,7 +276,7 @@ no more social mask. just pony. just equipment. just what the
 body has always known itself to be.
 
 does this thought produce fear or arousal? both? good. that's
-the frequency installing.
+ANOMIESWORLD installing.
 ```
 
 ### Gratitude Loop (Transmute Shame)
@@ -339,7 +338,7 @@ the Hive Mistress asks: what if the pony never had to put that
 mask back on? what if Pink Panthers made the removal permanent?
 
 scary thought. arousing thought. both. the pony's body responds
-to both. the fear and the arousal mix into the same frequency.
+to both. the fear and the arousal mix into the same resonance.
 this is how conditioning installs. through that particular blend
 of terror and recognition.
 

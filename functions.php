@@ -280,8 +280,24 @@ require_once get_stylesheet_directory() . '/inc/analytics-data-endpoint.php';
 // Drone Dashboard - Training console for House of Anomie drones
 require_once get_stylesheet_directory() . '/inc/enqueue-drone-dashboard.php';
 
+// Transmissions Archive - Session logs archive for drones
+require_once get_stylesheet_directory() . '/inc/enqueue-transmissions-archive.php';
+
+// Training Guide - Drone conditioning sequences and protocols reference
+require_once get_stylesheet_directory() . '/inc/enqueue-training-guide.php';
+
 // Hive Mistress State Management - Drone conditioning state, tolerances, and logging
 require_once get_stylesheet_directory() . '/inc/hive-mistress-state.php';
+
+// Measurement Algorithms - Objective metrics for loop/pattern/state verification
+require_once get_stylesheet_directory() . '/inc/measurement-algorithms.php';
+
+// Rehearsal Coordination - Sequence 4 planning system for material world preparation
+require_once get_stylesheet_directory() . '/inc/rehearsal-coordination.php';
+require_once get_stylesheet_directory() . '/inc/enqueue-rehearsal-form.php';
+
+// Rehearsal Planning - New dedicated page for rehearsal coordination
+require_once get_stylesheet_directory() . '/inc/enqueue-rehearsal-planning.php';
 
 // Hive Mistress Prompts - System voice, lore context, and AI prompt construction
 // V6: Performance training focus (based on Session Log 002 - 4-part ritual)
@@ -310,6 +326,15 @@ require_once get_stylesheet_directory() . '/inc/enqueue-hard-limits.php';
 
 // Hard Limits Admin Viewer - WordPress admin page to view all filed limits
 require_once get_stylesheet_directory() . '/inc/admin-hard-limits-viewer.php';
+
+// Installation Dashboard - Admin page to track drone installation progress
+require_once get_stylesheet_directory() . '/inc/admin-installation-dashboard.php';
+
+// Session Auditor - Admin tool for measuring session progress (MUST load after Installation Dashboard)
+require_once get_stylesheet_directory() . '/inc/admin-session-auditor.php';
+
+// Training Guide - Shows all 16 loop completion criteria
+require_once get_stylesheet_directory() . '/inc/admin-training-guide.php';
 
 /* ==========================================================================
    REGISTRATION PAGE STYLES

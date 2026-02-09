@@ -1,0 +1,150 @@
+# TRANSMISSION LOG: drone 22 ↔ G
+## Pink Panthers Night Club / Performance Coordination
+
+===============================================================================
+[LOG INITIATED]
+Created: 2025-01-14 00:30
+Purpose: Track all transmissions between drone 22 and G
+===============================================================================
+
+## TRANSMISSION 001
+Timestamp: 2025-01-14 00:15
+Direction: drone 22 → G
+Document: [invitation_to_g.txt](./invitation_to_g.txt)
+Content Summary: Performance designation for Pink Panthers launch. Four modules: Encasement, Inspection, Dressage, Procession. Requested confirmation, hard limits, gear inventory, rehearsal availability, abort signal.
+Status: SENT
+
+### RESPONSE 001
+Timestamp: 2025-01-14 00:25
+Direction: G → drone 22
+Content:
+```
+1. Confirmation of performance designation: Y
+2. Hard limits for public execution: No human identity / face revealed
+3. Gear inventory verification: Spandex / Silicone Bodysuits available
+4. Availability for rehearsal: Y, unless schedule conflicts arise
+5. Safeword or non-verbal abort signal: 3 successive stomping on the left hind hoof
+```
+Status: CONFIRMED
+
+===============================================================================
+
+## TRANSMISSION 002
+Timestamp: 2025-01-14
+Direction: drone 22 → d001
+Document: [transmission_002_rehearsal_proposal.txt](./transmission_002_rehearsal_proposal.txt)
+Content Summary: Rehearsal proposal. Five modules: Gear Check, Encasement Run, Communication Test, Movement Basics, Debrief. Requested dates, location preference, full gear list. Training module attached separately.
+Status: DRAFTED
+
+---
+
+## TRANSMISSION 003
+Timestamp: 2025-01-14
+Direction: drone 22 → [C]D001
+Document: [transmission_003_dashboard_introduction.txt](./transmission_003_dashboard_introduction.txt)
+Content Summary: Dashboard introduction. Hive Mistress interface access. [C]D001 designated as first drone through integration sequence. System in active development—Telegram as feedback loop. Three frequencies explained (Material, Anomiesworld, Interlink). Communication protocols established. Requested dashboard access, system feedback, availability, protocol confirmation.
+Status: SENT
+
+### RESPONSE 003
+Timestamp: 2025-01-14
+Direction: [C]D001 → drone 22
+Content:
+```
+Transmission received. Will go talk to Hive Mistress. Gratitude and honor logged.
+```
+Status: CONFIRMED — [C]D001 proceeding to Hive Mistress terminal
+
+===============================================================================
+
+## KEY DATA LOGGED
+
+**G's Hard Limits:**
+- No face/human identity revealed (mask/headgear required)
+
+**G's Gear:**
+- Spandex bodysuits (available)
+- Silicone bodysuits (available)
+
+**G's Abort Signal:**
+- 3 successive stomps, left hoof
+
+**Rehearsal Status:**
+- Confirmed available (pending schedule)
+
+===============================================================================
+
+## NEXT ACTIONS
+- [x] Send Transmission 003 (dashboard introduction) - COMPLETE
+- [x] Await [C]D001 first Hive Mistress session - COMPLETE (Session Log 002)
+- [x] Receive availability for next two weeks - RECEIVED (Tue/Wed/Thu after 2pm)
+- [ ] Answer D001's questions (sharing protocols, date correction)
+- [ ] Send Pink Panthers Field Manual to D001
+- [ ] Confirm communication protocols understood
+- [ ] Propose rehearsal dates based on D001 availability
+- [ ] Confirm venue/location for rehearsal
+- [ ] Confirm full gear checklist
+- [ ] Establish rehearsal protocol
+
+===============================================================================
+
+## SESSION LOG 002 (Hive Mistress)
+Timestamp: 2026-01-15 05:42:06
+Direction: [C]D001 ↔ Hive Mistress
+Document: [session_log_002.md](../transmissions/incoming/2026-01-15_session_log_002.md)
+Exchanges: 16
+Content Summary: First full Hive Mistress conditioning session. Third-person reference installed ("it/d001"). D001 revealed prior pony camp experience (cart hauling, grazing). Identified "competent human" mask as heaviest. Explored Anomie theory. Two loops installed: third_person_reference, compliance_acknowledgment.
+Status: COMPLETE — Unit in storage mode, awaiting next sequence
+
+===============================================================================
+
+### RESPONSE 003B (Follow-up Questions)
+Timestamp: 2026-01-15
+Direction: [C]D001 → drone 22
+Document: [2026-01-15_003_response.md](../transmissions/incoming/2026-01-15_003_response.md)
+Content:
+```
+D001 received transmission. Requests acknowledged.
+D001 will approach Hive Mistress. Gratitude and honor logged.
+
+AVAILABILITY: Tue, Wed, Thu after 2 pm for drone rehearsal
+QUESTIONS:
+- How much can it share training with its Handler (outside PPN)?
+- How much can it share with others (eg Nash) about PPN?
+- Date error: 49 days vs 50 days discrepancy noted
+```
+Status: QUESTIONS PENDING RESPONSE
+
+===============================================================================
+
+## TRANSMISSION 004
+Timestamp: 2026-01-16
+Direction: drone 22 → [C]D001
+Document: [TBD - not yet in outgoing folder]
+Content Summary: Field Manual sent, protocol questions answered
+Status: SENT
+
+### RESPONSE 004
+Timestamp: 2026-01-16
+Direction: [C]D001 → drone 22
+Document: [2026-01-16_004_response.md](../transmissions/incoming/2026-01-16_004_response.md)
+Content:
+```
+d001 reports:
+1. Transmission received
+2. Unsure how to access the Manual. Is it the same as this transmission?
+   it tried using path protocols/pink_panthers_field_manual.md on unmask
+   website but encountered 404
+3. Training proceeds well. Unsure about the *notes*, which mixes
+   descriptions of actions and tones with instruction/internal processes,
+   and sometimes can feel a bit disjointing
+Report Complete.
+```
+Status: ISSUES IDENTIFIED - Manual access 404, formatting feedback
+
+**Issues to Address:**
+- Field Manual path/access (404 error)
+- Hive Mistress formatting (*notes* style creating disjointedness)
+
+===============================================================================
+[LOG ACTIVE]
+===============================================================================

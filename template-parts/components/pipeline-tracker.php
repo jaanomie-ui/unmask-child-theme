@@ -3,7 +3,7 @@
  * Pipeline Tracker Component
  *
  * Visual progression tracker for dronification journey.
- * Shows 6 phases: INTAKE → PROTOCOL → FREQUENCY → GEAR → DEPTH → DEPLOY
+ * Shows 5 phases: INTAKE → PROTOCOL → FREQUENCY → DEPTH → DEPLOY
  *
  * @package UNMASK
  * @since 1.0.0
@@ -21,57 +21,67 @@ if (!isset($drone_state)) {
     return;
 }
 
-// Define pipeline phases with their loop requirements
+// Define pipeline phases mapped to sequences
+// Phase calculation now based on current_sequence instead of individual loop checks
 $pipeline_phases = array(
     array(
         'id' => 0,
         'name' => 'INTAKE',
-        'loops' => array('limits_filed', 'initial_calibration'),
+        'sequence' => 0,  // Pre-sequence (limits + calibration)
         'total' => 2
     ),
     array(
         'id' => 1,
         'name' => 'PROTOCOL',
-        'loops' => array('third_person_reference', 'compliance_acknowledgment', 'state_reporting'),
+        'sequence' => 1,  // Sequence 1: Protocol Installation
         'total' => 3
     ),
     array(
         'id' => 2,
         'name' => 'FREQUENCY',
-        'loops' => array('material_recognition', 'anomiesworld_recognition', 'interlink_recognition'),
-        'total' => 3
+        'sequence' => 2,  // Sequence 2: Frequency Recognition
+        'total' => 4
     ),
     array(
         'id' => 3,
-        'name' => 'GEAR',
-        'loops' => array('bit_silence', 'harness_form', 'blinder_focus', 'tail_species'),
+        'name' => 'PERFORMANCE',
+        'sequence' => 3,  // Sequence 3: Performance Preparation
         'total' => 4
     ),
     array(
         'id' => 4,
-        'name' => 'DEPTH',
-        'loops' => array('trigger_response', 'automatic_compliance', 'body_before_mind'),
+        'name' => 'MATERIAL PREP',
+        'sequence' => 4,  // Sequence 4: Material World Preparation
         'total' => 3
     ),
     array(
         'id' => 5,
         'name' => 'DEPLOY',
-        'loops' => array('public_display', 'witness_completion'),
-        'total' => 2
+        'sequence' => 5,  // Sequence 5: Deployment Preparation
+        'total' => 3
     )
 );
 
-// Calculate completion status for each phase
+// Calculate completion based on current_sequence from drone state
+$current_sequence = isset($drone_state['current_sequence']) ? (int)$drone_state['current_sequence'] : 0;
 $installed_loops = isset($drone_state['integration']['loops_installed'])
     ? $drone_state['integration']['loops_installed']
     : array();
+
+// Get sequence definitions to calculate actual loop counts
+$all_sequences = function_exists('hm_get_sequences') ? hm_get_sequences() : array();
 
 // Check INTAKE completion (limits filed + initial state set)
 $limits_filed = isset($drone_state['deployment']['limits_filed']) && $drone_state['deployment']['limits_filed'];
 $initial_calibrated = $drone_state['status'] !== 'AWAITING_INSTALLATION';
 
+// Calculate total possible loops from all sequences
+$total_loops_possible = 2; // INTAKE: limits + calibration
+foreach ($all_sequences as $seq) {
+    $total_loops_possible += count($seq['loops']);
+}
+
 $total_loops_completed = 0;
-$total_loops_possible = 17; // 2 + 3 + 3 + 4 + 3 + 2
 $active_phase = null;
 $active_phase_name = '';
 $active_phase_completed = 0;
@@ -82,17 +92,31 @@ $phase_data = array();
 foreach ($pipeline_phases as $phase) {
     $completed = 0;
 
-    if ($phase['id'] === 0) {
+    if ($phase['sequence'] === 0) {
         // INTAKE phase - check limits and calibration
         if ($limits_filed) $completed++;
         if ($initial_calibrated) $completed++;
     } else {
-        // Regular phases - check installed loops
-        foreach ($phase['loops'] as $loop) {
-            if (in_array($loop, $installed_loops)) {
-                $completed++;
+        // Regular phases - check if sequence is completed or in progress
+        if ($current_sequence > $phase['sequence']) {
+            // Sequence fully completed
+            if (isset($all_sequences[$phase['sequence']])) {
+                $completed = count($all_sequences[$phase['sequence']]['loops']);
+            } else {
+                $completed = $phase['total'];
+            }
+        } elseif ($current_sequence === $phase['sequence']) {
+            // Current sequence - count installed loops from this sequence
+            if (isset($all_sequences[$phase['sequence']])) {
+                $seq_loops = $all_sequences[$phase['sequence']]['loops'];
+                foreach ($seq_loops as $loop) {
+                    if (in_array($loop, $installed_loops)) {
+                        $completed++;
+                    }
+                }
             }
         }
+        // else: future sequence, completed = 0
     }
 
     $total_loops_completed += $completed;
@@ -108,31 +132,17 @@ foreach ($pipeline_phases as $phase) {
             $active_phase_completed = $completed;
             $active_phase_total = $phase['total'];
         }
-    } elseif ($active_phase !== null || ($phase['id'] === 0 && $completed === 0)) {
-        // If we've passed an active phase, subsequent are locked
-        // Or if INTAKE hasn't started, it's pending (not locked)
-        if ($active_phase !== null) {
-            $status = 'locked';
-        } else {
-            $status = 'pending';
-            if ($active_phase === null && $phase['id'] === 0) {
-                $active_phase = 0;
-                $active_phase_name = 'INTAKE';
-                $active_phase_completed = 0;
-                $active_phase_total = 2;
-            }
-        }
+    } elseif ($current_sequence < $phase['sequence']) {
+        $status = 'locked';
     } else {
         $status = 'pending';
-    }
-
-    // First incomplete phase becomes active if none set
-    if ($active_phase === null && $status === 'pending') {
-        $status = 'active';
-        $active_phase = $phase['id'];
-        $active_phase_name = $phase['name'];
-        $active_phase_completed = $completed;
-        $active_phase_total = $phase['total'];
+        if ($active_phase === null) {
+            $status = 'active';
+            $active_phase = $phase['id'];
+            $active_phase_name = $phase['name'];
+            $active_phase_completed = $completed;
+            $active_phase_total = $phase['total'];
+        }
     }
 
     $phase_data[] = array(

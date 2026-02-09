@@ -1,0 +1,452 @@
+/**
+ * Rehearsal Planning — Sequence 4 Coordination
+ * Matches hard limits form styling with Unmask design tokens
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+@layer pages {
+
+/* ==========================================================================
+   Base Typography — Using Design Tokens
+   ========================================================================== */
+
+.rehearsal-planning-page,
+.rehearsal-planning-page * {
+    font-family: var(--font-ui);
+}
+
+.rehearsal-planning-page {
+    background: var(--bg-page);
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Breadcrumb
+   ========================================================================== */
+
+.rehearsal-breadcrumb {
+    margin-bottom: 48px;
+}
+
+.rehearsal-breadcrumb a {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.rehearsal-breadcrumb a:hover {
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Container & Layout
+   ========================================================================== */
+
+.rehearsal-planning-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 24px 160px;
+    padding-top: 80px !important;
+}
+
+.rehearsal-header {
+    margin-bottom: 64px;
+}
+
+.rehearsal-header h1 {
+    font-size: var(--type-2xl);
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+.rehearsal-intro {
+    color: var(--text-muted);
+    font-size: var(--type-xs);
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+.rehearsal-section {
+    margin-bottom: 120px !important;
+    padding-top: 0;
+}
+
+.rehearsal-section:first-of-type {
+    padding-top: 0;
+}
+
+.rehearsal-section:last-of-type {
+    margin-bottom: 80px !important;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border-default);
+    padding-bottom: 16px;
+}
+
+.section-intro {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    margin-bottom: 48px;
+    text-transform: uppercase;
+    line-height: 1.6;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Dates List
+   ========================================================================== */
+
+.dates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.date-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.date-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.date-item.selected {
+    background: rgba(138, 50, 51, 0.15);
+    border-bottom-color: var(--primitive-red);
+}
+
+.date-item.selected .date-label {
+    color: var(--text-primary);
+}
+
+.date-checkbox {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.date-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.checkbox-box {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--text-muted);
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.date-checkbox input[type="checkbox"]:checked + label .checkbox-box {
+    background: var(--primitive-red);
+    border-color: var(--primitive-red);
+}
+
+.date-checkbox input[type="checkbox"]:checked + label .checkbox-box::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.date-label,
+.gear-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    flex: 1;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    padding: 8px 0;
+    margin: -8px 0;
+}
+
+/* ==========================================================================
+   Gear List
+   ========================================================================== */
+
+.gear-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0;
+}
+
+.gear-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.gear-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.gear-item.checked {
+    background: rgba(138, 50, 51, 0.15);
+    border-bottom-color: var(--primitive-red);
+}
+
+.gear-checkbox {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.gear-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.gear-checkbox input[type="checkbox"]:checked + label .checkbox-box {
+    background: var(--primitive-red);
+    border-color: var(--primitive-red);
+}
+
+.gear-checkbox input[type="checkbox"]:checked + label .checkbox-box::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.gear-item.checked .gear-label,
+.date-item.selected .date-label {
+    color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Notes Textarea
+   ========================================================================== */
+
+.rehearsal-notes {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
+    font-size: var(--type-xs);
+    font-family: var(--font-ui);
+    line-height: 1.6;
+    resize: vertical;
+    transition: all 0.2s ease;
+    margin-bottom: 24px;
+}
+
+.rehearsal-notes:focus {
+    outline: none;
+    border-color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.rehearsal-notes::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+/* ==========================================================================
+   Actions Bar
+   ========================================================================== */
+
+.rehearsal-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-page);
+    border-top: 1px solid #252525;
+    z-index: 1000;
+    padding: 24px;
+}
+
+.rehearsal-actions-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+
+.rehearsal-summary {
+    display: flex;
+    gap: 32px;
+}
+
+.summary-item {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.summary-count {
+    font-size: var(--type-lg);
+    font-weight: 400;
+    color: var(--text-primary);
+}
+
+.summary-item span:last-child {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-clear-rehearsal,
+.btn-save-rehearsal {
+    padding: 12px 24px;
+    font-size: var(--type-xs);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-clear-rehearsal {
+    color: var(--text-muted);
+    border-color: var(--text-muted);
+}
+
+.btn-clear-rehearsal:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-save-rehearsal {
+    color: #000;
+    background: var(--primitive-red);
+    border-color: var(--primitive-red);
+}
+
+.btn-save-rehearsal:hover {
+    background: var(--primitive-red-light);
+    border-color: var(--primitive-red-light);
+}
+
+/* ==========================================================================
+   Notifications
+   ========================================================================== */
+
+.rehearsal-notification {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    padding: 16px 24px;
+    background: var(--bg-elevated);
+    border: 1px solid;
+    font-size: var(--type-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.3s ease;
+}
+
+.rehearsal-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.rehearsal-notification.success {
+    border-color: var(--primitive-red);
+    color: var(--primitive-red);
+}
+
+.rehearsal-notification.error {
+    border-color: var(--primitive-red);
+    color: var(--primitive-red);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .rehearsal-planning-wrapper {
+        padding: 60px 16px 180px;
+    }
+
+    .rehearsal-header h1 {
+        font-size: var(--type-xl);
+        letter-spacing: 0.2em;
+    }
+
+    .gear-list {
+        grid-template-columns: 1fr;
+    }
+
+    .rehearsal-actions-inner {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .rehearsal-summary {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .action-buttons {
+        width: 100%;
+    }
+
+    .btn-clear-rehearsal,
+    .btn-save-rehearsal {
+        flex: 1;
+    }
+}
+
+} /* @layer pages */

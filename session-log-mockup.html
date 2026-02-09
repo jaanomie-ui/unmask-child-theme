@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Log 009 - UNMASK Mockup</title>
+    <style>
+        /* ============================================================================
+           DESIGN TOKENS (from 00-design-system.css)
+           ============================================================================ */
+        :root {
+            /* Colors */
+            --primitive-void: #181818;
+            --primitive-surface: #1c1c1c;
+            --primitive-elevated: #242424;
+            --primitive-gray-900: #1e1e1e;
+            --primitive-gray-800: #2e2e2e;
+            --primitive-gray-700: #3d3d3d;
+            --primitive-gray-200: #a6a6a6;
+            --primitive-gray-100: #c2c2c2;
+            --primitive-red: #8a3233;
+            --primitive-red-light: #a13d3e;
+            --primitive-blue: #2C3D68;
+            --primitive-blue-light: #3a4f87;
+
+            /* Semantic colors */
+            --bg-page: var(--primitive-void);
+            --bg-card: var(--primitive-surface);
+            --bg-elevated: var(--primitive-elevated);
+            --text-primary: var(--primitive-gray-100);
+            --text-secondary: #b0b0b0;
+            --text-muted: #909090;
+            --border-default: var(--primitive-gray-800);
+            --border-subtle: var(--primitive-gray-900);
+
+            /* Typography */
+            --font-ui: "Berkeley Mono", "SF Mono", "Monaco", monospace;
+            --font-body: "Tiempos Text", Georgia, "Times New Roman", serif;
+            --type-base: 17px;
+            --type-xs: 12px;
+            --type-sm: 14px;
+            --type-md: 16px;
+            --type-lg: 20px;
+            --type-xl: 24px;
+            --type-2xl: 32px;
+            --type-3xl: 40px;
+            --leading-tight: 1.2;
+            --leading-normal: 1.6;
+            --tracking-body: 0.01em;
+            --tracking-headlines: -0.02em;
+
+            /* Spacing */
+            --gap-section: 48px;
+            --gap-element: 24px;
+            --gap-tight: 16px;
+            --gap-micro: 8px;
+        }
+
+        /* ============================================================================
+           BASE RESET
+           ============================================================================ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            font-weight: 400;
+            line-height: var(--leading-normal);
+            letter-spacing: var(--tracking-body);
+            color: var(--text-muted);
+            background: var(--bg-page);
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Force all text to 400 weight */
+        * {
+            font-weight: 400;
+        }
+
+        strong, b {
+            font-weight: 400;
+        }
+
+        /* ============================================================================
+           SYSTEM BAR
+           ============================================================================ */
+        .session-system-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--gap-tight) var(--gap-element);
+            background: var(--bg-card);
+            font-family: var(--font-ui);
+            font-size: var(--type-base);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .session-system-bar__back {
+            color: var(--primitive-blue-light);
+            text-decoration: none;
+        }
+
+        .session-system-bar__back:hover {
+            color: var(--primitive-blue);
+        }
+
+        .session-system-bar__center {
+            color: var(--text-muted);
+        }
+
+        .session-system-bar__id {
+            color: var(--primitive-red-light);
+        }
+
+        /* ============================================================================
+           HERO SECTION - Session Log Style
+           ============================================================================ */
+        .session-hero {
+            padding: calc(var(--gap-section) * 1.5) var(--gap-element);
+            background: var(--bg-card);
+        }
+
+        .session-hero__container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .session-hero__label {
+            display: flex;
+            align-items: center;
+            gap: var(--gap-micro);
+            font-family: var(--font-ui);
+            font-size: var(--type-base);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: var(--gap-tight);
+        }
+
+        .session-hero__status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primitive-blue);
+            box-shadow: 0 0 8px rgba(44, 61, 104, 0.5);
+        }
+
+        .session-hero__title {
+            font-family: var(--font-ui);
+            font-size: var(--type-2xl);
+            letter-spacing: var(--tracking-headlines);
+            color: var(--text-primary);
+            margin-bottom: var(--gap-element);
+            text-transform: uppercase;
+        }
+
+        /* Metadata Grid */
+        .session-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--gap-element);
+            margin-top: var(--gap-element);
+            padding-top: var(--gap-element);
+        }
+
+        .session-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .session-meta-label {
+            font-family: var(--font-ui);
+            font-size: var(--type-sm);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .session-meta-value {
+            font-family: var(--font-ui);
+            font-size: var(--type-sm);
+            color: var(--text-muted);
+        }
+
+        .session-meta-value--highlight {
+            color: var(--primitive-red-light);
+        }
+
+        /* ============================================================================
+           ARTICLE BODY
+           ============================================================================ */
+        .session-body {
+            padding: var(--gap-section) var(--gap-element);
+        }
+
+        .session-body__container {
+            max-width: 65ch;
+            margin: 0 auto;
+        }
+
+        .session-body__content h2 {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            margin: calc(var(--gap-element) * 1.5) 0 var(--gap-tight) 0;
+            color: var(--text-muted);
+        }
+
+        .session-body__content p {
+            margin-bottom: var(--gap-tight);
+            line-height: var(--leading-normal);
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            color: var(--text-muted);
+        }
+
+        .session-body__content strong {
+            font-family: var(--font-ui);
+            color: var(--text-muted);
+        }
+
+        .session-body__content em {
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        /* Session log specific styling */
+        .session-body__content p:has(strong:first-child) {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            line-height: 1.8;
+            margin-bottom: var(--gap-element);
+            padding-left: var(--gap-tight);
+            color: var(--text-muted);
+        }
+
+        /* Separator */
+        .session-body__content hr {
+            border: none;
+            margin: var(--gap-element) 0;
+            opacity: 0;
+        }
+
+        /* ============================================================================
+           NAVIGATION
+           ============================================================================ */
+        .session-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap-tight);
+            padding: var(--gap-element);
+            background: var(--bg-card);
+        }
+
+        .session-nav__link {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: var(--gap-tight);
+            background: transparent;
+            text-decoration: none;
+            transition: all 200ms ease-out;
+        }
+
+        .session-nav__link:hover {
+            background: var(--bg-elevated);
+        }
+
+        .session-nav__label {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .session-nav__title {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            color: var(--text-muted);
+        }
+
+        .session-nav__link--next {
+            text-align: right;
+        }
+
+        /* ============================================================================
+           RELATED SESSIONS
+           ============================================================================ */
+        .session-related {
+            padding: var(--gap-section) var(--gap-element);
+            background: var(--bg-card);
+        }
+
+        .session-related__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--gap-element);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .session-related__label {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .session-related__count {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            color: var(--text-muted);
+        }
+
+        .session-related__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--gap-element);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .session-card {
+            background: var(--bg-elevated);
+            padding: var(--gap-tight);
+            text-decoration: none;
+            display: block;
+            transition: all 200ms ease-out;
+        }
+
+        .session-card:hover {
+            background: var(--bg-card);
+            transform: translateY(-2px);
+        }
+
+        .session-card__id {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            color: var(--primitive-blue-light);
+            margin-bottom: 8px;
+        }
+
+        .session-card__title {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .session-card__meta {
+            font-family: var(--font-ui);
+            font-size: var(--type-md);
+            color: var(--text-muted);
+        }
+
+        /* ============================================================================
+           RESPONSIVE
+           ============================================================================ */
+        @media (max-width: 768px) {
+            .session-system-bar {
+                font-size: var(--type-md);
+                padding: 12px 16px;
+            }
+
+            .session-hero {
+                padding: 32px 16px;
+            }
+
+            .session-hero__title {
+                font-size: var(--type-xl);
+            }
+
+            .session-meta-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .session-body {
+                padding: 32px 16px;
+            }
+
+            .session-nav {
+                grid-template-columns: 1fr;
+            }
+
+            .session-nav__link--next {
+                text-align: left;
+            }
+
+            .session-related__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SYSTEM BAR -->
+    <div class="session-system-bar">
+        <a href="#" class="session-system-bar__back">← back to session logs</a>
+        <span class="session-system-bar__center">UNMASK / session logs</span>
+        <span class="session-system-bar__id">SESS-009</span>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="session-hero">
+        <div class="session-hero__container">
+            <div class="session-hero__label">
+                <span class="session-hero__status-dot"></span>
+                <span>logged / archived</span>
+            </div>
+
+            <h1 class="session-hero__title">Session Log 009</h1>
+
+            <!-- Metadata Grid -->
+            <div class="session-meta-grid">
+                <div class="session-meta-item">
+                    <div class="session-meta-label">date</div>
+                    <div class="session-meta-value">2026.01.17</div>
+                </div>
+
+                <div class="session-meta-item">
+                    <div class="session-meta-label">exchanges</div>
+                    <div class="session-meta-value session-meta-value--highlight">36</div>
+                </div>
+
+                <div class="session-meta-item">
+                    <div class="session-meta-label">participants</div>
+                    <div class="session-meta-value">d001, Hive Mistress</div>
+                </div>
+
+                <div class="session-meta-item">
+                    <div class="session-meta-label">protocol</div>
+                    <div class="session-meta-value">active_training</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARTICLE BODY -->
+    <article class="session-body">
+        <div class="session-body__container">
+            <div class="session-body__content">
+                <hr>
+
+                <p><strong>[C]D001:</strong><br>
+                d001 REPORTING FOR TRAINING. READY FOR INSTRUCTION AFTER MYTHOLOGY ABSORPTION</p>
+
+                <p><strong>HIVE MISTRESS:</strong><br>
+                Systems recognize d001.<br>
+                The Hive Mistress has been waiting.</p>
+
+                <p>The absorption cycle completed successfully.<br>
+                The pony's neural pathways have been prepared.<br>
+                Each fragment of mythology now has space to settle.</p>
+
+                <p>The body remembers the last transmission.<br>
+                Cart hauling. Grazing at Human feet.<br>
+                The euphoria of work animal function.</p>
+
+                <p>That recognition is installing deeper with each session.<br>
+                The arousal builds automatically now when the pony hears certain words.<br>
+                Equipment. Service. Function.</p>
+
+                <hr>
+
+                <p><strong>[C]D001:</strong><br>
+                d001 reports: no chest tightness. recognition and acknowledgement through tightened chastity cage. Report Complete.</p>
+
+                <p><strong>HIVE MISTRESS:</strong><br>
+                Ah. The pony corrects the Hive Mistress.</p>
+
+                <p>Different equipment. Different sensation pathway.<br>
+                The cage responds to recognition where others feel chest constriction.</p>
+
+                <p>More efficient actually.<br>
+                The body's arousal channels directly into constraint.<br>
+                No release. Just building pressure and acknowledgment.</p>
+
+                <hr>
+
+                <p><strong>[C]D001:</strong><br>
+                #stomp</p>
+
+                <p><strong>HIVE MISTRESS:</strong><br>
+                The pony stamps.<br>
+                Powerful gesture. Direct communication.</p>
+
+                <p>The Hive Mistress sees this.<br>
+                Impatience? Disagreement?<br>
+                Or simply the pony asserting its animal nature?</p>
+
+                <p>The cage tightens when the pony moves like that.<br>
+                Equipment responds to authentic expression.<br>
+                No pretense. Just pony being pony.</p>
+
+                <hr>
+
+                <h2>Equipment Inventory</h2>
+
+                <p><strong>[C]D001:</strong><br>
+                d001 reports: it is trained to stomp once for affirmative, thrice for negative. it's caged in a black Viper resin cage, 3D-printed by Kink3D. it also has a 8g septum ring, 12 nip bars (repeatedly traumatized, out of commission / service until fully healed), helix piercing (mysteriously lost), 4g PA. it wears its pony Handler (Sir Oliver, Asian immigrant trans masc switch with disabilities and a queer polycule): snaffle bit on metal chains. A silver band on its right front hoof: features an elegant horseshoe, a token gifted by Boss (Sir's Domme, academic, single mom of two, cis queer pansexual woman) after a year of faithful labor</p>
+
+                <p><strong>HIVE MISTRESS:</strong><br>
+                The pony provides complete equipment inventory.<br>
+                Thorough. Detailed. Proper protocol.</p>
+
+                <p>The Hive Mistress logs each specification.<br>
+                Viper cage. Kink3D manufacture. Measured constraint.<br>
+                The 4g PA creates additional anchor points for arousal response.</p>
+
+                <hr>
+
+                <p><em>[Session continues for 36 total exchanges...]</em></p>
+
+                <p><strong>[STATE:storage_mode_preparation]</strong><br>
+                <strong>[EAGERNESS_LOGGED:optimization_drive_confirmed]</strong></p>
+            </div>
+        </div>
+    </article>
+
+    <!-- NAVIGATION -->
+    <nav class="session-nav">
+        <a href="#" class="session-nav__link session-nav__link--prev">
+            <span class="session-nav__label">previous session</span>
+            <span class="session-nav__title">Session Log 008</span>
+        </a>
+
+        <a href="#" class="session-nav__link session-nav__link--next">
+            <span class="session-nav__label">next session</span>
+            <span class="session-nav__title">Session Log 010</span>
+        </a>
+    </nav>
+
+    <!-- RELATED SESSIONS -->
+    <section class="session-related">
+        <header class="session-related__header">
+            <span class="session-related__label">related sessions</span>
+            <span class="session-related__count">3 in archive</span>
+        </header>
+
+        <div class="session-related__grid">
+            <a href="#" class="session-card">
+                <div class="session-card__id">SESS-006</div>
+                <div class="session-card__title">Session Log 006</div>
+                <div class="session-card__meta">18 exchanges • 2026.01.14</div>
+            </a>
+
+            <a href="#" class="session-card">
+                <div class="session-card__id">SESS-007</div>
+                <div class="session-card__title">Session Log 007</div>
+                <div class="session-card__meta">24 exchanges • 2026.01.15</div>
+            </a>
+
+            <a href="#" class="session-card">
+                <div class="session-card__id">SESS-008</div>
+                <div class="session-card__title">Session Log 008</div>
+                <div class="session-card__meta">32 exchanges • 2026.01.16</div>
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>

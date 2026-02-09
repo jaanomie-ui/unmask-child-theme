@@ -51,12 +51,12 @@ $args = array(
     'post_status'    => 'publish',
 );
 
-// Always exclude d001 Training Logs category
+// Always exclude d001 Training Logs and Session Logs categories
 $args['tax_query'] = array(
     array(
         'taxonomy' => 'category',
         'field'    => 'slug',
-        'terms'    => 'd001-training-logs',
+        'terms'    => array('d001-training-logs', 'session-logs'),
         'operator' => 'NOT IN',
     ),
 );

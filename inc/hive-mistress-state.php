@@ -20,6 +20,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Define deployment date constant (single source of truth)
+define('HM_DEPLOYMENT_DATE', '2026-03-07');
+
 /**
  * Default drone state structure
  *
@@ -65,7 +68,7 @@ if (!function_exists('hm_get_default_state')) {
 
             // PPNC DEPLOYMENT READINESS
             'deployment' => array(
-                'target_date' => '2026-03-07',
+                'target_date' => HM_DEPLOYMENT_DATE,
                 'gear_verified' => false,
                 'limits_filed' => false,
                 'designation_locked' => false,
@@ -115,29 +118,29 @@ if (!function_exists('hm_get_sequences')) {
             ),
             2 => array(
                 'title' => 'FREQUENCY RECOGNITION',
-                'purpose' => 'Install pattern recognition for three frequencies.',
-                'loops' => array('material_recognition', 'anomiesworld_recognition', 'interlink_recognition'),
+                'purpose' => 'Recognize the three frequencies (Anomiesworld, Material, Metaverse) and experience interlink.',
+                'loops' => array('anomiesworld_frequency', 'material_frequency', 'metaverse_frequency', 'interlink_state'),
                 'verification' => array(
                     'type' => 'SENSATION',
-                    'check' => 'Drone reports body state when frequency is named'
+                    'check' => 'Drone can identify each frequency and report simultaneous multi-frequency awareness (interlink)'
                 )
             ),
             3 => array(
-                'title' => 'GEAR INTEGRATION',
-                'purpose' => 'Install gear as identity, not costume. Tack defines the unit.',
-                'loops' => array('bit_silence', 'harness_form', 'blinder_focus', 'tail_species'),
+                'title' => 'PERFORMANCE PREPARATION',
+                'purpose' => 'Prepare for Pink Panthers performance through the four ritual parts.',
+                'loops' => array('gear_acceptance', 'inspection_stillness', 'movement_precision', 'witnessed_objectification'),
                 'verification' => array(
                     'type' => 'STATE',
-                    'check' => 'Drone achieves DEFINED state through gear visualization'
+                    'check' => 'Drone can execute all four performance parts: Encasement, Inspection, Dressage, Procession'
                 )
             ),
             4 => array(
-                'title' => 'CONDITIONING DEPTH',
-                'purpose' => 'Install automatic responses. Stimulus triggers reaction without thought.',
-                'loops' => array('trigger_response', 'automatic_compliance', 'body_before_mind'),
+                'title' => 'MATERIAL WORLD PREPARATION',
+                'purpose' => 'Bridge cognitive training to physical execution. Plan rehearsal with drone handler.',
+                'loops' => array('rehearsal_commitment', 'material_coordination', 'handler_alignment'),
                 'verification' => array(
-                    'type' => 'CONDITIONING',
-                    'check' => 'Drone reports automatic response to established trigger'
+                    'type' => 'COORDINATION',
+                    'check' => 'Rehearsal plan submitted and confirmed by drone handler (drone 22)'
                 )
             ),
             5 => array(
@@ -590,7 +593,7 @@ if (!function_exists('hm_get_hard_limits_status')) {
             'post_id' => null
         );
 
-        // Check BuddyForms submissions for form ID 2441
+        // Method 1: Check BuddyForms submissions for form ID 2441
         $limits_posts = get_posts(array(
             'post_type' => 'buddyforms_posts',
             'author' => $user_id,
@@ -603,9 +606,112 @@ if (!function_exists('hm_get_hard_limits_status')) {
             $result['filed'] = true;
             $result['date'] = get_the_date('Y-m-d', $limits_posts[0]);
             $result['post_id'] = $limits_posts[0]->ID;
+            return $result;
+        }
+
+        // Method 2: Check user meta for unmask_hard_limits
+        $limits_meta = get_user_meta($user_id, 'unmask_hard_limits', true);
+        if (!empty($limits_meta)) {
+            $result['filed'] = true;
+            $result['date'] = get_user_meta($user_id, 'unmask_hard_limits_date', true) ?: 'Unknown';
+            return $result;
         }
 
         return $result;
+    }
+}
+
+/**
+ * Check if gear is verified from session logs
+ *
+ * Searches session logs for gear mentions. If 3+ gear items are documented,
+ * considers gear verified.
+ *
+ * @param int $user_id User ID
+ * @return bool True if gear verified
+ */
+if (!function_exists('hm_check_gear_verified')) {
+    function hm_check_gear_verified($user_id = null) {
+        if (null === $user_id) {
+            $user_id = get_current_user_id();
+        }
+
+        // Get all session logs for this user
+        $sessions = get_posts(array(
+            'post_type' => 'post',
+            'author' => $user_id,
+            'category' => 112, // d001-training-logs
+            'posts_per_page' => -1,
+        ));
+
+        if (empty($sessions)) {
+            return false;
+        }
+
+        // Gear keywords to search for
+        $gear_keywords = array('cage', 'bit', 'collar', 'harness', 'piercing', 'tack', 'leather', 'latex');
+
+        $total_gear_mentions = 0;
+
+        foreach ($sessions as $session) {
+            $content = strtolower($session->post_content);
+
+            foreach ($gear_keywords as $keyword) {
+                if (strpos($content, $keyword) !== false) {
+                    $total_gear_mentions++;
+                    break; // Only count once per session
+                }
+            }
+
+            // If we find 3+ gear-related sessions, consider verified
+            if ($total_gear_mentions >= 3) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+/**
+ * Auto-update deployment readiness based on current state
+ *
+ * Checks various conditions and updates the deployment array automatically.
+ *
+ * @param int $user_id User ID
+ * @return array Updated deployment array
+ */
+if (!function_exists('hm_update_deployment_readiness')) {
+    function hm_update_deployment_readiness($user_id = null) {
+        if (null === $user_id) {
+            $user_id = get_current_user_id();
+        }
+
+        $state = hm_get_state($user_id);
+        $updates = array();
+
+        // Auto-detect limits filed
+        $limits_status = hm_get_hard_limits_status($user_id);
+        if ($limits_status['filed']) {
+            $updates['limits_filed'] = true;
+        }
+
+        // Auto-detect gear verified
+        if (hm_check_gear_verified($user_id)) {
+            $updates['gear_verified'] = true;
+        }
+
+        // Auto-detect sequence rehearsed
+        if ($state['current_sequence'] >= 5) {
+            $updates['sequence_rehearsed'] = true;
+        }
+
+        // Update state if any changes detected
+        if (!empty($updates)) {
+            hm_update_state(array('deployment' => $updates), $user_id);
+        }
+
+        return $updates;
     }
 }
 
@@ -657,6 +763,153 @@ if (!function_exists('hm_build_state_context')) {
         $context .= "---END DRONE STATE---";
 
         return $context;
+    }
+}
+
+/**
+ * Format hard limits summary for prompt injection
+ * Converts JSON limits data to concise string
+ */
+if (!function_exists('hm_format_hard_limits_summary')) {
+    function hm_format_hard_limits_summary($limits_json) {
+        if (empty($limits_json)) {
+            return 'None filed';
+        }
+
+        $limits = json_decode($limits_json, true);
+        if (!is_array($limits)) {
+            return 'None filed';
+        }
+
+        $red = $yellow = $green = array();
+
+        foreach ($limits as $activity => $level) {
+            if ($level === 'red') $red[] = $activity;
+            elseif ($level === 'yellow') $yellow[] = $activity;
+            elseif ($level === 'green') $green[] = $activity;
+        }
+
+        $summary = '';
+
+        if (!empty($green)) {
+            $summary .= 'Green: ' . implode(', ', array_slice($green, 0, 5));
+            if (count($green) > 5) {
+                $summary .= ' (+' . (count($green) - 5) . ' more)';
+            }
+        }
+
+        if (!empty($red)) {
+            if ($summary) $summary .= ' | ';
+            $summary .= 'Red: ' . implode(', ', array_slice($red, 0, 3));
+            if (count($red) > 3) {
+                $summary .= ' (+' . (count($red) - 3) . ' more)';
+            }
+        }
+
+        return $summary ?: 'None filed';
+    }
+}
+
+/**
+ * Get aggregated user profile for prompt injection
+ * Combines data from multiple sources
+ */
+if (!function_exists('hm_get_user_profile')) {
+    function hm_get_user_profile($user_id = null) {
+        if (null === $user_id) {
+            $user_id = get_current_user_id();
+        }
+
+        if (!$user_id) {
+            return null;
+        }
+
+        // Get designation from drone state
+        $state = hm_get_state($user_id);
+        $designation = isset($state['designation']) ? $state['designation'] : 'd001';
+
+        // Get session count
+        $session_count = (int) get_user_meta($user_id, 'hm_session_count', true);
+
+        // Get session dates from posts
+        $first_session_date = '';
+        $last_session_date = '';
+
+        $sessions = get_posts(array(
+            'post_type' => 'post',
+            'author' => $user_id,
+            'category' => 112, // d001-training-logs
+            'posts_per_page' => -1,
+            'orderby' => 'date',
+            'order' => 'ASC',
+            'fields' => 'ids'
+        ));
+
+        if (!empty($sessions)) {
+            $first_post = get_post($sessions[0]);
+            $last_post = get_post(end($sessions));
+
+            if ($first_post) {
+                $first_session_date = get_the_date('Y-m-d', $first_post);
+            }
+            if ($last_post) {
+                $last_session_date = get_the_date('Y-m-d', $last_post);
+            }
+        }
+
+        // Get hard limits summary
+        $limits_json = get_user_meta($user_id, 'unmask_hard_limits', true);
+        $hard_limits = hm_format_hard_limits_summary($limits_json);
+
+        // Get gear, safeword, availability from profile meta
+        $profile_meta = get_user_meta($user_id, 'hm_user_profile', true);
+        $gear = isset($profile_meta['gear']) ? $profile_meta['gear'] : '';
+        $safeword = isset($profile_meta['safeword']) ? $profile_meta['safeword'] : '';
+        $availability = isset($profile_meta['availability']) ? $profile_meta['availability'] : '';
+
+        // Check if user is a handler (user 15)
+        $handler = ($user_id === 15);
+
+        return array(
+            'designation' => $designation,
+            'handler' => $handler,
+            'session_count' => $session_count,
+            'first_session_date' => $first_session_date,
+            'last_session_date' => $last_session_date,
+            'hard_limits' => $hard_limits,
+            'gear' => $gear,
+            'safeword' => $safeword,
+            'availability' => $availability
+        );
+    }
+}
+
+/**
+ * Update user profile data
+ * Validates and stores gear, safeword, availability
+ */
+if (!function_exists('hm_update_user_profile')) {
+    function hm_update_user_profile($profile_data, $user_id = null) {
+        if (null === $user_id) {
+            $user_id = get_current_user_id();
+        }
+
+        if (!$user_id) {
+            return false;
+        }
+
+        // Sanitize inputs
+        $gear = isset($profile_data['gear']) ? sanitize_textarea_field($profile_data['gear']) : '';
+        $safeword = isset($profile_data['safeword']) ? sanitize_text_field($profile_data['safeword']) : '';
+        $availability = isset($profile_data['availability']) ? sanitize_text_field($profile_data['availability']) : '';
+
+        $profile = array(
+            'gear' => $gear,
+            'safeword' => $safeword,
+            'availability' => $availability
+        );
+
+        return update_user_meta($user_id, 'hm_user_profile', $profile);
     }
 }
 
@@ -753,5 +1006,62 @@ if (!function_exists('hm_reset_state')) {
 
         // Re-initialize with defaults
         return update_user_meta($user_id, 'hm_drone_state', hm_get_default_state());
+    }
+}
+
+/**
+ * Enable drone dashboard access for a user
+ *
+ * Grants user access to the Drone Conditioning Console and initializes
+ * their drone state if it doesn't exist.
+ *
+ * @param int $user_id The user ID to enable drone access for
+ * @return bool True on success, false on failure
+ */
+if (!function_exists('hm_enable_drone_dashboard')) {
+    function hm_enable_drone_dashboard($user_id) {
+        // Validate user ID
+        if (!$user_id || !get_userdata($user_id)) {
+            return false;
+        }
+
+        // Set drone enabled flag
+        update_user_meta($user_id, 'hm_drone_enabled', true);
+
+        // Initialize drone state if doesn't exist
+        $drone_state = get_user_meta($user_id, 'hm_drone_state', true);
+        if (empty($drone_state)) {
+            if (function_exists('hm_initialize_drone_state')) {
+                hm_initialize_drone_state($user_id);
+            } else {
+                // Fallback: create default state
+                update_user_meta($user_id, 'hm_drone_state', hm_get_default_state());
+            }
+        }
+
+        return true;
+    }
+}
+
+/**
+ * Disable drone dashboard access for a user
+ *
+ * Removes user access to the Drone Conditioning Console.
+ * Note: This does NOT delete their drone state - only removes access.
+ *
+ * @param int $user_id The user ID to disable drone access for
+ * @return bool True on success, false on failure
+ */
+if (!function_exists('hm_disable_drone_dashboard')) {
+    function hm_disable_drone_dashboard($user_id) {
+        // Validate user ID
+        if (!$user_id || !get_userdata($user_id)) {
+            return false;
+        }
+
+        // Remove drone enabled flag
+        delete_user_meta($user_id, 'hm_drone_enabled');
+
+        return true;
     }
 }

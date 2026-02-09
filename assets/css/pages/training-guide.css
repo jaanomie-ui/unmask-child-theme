@@ -1,0 +1,388 @@
+/**
+ * Training Guide — Custom Template
+ * Matches hard limits form styling with Unmask design tokens
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+@layer pages {
+
+/* ==========================================================================
+   Base Typography — Using Design Tokens
+   ========================================================================== */
+
+.training-guide-page,
+.training-guide-page * {
+    font-family: var(--font-ui);
+}
+
+.training-guide-page {
+    background: var(--bg-page);
+    min-height: 100vh;
+}
+
+/* ==========================================================================
+   Breadcrumb
+   ========================================================================== */
+
+.training-guide-breadcrumb {
+    margin-bottom: 48px;
+}
+
+.training-guide-breadcrumb a {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.training-guide-breadcrumb a:hover {
+    color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Container & Layout
+   ========================================================================== */
+
+.training-guide-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 24px 160px;
+    padding-top: 80px !important;
+}
+
+.training-guide-header {
+    margin-bottom: 64px;
+}
+
+.training-guide-header h1 {
+    font-size: var(--type-3xl);
+    font-weight: 400;
+    color: var(--primitive-red);
+    margin-bottom: 24px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.training-guide-intro {
+    color: var(--text-muted);
+    font-size: var(--type-sm);
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+.training-guide-section {
+    margin-bottom: 96px;
+}
+
+.training-guide-section:last-of-type {
+    margin-bottom: 64px;
+}
+
+.section-title {
+    font-size: var(--type-2xl);
+    font-weight: 400;
+    color: var(--primitive-blue);
+    margin-bottom: 48px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--primitive-blue);
+    padding-bottom: 16px;
+    line-height: 1.2;
+}
+
+.subsection-title {
+    font-size: var(--type-xl);
+    font-weight: 400;
+    color: var(--primitive-amber);
+    margin: 48px 0 24px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+/* ==========================================================================
+   Sequences List
+   ========================================================================== */
+
+.sequences-list {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.sequence-item {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.sequence-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-default);
+}
+
+.sequence-number {
+    font-size: var(--type-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sequence-title {
+    font-size: var(--type-lg);
+    font-weight: 400;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+.sequence-body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-left: 0;
+}
+
+.sequence-field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.field-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.field-value {
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.loops-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.loops-list li {
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    padding-left: 16px;
+    position: relative;
+}
+
+.loops-list li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Creed
+   ========================================================================== */
+
+.creed-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.creed-text {
+    font-family: var(--font-mono), monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-left: 2px solid var(--primitive-red);
+    padding: 24px 0 24px 24px;
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+.creed-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   Hierarchy
+   ========================================================================== */
+
+.hierarchy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+.hierarchy-field {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.hierarchy-chain {
+    font-family: var(--font-mono), monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+.roles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.role-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.role-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.role-name {
+    font-size: var(--type-xs);
+    font-weight: 400;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.role-desc {
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Protocols
+   ========================================================================== */
+
+.protocol-intro {
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    text-transform: none;
+}
+
+.protocol-text {
+    font-family: var(--font-mono), monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-left: 2px solid #2C3D68;
+    padding: 16px 0 16px 24px;
+    margin: 0 0 32px 0;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+.protocol-note {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    background: rgba(138, 50, 51, 0.1);
+    border: 1px solid rgba(138, 50, 51, 0.3);
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.note-label {
+    font-size: 11px;
+    color: var(--primitive-red);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+.note-text {
+    font-size: var(--type-xs);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.training-guide-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid #252525;
+}
+
+.training-guide-footer p {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 8px 0;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .training-guide-wrapper {
+        padding: 60px 16px 120px;
+    }
+
+    .training-guide-header h1 {
+        font-size: var(--type-xl);
+        letter-spacing: 0.2em;
+    }
+
+    .section-title {
+        font-size: var(--type-base);
+    }
+
+    .creed-text,
+    .protocol-text {
+        font-size: 10px;
+        padding-left: 16px;
+    }
+}
+
+} /* @layer pages */

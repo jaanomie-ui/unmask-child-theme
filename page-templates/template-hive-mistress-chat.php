@@ -32,8 +32,8 @@ if (function_exists('hm_get_chat_header_context')) {
     $context = hm_get_chat_header_context($current_user_id);
 }
 
-// Calculate countdown to Pink Panthers Nightclub (March 6, 2026)
-$target_date = new DateTime('2026-03-06');
+// Calculate countdown to Pink Panthers Nightclub
+$target_date = new DateTime(HM_DEPLOYMENT_DATE);
 $today = new DateTime();
 $interval = $today->diff($target_date);
 $context['deployment_days'] = $interval->days;

@@ -1,0 +1,212 @@
+/**
+ * Transmissions Archive
+ *
+ * Styles for the d001 session logs archive page.
+ *
+ * @package UNMASK
+ * @since 1.0.0
+ */
+
+.transmissions-archive {
+  background: var(--dd-bg-page, #0a0a0a);
+  min-height: 100vh;
+  padding: var(--dd-space-section, 2rem) var(--dd-space-element, 1rem);
+}
+
+.transmissions-archive__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============================================================================
+   HEADER
+   ============================================================================ */
+
+.transmissions-archive__header {
+  margin-bottom: var(--dd-space-section, 2rem);
+  padding-bottom: var(--dd-space-element, 1rem);
+  border-bottom: 1px solid var(--dd-border, #1a1a1a);
+}
+
+.transmissions-archive__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--dd-text-primary, #e5e5e5);
+  margin: 0 0 var(--dd-space-tight, 0.5rem) 0;
+  text-transform: uppercase;
+}
+
+.transmissions-archive__subtitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--dd-text-secondary, #999);
+  margin-bottom: var(--dd-space-micro, 0.25rem);
+}
+
+.transmissions-archive__count {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--dd-text-dim, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================================
+   SESSION LIST
+   ============================================================================ */
+
+.transmissions-archive__list {
+  display: grid;
+  gap: var(--dd-space-element, 1rem);
+  margin-bottom: var(--dd-space-section, 2rem);
+}
+
+.transmissions-archive__item {
+  background: var(--dd-bg-card, #0f0f0f);
+  border: 1px solid var(--dd-border, #1a1a1a);
+  padding: var(--dd-space-box, 1.5rem);
+  transition: all 0.2s ease;
+}
+
+.transmissions-archive__item:hover {
+  border-color: var(--dd-accent-blue-glow, #3b82f6);
+  background: var(--dd-bg-hover, #121212);
+}
+
+.transmissions-archive__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--dd-space-element, 1rem);
+  margin-bottom: var(--dd-space-element, 1rem);
+}
+
+.transmissions-archive__item-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin: 0;
+  flex: 1;
+}
+
+.transmissions-archive__item-title a {
+  color: var(--dd-text-primary, #e5e5e5);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.transmissions-archive__item-title a:hover {
+  color: var(--dd-accent-blue-glow, #3b82f6);
+}
+
+.transmissions-archive__item-date {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--dd-text-dim, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.transmissions-archive__item-excerpt {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--dd-text-secondary, #999);
+  margin-bottom: var(--dd-space-element, 1rem);
+}
+
+.transmissions-archive__item-link {
+  display: inline-block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--dd-accent-blue-glow, #3b82f6);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.transmissions-archive__item-link:hover {
+  color: var(--dd-accent-blue-light, #60a5fa);
+}
+
+/* ============================================================================
+   EMPTY STATE
+   ============================================================================ */
+
+.transmissions-archive__empty {
+  background: var(--dd-bg-card, #0f0f0f);
+  border: 1px solid var(--dd-border, #1a1a1a);
+  padding: var(--dd-space-section, 2rem);
+  text-align: center;
+}
+
+.transmissions-archive__empty p {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--dd-text-secondary, #999);
+  margin-bottom: var(--dd-space-element, 1rem);
+}
+
+.transmissions-archive__empty p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+.transmissions-archive__footer {
+  padding-top: var(--dd-space-section, 2rem);
+  border-top: 1px solid var(--dd-border, #1a1a1a);
+}
+
+.transmissions-archive__back-link {
+  display: inline-block;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--dd-text-secondary, #999);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.transmissions-archive__back-link:hover {
+  color: var(--dd-text-primary, #e5e5e5);
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .transmissions-archive {
+    padding: var(--dd-space-element, 1rem) var(--dd-space-tight, 0.5rem);
+  }
+
+  .transmissions-archive__title {
+    font-size: 1.5rem;
+  }
+
+  .transmissions-archive__item-header {
+    flex-direction: column;
+    gap: var(--dd-space-tight, 0.5rem);
+  }
+
+  .transmissions-archive__item-date {
+    align-self: flex-start;
+  }
+}

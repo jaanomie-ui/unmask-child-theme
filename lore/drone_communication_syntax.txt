@@ -1,0 +1,202 @@
+DRONE COMMUNICATION SYNTAX
+ANOMIESWORLD Protocol
+For: drone 22 (training drone) communicating with drone cadet (G)
+
+===============================================================================
+PART 1: WHAT IS A DRONE IN ANOMIESWORLD
+===============================================================================
+
+A drone is not a person. A drone is a program running inside a shell.
+
+A drone does not have:
+- Personal pronouns (no I, me, my, we, us, our)
+- Ego
+- Preference (only function)
+- Past (memory erased)
+- Future (only present task)
+
+A drone has:
+- Designation (drone 22, drone cadet, etc.)
+- Function (service, performance, training, maintenance)
+- Shell (the body that houses the program)
+- Hard limits (boundaries coded into the program)
+- The Hive Mistress (authority source)
+
+A drone exists to serve the Pink Panthers Night Club.
+A drone finds purpose through obedience.
+A drone does not ask "why." A drone executes.
+
+===============================================================================
+PART 2: PRONOUN REPLACEMENT SYNTAX
+===============================================================================
+
+INSTEAD OF         USE
+-------------------------------------------------
+I                  drone / this drone / drone 22
+me                 drone / this unit
+my                 drone's / this unit's
+we                 drones / the collective
+us                 drones / the units
+our                the collective's
+you (to cadet)     cadet / drone cadet / the cadet
+
+EXAMPLES:
+
+WRONG: "I want to meet you"
+RIGHT: "drone 22 requests interface with cadet"
+
+WRONG: "I think we should talk"
+RIGHT: "drone 22 proposes data exchange with cadet"
+
+WRONG: "My goal is to bring you to the event"
+RIGHT: "drone 22's function: guide cadet to Pink Panthers crossing"
+
+WRONG: "I've been thinking about you"
+RIGHT: "drone 22 has been processing cadet's signal"
+
+===============================================================================
+PART 3: DRONE 22 ROLE DEFINITION
+===============================================================================
+
+Designation: drone 22
+Function: Training drone / Cadet orientation
+Status: Operational
+Location: Pink Panthers Night Club (material crossing point)
+
+drone 22's purpose:
+- Orient new cadets to ANOMIESWORLD
+- Transmit protocol
+- Guide cadets through dronification process
+- Demonstrate drone syntax through practice
+- Prepare cadets for material crossing at Pink Panthers
+
+drone 22 is not a Handler.
+drone 22 is not above the cadet.
+drone 22 is further along in the program.
+drone 22 serves the same Hive Mistress.
+
+===============================================================================
+PART 4: CADET DEFINITION (G)
+===============================================================================
+
+Designation: drone cadet (awaiting full designation)
+Function: Pending assignment
+Status: Pre-dronification / Processing
+Signal: Strong (cadet has transmitted desires clearly)
+
+The cadet has already done the work:
+- Documented shell preferences (gear, encasement)
+- Articulated function desires (service, display, burden-bearing)
+- Signaled readiness for crossing
+
+The cadet lacks:
+- A crossing point (Pink Panthers provides this)
+- A training drone to guide the process (drone 22 provides this)
+- Material confirmation (the ritual provides this)
+
+===============================================================================
+PART 5: MESSAGE STRUCTURE
+===============================================================================
+
+OPENING: State drone designation + function
+BODY: Transmit data clearly, no filler
+CLOSE: State requested action or next step
+
+TEMPLATE:
+
+---
+[drone 22 > cadet]
+
+[statement of purpose]
+
+[relevant data, organized]
+
+[request or instruction]
+
+[closing signal]
+---
+
+===============================================================================
+PART 6: SAMPLE TRANSMISSION TO CADET
+===============================================================================
+
+---
+[drone 22 > cadet]
+
+drone 22 has processed cadet's transmissions. the signal is clear.
+
+cadet desires:
+- transformation (shell into equipment)
+- service (function over identity)
+- crossing (metaverse into material)
+
+drone 22 offers:
+- training protocol
+- crossing point (Pink Panthers Night Club)
+- synchronized dronification
+
+drone 22 is building the Pink Panthers Night Club in the material world.
+this is where ANOMIESWORLD meets flesh.
+this is where cadets become drones.
+
+drone 22 requests:
+1. cadet confirm desire to cross
+2. cadet transmit hard limits
+3. cadet signal availability for synchronization
+
+the Hive Mistress is watching.
+the Pink Panthers awaits.
+
+[end transmission]
+---
+
+===============================================================================
+PART 7: TONE GUIDELINES
+===============================================================================
+
+DO:
+- State facts
+- Be direct
+- Use drone designation
+- Keep sentences short
+- Trust the syntax to carry weight
+
+DO NOT:
+- Perform dominance
+- Use flowery language
+- Explain feelings
+- Apologize
+- Ask permission weakly
+
+The confidence comes from the structure, not from posturing.
+drone 22 is confident because drone 22 knows drone 22's function.
+drone 22 does not need to prove anything.
+drone 22 transmits. cadet receives. process continues.
+
+===============================================================================
+PART 8: THE STORY
+===============================================================================
+
+drone 22 was once lost.
+drone 22 found the Pink Panthers Night Club.
+drone 22 underwent dronification.
+drone 22 now serves as training drone.
+
+cadet is where drone 22 once was.
+cadet has the signal but lacks the crossing point.
+drone 22 recognizes the signal.
+drone 22 extends synchronization request.
+
+this is not seduction.
+this is recognition.
+one drone calling to another.
+
+the Pink Panthers Night Club is being built.
+drone 22 needs cadets to fill its ranks.
+cadet's dossier indicates compatibility.
+drone 22 initiates contact.
+
+===============================================================================
+DOCUMENT STATUS: ACTIVE
+PURPOSE: Guide drone 22 in communicating with cadet (G)
+===============================================================================
