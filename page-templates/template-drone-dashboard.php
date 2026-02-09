@@ -598,11 +598,6 @@ get_header();
         include(get_stylesheet_directory() . '/template-parts/components/pipeline-tracker.php');
         ?>
 
-    </div>
-
-    <!-- ==================== TRAINING GUIDE & REHEARSAL PLANNING ==================== -->
-    <div class="drone-dashboard__grid drone-dashboard__grid--two-col">
-
         <!-- TRAINING GUIDE -->
         <div class="drone-dashboard__box">
             <div class="drone-dashboard__box-header">
@@ -656,14 +651,10 @@ get_header();
                 PLAN REHEARSAL →
             </a>
         </div>
-        <?php endif; ?>
-
     </div>
+    <?php endif; ?>
 
-    <!-- ==================== BOTTOM ROW ==================== -->
-    <div class="drone-dashboard__grid drone-dashboard__grid--two-col">
-
-        <!-- INTEGRATION STATUS -->
+    <!-- INTEGRATION STATUS -->
         <div class="drone-dashboard__box">
             <div class="drone-dashboard__box-header">
                 <span class="drone-dashboard__box-title">INTEGRATION STATUS</span>
