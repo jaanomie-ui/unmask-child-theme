@@ -30,7 +30,7 @@ if (!function_exists('hm_rehearsal_form_shortcode')) {
         }
 
         $user_id = get_current_user_id();
-        $is_handler = ($user_id === 1 || $user_id === 15); // Admin or drone 22
+        $is_handler = ($user_id === 1); // Admin (drone 22 / handler only)
         $is_drone = function_exists('hm_has_drone_access') && hm_has_drone_access($user_id);
 
         if (!$is_handler && !$is_drone) {

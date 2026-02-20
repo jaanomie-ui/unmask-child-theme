@@ -27,15 +27,10 @@ if (!is_array($rehearsal_data)) {
 
 // Get available dates from options (admin-configurable)
 $available_dates = get_option('hm_rehearsal_dates', array(
-    '2026-02-16' => 'February 16, 2026',
-    '2026-02-19' => 'February 19, 2026',
-    '2026-02-20' => 'February 20, 2026',
-    '2026-02-22' => 'February 22, 2026',
-    '2026-02-24' => 'February 24, 2026',
-    '2026-02-26' => 'February 26, 2026',
-    '2026-03-03' => 'March 3, 2026',
-    '2026-03-04' => 'March 4, 2026',
-    '2026-03-05' => 'March 5, 2026'
+    '2026-02-24' => 'February 24, 2026 (Tuesday)',
+    '2026-02-26' => 'February 26, 2026 (Thursday)',
+    '2026-03-03' => 'March 3, 2026 (Tuesday)',
+    '2026-03-05' => 'March 5, 2026 (Thursday)',
 ));
 
 // Define gear checklist
