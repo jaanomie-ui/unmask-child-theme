@@ -19,64 +19,30 @@ if (!defined('ABSPATH')) {
    ========================================================================== */
 
 /**
- * Get user designation (D-XXX for Disruptors, V-XXX for Visionaries)
+ * Get user designation — defers to canonical function in functions.php
  *
  * @param int $user_id WordPress user ID
  * @return string Formatted designation or empty string
  */
-function unmask_get_user_designation($user_id = null) {
-    if (!$user_id) {
-        $user_id = get_current_user_id();
-    }
-
-    if (!$user_id) {
+if ( ! function_exists( 'unmask_get_user_designation' ) ) {
+    function unmask_get_user_designation($user_id = null) {
+        if (function_exists('unmask_get_designation')) {
+            return unmask_get_designation($user_id);
+        }
         return '';
     }
-
-    // Check membership level (MemberPress integration)
-    $membership_type = get_user_meta($user_id, 'mepr_membership_type', true);
-
-    // Default prefix based on membership
-    $prefix = 'V'; // Visionary default
-    if ($membership_type === 'disruptor' || $membership_type === 'Disruptor') {
-        $prefix = 'D';
-    }
-
-    // Format: D-001 or V-001 (padded to 3 digits)
-    return sprintf('%s-%03d', $prefix, $user_id);
 }
 
 /**
- * Check if user is a Drone (paid member)
+ * Check if user is on the drone path (recruit, cadet, or house drone)
  *
  * @param int $user_id WordPress user ID
- * @return bool True if user is a Drone member
+ * @return bool
  */
 function unmask_user_is_drone($user_id = null) {
-    if (!$user_id) {
-        $user_id = get_current_user_id();
+    if (function_exists('unmask_get_member_type')) {
+        return in_array(unmask_get_member_type($user_id), ['recruit', 'cadet', 'house_drone']);
     }
-
-    if (!$user_id) {
-        return false;
-    }
-
-    // Check via MemberPress if available
-    if (class_exists('MeprUser')) {
-        $mepr_user = new MeprUser($user_id);
-        // Drone membership ID from UNMASK config
-        $drone_membership_id = 2093;
-        if ($mepr_user->is_already_subscribed_to($drone_membership_id)) {
-            return true;
-        }
-    }
-
-    // Fallback: check user meta
-    $membership_type = get_user_meta($user_id, 'mepr_membership_type', true);
-    if ($membership_type === 'disruptor' || $membership_type === 'Disruptor' || $membership_type === 'drone' || $membership_type === 'Drone') {
-        return true;
-    }
-
     return false;
 }
 
